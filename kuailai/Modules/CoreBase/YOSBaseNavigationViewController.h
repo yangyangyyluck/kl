@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  YOSBaseNavigationViewController.h
 //  kuailai
 //
 //  Created by yangyang on 15/4/3.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface YOSBaseNavigationViewController : UINavigationController
 
 @end
-
