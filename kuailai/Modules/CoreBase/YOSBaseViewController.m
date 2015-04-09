@@ -31,10 +31,19 @@
 
 - (void)setupBackArrow {
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"产品分享"] style:UIBarButtonItemStylePlain target:self action:@selector(clickLeftItem:)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [button setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(clickLeftItem:) forControlEvents:UIControlEventTouchUpInside];
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    }else{
+        [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    }
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
     
     item.tintColor = [UIColor whiteColor];
-    
     
     self.navigationItem.leftBarButtonItem = item;
 }

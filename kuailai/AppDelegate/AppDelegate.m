@@ -17,6 +17,8 @@
 
 - (void)configrueThiredLibrariesWith:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
     
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    
     [YTKNetworkConfig sharedInstance].baseUrl = YOSURLBase;
     
 }
