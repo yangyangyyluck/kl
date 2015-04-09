@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "YTKNetworkConfig.h"
 
 @interface AppDelegate ()
 
@@ -14,9 +15,16 @@
 
 @implementation AppDelegate
 
+- (void)configrueThiredLibrariesWith:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
+    
+    [YTKNetworkConfig sharedInstance].baseUrl = YOSURLBase;
+    
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    [self configrueThiredLibrariesWith:application launchOptions:launchOptions];
+    
     return YES;
 }
 

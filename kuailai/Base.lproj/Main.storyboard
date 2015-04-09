@@ -24,7 +24,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KHT-e8-xlh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-853" y="-87"/>
+            <point key="canvasLocation" x="-921" y="-119"/>
         </scene>
         <!--消息-->
         <scene sceneID="Ol8-Ez-YrM">
@@ -130,10 +130,10 @@
             </objects>
             <point key="canvasLocation" x="-155" y="-1126"/>
         </scene>
-        <!--View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="Onq-zm-tZd">
             <objects>
-                <viewController id="P8M-QF-bBG" sceneMemberID="viewController">
+                <viewController id="P8M-QF-bBG" customClass="YOSHomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1pB-9E-B1K"/>
                         <viewControllerLayoutGuide type="bottom" id="b0I-v4-buV"/>
@@ -156,7 +156,7 @@
                     <tabBarItem key="tabBarItem" title="个人" image="个人" id="UET-eX-ihf" customClass="YOSTabBarItem">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-4"/>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="keyPath" value="个人-点击"/>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="个人-点击"/>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Qu4-sH-O7n">

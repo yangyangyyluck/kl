@@ -16,7 +16,7 @@
 + (void)initialize {
     
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                       RGB(139, 138, 138),
+                                                       YOSRGB(139, 138, 138),
                                                     NSForegroundColorAttributeName,
                                                        nil] forState:UIControlStateNormal];
     UIColor *titleHighlightedColor = [UIColor orangeColor];
@@ -28,9 +28,9 @@
 
 - (void)awakeFromNib {
     
-    self.backgroundImage = [UIImage imageWithColor:RGB(61, 57, 56) size:CGSizeMake(80, 49)];
+    self.backgroundImage = [UIImage imageWithColor:YOSRGB(61, 57, 56) size:CGSizeMake(80, 49)];
     
-    self.selectionIndicatorImage = [UIImage imageWithColor:RGB(46, 43, 42) size:CGSizeMake(80, 49)];
+    self.selectionIndicatorImage = [UIImage imageWithColor:YOSRGB(46, 43, 42) size:CGSizeMake(80, 49)];
     
 }
 

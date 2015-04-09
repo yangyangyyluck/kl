@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationBar.barTintColor = RGB(252, 106, 67);
+    self.navigationBar.barTintColor = YOSRGB(252, 106, 67);
 }
 
 - (void)didReceiveMemoryWarning {
