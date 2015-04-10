@@ -34,7 +34,9 @@
 #define YOSRGBA(r,g,b,a)               [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:a]
 #define YOSRGB(r, g, b)                [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:1.0f]
 #define YOSColorRandom                YOSRGB((float)(rand() % 255), (float)(rand() % 255), (float)(rand() % 255))
+
 #define YOSColorGreen                  YOSRGB(69, 198, 157)
+#define YOSColorGray                     YOSRGB(228, 228, 228)
 
 
 #define YOSFliterNil2String(data) ((data) ? (data) : @"")

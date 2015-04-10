@@ -7,13 +7,17 @@
 //
 
 #import "YOSRegisterViewController.h"
+#import "YOSUserSendCodeRequest.h"
 
+#import "SVProgressHUD.h"
 #import "Masonry.h"
 #import "YOSWidget.h"
 
 #import "UIColor+hex.h"
 #import "UIImage+YOSAdditions.h"
 
+
+static const NSUInteger kTimeMaxCount = 6;
 
 @interface YOSRegisterViewController ()<UITextFieldDelegate>
 
@@ -26,7 +30,10 @@
 
 @end
 
-@implementation YOSRegisterViewController
+@implementation YOSRegisterViewController {
+    NSUInteger _timeCount;
+    NSTimer *_timer;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -78,6 +85,25 @@
     return accessoryView;
 }
 
+#pragma mark - network request
+- (void)sendCodeRequestWithMobileNumber:(NSString *)mobileNumber {
+    
+    YOSUserSendCodeRequest *request = [[YOSUserSendCodeRequest alloc] initWithPhoneNumber:mobileNumber];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if (![request checkResponse]) {
+            return;
+        }
+        
+        if (DEBUG && [request.data[@"code"] isKindOfClass:[NSString class]]) {
+            [YOSWidget alertMessage:request.data[@"code"] title:nil];
+        }
+        
+    } failure:^(YTKBaseRequest *request) {
+        [request checkResponse];
+    }];
+}
+
 #pragma mark - touch event
 
 - (void)signPasswordTextField {
@@ -86,7 +112,58 @@
 
 - (IBAction)clickRegisterCodeButton:(UIButton *)sender {
     NSLog(@"%s", __func__);
+
+    NSString *username = self.mobileNumberTextField.text;
+    
+    username = [username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (username.length != 11) {
+        [SVProgressHUD showErrorWithStatus:@"手机号为11位哦~"];
+        return;
+    }
+    
+    if (sender.enabled) {
+        [self registerCodeBtnDisEnabled];
+        
+        [self.verifyCodeTextField becomeFirstResponder];
+        
+        // 发送验证码请求
+        [self sendCodeRequestWithMobileNumber:username];
+        
+        _timeCount = kTimeMaxCount;
+        _timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(changeTime) userInfo:nil repeats:kTimeMaxCount];
+        
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    }
+    
 }
+
+- (void)changeTime {
+    
+    if (_timeCount > 1) {
+        
+        _timeCount--;
+        [self.registerCodeButton setTitle:[NSString stringWithFormat:@"%zis后可重发", _timeCount] forState:UIControlStateDisabled];
+        
+    } else {
+        [_timer invalidate];
+        [self.registerCodeButton setTitle:[NSString stringWithFormat:@"%zis后可重发", kTimeMaxCount] forState:UIControlStateDisabled];
+    
+        [self registerCodeBtnEnabled];
+    }
+    
+}
+
+- (void)registerCodeBtnDisEnabled {
+    self.registerCodeButton.enabled = NO;
+    self.registerCodeButton.backgroundColor = YOSColorGray;
+}
+
+- (void)registerCodeBtnEnabled {
+    self.registerCodeButton.enabled = YES;
+    self.registerCodeButton.backgroundColor = YOSColorGreen;
+}
+
 - (IBAction)clickNextStepButton:(UIButton *)sender {
     NSLog(@"%s", __func__);
 }

@@ -9,6 +9,7 @@
 #import "YTKBaseRequest.h"
 #import "YTKRequest.h"
 #import "YTKNetworkConfig.h"
+#import "AFJSONResponseSerializer+YOSAdditionsForPHP.h"
 @class YOSBaseResponseModel;
 
 
