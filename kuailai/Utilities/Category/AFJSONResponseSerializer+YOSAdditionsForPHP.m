@@ -22,7 +22,7 @@
     return self;
 }
 
-+ (void)initialize {
++ (void)load {
     NSError *error = nil;
     [self jr_swizzleMethod:@selector(init) withMethod:@selector(initWithPHP) error:&error];
     

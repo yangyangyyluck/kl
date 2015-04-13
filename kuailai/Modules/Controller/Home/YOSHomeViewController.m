@@ -25,7 +25,7 @@
 //    [self doSendCodeRequest];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Other"] animated:YES];
+        [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Register"] animated:YES];
     });
 }
 
@@ -33,10 +33,10 @@
     YOSUserSendCodeRequest *request = [[YOSUserSendCodeRequest alloc] initWithPhoneNumber:@"18600950783"];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        if (![request checkResponse]) { return; }
-        [YOSWidget alertMessage:request.data[@"code"] title:@"验证码"];
+        if (![request yos_checkResponse]) { return; }
+        [YOSWidget alertMessage:request.yos_data[@"code"] title:@"验证码"];
     } failure:^(YTKBaseRequest *request) {
-        [request checkResponse];
+        [request yos_checkResponse];
     }];
 }
 

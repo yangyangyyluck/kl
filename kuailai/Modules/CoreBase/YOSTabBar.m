@@ -28,9 +28,9 @@
 
 - (void)awakeFromNib {
     
-    self.backgroundImage = [UIImage imageWithColor:YOSRGB(61, 57, 56) size:CGSizeMake(80, 49)];
+    self.backgroundImage = [UIImage yos_imageWithColor:YOSRGB(61, 57, 56) size:CGSizeMake(80, 49)];
     
-    self.selectionIndicatorImage = [UIImage imageWithColor:YOSRGB(46, 43, 42) size:CGSizeMake(80, 49)];
+    self.selectionIndicatorImage = [UIImage yos_imageWithColor:YOSRGB(46, 43, 42) size:CGSizeMake(80, 49)];
     
 }
 

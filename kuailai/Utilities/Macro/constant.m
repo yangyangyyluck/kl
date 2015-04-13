@@ -9,3 +9,9 @@
 #import "constant.h"
 
 NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
+
+NSString * const YOSUserDefaultKeyCurrentMobileNumber =  @"YOSUserDefaultKeyCurrentMobileNumber";
+
+NSString * const YOSUserDefaultKeySignInMobileNumber = @"YOSUserDefaultKeySignInMobileNumber";
+
+NSString * const YOSUserDefaultKeySignInID = @"YOSUserDefaultKeySignInID";

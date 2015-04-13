@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (Additions)
+@interface UIImage (YOSAdditions)
 
-+ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
++ (UIImage *)yos_imageWithColor:(UIColor *)color size:(CGSize)size;
 
 @end

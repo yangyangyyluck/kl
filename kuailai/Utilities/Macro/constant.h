@@ -17,3 +17,13 @@ typedef NS_ENUM(NSUInteger, BusinessRequestStatus) {
     BusinessRequestStatusFailure                = 10000,    // 请求失败
     BusinessRequestStatusDefault                = 99999,    // 所有未处理的状态
 };
+
+
+/**
+ *  UserDefault keys
+ */
+extern NSString * const YOSUserDefaultKeyCurrentMobileNumber;
+
+extern NSString * const YOSUserDefaultKeySignInMobileNumber;
+
+extern NSString * const YOSUserDefaultKeySignInID;

@@ -10,7 +10,7 @@
 
 @implementation UIImage (YOSAdditions)
 
-+ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
++ (UIImage *)yos_imageWithColor:(UIColor *)color size:(CGSize)size {
     
     UIGraphicsBeginImageContextWithOptions(size, 0, [UIScreen mainScreen].scale);
     [color set];

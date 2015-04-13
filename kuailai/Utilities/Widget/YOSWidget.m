@@ -83,4 +83,26 @@
     }
 }
 
++ (BOOL)validatePasswordWithTextField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    // 输入的不是字母、数字、下划线 则返回NO
+    NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:@"[^0-9a-zA-Z_]" options:NSRegularExpressionCaseInsensitive error:nil];
+    
+    NSArray *result = [reg matchesInString:string options:NSMatchingReportProgress range:NSMakeRange(0, string.length)];
+    
+    if (result.count) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
++ (void)setUserDefaultWithKey:(NSString *)key value:(NSString *)value {
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (id)getUserDefaultWithKey:(NSString *)key {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+}
+
 @end

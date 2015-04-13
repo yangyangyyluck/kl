@@ -15,29 +15,29 @@
 
 typedef void (^responseCustomBlock)();
 
-@interface YTKBaseRequest (TAdditions)
+@interface YTKBaseRequest (YOSAdditions)
 
 // ------------------------- 根据业务逻辑做的封装 ---------------------------
 // ------------------------- additions by yangyangyyluck ---------------------------
 
-@property (nonatomic, strong, readonly) YOSBaseResponseModel *baseResponseModel;
+@property (nonatomic, strong, readonly) YOSBaseResponseModel *yos_baseResponseModel;
 
 // 该属性用于关闭debug log default NO 不关闭log
-@property (nonatomic, assign, getter=isHideDebug) BOOL hideDebug;
+@property (nonatomic, assign, getter=isYos_hideDebug) BOOL yos_hideDebug;
 
 // debug 请求字符串
-- (NSString *)debugString;
+- (NSString *)yos_debugString;
 
 // 检查响应结果
-- (BOOL)checkResponse;
+- (BOOL)yos_checkResponse;
 
 //是否需要显示提示
-- (BOOL)checkResponse:(BOOL)showErrorMessage;
+- (BOOL)yos_checkResponse:(BOOL)showErrorMessage;
 
 // 执行自定义错误处理 在调用 -checkResponse 前生效
-- (void)performCustomResponseErrorWithStatus:(BusinessRequestStatus)status errorBlock:(responseCustomBlock)block;
+- (void)yos_performCustomResponseErrorWithStatus:(BusinessRequestStatus)status errorBlock:(responseCustomBlock)block;
 
 // 返回过滤后的data
-- (id)data;
+- (id)yos_data;
 
 @end

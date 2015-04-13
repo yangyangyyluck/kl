@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 kuailai.inc. All rights reserved.
 //
 
-#import "YTKRequest.h"
+#import "YOSBaseRequest.h"
 
-@interface YOSUserLoginRequest : YTKRequest
+@interface YOSUserLoginRequest : YOSBaseRequest
 
 @end

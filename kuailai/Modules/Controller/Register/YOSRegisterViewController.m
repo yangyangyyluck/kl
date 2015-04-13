@@ -7,7 +7,11 @@
 //
 
 #import "YOSRegisterViewController.h"
+#import "YOSRegStepTwoViewController.h"
+#import "YOSAccessoryView.h"
+
 #import "YOSUserSendCodeRequest.h"
+#import "YOSUserRegStepRequest.h"
 
 #import "SVProgressHUD.h"
 #import "Masonry.h"
@@ -17,7 +21,7 @@
 #import "UIImage+YOSAdditions.h"
 
 
-static const NSUInteger kTimeMaxCount = 6;
+static const NSUInteger kTimeMaxCount = 16;
 
 @interface YOSRegisterViewController ()<UITextFieldDelegate>
 
@@ -25,7 +29,7 @@ static const NSUInteger kTimeMaxCount = 6;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView2HeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView1HeightConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *nextStepButton;
-@property (weak, nonatomic) IBOutlet UITextField *mobileNumberTextField;
+@property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *verifyCodeTextField;
 
 @end
@@ -33,6 +37,12 @@ static const NSUInteger kTimeMaxCount = 6;
 @implementation YOSRegisterViewController {
     NSUInteger _timeCount;
     NSTimer *_timer;
+    
+    BOOL _isRegisterCodeButtonWaitting;
+    BOOL _isNextStepButtonWaitting;
+    
+    YOSAccessoryView *_accessoryView1;
+    YOSAccessoryView *_accessoryView2;
 }
 
 - (void)viewDidLoad {
@@ -56,9 +66,24 @@ static const NSUInteger kTimeMaxCount = 6;
     self.nextStepButton.layer.cornerRadius = 20.5;
     self.nextStepButton.layer.masksToBounds = YES;
     
-    self.mobileNumberTextField.inputAccessoryView = [self accessoryViewWithTitle:@"下一步" method:@selector(signPasswordTextField)];
+    YOSAccessoryView *accessoryView1 = [[YOSAccessoryView alloc] initWithTitle:@"获取验证码" target:self method:@selector(signPasswordTextField) position:YOSAccessoryViewPositionRight];
     
-    self.verifyCodeTextField.inputAccessoryView = [self accessoryViewWithTitle:@"下一步" method:@selector(clickNextStepButton:)];
+    YOSWS(weakSelf);
+    [accessoryView1 setupDefaultPlaceBlock:^{
+        [weakSelf.view endEditing:YES];
+    }];
+    
+    _accessoryView1 = accessoryView1;
+    self.userNameTextField.inputAccessoryView = accessoryView1;
+    
+    YOSAccessoryView *accessoryView2 = [[YOSAccessoryView alloc] initWithTitle:@"下一步" target:self method:@selector(clickNextStepButton:) position:YOSAccessoryViewPositionRight];
+    
+    [accessoryView2 setupDefaultPlaceBlock:^{
+        [weakSelf.view endEditing:YES];
+    }];
+    
+    _accessoryView2 = accessoryView2;
+    self.verifyCodeTextField.inputAccessoryView = accessoryView2;
     
 }
 
@@ -91,29 +116,65 @@ static const NSUInteger kTimeMaxCount = 6;
     YOSUserSendCodeRequest *request = [[YOSUserSendCodeRequest alloc] initWithPhoneNumber:mobileNumber];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        if (![request checkResponse]) {
+        
+        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
+            [SVProgressHUD showWithStatus:@"验证码已发送到您手机~"];
+        }];
+        
+        if (![request yos_checkResponse]) {
             return;
         }
         
-        if (DEBUG && [request.data[@"code"] isKindOfClass:[NSString class]]) {
-            [YOSWidget alertMessage:request.data[@"code"] title:nil];
+        if (DEBUG && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
+            [SVProgressHUD showInfoWithStatus:request.yos_data[@"code"]];
         }
         
     } failure:^(YTKBaseRequest *request) {
-        [request checkResponse];
+        [request yos_checkResponse];
+    }];
+}
+
+- (void)sendUserReqStepRequestWithUserName:(NSString *)username validateCode:(NSString *)code {
+    YOSUserRegStepRequest *request = [[YOSUserRegStepRequest alloc] initWithUserName:username validateCode:code];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        
+        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusBadRequest errorBlock:^{
+            [SVProgressHUD showErrorWithStatus:@"手机号或验证码有误~"];
+        }];
+        
+        if (![request yos_checkResponse]) {
+            return;
+        }
+        
+        // now can get remote server userid
+        YOSLog(@"\r\n\r\nuser id is %@", request.yos_data[@"id"]);
+        
+        [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeySignInID value:request.yos_data[@"id"]];
+        
+        // 存入mobile number
+        [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentMobileNumber value:username];
+        
+        YOSRegStepTwoViewController *regStepTwoVC = [YOSRegStepTwoViewController viewControllerFromStoryboardWithSBName:@"Register"];
+        
+        [self.navigationController pushViewController:regStepTwoVC animated:YES];
+        
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+        _timeCount = 0;
     }];
 }
 
 #pragma mark - touch event
 
 - (void)signPasswordTextField {
-    [self.verifyCodeTextField becomeFirstResponder];
+    [self clickRegisterCodeButton:nil];
 }
 
 - (IBAction)clickRegisterCodeButton:(UIButton *)sender {
     NSLog(@"%s", __func__);
 
-    NSString *username = self.mobileNumberTextField.text;
+    NSString *username = self.userNameTextField.text;
     
     username = [username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
@@ -122,13 +183,16 @@ static const NSUInteger kTimeMaxCount = 6;
         return;
     }
     
-    if (sender.enabled) {
+    if (self.registerCodeButton.enabled) {
         [self registerCodeBtnDisEnabled];
         
         [self.verifyCodeTextField becomeFirstResponder];
         
         // 发送验证码请求
         [self sendCodeRequestWithMobileNumber:username];
+        
+        // _accessoryView1 变为下一步
+        [_accessoryView1 setupTitle:@"下一步" target:self.verifyCodeTextField method:@selector(becomeFirstResponder)];
         
         _timeCount = kTimeMaxCount;
         _timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(changeTime) userInfo:nil repeats:kTimeMaxCount];
@@ -149,6 +213,9 @@ static const NSUInteger kTimeMaxCount = 6;
         [_timer invalidate];
         [self.registerCodeButton setTitle:[NSString stringWithFormat:@"%zis后可重发", kTimeMaxCount] forState:UIControlStateDisabled];
     
+        // _accessoryView1 变回 获取验证码
+        [_accessoryView1 setupTitle:@"获取验证码" target:self method:@selector(signPasswordTextField)];
+        
         [self registerCodeBtnEnabled];
     }
     
@@ -166,6 +233,22 @@ static const NSUInteger kTimeMaxCount = 6;
 
 - (IBAction)clickNextStepButton:(UIButton *)sender {
     NSLog(@"%s", __func__);
+
+    NSString *username = self.userNameTextField.text;
+    NSString *password = self.verifyCodeTextField.text;
+    
+    if (username.length != 11 ) {
+        [SVProgressHUD showErrorWithStatus:@"手机号为11位哦~"];
+        return;
+    }
+    
+    if (password.length != 6) {
+        [SVProgressHUD showErrorWithStatus:@"验证码为6位哦~"];
+        return;
+    }
+    
+    [self sendUserReqStepRequestWithUserName:username validateCode:password];
+    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

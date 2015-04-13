@@ -34,7 +34,7 @@
 // ------------------------- 根据业务逻辑做的封装 ---------------------------
 // -------------------- additions by yangyangyyluck --------------------
 
-- (NSMutableDictionary *)customBlocks {
+- (NSMutableDictionary *)yos_customBlocks {
    id customBlocks = objc_getAssociatedObject(self, @"customBlocks");
     
     if (!customBlocks) {
@@ -44,44 +44,44 @@
     return objc_getAssociatedObject(self, @"customBlocks");
 }
 
-- (void)setCustomBlocks:(NSMutableDictionary *)customBlocks {
+- (void)setYos_CustomBlocks:(NSMutableDictionary *)customBlocks {
     objc_setAssociatedObject(self, @"customBlocks",customBlocks, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)setHideDebug:(BOOL)hideDebug {
+- (void)setYos_hideDebug:(BOOL)hideDebug {
     objc_setAssociatedObject(self, @"hideDebug",@(hideDebug), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (BOOL)isHideDebug {
+- (BOOL)isYos_hideDebug {
     NSNumber *hideDebug = objc_getAssociatedObject(self, @"hideDebug");
     return [hideDebug boolValue];
 }
 
-- (YOSBaseResponseModel *)baseResponseModel {
+- (YOSBaseResponseModel *)yos_baseResponseModel {
     return objc_getAssociatedObject(self, @"baseResponseModel");
 }
 
-- (void)setBaseResponseModel:(YOSBaseResponseModel *)baseResponseModel {
+- (void)setYos_baseResponseModel:(YOSBaseResponseModel *)baseResponseModel {
     objc_setAssociatedObject(self, @"baseResponseModel",baseResponseModel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSString *)debugString {
+- (NSString *)yos_debugString {
     
     return [NSString stringWithFormat:@"\r\n\r\nurl : \r\n%@%@\r\n\r\n parms : \r\n%@\r\n\r\n response : \r\n%@\r\n\r\n",(![self.baseUrl isEqualToString:@""]) ? self.baseUrl : [YTKNetworkConfig sharedInstance].baseUrl, self.requestUrl, self.requestArgument, self.responseJSONObject];
 }
 
-- (void)performCustomResponseErrorWithStatus:(BusinessRequestStatus)status errorBlock:(responseCustomBlock)block {
+- (void)yos_performCustomResponseErrorWithStatus:(BusinessRequestStatus)status errorBlock:(responseCustomBlock)block {
     
     if (!block) return;
     
-    self.customBlocks[@(status)] = block;
+    self.yos_customBlocks[@(status)] = block;
 }
 
-- (BOOL)checkResponse {
-    return [self checkResponse:YES];
+- (BOOL)yos_checkResponse {
+    return [self yos_checkResponse:YES];
 }
 
-- (BOOL)checkResponse:(BOOL)showErrorMessage {
+- (BOOL)yos_checkResponse:(BOOL)showErrorMessage {
     
     if (!self.responseJSONObject) {
         // show some message
@@ -90,11 +90,11 @@
     
     // 请求失败 HTTP状态码 不在200-299 网络错误等非业务类型错误
     if (![self statusCodeValidator]) {
-        if (!self.isHideDebug) {
+        if (!self.isYos_hideDebug) {
             YOSLog(@"\r\n\r\nnetwork error, response headers : \r\n%@\r\n", self.responseHeaders);
         }
         
-        if ([self performCustomWithStatus:BusinessRequestStatusFailure]) return NO;
+        if ([self yosp_performCustomWithStatus:BusinessRequestStatusFailure]) return NO;
         if (showErrorMessage) {
             // 系统统一处理网络异常
             
@@ -103,8 +103,8 @@
         return NO;
     }
     
-    if (!self.isHideDebug) {
-        YOSLog(@"%@", self.debugString);
+    if (!self.isYos_hideDebug) {
+        YOSLog(@"%@", self.yos_debugString);
     }
     
     YOSBaseResponseModel *baseResponseModel = [YOSBaseResponseModel new];
@@ -119,14 +119,14 @@
     }];
     baseResponseModel.data = dictM;
     
-    self.baseResponseModel = baseResponseModel;
+    self.yos_baseResponseModel = baseResponseModel;
     
     // 处理业务错误
-    switch ([self.baseResponseModel.code integerValue]) {
+    switch ([self.yos_baseResponseModel.code integerValue]) {
             // 请求成功
         case BusinessRequestStatusSuccess: {
             
-            if ([self performCustomWithStatus:BusinessRequestStatusSuccess]) return YES;
+            if ([self yosp_performCustomWithStatus:BusinessRequestStatusSuccess]) return YES;
             
             if (showErrorMessage) {
                 // 系统统一处理网络异常
@@ -140,7 +140,7 @@
             // 坏请求
         case BusinessRequestStatusBadRequest: {
             
-            if ([self performCustomWithStatus:BusinessRequestStatusBadRequest]) return NO;
+            if ([self yosp_performCustomWithStatus:BusinessRequestStatusBadRequest]) return NO;
             
             if (showErrorMessage) {
                 // 系统统一处理网络异常
@@ -153,7 +153,7 @@
             // 无权限
         case BusinessRequestStatusNoAuthorization: {
             
-            if ([self performCustomWithStatus:BusinessRequestStatusNoAuthorization]) return NO;
+            if ([self yosp_performCustomWithStatus:BusinessRequestStatusNoAuthorization]) return NO;
             
             if (showErrorMessage) {
                 // 系统统一处理网络异常
@@ -166,7 +166,7 @@
             
         default: {
             
-            if ([self performCustomWithStatus:BusinessRequestStatusDefault]) return NO;
+            if ([self yosp_performCustomWithStatus:BusinessRequestStatusDefault]) return NO;
             
             if (showErrorMessage) {
                 // 系统统一处理网络异常
@@ -178,10 +178,10 @@
     }
 }
 
-- (id)data {
-    id data = self.baseResponseModel.data;
+- (id)yos_data {
+    id data = self.yos_baseResponseModel.data;
     
-    data = [self fliterWithData:data];
+    data = [self yosp_fliterWithData:data];
     
     return data;
 }
@@ -189,11 +189,9 @@
 #pragma mark - private methods
 
 // 处理customBlock
-- (BOOL)performCustomWithStatus:(BusinessRequestStatus)status {
+- (BOOL)yosp_performCustomWithStatus:(BusinessRequestStatus)status {
     
-
-    
-    responseCustomBlock block = self.customBlocks[@(status)];
+    responseCustomBlock block = self.yos_customBlocks[@(status)];
     
     // 处理自定义customBlock
     if (block) {
@@ -205,7 +203,7 @@
 }
 
 // 过滤数据
-- (id)fliterWithData:(id)data {
+- (id)yosp_fliterWithData:(id)data {
     
     if ([data isKindOfClass:[NSNull class]]) return nil;
     

@@ -8,14 +8,14 @@
 #import "UIView+YOSAdditions.h"
 #import <objc/runtime.h>
 
-UIInterfaceOrientation ITTInterfaceOrientation() {
+UIInterfaceOrientation YOSInterfaceOrientation() {
     UIInterfaceOrientation orient = [UIApplication sharedApplication].statusBarOrientation;
     return orient;
 }
 
-CGRect ITTScreenBounds() {
+CGRect YOSScreenBounds() {
     CGRect bounds = [UIScreen mainScreen].bounds;
-    if (UIInterfaceOrientationIsLandscape(ITTInterfaceOrientation())) {
+    if (UIInterfaceOrientationIsLandscape(YOSInterfaceOrientation())) {
         CGFloat width = bounds.size.width;
         bounds.size.width = bounds.size.height;
         bounds.size.height = width;
@@ -25,13 +25,13 @@ CGRect ITTScreenBounds() {
 @implementation UIView (YOSAdditions)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)left {
+- (CGFloat)yos_left {
     return self.frame.origin.x;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setLeft:(CGFloat)x {
+- (void)setYos_left:(CGFloat)x {
     CGRect frame = self.frame;
     frame.origin.x = x;
     self.frame = frame;
@@ -39,13 +39,13 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)top {
+- (CGFloat)yos_top {
     return self.frame.origin.y;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setTop:(CGFloat)y {
+- (void)setYos_top:(CGFloat)y {
     CGRect frame = self.frame;
     frame.origin.y = y;
     self.frame = frame;
@@ -53,13 +53,13 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)right {
+- (CGFloat)yos_right {
     return self.frame.origin.x + self.frame.size.width;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setRight:(CGFloat)right {
+- (void)setYos_right:(CGFloat)right {
     CGRect frame = self.frame;
     frame.origin.x = right - frame.size.width;
     self.frame = frame;
@@ -67,13 +67,13 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)bottom {
+- (CGFloat)yos_bottom {
     return self.frame.origin.y + self.frame.size.height;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setBottom:(CGFloat)bottom {
+- (void)setYos_bottom:(CGFloat)bottom {
     CGRect frame = self.frame;
     frame.origin.y = bottom - frame.size.height;
     self.frame = frame;
@@ -81,37 +81,37 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)centerX {
+- (CGFloat)yos_centerX {
     return self.center.x;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setCenterX:(CGFloat)centerX {
+- (void)setYos_centerX:(CGFloat)centerX {
     self.center = CGPointMake(centerX, self.center.y);
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)centerY {
+- (CGFloat)yos_centerY {
     return self.center.y;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setCenterY:(CGFloat)centerY {
+- (void)setYos_centerY:(CGFloat)centerY {
     self.center = CGPointMake(self.center.x, centerY);
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)width {
+- (CGFloat)yos_width {
     return self.frame.size.width;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setWidth:(CGFloat)width {
+- (void)setYos_width:(CGFloat)width {
     CGRect frame = self.frame;
     frame.size.width = width;
     self.frame = frame;
@@ -119,13 +119,13 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)height {
+- (CGFloat)yos_height {
     return self.frame.size.height;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setHeight:(CGFloat)height {
+- (void)setYos_height:(CGFloat)height {
     CGRect frame = self.frame;
     frame.size.height = height;
     self.frame = frame;
@@ -133,30 +133,30 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)ttScreenX {
+- (CGFloat)yos_screenX {
     CGFloat x = 0;
     for (UIView* view = self; view; view = view.superview) {
-        x += view.left;
+        x += view.yos_left;
     }
     return x;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)ttScreenY {
+- (CGFloat)yos_screenY {
     CGFloat y = 0;
     for (UIView* view = self; view; view = view.superview) {
-        y += view.top;
+        y += view.yos_top;
     }
     return y;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)screenViewX {
+- (CGFloat)yos_screenViewX {
     CGFloat x = 0;
     for (UIView* view = self; view; view = view.superview) {
-        x += view.left;
+        x += view.yos_left;
         
         if ([view isKindOfClass:[UIScrollView class]]) {
             UIScrollView* scrollView = (UIScrollView*)view;
@@ -169,10 +169,10 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)screenViewY {
+- (CGFloat)yos_screenViewY {
     CGFloat y = 0;
     for (UIView* view = self; view; view = view.superview) {
-        y += view.top;
+        y += view.yos_top;
         
         if ([view isKindOfClass:[UIScrollView class]]) {
             UIScrollView* scrollView = (UIScrollView*)view;
@@ -184,19 +184,19 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGRect)screenFrame {
-    return CGRectMake(self.screenViewX, self.screenViewY, self.width, self.height);
+- (CGRect)yos_screenFrame {
+    return CGRectMake(self.yos_screenViewX, self.yos_screenViewY, self.yos_width, self.yos_height);
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGPoint)origin {
+- (CGPoint)yos_origin {
     return self.frame.origin;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setOrigin:(CGPoint)origin {
+- (void)setYos_origin:(CGPoint)origin {
     CGRect frame = self.frame;
     frame.origin = origin;
     self.frame = frame;
@@ -204,13 +204,13 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGSize)size {
+- (CGSize)yos_size {
     return self.frame.size;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setSize:(CGSize)size {
+- (void)setYos_size:(CGSize)size {
     CGRect frame = self.frame;
     frame.size = size;
     self.frame = frame;
@@ -218,26 +218,26 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)orientationWidth {
-    return UIInterfaceOrientationIsLandscape(ITTInterfaceOrientation())
-    ? self.height : self.width;
+- (CGFloat)yos_orientationWidth {
+    return UIInterfaceOrientationIsLandscape(YOSInterfaceOrientation())
+    ? self.yos_height : self.yos_width;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)orientationHeight {
-    return UIInterfaceOrientationIsLandscape(ITTInterfaceOrientation())
-    ? self.width : self.height;
+- (CGFloat)yos_orientationHeight {
+    return UIInterfaceOrientationIsLandscape(YOSInterfaceOrientation())
+    ? self.yos_width : self.yos_height;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIView*)descendantOrSelfWithClass:(Class)cls {
+- (UIView*)yos_descendantOrSelfWithClass:(Class)cls {
     if ([self isKindOfClass:cls])
         return self;
     
     for (UIView* child in self.subviews) {
-        UIView* it = [child descendantOrSelfWithClass:cls];
+        UIView* it = [child yos_descendantOrSelfWithClass:cls];
         if (it)
             return it;
     }
@@ -247,12 +247,12 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIView*)ancestorOrSelfWithClass:(Class)cls {
+- (UIView*)yos_ancestorOrSelfWithClass:(Class)cls {
     if ([self isKindOfClass:cls]) {
         return self;
         
     } else if (self.superview) {
-        return [self.superview ancestorOrSelfWithClass:cls];
+        return [self.superview yos_ancestorOrSelfWithClass:cls];
         
     } else {
         return nil;
@@ -261,7 +261,7 @@ CGRect ITTScreenBounds() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)removeAllSubviews {
+- (void)yos_removeAllSubviews {
     while (self.subviews.count) {
         UIView* child = self.subviews.lastObject;
         [child removeFromSuperview];
@@ -269,34 +269,34 @@ CGRect ITTScreenBounds() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGPoint)offsetFromView:(UIView*)otherView {
+- (CGPoint)yos_offsetFromView:(UIView*)otherView {
     CGFloat x = 0, y = 0;
     for (UIView* view = self; view && view != otherView; view = view.superview) {
-        x += view.left;
-        y += view.top;
+        x += view.yos_left;
+        y += view.yos_top;
     }
     return CGPointMake(x, y);
 }
 
-- (NSObject *)attachment {
+- (id)yos_attachment {
     return objc_getAssociatedObject(self, @"kViewAttachment");
 }
 
-- (void)setAttachment:(NSObject *)attachment {
+- (void)setYos_attachment:(NSObject *)attachment {
     objc_setAssociatedObject(self, @"kViewAttachment",nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self, @"kViewAttachment",attachment, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSObject *)attachment2 {
+- (id)yos_attachment2 {
     return objc_getAssociatedObject(self, @"kViewAttachment2");
 }
 
-- (void)setAttachment2:(NSObject *)attachment2 {
+- (void)setYos_attachment2:(NSObject *)attachment2 {
     objc_setAssociatedObject(self, @"kViewAttachment2",nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self, @"kViewAttachment2",attachment2, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (instancetype)copySelf {
+- (instancetype)yos_copySelf {
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
     id result = [NSKeyedUnarchiver unarchiveObjectWithData:data];

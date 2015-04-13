@@ -40,4 +40,19 @@
  */
 + (BOOL)validateNumberWithTextField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 
+/**
+ *  输入字母、数字、下划线 验证 用于textField 代理方法的 textField:shouldChangeCharactersInRange:
+ *
+ *  @param textField
+ *  @param range
+ *  @param string
+ *
+ *  @return BOOL
+ */
++ (BOOL)validatePasswordWithTextField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
+
++ (void)setUserDefaultWithKey:(NSString *)key value:(NSString *)value;
+
++ (id)getUserDefaultWithKey:(NSString *)key;
+
 @end
