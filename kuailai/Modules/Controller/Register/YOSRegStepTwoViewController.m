@@ -18,6 +18,8 @@
 @interface YOSRegStepTwoViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView2HeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView1HeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView0HeightConstraint;
+@property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *pwd1TextField;
 @property (weak, nonatomic) IBOutlet UITextField *pwd2TextField;
 @property (weak, nonatomic) IBOutlet UIButton *showPwdButton;
@@ -43,6 +45,7 @@
     
     [self setupNavTitle:@"注册"];
     
+    self.lineView0HeightConstraint.constant = 0.5;
     self.lineView1HeightConstraint.constant = 0.5;
     self.lineView2HeightConstraint.constant = 0.5;
     
@@ -52,21 +55,20 @@
     self.sureButton.layer.cornerRadius = 20.5;
     self.sureButton.layer.masksToBounds = YES;
     
-    YOSAccessoryView *accessoryView1 = [[YOSAccessoryView alloc] initWithTitle:@"下一行" target:self method:@selector(nextStep) position:YOSAccessoryViewPositionRight];
-    
-    YOSWS(weakSelf);
-    [accessoryView1 setupDefaultPlaceBlock:^{
+    YOSWSelf(weakSelf);
+    YOSAccessoryView *accessoryView1 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
         [weakSelf.view endEditing:YES];
     }];
+    [accessoryView1 buttonWithTitle:@"下一行" target:weakSelf method:@selector(nextStep) position:YOSAccessoryViewPositionRight];
     
     _accessoryView1 = accessoryView1;
     self.pwd1TextField.inputAccessoryView = accessoryView1;
     
-    YOSAccessoryView *accessoryView2 = [[YOSAccessoryView alloc] initWithTitle:@"上一行" target:self method:@selector(previousStep) position:YOSAccessoryViewPositionRight];
-    
-    [accessoryView2 setupDefaultPlaceBlock:^{
+    YOSAccessoryView *accessoryView2 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
         [weakSelf.view endEditing:YES];
     }];
+    
+    [accessoryView2 buttonWithTitle:@"上一行" target:weakSelf method:@selector(previousStep) position:YOSAccessoryViewPositionRight];
     
     _accessoryView2 = accessoryView2;
     self.pwd2TextField.inputAccessoryView = accessoryView2;
@@ -99,14 +101,17 @@
 - (IBAction)clickSureButton:(UIButton *)sender {
     NSLog(@"%s", __func__);
     
-    // tag 0 -> username
-    if (_pwd1TextField.tag == 0 && _pwd1TextField.text.length < 6) {
+    if (_nickNameTextField.text.length < 2) {
+        [SVProgressHUD showErrorWithStatus:@"昵称最少2位哦~"];
+        return;
+    }
+    
+    if (_pwd1TextField.text.length < 6) {
         [SVProgressHUD showErrorWithStatus:@"密码最少6位哦~"];
         return;
     }
     
-    // tag 1 -> password
-    if (_pwd1TextField.tag == 1 && _pwd1TextField.text.length > 20) {
+    if (_pwd1TextField.text.length > 20) {
         [SVProgressHUD showErrorWithStatus:@"密码最多20位哦~"];
         return;
     }
@@ -151,8 +156,13 @@
         return YES;
     }
     
-    // 输入最多20位
-    if (textField.text.length >= 20) {
+    // tag = 0是nickname，最多输入15位字符
+    if (textField.tag == 0 && textField.text.length >= 15) {
+        return NO;
+    }
+    
+    // tag = 1、2为输入密码 输入最多20位
+    if (textField.tag != 0 && textField.text.length >= 20) {
         return NO;
     }
     

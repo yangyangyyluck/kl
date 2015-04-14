@@ -13,10 +13,10 @@
 #import "YOSUserSendCodeRequest.h"
 #import "YOSUserRegStepRequest.h"
 
-#import "SVProgressHUD.h"
 #import "Masonry.h"
 #import "YOSWidget.h"
 
+#import "SVProgressHUD+YOSAdditions.h"
 #import "UIColor+hex.h"
 #import "UIImage+YOSAdditions.h"
 
@@ -65,22 +65,21 @@ static const NSUInteger kTimeMaxCount = 16;
     
     self.nextStepButton.layer.cornerRadius = 20.5;
     self.nextStepButton.layer.masksToBounds = YES;
-    
-    YOSAccessoryView *accessoryView1 = [[YOSAccessoryView alloc] initWithTitle:@"获取验证码" target:self method:@selector(signPasswordTextField) position:YOSAccessoryViewPositionRight];
-    
-    YOSWS(weakSelf);
-    [accessoryView1 setupDefaultPlaceBlock:^{
+
+    YOSWSelf(weakSelf);
+    YOSAccessoryView *accessoryView1 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
         [weakSelf.view endEditing:YES];
     }];
+    
+    [accessoryView1 buttonWithTitle:@"获取验证码" target:weakSelf method:@selector(signPasswordTextField) position:YOSAccessoryViewPositionRight];
     
     _accessoryView1 = accessoryView1;
     self.userNameTextField.inputAccessoryView = accessoryView1;
     
-    YOSAccessoryView *accessoryView2 = [[YOSAccessoryView alloc] initWithTitle:@"下一步" target:self method:@selector(clickNextStepButton:) position:YOSAccessoryViewPositionRight];
-    
-    [accessoryView2 setupDefaultPlaceBlock:^{
+    YOSAccessoryView *accessoryView2 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
         [weakSelf.view endEditing:YES];
     }];
+    [accessoryView2 buttonWithTitle:@"下一步" target:weakSelf method:@selector(clickNextStepButton:) position:YOSAccessoryViewPositionRight];
     
     _accessoryView2 = accessoryView2;
     self.verifyCodeTextField.inputAccessoryView = accessoryView2;
@@ -125,9 +124,12 @@ static const NSUInteger kTimeMaxCount = 16;
             return;
         }
         
-        if (DEBUG && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
+        // 真机调试时候alert, 模拟器不alert
+        if (DEBUG && !TARGET_IPHONE_SIMULATOR && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
             [SVProgressHUD showInfoWithStatus:request.yos_data[@"code"]];
         }
+        
+        [SVProgressHUD showInfoWithStatus:@"验证码已发送，请查收~"];
         
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
@@ -137,6 +139,7 @@ static const NSUInteger kTimeMaxCount = 16;
 - (void)sendUserReqStepRequestWithUserName:(NSString *)username validateCode:(NSString *)code {
     YOSUserRegStepRequest *request = [[YOSUserRegStepRequest alloc] initWithUserName:username validateCode:code];
     
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         
         [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusBadRequest errorBlock:^{
@@ -160,6 +163,7 @@ static const NSUInteger kTimeMaxCount = 16;
         [self.navigationController pushViewController:regStepTwoVC animated:YES];
         
     } failure:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
         [request yos_checkResponse];
         _timeCount = 0;
     }];
@@ -192,7 +196,8 @@ static const NSUInteger kTimeMaxCount = 16;
         [self sendCodeRequestWithMobileNumber:username];
         
         // _accessoryView1 变为下一步
-        [_accessoryView1 setupTitle:@"下一步" target:self.verifyCodeTextField method:@selector(becomeFirstResponder)];
+        YOSWObject(_verifyCodeTextField, wVerifyCodeTextField);
+        [_accessoryView1 buttonWithTitle:@"下一步" target:wVerifyCodeTextField method:@selector(becomeFirstResponder) position:YOSAccessoryViewPositionRight];
         
         _timeCount = kTimeMaxCount;
         _timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(changeTime) userInfo:nil repeats:kTimeMaxCount];
@@ -214,7 +219,8 @@ static const NSUInteger kTimeMaxCount = 16;
         [self.registerCodeButton setTitle:[NSString stringWithFormat:@"%zis后可重发", kTimeMaxCount] forState:UIControlStateDisabled];
     
         // _accessoryView1 变回 获取验证码
-        [_accessoryView1 setupTitle:@"获取验证码" target:self method:@selector(signPasswordTextField)];
+        YOSWSelf(weakSelf);
+        [_accessoryView1 buttonWithTitle:@"获取验证码" target:weakSelf method:@selector(signPasswordTextField) position:YOSAccessoryViewPositionRight];
         
         [self registerCodeBtnEnabled];
     }
@@ -246,6 +252,8 @@ static const NSUInteger kTimeMaxCount = 16;
         [SVProgressHUD showErrorWithStatus:@"验证码为6位哦~"];
         return;
     }
+    
+    [_verifyCodeTextField endEditing:YES];
     
     [self sendUserReqStepRequestWithUserName:username validateCode:password];
     

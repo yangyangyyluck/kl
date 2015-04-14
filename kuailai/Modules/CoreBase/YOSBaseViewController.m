@@ -8,6 +8,11 @@
 
 #import "YOSBaseViewController.h"
 
+/**
+ *  dissmiss 会销毁SVProgressHUD
+ */
+#import "SVProgressHUD+YOSAdditions.h"
+
 @interface YOSBaseViewController ()
 
 @end
@@ -70,6 +75,7 @@
 }
 
 - (void)clickLeftItem:(UIBarButtonItem *)item {
+    [SVProgressHUD dismiss];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

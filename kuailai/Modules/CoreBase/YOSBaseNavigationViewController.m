@@ -7,6 +7,7 @@
 //
 
 #import "YOSBaseNavigationViewController.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSBaseNavigationViewController ()
 
@@ -18,6 +19,11 @@
     [super viewDidLoad];
     
     self.navigationBar.barTintColor = YOSRGB(252, 106, 67);
+}
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [SVProgressHUD dismiss];
+    [super pushViewController:viewController animated:animated];
 }
 
 - (void)didReceiveMemoryWarning {

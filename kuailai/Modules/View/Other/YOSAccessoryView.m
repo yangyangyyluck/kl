@@ -10,54 +10,72 @@
 #import "Masonry.h"
 
 @implementation YOSAccessoryView {
-    UIButton *_btn;
-    id _target;
+    NSMutableDictionary *_targets;
+    NSMutableDictionary *_buttons;
     void (^_defaultPlaceBlock)(void);
 }
 
-- (instancetype)initWithTitle:(NSString *)title target:(id)target method:(SEL)sel position:(YOSAccessoryViewPosition)position {
+- (instancetype)initWithDefaultPlaceBlock:(void(^)(void))defaultPlaceBlock {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    self.backgroundColor = [UIColor clearColor];
-    
-    UIButton *btn = [UIButton new];
-    btn.backgroundColor = YOSColorGreen;
-    [btn setTitle:title forState:UIControlStateNormal];
-    btn.layer.cornerRadius = 3.0f;
-    btn.layer.masksToBounds = YES;
-    [btn addTarget:target action:sel forControlEvents:UIControlEventTouchUpInside];
-    _btn = btn;
-    _target = target;
-    
-    [self addSubview:btn];
+    _defaultPlaceBlock = [defaultPlaceBlock copy];
+    _targets = [NSMutableDictionary dictionary];
+    _buttons = [NSMutableDictionary dictionary];
     
     self.frame = CGRectMake(0, 0, YOSScreenWidth, 44);
-    
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.and.bottom.mas_equalTo(0);
-        if (position == YOSAccessoryViewPositionLeft) {
-            make.left.mas_equalTo(0);
-        } else {
-            make.right.mas_equalTo(0);
-        }
-        make.width.mas_equalTo(100);
-    }];
+    self.backgroundColor = [UIColor clearColor];
     
     return self;
 }
 
-- (void)setupTitle:(NSString *)title target:(id)target method:(SEL)sel {
-    [_btn setTitle:title forState:UIControlStateNormal];
-    [_btn removeTarget:_target action:NULL forControlEvents:UIControlEventTouchUpInside];
-    [_btn addTarget:target action:sel forControlEvents:UIControlEventTouchUpInside];
-    _target = target;
+- (UIButton *)buttonWithTitle:(NSString *)title target:(__weak id)target method:(SEL)sel position:(YOSAccessoryViewPosition)position {
+    
+    UIButton *btn = _buttons[@(position)];
+    
+    if (!btn) {
+        btn = [UIButton new];
+        _buttons[@(position)] = btn;
+    }
+    
+    _targets[@(position)] = target;
+    
+    btn.backgroundColor = YOSColorGreen;
+    btn.layer.cornerRadius = 3.0f;
+    btn.layer.masksToBounds = YES;
+    
+    [self setupTitle:title target:target method:sel position:position];
+    
+    [self addSubview:btn];
+    
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.and.bottom.mas_equalTo(0);
+        
+        if (position == YOSAccessoryViewPositionLeft) {
+            make.left.mas_equalTo(0);
+        }
+        
+        if (position == YOSAccessoryViewPositionRight) {
+            make.right.mas_equalTo(0);
+        }
+        
+        make.width.mas_equalTo(100);
+    }];
+    
+    return btn;
+}
+
+- (void)setupTitle:(NSString *)title target:(__weak id)target method:(SEL)sel position:(YOSAccessoryViewPosition)position {
+    [_buttons[@(position)] setTitle:title forState:UIControlStateNormal];
+    [_buttons[@(position)] removeTarget:_targets[@(position)] action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [_buttons[@(position)] addTarget:target action:sel forControlEvents:UIControlEventTouchUpInside];
+    _targets[@(position)] = target;
 }
 
 - (void)setupDefaultPlaceBlock:(void (^)(void))defaultPlaceBlock {
-    _defaultPlaceBlock = defaultPlaceBlock;
+    _defaultPlaceBlock = [defaultPlaceBlock copy];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
