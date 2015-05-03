@@ -28,6 +28,7 @@
 @end
 
 @implementation YOSRegStepTwoViewController {
+    YOSAccessoryView *_accessoryView0;
     YOSAccessoryView *_accessoryView1;
     YOSAccessoryView *_accessoryView2;
 }
@@ -56,10 +57,20 @@
     self.sureButton.layer.masksToBounds = YES;
     
     YOSWSelf(weakSelf);
+    YOSAccessoryView *accessoryView0 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
+        [weakSelf.view endEditing:YES];
+    }];
+    [accessoryView0 buttonWithTitle:@"下一行" target:weakSelf method:@selector(nextStep0) position:YOSAccessoryViewPositionRight];
+    
+    _accessoryView0 = accessoryView0;
+    self.nickNameTextField.inputAccessoryView = accessoryView0;
+    
+    
     YOSAccessoryView *accessoryView1 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
         [weakSelf.view endEditing:YES];
     }];
-    [accessoryView1 buttonWithTitle:@"下一行" target:weakSelf method:@selector(nextStep) position:YOSAccessoryViewPositionRight];
+    [accessoryView1 buttonWithTitle:@"下一行" target:weakSelf method:@selector(nextStep1) position:YOSAccessoryViewPositionRight];
+    [accessoryView1 buttonWithTitle:@"上一行" target:weakSelf method:@selector(previousStep1) position:YOSAccessoryViewPositionLeft];
     
     _accessoryView1 = accessoryView1;
     self.pwd1TextField.inputAccessoryView = accessoryView1;
@@ -68,19 +79,30 @@
         [weakSelf.view endEditing:YES];
     }];
     
-    [accessoryView2 buttonWithTitle:@"上一行" target:weakSelf method:@selector(previousStep) position:YOSAccessoryViewPositionRight];
+    [accessoryView2 buttonWithTitle:@"上一行" target:weakSelf method:@selector(previousStep2) position:YOSAccessoryViewPositionLeft];
+    [accessoryView2 buttonWithTitle:@"确定" target:weakSelf method:@selector(clickSureButton:) position:YOSAccessoryViewPositionRight];
     
     _accessoryView2 = accessoryView2;
     self.pwd2TextField.inputAccessoryView = accessoryView2;
 }
 
 #pragma mark - touch event
-- (void)nextStep {
+- (void)nextStep0 {
+    NSLog(@"%s", __func__);
+    [_pwd1TextField becomeFirstResponder];
+}
+
+- (void)nextStep1 {
     NSLog(@"%s", __func__);
     [_pwd2TextField becomeFirstResponder];
 }
 
-- (void)previousStep {
+- (void)previousStep1 {
+    NSLog(@"%s", __func__);
+    [_nickNameTextField becomeFirstResponder];
+}
+
+- (void)previousStep2 {
     NSLog(@"%s", __func__);
     [_pwd1TextField becomeFirstResponder];
 }
@@ -121,7 +143,9 @@
         return;
     }
     
-    NSString *username = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentMobileNumber];
+    [self.view endEditing:YES];
+    
+    NSString *username = _nickNameTextField.text;
     NSString *ID = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeySignInID];
     
     YOSUserRegisterRequest *request = [[YOSUserRegisterRequest alloc] initWithUserName:username ID:ID password1:_pwd1TextField.text password2:_pwd2TextField.text];
