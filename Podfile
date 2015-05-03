@@ -6,4 +6,4 @@ pod 'SVProgressHUD'
 pod 'FMDB'
 pod 'JSONModel'
 pod 'EDColor'	#设计师颜色
-# where is sunxx???
+pod 'XXNibBridge', '~> 2.1' #where is sunxx???
