@@ -171,10 +171,10 @@
             </objects>
             <point key="canvasLocation" x="-155" y="933"/>
         </scene>
-        <!--View Controller-->
+        <!--Me View Controller-->
         <scene sceneID="CTT-3y-ka0">
             <objects>
-                <viewController id="Wyw-4G-njm" sceneMemberID="viewController">
+                <viewController id="Wyw-4G-njm" customClass="YOSMeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Av-7W-ad3"/>
                         <viewControllerLayoutGuide type="bottom" id="lzX-eL-nyE"/>
