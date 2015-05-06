@@ -10,13 +10,21 @@
 
 @implementation YOSLRLabel
 
+/**
+ *  特别注意：这里一定需要self.frame.size.width已经有值(非0)
+ *
+ *  @param text <#text description#>
+ */
 - (void)setText:(NSString *)text {
+    
+    NSAssert((BOOL)self.frame.size.width, @"fatal error: self.frame.size.width must not be zero.");
     
     CGSize size = [text sizeWithAttributes:@{
                                              NSFontAttributeName:self.font,
                                              }];
     
-    NSLog(@"size is \r\n : %@", NSStringFromCGSize(size));
+    NSLog(@"\r\n size is \r\n : %@", NSStringFromCGSize(size));
+    NSLog(@"\r\n size is \r\n : %@", NSStringFromCGSize(self.frame.size));
     
     CGFloat characterSpace = (self.frame.size.width - size.width) / (text.length - 1);
     

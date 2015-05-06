@@ -21,8 +21,6 @@
 		DD00EDDF1ADB9EF100E811A2 /* YOSUserRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDDE1ADB9EF100E811A2 /* YOSUserRegisterRequest.m */; };
 		DD00EDE21ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDE11ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m */; };
 		DD00EDE81ADD16A500E811A2 /* YOSLRLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDE71ADD16A500E811A2 /* YOSLRLabel.m */; };
-		DD00EDEB1ADD170000E811A2 /* YOSInputCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDEA1ADD170000E811A2 /* YOSInputCell.m */; };
-		DD00EDED1ADD171800E811A2 /* YOSInputCel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD00EDEC1ADD171800E811A2 /* YOSInputCel.xib */; };
 		DD00EDF01ADD1A9800E811A2 /* YOSCreateActivityViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD00EDEF1ADD1A9800E811A2 /* YOSCreateActivityViewController.storyboard */; };
 		DD00EDF31ADD1AAB00E811A2 /* YOSCreateActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDF21ADD1AAB00E811A2 /* YOSCreateActivityViewController.m */; };
 		DD00EDF61ADD1BE100E811A2 /* YOSMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDF51ADD1BE100E811A2 /* YOSMeViewController.m */; };
@@ -39,6 +37,8 @@
 		DD8DC8141ACE777D00918ADD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8DC80E1ACE777D00918ADD /* AppDelegate.m */; };
 		DD8DC8291ACE7F8800918ADD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8DC8271ACE7F8800918ADD /* main.m */; };
 		DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */; };
+		DDADBB6F1AFA135F001A7961 /* YOSInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDADBB6E1AFA135F001A7961 /* YOSInputView.m */; };
+		DDADBB741AFA17F2001A7961 /* YOSTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DDADBB731AFA17F2001A7961 /* YOSTextField.m */; };
 		DDF8408F1AD4D991006939DF /* constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF8408E1AD4D991006939DF /* constant.m */; };
 		DDF840951AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840941AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m */; };
 		DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840AD1AD619A7006939DF /* YOSUserLoginRequest.m */; };
@@ -84,9 +84,6 @@
 		DD00EDE11ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD00EDE61ADD16A500E811A2 /* YOSLRLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSLRLabel.h; sourceTree = "<group>"; };
 		DD00EDE71ADD16A500E811A2 /* YOSLRLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSLRLabel.m; sourceTree = "<group>"; };
-		DD00EDE91ADD170000E811A2 /* YOSInputCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSInputCell.h; sourceTree = "<group>"; };
-		DD00EDEA1ADD170000E811A2 /* YOSInputCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInputCell.m; sourceTree = "<group>"; };
-		DD00EDEC1ADD171800E811A2 /* YOSInputCel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YOSInputCel.xib; sourceTree = "<group>"; };
 		DD00EDEF1ADD1A9800E811A2 /* YOSCreateActivityViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = YOSCreateActivityViewController.storyboard; sourceTree = "<group>"; };
 		DD00EDF11ADD1AAB00E811A2 /* YOSCreateActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSCreateActivityViewController.h; sourceTree = "<group>"; };
 		DD00EDF21ADD1AAB00E811A2 /* YOSCreateActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSCreateActivityViewController.m; sourceTree = "<group>"; };
@@ -118,6 +115,10 @@
 		DD8DC8271ACE7F8800918ADD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DDA4266A1AEE80620043FB6B /* UIButton+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+YOSAdditions.h"; sourceTree = "<group>"; };
 		DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+YOSAdditions.m"; sourceTree = "<group>"; };
+		DDADBB6D1AFA135F001A7961 /* YOSInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSInputView.h; sourceTree = "<group>"; };
+		DDADBB6E1AFA135F001A7961 /* YOSInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInputView.m; sourceTree = "<group>"; };
+		DDADBB721AFA17F2001A7961 /* YOSTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSTextField.h; sourceTree = "<group>"; };
+		DDADBB731AFA17F2001A7961 /* YOSTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTextField.m; sourceTree = "<group>"; };
 		DDF8408D1AD4D991006939DF /* constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant.h; sourceTree = "<group>"; };
 		DDF8408E1AD4D991006939DF /* constant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = constant.m; sourceTree = "<group>"; };
 		DDF840931AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YTKBaseRequest+YOSAdditions.h"; sourceTree = "<group>"; };
@@ -345,9 +346,10 @@
 				DD00EDD21ADB6C3A00E811A2 /* YOSAccessoryView.m */,
 				DD00EDE61ADD16A500E811A2 /* YOSLRLabel.h */,
 				DD00EDE71ADD16A500E811A2 /* YOSLRLabel.m */,
-				DD00EDE91ADD170000E811A2 /* YOSInputCell.h */,
-				DD00EDEA1ADD170000E811A2 /* YOSInputCell.m */,
-				DD00EDEC1ADD171800E811A2 /* YOSInputCel.xib */,
+				DDADBB6D1AFA135F001A7961 /* YOSInputView.h */,
+				DDADBB6E1AFA135F001A7961 /* YOSInputView.m */,
+				DDADBB721AFA17F2001A7961 /* YOSTextField.h */,
+				DDADBB731AFA17F2001A7961 /* YOSTextField.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -615,7 +617,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD00EDED1ADD171800E811A2 /* YOSInputCel.xib in Resources */,
 				DD8DC7F21ACE76A700918ADD /* Main.storyboard in Resources */,
 				DD00EDD41ADB6C3A00E811A2 /* Register.storyboard in Resources */,
 				DD8DC7F71ACE76A700918ADD /* LaunchScreen.xib in Resources */,
@@ -690,7 +691,6 @@
 				DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */,
 				DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */,
 				DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */,
-				DD00EDEB1ADD170000E811A2 /* YOSInputCell.m in Sources */,
 				DD00EDDA1ADB6C3A00E811A2 /* YOSTabBar.m in Sources */,
 				DD00EDD31ADB6C3A00E811A2 /* YOSHomeViewController.m in Sources */,
 				DD00EDDF1ADB9EF100E811A2 /* YOSUserRegisterRequest.m in Sources */,
@@ -698,8 +698,10 @@
 				DD00EDE81ADD16A500E811A2 /* YOSLRLabel.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,
+				DDADBB6F1AFA135F001A7961 /* YOSInputView.m in Sources */,
 				DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */,
 				DD00EDD91ADB6C3A00E811A2 /* YOSBaseViewController.m in Sources */,
+				DDADBB741AFA17F2001A7961 /* YOSTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,16 +7,34 @@
 //
 
 #import "YOSCreateActivityViewController.h"
+#import "YOSInputView.h"
+#import "Masonry.h"
 
 @interface YOSCreateActivityViewController ()
 
 @end
 
-@implementation YOSCreateActivityViewController
+@implementation YOSCreateActivityViewController {
+    YOSInputView *_inputView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setupSubviews];
+}
+
+- (void)setupSubviews {
+    _inputView = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:YES];
+    _inputView.backgroundColor = [UIColor lightGrayColor];
+    
+    [self.view addSubview:_inputView];
+    
+    [_inputView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.mas_equalTo(0);
+//        make.height.mas_equalTo(44);
+        make.top.mas_equalTo(self.topLayoutGuide).offset(170);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
