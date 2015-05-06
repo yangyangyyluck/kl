@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2766F705-3E41-4E4E-B9ED-28AA18B4B541</string>
+	<key>IDESourceControlProjectName</key>
+	<string>kuailai</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>2FD203A72A2A859618ACC6B3D3AAFC3FE64D084A</key>
+		<string>https://github.com/yangyangyyluck/kl.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>kuailai.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>2FD203A72A2A859618ACC6B3D3AAFC3FE64D084A</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/yangyangyyluck/kl.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>2FD203A72A2A859618ACC6B3D3AAFC3FE64D084A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2FD203A72A2A859618ACC6B3D3AAFC3FE64D084A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>kuailai</string>
+		</dict>
+	</array>
+</dict>
+</plist>
