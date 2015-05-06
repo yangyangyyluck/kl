@@ -50,4 +50,4 @@
 #define YOSWSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #define YOSSSelf(strongSelf)  __strong __typeof(&*self)strongSelf = self
 #define YOSWObject(object, weakObject)  __weak __typeof(&*object)weakObject = object
-#define YOSSObject(object, strongObject)  __weak __typeof(&*object)strongObject = object
+#define YOSSObject(object, strongObject)  __strong __typeof(&*object)strongObject = object
