@@ -23,12 +23,10 @@
                                              NSFontAttributeName:self.font,
                                              }];
     
-    NSLog(@"\r\n size is \r\n : %@", NSStringFromCGSize(size));
-    NSLog(@"\r\n size is \r\n : %@", NSStringFromCGSize(self.frame.size));
+//    YOSLog(@"\r\n size is \r\n : %@", NSStringFromCGSize(size));
+//    YOSLog(@"\r\n size is \r\n : %@", NSStringFromCGSize(self.frame.size));
     
     CGFloat characterSpace = (self.frame.size.width - size.width) / (text.length - 1);
-    
-    NSLog(@"%f ---", characterSpace);
     
     NSAttributedString *attributedString =[[NSAttributedString alloc] initWithString:text attributes:@{NSKernAttributeName : @(characterSpace)}];
     

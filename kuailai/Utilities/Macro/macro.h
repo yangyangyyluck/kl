@@ -8,7 +8,7 @@
 
 // 根据状态Log
 #ifdef DEBUG
-#   define YOSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#   define YOSLog(fmt, ...) NSLog((@"\r\n\r\n%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
 #   define YOSLog(...)
 #   define NSLog(...)
@@ -26,7 +26,7 @@
 #define YOSIsIphone4                  ([[UIScreen mainScreen] bounds].size.height == 480)
 #define YOSIsIphone5                  ([[UIScreen mainScreen] bounds].size.height == 568)
 #define YOSIsIphone6                  ([[UIScreen mainScreen] bounds].size.width == 375)
-#define YOSIsIphone6P                 ([[UIScreen mainScreen] bounds].size.height > 568)
+#define YOSIsIphone6P                 ([[UIScreen mainScreen] bounds].size.width == 414)
 
 
 #define YOSScreenWidth                [UIScreen mainScreen].bounds.size.width
@@ -37,7 +37,7 @@
 
 #define YOSRGBA(r,g,b,a)               [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:a]
 #define YOSRGB(r, g, b)                [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:1.0f]
-#define YOSColorRandom                YOSRGB((float)(rand() % 255), (float)(rand() % 255), (float)(rand() % 255))
+#define YOSColorRandom                YOSRGB(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 
 
 #define YOSColorGreen                  YOSRGB(69, 198, 157)

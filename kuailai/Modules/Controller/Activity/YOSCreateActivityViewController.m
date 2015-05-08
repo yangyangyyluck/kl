@@ -15,6 +15,10 @@
 @end
 
 @implementation YOSCreateActivityViewController {
+    
+    // 容器view
+    UIView *_contentView;
+    
     YOSInputView *_inputView;
 }
 
@@ -25,16 +29,30 @@
 }
 
 - (void)setupSubviews {
-    _inputView = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:YES];
+    _contentView = [UIView new];
+    
+    _inputView = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:140 maxLines:0];
     _inputView.backgroundColor = [UIColor lightGrayColor];
     
-    [self.view addSubview:_inputView];
+    _contentView.backgroundColor = YOSRGB(238, 238, 238);
+
+    [self.view addSubview:_contentView];
+    [_contentView addSubview:_inputView];
+    
+    [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+    }];
     
     [_inputView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.mas_equalTo(0);
-//        make.height.mas_equalTo(44);
         make.top.mas_equalTo(self.topLayoutGuide).offset(170);
     }];
+}
+
+#pragma mark - touchEvent
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    YOSLog(@"%zi", _inputView.text.length);
 }
 
 - (void)didReceiveMemoryWarning {
