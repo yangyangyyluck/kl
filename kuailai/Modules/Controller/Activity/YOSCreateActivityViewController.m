@@ -17,42 +17,100 @@
 @implementation YOSCreateActivityViewController {
     
     // 容器view
+    UIScrollView *_scrollView;
     UIView *_contentView;
     
-    YOSInputView *_inputView;
+    // 容器1/2/3/4
+    UIView *_firstContentView;
+    UIView *_secondContentView;
+    UIView *_thirdContentView;
+    UIView *_fourhContentView;
+    
+    // firstContentView
+    YOSInputView *_inputView0;
+    YOSInputView *_inputView1;
+    YOSInputView *_inputView2;
+    YOSInputView *_inputView3;
+    YOSInputView *_inputView4;
+    YOSInputView *_inputView5;
+    YOSInputView *_inputView6;
+    YOSInputView *_inputView7;
+    NSMutableArray *_inputViews;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupSubviews];
+    
+    [self setupBackArrow];
+    [self setupNavTitle:@"发布活动"];
+    self.view.backgroundColor = YOSRGB(238, 238, 238);
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (void)setupSubviews {
+    _scrollView = [UIScrollView new];
     _contentView = [UIView new];
     
-    _inputView = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:140 maxLines:0];
-    _inputView.backgroundColor = [UIColor lightGrayColor];
+    _firstContentView = [UIView new];
+    _inputView0 = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:125 maxLines:0];
+    _inputView1 = [[YOSInputView alloc] initWithTitle:@"开始时间:" selectedStatus:NO maxCharacters:25 maxLines:0];
+    _inputView2 = [[YOSInputView alloc] initWithTitle:@"结束时间:" selectedStatus:NO maxCharacters:125 maxLines:0];
+    _inputView3 = [[YOSInputView alloc] initWithTitle:@"报名截止:" selectedStatus:NO maxCharacters:125 maxLines:0];
+    _inputView4 = [[YOSInputView alloc] initWithTitle:@"城市地区:" selectedStatus:NO maxCharacters:25 maxLines:0];
+    _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点:" selectedStatus:NO maxCharacters:125 maxLines:0];
+    _inputView6 = [[YOSInputView alloc] initWithTitle:@"活动人数:" selectedStatus:NO maxCharacters:25 maxLines:0];
+    _inputView7 = [[YOSInputView alloc] initWithTitle:@"人均费用:" selectedStatus:NO maxCharacters:25 maxLines:0];
     
-    _contentView.backgroundColor = YOSRGB(238, 238, 238);
-
-    [self.view addSubview:_contentView];
-    [_contentView addSubview:_inputView];
+    _inputViews = [NSMutableArray array];
+    [_inputViews addObjectsFromArray:@[_inputView0, _inputView1, _inputView2, _inputView3, _inputView4, _inputView5, _inputView6, _inputView7]];
+    
+    [self.view addSubview:_scrollView];
+    [_scrollView addSubview:_contentView];
+    [_contentView addSubview:_firstContentView];
+    [_inputViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [_firstContentView addSubview:obj];
+    }];
+    
+    _firstContentView.backgroundColor = YOSColorRandom;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click)];
+    [_scrollView addGestureRecognizer:tap];
+    
+    [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+    }];
     
     [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
+        make.bottom.mas_equalTo(_firstContentView.mas_bottom);
     }];
     
-    [_inputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.and.right.mas_equalTo(0);
-        make.top.mas_equalTo(self.topLayoutGuide).offset(170);
+    [_firstContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+        make.bottom.mas_equalTo(_inputView7.mas_bottom);
+    }];
+    
+    __block UIView *lastInputView = nil;
+    [_inputViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        
+        id temp = (lastInputView ? lastInputView.mas_bottom : @(0));
+        [obj mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.and.right.mas_equalTo(0);
+            make.top.mas_equalTo(temp);
+        }];
+        
+        lastInputView = obj;
     }];
 }
 
 #pragma mark - touchEvent
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    YOSLog(@"%zi", _inputView.text.length);
+- (void)click {
+    NSLog(@"%s", __func__);
+    [self.view layoutIfNeeded];
 }
 
 - (void)didReceiveMemoryWarning {

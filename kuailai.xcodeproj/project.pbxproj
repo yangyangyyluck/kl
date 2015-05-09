@@ -21,7 +21,6 @@
 		DD00EDDF1ADB9EF100E811A2 /* YOSUserRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDDE1ADB9EF100E811A2 /* YOSUserRegisterRequest.m */; };
 		DD00EDE21ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDE11ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m */; };
 		DD00EDE81ADD16A500E811A2 /* YOSLRLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDE71ADD16A500E811A2 /* YOSLRLabel.m */; };
-		DD00EDF01ADD1A9800E811A2 /* YOSCreateActivityViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD00EDEF1ADD1A9800E811A2 /* YOSCreateActivityViewController.storyboard */; };
 		DD00EDF31ADD1AAB00E811A2 /* YOSCreateActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDF21ADD1AAB00E811A2 /* YOSCreateActivityViewController.m */; };
 		DD00EDF61ADD1BE100E811A2 /* YOSMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDF51ADD1BE100E811A2 /* YOSMeViewController.m */; };
 		DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */; };
@@ -84,7 +83,6 @@
 		DD00EDE11ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD00EDE61ADD16A500E811A2 /* YOSLRLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSLRLabel.h; sourceTree = "<group>"; };
 		DD00EDE71ADD16A500E811A2 /* YOSLRLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSLRLabel.m; sourceTree = "<group>"; };
-		DD00EDEF1ADD1A9800E811A2 /* YOSCreateActivityViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = YOSCreateActivityViewController.storyboard; sourceTree = "<group>"; };
 		DD00EDF11ADD1AAB00E811A2 /* YOSCreateActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSCreateActivityViewController.h; sourceTree = "<group>"; };
 		DD00EDF21ADD1AAB00E811A2 /* YOSCreateActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSCreateActivityViewController.m; sourceTree = "<group>"; };
 		DD00EDF41ADD1BE100E811A2 /* YOSMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMeViewController.h; sourceTree = "<group>"; };
@@ -357,7 +355,6 @@
 		DD00EDEE1ADD1A4000E811A2 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
-				DD00EDEF1ADD1A9800E811A2 /* YOSCreateActivityViewController.storyboard */,
 				DD00EDF11ADD1AAB00E811A2 /* YOSCreateActivityViewController.h */,
 				DD00EDF21ADD1AAB00E811A2 /* YOSCreateActivityViewController.m */,
 			);
@@ -620,7 +617,6 @@
 				DD8DC7F21ACE76A700918ADD /* Main.storyboard in Resources */,
 				DD00EDD41ADB6C3A00E811A2 /* Register.storyboard in Resources */,
 				DD8DC7F71ACE76A700918ADD /* LaunchScreen.xib in Resources */,
-				DD00EDF01ADD1A9800E811A2 /* YOSCreateActivityViewController.storyboard in Resources */,
 				DD8DC7F41ACE76A700918ADD /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

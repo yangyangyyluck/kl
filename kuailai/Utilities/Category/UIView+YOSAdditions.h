@@ -139,4 +139,8 @@
 /** deep copy self */
 - (instancetype)yos_copySelf;
 
+- (UIViewController *)yos_viewController;
+
+- (UIView *)yos_topestSuperview;
+
 @end

@@ -23,10 +23,6 @@
     [super viewDidLoad];
     
 //    [self doSendCodeRequest];
-    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Register"] animated:YES];
-//    });
 }
 
 - (void)doSendCodeRequest {
@@ -38,6 +34,13 @@
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
     }];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+NSLog(@"%s", __func__);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Register"] animated:YES];
+        });
 }
 
 - (void)didReceiveMemoryWarning {

@@ -11,6 +11,10 @@
 #import "YOSLRLabel.h"
 #import "Masonry.h"
 
+#import "SVProgressHUD+YOSAdditions.h"
+#import "UIView+YOSAdditions.h"
+#import "EDColor.h"
+
 @interface YOSInputView () <UITextFieldDelegate>
 
 @end
@@ -36,6 +40,7 @@
     
     _titleLabel = [YOSLRLabel new];
     _titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    _titleLabel.textColor = [UIColor colorWithHexString:@"#858585"];
     _textFieldM = [NSMutableArray new];
     _imageView = [UIImageView new];
     
@@ -73,6 +78,7 @@
     }];
     
     self.clipsToBounds = YES;
+    self.backgroundColor = [UIColor whiteColor];
     
     return self;
 }
@@ -101,6 +107,16 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     _titleLabel.text = _title;
+}
+
+- (void)setPlaceholder:(NSString *)placeholder {
+    _placeholder = placeholder;
+    
+    _firstTextField.placeholder = placeholder;
+}
+
+- (BOOL)isSelected {
+    return _selected;
 }
 
 #pragma mark - UITextFieldDelegate
@@ -133,7 +149,9 @@
                 [lastField becomeFirstResponder];
             }
             
+            self.selected = (BOOL)self.text.length;
             return NO;
+            
         } else {    // 普通删除字符
                     // 每次删除都会重排字符
             textField.text = [textField.text stringByReplacingCharactersInRange:range withString:string];
@@ -214,17 +232,17 @@
             
         }
         
+        self.selected = (BOOL)self.text.length;
+        return NO;
         
-        return NO;
-    }
-    
-    // lines limit
-    if (_maxLines != 0 && (_textFieldM.count > _maxLines)) {
-        return NO;
     }
     
     // characters limit
     if (_maxCharacters != 0 && (self.text.length + string.length > _maxCharacters)) {
+        
+        [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"最多可输入%zi个字符", _maxCharacters] maskType:SVProgressHUDMaskTypeClear];
+        
+        self.selected = (BOOL)self.text.length;
         return NO;
     }
     
@@ -297,6 +315,16 @@
                 
                 [tempArrM removeObjectAtIndex:0];
             } else {    // YOSTextField不够了，需要新创建
+                
+                // lines limit
+                if (_maxLines != 0 && (_textFieldM.count >= _maxLines)) {
+                    
+                    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"最多可输入%zi行字符", _maxLines]  maskType:SVProgressHUDMaskTypeClear];
+                    
+                    self.selected = (BOOL)self.text.length;
+                    return NO;
+                }
+                
                 YOSTextField *nowField = [YOSTextField new];
                 nowField.delegate = self;
                 [_textFieldM addObject:nowField];
@@ -314,7 +342,7 @@
                 
                 _heightConstraint.offset(44 * _textFieldM.count);
                 [UIView animateWithDuration:0.25f animations:^{
-                    [self.superview layoutIfNeeded];
+                    [self.yos_topestSuperview layoutIfNeeded];
                 }];
                 
                 nowField.text = subString;
@@ -371,7 +399,7 @@
             
             _heightConstraint.offset(44 * _textFieldM.count);
             [UIView animateWithDuration:0.25f animations:^{
-                [self.superview layoutIfNeeded];
+                [self.yos_topestSuperview layoutIfNeeded];
             }];
             
             textField.text = string;
@@ -386,6 +414,7 @@
          */
     }
     
+    self.selected = (BOOL)self.text.length;
     return NO;
 }
 
@@ -438,7 +467,7 @@
     
     _heightConstraint.offset(44 * _textFieldM.count);
     [UIView animateWithDuration:0.25f animations:^{
-        [self.superview layoutIfNeeded];
+        [self.yos_topestSuperview layoutIfNeeded];
     }];
 }
 

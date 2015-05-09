@@ -8,6 +8,7 @@
 
 #import "YOSTextField.h"
 #import "Masonry.h"
+#import "EDColor.h"
 
 @implementation YOSTextField {
     UIView *_lineView;
@@ -20,9 +21,10 @@
     }
     
     self.font = [UIFont systemFontOfSize:14.0f];
+    self.textColor = [UIColor colorWithHexString:@"#2c2b2a"];
     
     _lineView = [UIView new];
-    _lineView.backgroundColor = [UIColor grayColor];
+    _lineView.backgroundColor = [UIColor colorWithHexString:@"#e5e5e5"];
     
     [self addSubview:_lineView];
     

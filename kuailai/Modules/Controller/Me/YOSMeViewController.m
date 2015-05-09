@@ -18,7 +18,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-    YOSCreateActivityViewController *vc = [YOSCreateActivityViewController xx_instantiateFromStoryboardNamed:@"YOSCreateActivityViewController"];
+    
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"%s", __func__);
+    
+    YOSCreateActivityViewController *vc = [YOSCreateActivityViewController new];
     
     [self.navigationController pushViewController:vc animated:YES];
 }

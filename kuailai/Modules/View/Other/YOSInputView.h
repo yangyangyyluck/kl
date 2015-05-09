@@ -10,7 +10,15 @@
 
 @interface YOSInputView : UIView
 
+/**
+ *  当前选中状态
+ */
 @property (nonatomic, assign) BOOL selected;
+
+/**
+ *  设置展位文字
+ */
+@property (nonatomic, strong) NSString *placeholder;
 
 /**
  *  init method

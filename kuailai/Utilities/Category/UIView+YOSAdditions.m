@@ -304,5 +304,31 @@ CGRect YOSScreenBounds() {
     return result;
 }
 
+- (UIViewController *)yos_viewController {
+    UIView *view = self;
+    while (view) {
+        UIResponder *responder = view.nextResponder;
+        if ([responder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)responder;
+        } else {
+            view = view.superview;
+        }
+    }
+    
+    return nil;
+}
+
+- (UIView *)yos_topestSuperview {
+    UIView *superview = self.superview;
+    UIView *nowview = self;
+    
+    while (superview) {
+        nowview = superview;
+        superview = superview.superview;
+    }
+    
+    return nowview;
+}
+
 
 @end
