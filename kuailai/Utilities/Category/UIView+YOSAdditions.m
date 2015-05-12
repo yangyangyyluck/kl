@@ -322,7 +322,7 @@ CGRect YOSScreenBounds() {
     UIView *superview = self.superview;
     UIView *nowview = self;
     
-    while (superview) {
+    while (superview && ![superview isKindOfClass:[UIWindow class]]) {
         nowview = superview;
         superview = superview.superview;
     }

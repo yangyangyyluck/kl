@@ -13,7 +13,7 @@
 /**
  *  特别注意：这里一定需要self.frame.size.width已经有值(非0)
  *
- *  @param text <#text description#>
+ *  @param text 
  */
 - (void)setText:(NSString *)text {
     

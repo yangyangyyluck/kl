@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5D06332A08141014FD4F795B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E053BE27C34D168D01D86306 /* libPods.a */; };
+		DD00CBD21AFF4E3F00CFF546 /* YOSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00CBD11AFF4E3F00CFF546 /* YOSTextView.m */; };
 		DD00EDD31ADB6C3A00E811A2 /* YOSHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDB01ADB6C3A00E811A2 /* YOSHomeViewController.m */; };
 		DD00EDD41ADB6C3A00E811A2 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD00EDB51ADB6C3A00E811A2 /* Register.storyboard */; };
 		DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDB71ADB6C3A00E811A2 /* YOSRegisterViewController.m */; };
@@ -38,6 +39,9 @@
 		DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */; };
 		DDADBB6F1AFA135F001A7961 /* YOSInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDADBB6E1AFA135F001A7961 /* YOSInputView.m */; };
 		DDADBB741AFA17F2001A7961 /* YOSTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DDADBB731AFA17F2001A7961 /* YOSTextField.m */; };
+		DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E6B1B01B6D500B37323 /* YOSEditViewController.m */; };
+		DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E6E1B01E01300B37323 /* YOSPresentViewController.m */; };
+		DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */; };
 		DDF8408F1AD4D991006939DF /* constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF8408E1AD4D991006939DF /* constant.m */; };
 		DDF840951AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840941AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m */; };
 		DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840AD1AD619A7006939DF /* YOSUserLoginRequest.m */; };
@@ -58,6 +62,8 @@
 /* Begin PBXFileReference section */
 		0B9F8645B4F2A3371202F00D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D7E4673EC343F9D85F1D6FD4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DD00CBD01AFF4E3F00CFF546 /* YOSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSTextView.h; sourceTree = "<group>"; };
+		DD00CBD11AFF4E3F00CFF546 /* YOSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTextView.m; sourceTree = "<group>"; };
 		DD00EDAF1ADB6C3A00E811A2 /* YOSHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHomeViewController.h; sourceTree = "<group>"; };
 		DD00EDB01ADB6C3A00E811A2 /* YOSHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHomeViewController.m; sourceTree = "<group>"; };
 		DD00EDB51ADB6C3A00E811A2 /* Register.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Register.storyboard; sourceTree = "<group>"; };
@@ -117,6 +123,12 @@
 		DDADBB6E1AFA135F001A7961 /* YOSInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInputView.m; sourceTree = "<group>"; };
 		DDADBB721AFA17F2001A7961 /* YOSTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSTextField.h; sourceTree = "<group>"; };
 		DDADBB731AFA17F2001A7961 /* YOSTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTextField.m; sourceTree = "<group>"; };
+		DDC51E6A1B01B6D500B37323 /* YOSEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSEditViewController.h; sourceTree = "<group>"; };
+		DDC51E6B1B01B6D500B37323 /* YOSEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSEditViewController.m; sourceTree = "<group>"; };
+		DDC51E6D1B01E01300B37323 /* YOSPresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSPresentViewController.h; sourceTree = "<group>"; };
+		DDC51E6E1B01E01300B37323 /* YOSPresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSPresentViewController.m; sourceTree = "<group>"; };
+		DDC51E731B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YOSAdditionForIQKeyboardManager.h"; sourceTree = "<group>"; };
+		DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YOSAdditionForIQKeyboardManager.m"; sourceTree = "<group>"; };
 		DDF8408D1AD4D991006939DF /* constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant.h; sourceTree = "<group>"; };
 		DDF8408E1AD4D991006939DF /* constant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = constant.m; sourceTree = "<group>"; };
 		DDF840931AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YTKBaseRequest+YOSAdditions.h"; sourceTree = "<group>"; };
@@ -217,6 +229,8 @@
 		DD00EDB31ADB6C3A00E811A2 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				DDC51E6A1B01B6D500B37323 /* YOSEditViewController.h */,
+				DDC51E6B1B01B6D500B37323 /* YOSEditViewController.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -246,6 +260,8 @@
 				DD00EDC21ADB6C3A00E811A2 /* YOSTabBar.m */,
 				DD00EDC31ADB6C3A00E811A2 /* YOSTabBarItem.h */,
 				DD00EDC41ADB6C3A00E811A2 /* YOSTabBarItem.m */,
+				DDC51E6D1B01E01300B37323 /* YOSPresentViewController.h */,
+				DDC51E6E1B01E01300B37323 /* YOSPresentViewController.m */,
 			);
 			path = CoreBase;
 			sourceTree = "<group>";
@@ -348,6 +364,8 @@
 				DDADBB6E1AFA135F001A7961 /* YOSInputView.m */,
 				DDADBB721AFA17F2001A7961 /* YOSTextField.h */,
 				DDADBB731AFA17F2001A7961 /* YOSTextField.m */,
+				DD00CBD01AFF4E3F00CFF546 /* YOSTextView.h */,
+				DD00CBD11AFF4E3F00CFF546 /* YOSTextView.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -463,6 +481,8 @@
 				DD00EDE11ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m */,
 				DDA4266A1AEE80620043FB6B /* UIButton+YOSAdditions.h */,
 				DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */,
+				DDC51E731B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.h */,
+				DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -669,6 +689,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
+				DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */,
 				DD8DC8141ACE777D00918ADD /* AppDelegate.m in Sources */,
 				DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */,
 				DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */,
@@ -683,9 +704,12 @@
 				DD00EDDB1ADB6C3A00E811A2 /* YOSTabBarItem.m in Sources */,
 				DD8DC8291ACE7F8800918ADD /* main.m in Sources */,
 				DD00EDE21ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m in Sources */,
+				DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */,
 				DDF840951AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m in Sources */,
 				DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */,
 				DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */,
+				DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */,
+				DD00CBD21AFF4E3F00CFF546 /* YOSTextView.m in Sources */,
 				DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */,
 				DD00EDDA1ADB6C3A00E811A2 /* YOSTabBar.m in Sources */,
 				DD00EDD31ADB6C3A00E811A2 /* YOSHomeViewController.m in Sources */,

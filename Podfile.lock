@@ -28,6 +28,7 @@ PODS:
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
     - FMDB/common
+  - IQKeyboardManager (3.2.2)
   - JSONModel (1.0.2)
   - Masonry (0.6.1)
   - SVProgressHUD (1.1.3)
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - AFNetworking
   - EDColor
   - FMDB
+  - IQKeyboardManager (= 3.2.2)
   - JSONModel
   - Masonry
   - SVProgressHUD
@@ -51,6 +53,7 @@ SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   EDColor: c83f9a61f9f9b3c23d541f1feb561558e29cb088
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
+  IQKeyboardManager: 99df8006864663a4126a77b9a2f7ea70077eff31
   JSONModel: 6ffcb4ffa3659c9e9a2e5d45d6c7705bab187c03
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1

@@ -7,11 +7,10 @@
 //
 
 #import "YOSTextField.h"
-#import "Masonry.h"
 #import "EDColor.h"
 
 @implementation YOSTextField {
-    UIView *_lineView;
+
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -22,17 +21,6 @@
     
     self.font = [UIFont systemFontOfSize:14.0f];
     self.textColor = [UIColor colorWithHexString:@"#2c2b2a"];
-    
-    _lineView = [UIView new];
-    _lineView.backgroundColor = [UIColor colorWithHexString:@"#e5e5e5"];
-    
-    [self addSubview:_lineView];
-    
-    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.and.trailing.mas_equalTo(0);
-        make.height.mas_equalTo(0.5f);
-        make.bottom.mas_equalTo(0);
-    }];
     
     return self;
 }

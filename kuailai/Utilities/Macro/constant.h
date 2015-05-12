@@ -18,6 +18,10 @@ typedef NS_ENUM(NSUInteger, BusinessRequestStatus) {
     BusinessRequestStatusDefault                = 99999,    // 所有未处理的状态
 };
 
+typedef void (^voidBlock)(void);
+typedef void (^voidBlock1)(id);
+
+typedef BOOL (^boolBlock)(void);
 
 /**
  *  UserDefault keys

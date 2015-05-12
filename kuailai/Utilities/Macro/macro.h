@@ -8,10 +8,10 @@
 
 // 根据状态Log
 #ifdef DEBUG
-#   define YOSLog(fmt, ...) NSLog((@"\r\n\r\n%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+    #define YOSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
-#   define YOSLog(...)
-#   define NSLog(...)
+    #define YOSLog(...)
+    #define NSLog(...)
 #endif
 
 
@@ -41,7 +41,7 @@
 
 
 #define YOSColorGreen                  YOSRGB(69, 198, 157)
-#define YOSColorGray                     YOSRGB(228, 228, 228)
+#define YOSColorGray                   YOSRGB(228, 228, 228)
 
 
 #define YOSFliterNil2String(data) ((data) ? (data) : @"")
