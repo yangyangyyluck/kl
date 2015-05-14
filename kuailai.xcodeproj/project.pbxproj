@@ -24,6 +24,7 @@
 		DD00EDE81ADD16A500E811A2 /* YOSLRLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDE71ADD16A500E811A2 /* YOSLRLabel.m */; };
 		DD00EDF31ADD1AAB00E811A2 /* YOSCreateActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDF21ADD1AAB00E811A2 /* YOSCreateActivityViewController.m */; };
 		DD00EDF61ADD1BE100E811A2 /* YOSMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00EDF51ADD1BE100E811A2 /* YOSMeViewController.m */; };
+		DD00F21F1B04E32E009AFD66 /* YOSDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD00F21E1B04E32E009AFD66 /* YOSDBManager.m */; };
 		DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */; };
 		DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */; };
 		DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */; };
@@ -93,6 +94,8 @@
 		DD00EDF21ADD1AAB00E811A2 /* YOSCreateActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSCreateActivityViewController.m; sourceTree = "<group>"; };
 		DD00EDF41ADD1BE100E811A2 /* YOSMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMeViewController.h; sourceTree = "<group>"; };
 		DD00EDF51ADD1BE100E811A2 /* YOSMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMeViewController.m; sourceTree = "<group>"; };
+		DD00F21D1B04E32E009AFD66 /* YOSDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSDBManager.h; sourceTree = "<group>"; };
+		DD00F21E1B04E32E009AFD66 /* YOSDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSDBManager.m; sourceTree = "<group>"; };
 		DD3B1C061AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.h"; sourceTree = "<group>"; };
 		DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.m"; sourceTree = "<group>"; };
 		DD3B1C121AD7C16A00A91838 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
@@ -502,6 +505,8 @@
 			children = (
 				DDF840B21AD6273C006939DF /* YOSWidget.h */,
 				DDF840B31AD6273C006939DF /* YOSWidget.m */,
+				DD00F21D1B04E32E009AFD66 /* YOSDBManager.h */,
+				DD00F21E1B04E32E009AFD66 /* YOSDBManager.m */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -698,6 +703,7 @@
 				DD00EDD81ADB6C3A00E811A2 /* YOSBaseRequest.m in Sources */,
 				DD00EDDC1ADB6C3A00E811A2 /* YOSAccessoryView.m in Sources */,
 				DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */,
+				DD00F21F1B04E32E009AFD66 /* YOSDBManager.m in Sources */,
 				DD00EDF61ADD1BE100E811A2 /* YOSMeViewController.m in Sources */,
 				DDF840B11AD61A15006939DF /* YOSUserSendCodeRequest.m in Sources */,
 				DD00EDD61ADB6C3A00E811A2 /* YOSRegStepTwoViewController.m in Sources */,

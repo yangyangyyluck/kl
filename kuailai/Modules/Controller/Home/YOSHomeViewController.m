@@ -17,6 +17,7 @@
 #import "YOSTextView.h"
 #import "Masonry.h"
 //#import "IQKeyboardManager.h"
+#import "YOSDBManager.h"
 
 @interface YOSHomeViewController ()
 
@@ -60,7 +61,7 @@
     YOSInputView *_inputView0 = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
     _inputView0.placeholder = @"最多25个字";
     YOSInputView *_inputView1 = [[YOSInputView alloc] initWithTitle:@"开始时间:" selectedStatus:NO maxCharacters:25 isSingleLine:NO];
-    _inputView1.datePickerType = YOSInputViewDatePickerTypeActivity;
+    _inputView1.pickerType = YOSInputViewPickerTypeActivity;
 
     [self.view addSubview:_inputView0];
     [self.view addSubview:_inputView1];
@@ -97,6 +98,12 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"%s", __func__);
+    
+    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeActivityCity isUseQueue:YES];
+    
+    [[YOSDBManager sharedManager] updateActivityCityWithArray:@[@"北京", @"上海", @"广州", @"深圳"]];
+    
+    return;
     
     YOSLog(@"%@", NSStringFromCGRect(self.navigationController.navigationBar.frame));
     YOSEditViewController *editVC = [[YOSEditViewController alloc] initWithTitle:@"活动标题" placeholder:@"最多输入50个字" maxCharacters:15];

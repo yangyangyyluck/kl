@@ -18,7 +18,7 @@
 
 static CGFloat kOneLineHeight = 44.0f;
 
-@interface YOSInputView () <UITextFieldDelegate, UITextViewDelegate>
+@interface YOSInputView () <UITextFieldDelegate, UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic, copy) NSString *textViewString;
 
@@ -38,8 +38,10 @@ static CGFloat kOneLineHeight = 44.0f;
     NSString *_title;
     NSUInteger _maxCharacters;
     
-    // datePickerType 不为None的时候采用datePicker
+    // pickerType 不为None的时候采用datePicker
     UIDatePicker *_datePicker;
+    
+    UIPickerView *_pickerView;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -67,8 +69,9 @@ static CGFloat kOneLineHeight = 44.0f;
     _textField.font = _titleLabel.font;
     _textField.delegate = self;
     UIView *rightView = [UIView new];
-    rightView.frame = CGRectMake(0, 0, 20 + 8 + 8, 1);
+    rightView.frame = CGRectMake(0, 0, 20 + 8 + 8, 10);
     _textField.rightView = rightView;
+    _textField.rightViewMode = UITextFieldViewModeAlways;
     [_textField addTarget:self action:@selector(editingChanged:) forControlEvents:UIControlEventEditingChanged];
     
     [self addSubview:_textField];
@@ -157,20 +160,27 @@ static CGFloat kOneLineHeight = 44.0f;
     _textField.placeholder = placeholder;
 }
 
-- (void)setDatePickerType:(YOSInputViewDatePickerType)datePickerType {
-    _datePickerType = datePickerType;
+- (void)setPickerType:(YOSInputViewPickerType)pickerType {
+    _pickerType = pickerType;
     
-    if (datePickerType == YOSInputViewDatePickerTypeActivity) {
+    if (pickerType == YOSInputViewPickerTypeActivity) {
         _datePicker = [UIDatePicker new];
         _datePicker.datePickerMode = UIDatePickerModeDateAndTime;
         _datePicker.minimumDate = [NSDate date];
         _textField.inputView = _datePicker;
     }
     
-    if (datePickerType == YOSInputViewDatePickerTypeAge) {
+    if (pickerType == YOSInputViewPickerTypeAge) {
         _datePicker = [UIDatePicker new];
         _datePicker.datePickerMode = UIDatePickerModeDate;
         _textField.inputView = _datePicker;
+    }
+    
+    if (pickerType == YOSInputViewPickerTypeAllCity) {
+        _pickerView = [UIPickerView new];
+        _pickerView.dataSource = self;
+        _pickerView.delegate = self;
+        _textField.inputView = _pickerView;
     }
     
 }
@@ -180,12 +190,22 @@ static CGFloat kOneLineHeight = 44.0f;
 - (void)editingChanged:(UITextField *)textField {
     NSLog(@"\r\n\r\n%s", __func__);
     
-    if (textField.text.length > _maxCharacters) {
-        [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"最多可输入%zi个字符", _maxCharacters] maskType:SVProgressHUDMaskTypeClear];
-        textField.text = [textField.text substringWithRange:NSMakeRange(0, _maxCharacters)];
+    // 有markedTextRange 为输入阶段 不检测
+    if (!textField.markedTextRange) {
+
+        if (textField.text.length > _maxCharacters) {
+            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"最多可输入%zi个字符", _maxCharacters] maskType:SVProgressHUDMaskTypeClear];
+            
+            NSLog(@"%@ --- %zi", textField.text, textField.text.length);
+            
+            textField.text = [textField.text substringWithRange:NSMakeRange(0, _maxCharacters)];
+        }
+        
+        self.selected = (BOOL)textField.text.length;
+        
     }
     
-    self.selected = (BOOL)textField.text.length;
+
    
 }
 
@@ -214,6 +234,19 @@ static CGFloat kOneLineHeight = 44.0f;
         _imageView.image = [UIImage imageNamed:@"灰色对号"];
     }
     
+}
+
+#pragma mark UIPickerView DataSource & Delegate
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return 10;
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 3;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return @"i sasa";
 }
 
 #pragma mark - private method list 

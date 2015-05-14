@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger, YOSInputViewDatePickerType) {
-    YOSInputViewDatePickerTypeNone = 0,     // 不显示datePicker
-    YOSInputViewDatePickerTypeActivity,     // 活动
-    YOSInputViewDatePickerTypeAge,          // 年龄
+typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
+    YOSInputViewPickerTypeNone = 0,     // 不显示picker
+    YOSInputViewPickerTypeActivity,     // 活动
+    YOSInputViewPickerTypeAge,          // 年龄
+    YOSInputViewPickerTypeAllCity,      // 选择城市
 };
 
 @interface YOSInputView : UIView
@@ -19,7 +20,7 @@ typedef NS_ENUM(NSUInteger, YOSInputViewDatePickerType) {
 /**
  *  YOSInputViewDatePickerType type
  */
-@property (nonatomic, assign) YOSInputViewDatePickerType datePickerType;
+@property (nonatomic, assign) YOSInputViewPickerType pickerType;
 
 /**
  *  当前选中状态

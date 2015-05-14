@@ -8,8 +8,11 @@
 
 #import "YOSCreateActivityViewController.h"
 #import "YOSInputView.h"
+#import "YOSTextField.h"
 #import "Masonry.h"
-//#import "IQKeyboardManager.h"
+
+#import "IQKeyboardManager.h"
+#import "IQUIView+IQKeyboardToolbar.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -52,21 +55,42 @@
 //    [IQKeyboardManager sharedManager].enable = NO;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+}
+
 - (void)setupSubviews {
     _scrollView = [UIScrollView new];
     _contentView = [UIView new];
     
     _firstContentView = [UIView new];
-    _inputView0 = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    _inputView0 = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:25 isSingleLine:NO];
     _inputView0.placeholder = @"最多25个字";
-    _inputView1 = [[YOSInputView alloc] initWithTitle:@"开始时间:" selectedStatus:NO maxCharacters:25 isSingleLine:NO];
-    _inputView1.datePickerType = YOSInputViewDatePickerTypeActivity;
-    _inputView2 = [[YOSInputView alloc] initWithTitle:@"结束时间:" selectedStatus:NO maxCharacters:125 isSingleLine:YES];
-    _inputView3 = [[YOSInputView alloc] initWithTitle:@"报名截止:" selectedStatus:NO maxCharacters:125 isSingleLine:YES];
-    _inputView4 = [[YOSInputView alloc] initWithTitle:@"城市地区:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    
+    _inputView1 = [[YOSInputView alloc] initWithTitle:@"开始时间:" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView1.placeholder = @"点击选择";
+    _inputView1.pickerType = YOSInputViewPickerTypeAllCity;
+    
+    _inputView2 = [[YOSInputView alloc] initWithTitle:@"结束时间:" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView2.placeholder = @"点击选择";
+    _inputView2.pickerType = YOSInputViewPickerTypeActivity;
+    
+    _inputView3 = [[YOSInputView alloc] initWithTitle:@"报名截止:" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView3.placeholder = @"点击选择";
+    _inputView3.pickerType = YOSInputViewPickerTypeAge;
+    
+    
+    _inputView4 = [[YOSInputView alloc] initWithTitle:@"城市地区:" selectedStatus:NO maxCharacters:100 isSingleLine:YES];
+    _inputView4.placeholder = @"点击选择";
+    
     _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点:" selectedStatus:NO maxCharacters:125 isSingleLine:YES];
+    _inputView5.placeholder = @"例：北京市海淀区中关村";
+    
     _inputView6 = [[YOSInputView alloc] initWithTitle:@"活动人数:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    _inputView6.placeholder = @"例：80人";
+    
     _inputView7 = [[YOSInputView alloc] initWithTitle:@"人均费用:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    _inputView7.placeholder = @"例：0元(免费)、100元等";
     
     _inputViews = [NSMutableArray array];
     [_inputViews addObjectsFromArray:@[_inputView0, _inputView1, _inputView2, _inputView3, _inputView4, _inputView5, _inputView6, _inputView7]];
@@ -75,20 +99,16 @@
     [_scrollView addSubview:_contentView];
     [_contentView addSubview:_firstContentView];
     
-//    [_firstContentView addSubview:_inputView0];
-//    [_firstContentView addSubview:_inputView1];
-//    [_firstContentView addSubview:_inputView2];
-//    [_firstContentView addSubview:_inputView3];
-//    [_firstContentView addSubview:_inputView4];
-//    [_firstContentView addSubview:_inputView5];
-//    [_firstContentView addSubview:_inputView6];
-//    [_firstContentView addSubview:_inputView7];
-    
-    [_inputViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+    [_inputViews enumerateObjectsUsingBlock:^(YOSInputView *obj, NSUInteger idx, BOOL *stop) {
         [_firstContentView addSubview:obj];
+        obj.tag = idx;
+//        [obj addPreviousNextDoneOnKeyboardWithTarget:self previousAction:@selector(previousAction:) nextAction:@selector(nextAction:) doneAction:@selector(doneAction:)];
+        [obj setCustomPreviousTarget:self action:@selector(previousAction:)];
+        [obj setCustomNextTarget:self action:@selector(nextAction:)];
+        [obj setCustomDoneTarget:self action:@selector(doneAction:)];
+//        [obj setEnablePrevious:NO next:YES];
     }];
 
-    _firstContentView.backgroundColor = YOSColorRandom;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click)];
     [_scrollView addGestureRecognizer:tap];
     
@@ -121,13 +141,36 @@
         
         lastInputView = obj;
     }];
+    
+    [[IQKeyboardManager sharedManager] considerToolbarPreviousNextInViewClass:[YOSTextField class]];
+    [[IQKeyboardManager sharedManager] considerToolbarPreviousNextInViewClass:[YOSInputView class]];
 }
 
 #pragma mark - touchEvent
+- (void)previousAction:(YOSInputView *)sender {
+    if (sender.tag == 0) {
+        [_inputView7 becomeFirstResponder];
+    } else {
+        [_inputViews[sender.tag] becomeFirstResponder];
+    }
+}
+
+- (void)nextAction:(YOSInputView *)sender {
+    if (sender.tag == 7) {
+        [_inputView0 becomeFirstResponder];
+    } else {
+        [_inputViews[sender.tag] becomeFirstResponder];
+    }
+}
+
+- (void)doneAction:(id)sender
+{
+    [self.view endEditing:YES];
+}
+
 - (void)click {
     NSLog(@"%s", __func__);
     YOSLog(@"%zi", _inputView0.text.length);
-    [self.view layoutIfNeeded];
 }
 
 - (void)didReceiveMemoryWarning {
