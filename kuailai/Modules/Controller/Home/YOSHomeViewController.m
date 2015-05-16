@@ -99,9 +99,21 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"%s", __func__);
     
-    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeActivityCity isUseQueue:YES];
+//    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:YES];
     
-    [[YOSDBManager sharedManager] updateActivityCityWithArray:@[@"北京", @"上海", @"广州", @"深圳"]];
+    NSArray *citys = @[@"北京", @"上海", @"广州", @"深圳"];
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:citys];
+    
+    NSDictionary *dict = @{
+                           YOSDBTableCargoDataKey : @(YOSDBTableCargoKeyTypeChooseCity),
+                           YOSDBTableCargoDataValue : data
+                           };
+    
+    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:YES];
+    NSArray *arr = [[YOSDBManager sharedManager] getCargoDataWithKey:YOSDBTableCargoKeyTypeChooseCity];
+    
+    NSLog(@"arr is %@", arr);
     
     return;
     

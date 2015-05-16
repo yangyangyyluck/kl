@@ -45,6 +45,7 @@
 
 
 #define YOSFliterNil2String(data) ((data) ? (data) : @"")
+#define YOSFliterPHPNull2String (([data isKindOfClass:[NSString class]] && [(NSString *)data isEqualToString:@"<null>"] ? @"" : data))
 
 
 #define YOSWSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self

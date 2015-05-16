@@ -31,6 +31,7 @@
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
+		DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */; };
 		DD8DC7F21ACE76A700918ADD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F01ACE76A700918ADD /* Main.storyboard */; };
 		DD8DC7F41ACE76A700918ADD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F31ACE76A700918ADD /* Images.xcassets */; };
 		DD8DC7F71ACE76A700918ADD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F51ACE76A700918ADD /* LaunchScreen.xib */; };
@@ -109,6 +110,8 @@
 		DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD7707951AD3C05F00795561 /* UIView+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YOSAdditions.h"; sourceTree = "<group>"; };
 		DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YOSAdditions.m"; sourceTree = "<group>"; };
+		DD8360B31B075C8A00DEAF86 /* YOSActiveGetCityRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveGetCityRequest.h; sourceTree = "<group>"; };
+		DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveGetCityRequest.m; sourceTree = "<group>"; };
 		DD8DC7E31ACE76A700918ADD /* kuailai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kuailai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8DC7F11ACE76A700918ADD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DD8DC7F31ACE76A700918ADD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -399,6 +402,15 @@
 			path = JRSwizzle;
 			sourceTree = "<group>";
 		};
+		DD8360B21B075C6E00DEAF86 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				DD8360B31B075C8A00DEAF86 /* YOSActiveGetCityRequest.h */,
+				DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */,
+			);
+			path = Activity;
+			sourceTree = "<group>";
+		};
 		DD8DC7DA1ACE76A700918ADD = {
 			isa = PBXGroup;
 			children = (
@@ -527,6 +539,7 @@
 		DDF840AA1AD61657006939DF /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				DD8360B21B075C6E00DEAF86 /* Activity */,
 				DDF840AB1AD61865006939DF /* User */,
 			);
 			path = Network;
@@ -694,6 +707,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
+				DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */,
 				DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */,
 				DD8DC8141ACE777D00918ADD /* AppDelegate.m in Sources */,
 				DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */,

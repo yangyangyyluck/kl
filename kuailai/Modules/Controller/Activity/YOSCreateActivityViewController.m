@@ -13,6 +13,7 @@
 
 #import "IQKeyboardManager.h"
 #import "IQUIView+IQKeyboardToolbar.h"
+#import "YOSActiveGetCityRequest.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -171,11 +172,23 @@
 - (void)click {
     NSLog(@"%s", __func__);
     YOSLog(@"%zi", _inputView0.text.length);
+    
+    [self sendNetworkRequest];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - network
+- (void)sendNetworkRequest {
+    YOSActiveGetCityRequest *request = [[YOSActiveGetCityRequest alloc] initWithPid:@"0"];
+    
+
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            YOSLog(@"%@", request.yos_data);
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 /*

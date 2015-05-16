@@ -21,7 +21,7 @@
 
 @property (nonatomic, copy) NSString *msg;
 
-@property (nonatomic, strong) NSDictionary *data;
+@property (nonatomic, strong) id data;      // NSArray Or NSDictionary
 
 @end
 
@@ -112,12 +112,19 @@
     baseResponseModel.msg = self.responseJSONObject[@"msg"];
     
     // 转data中的数据为字符串
-    NSDictionary *dict = self.responseJSONObject[@"data"];
-    NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
-    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        dictM[key] = [obj description];
-    }];
-    baseResponseModel.data = dictM;
+    NSDictionary *data = self.responseJSONObject[@"data"];
+    
+    if ([data isKindOfClass:[NSDictionary class]]) {
+        NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
+        [data enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            dictM[key] = [obj description];
+        }];
+        baseResponseModel.data = dictM;
+    }
+    
+    if ([data isKindOfClass:[NSArray class]]) {
+        baseResponseModel.data = data;
+    }
     
     self.yos_baseResponseModel = baseResponseModel;
     
