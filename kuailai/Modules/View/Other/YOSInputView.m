@@ -15,6 +15,10 @@
 #import "SVProgressHUD+YOSAdditions.h"
 #import "UIView+YOSAdditions.h"
 #import "EDColor.h"
+#import "YOSDBManager.h"
+#import "YOSCityModel.h"
+#import "YOSRegionModel.h"
+#import "YOSWidget.h"
 
 static CGFloat kOneLineHeight = 44.0f;
 
@@ -23,6 +27,8 @@ static CGFloat kOneLineHeight = 44.0f;
 @property (nonatomic, copy) NSString *textViewString;
 
 @property (nonatomic, strong) YOSTextField *textField;
+
+@property (nonatomic, copy) NSString *dateString;
 
 @end
 
@@ -130,6 +136,7 @@ static CGFloat kOneLineHeight = 44.0f;
     self.clipsToBounds = YES;
     self.backgroundColor = [UIColor whiteColor];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBeginEditing:) name:UITextFieldTextDidBeginEditingNotification object:nil];
     
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(kOneLineHeight);
@@ -147,6 +154,10 @@ static CGFloat kOneLineHeight = 44.0f;
     }
     
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)layoutSubviews {
@@ -167,13 +178,17 @@ static CGFloat kOneLineHeight = 44.0f;
         _datePicker = [UIDatePicker new];
         _datePicker.datePickerMode = UIDatePickerModeDateAndTime;
         _datePicker.minimumDate = [NSDate date];
+        [_datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
         _textField.inputView = _datePicker;
+        _textField.hideCursor = YES;
     }
     
     if (pickerType == YOSInputViewPickerTypeAge) {
         _datePicker = [UIDatePicker new];
         _datePicker.datePickerMode = UIDatePickerModeDate;
+        [_datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
         _textField.inputView = _datePicker;
+        _textField.hideCursor = YES;
     }
     
     if (pickerType == YOSInputViewPickerTypeAllCity) {
@@ -181,8 +196,15 @@ static CGFloat kOneLineHeight = 44.0f;
         _pickerView.dataSource = self;
         _pickerView.delegate = self;
         _textField.inputView = _pickerView;
+        _textField.hideCursor = YES;
     }
     
+}
+
+- (void)setKeyboardType:(UIKeyboardType)keyboardType {
+    _keyboardType = keyboardType;
+    
+    _textField.keyboardType = keyboardType;
 }
 
 #pragma mark - editingChanged
@@ -204,14 +226,61 @@ static CGFloat kOneLineHeight = 44.0f;
         self.selected = (BOOL)textField.text.length;
         
     }
-    
-
    
+}
+
+- (void)didBeginEditing:(NSNotification *)noti {
+    
+    if ([noti.object isEqual:_textField] && _textField.text.length == 0 && self.pickerType == YOSInputViewPickerTypeAllCity) {
+        
+        [((UIPickerView *)_textField.inputView) selectRow:0 inComponent:0 animated:NO];
+        
+        YOSCityModel *cityModel = (YOSCityModel *)self.dataSource[0];
+        
+        NSString *text = nil;
+        
+        NSString *city = cityModel.name;
+        
+        NSString *region = @"";
+        
+        if (cityModel.area.count) {
+            region = ((YOSRegionModel *)cityModel.area[0]).name;
+            
+            text = [NSString stringWithFormat:@"%@ %@", city, region];
+        } else {
+            text = city;
+        }
+        
+        _textField.text = text;
+        self.selected = YES;
+    }
+}
+
+#pragma mark - UIDatePicker valueChanged
+
+- (void)dateChange:(UIDatePicker *)datePicker {
+    YOSLog(@"%@", datePicker.date);
+    if (self.pickerType == YOSInputViewPickerTypeAge) {
+        
+    }
+    
+    if (self.pickerType == YOSInputViewPickerTypeActivity) {
+        _textField.text = [YOSWidget dateStringWithDate:datePicker.date Format:@"YYYY年MM月dd HH:mm"];
+        self.selected = YES;
+        self.dateString = [NSString stringWithFormat:@"%zi", (NSUInteger)[datePicker.date timeIntervalSince1970]];
+        
+        NSLog(@"\r\n\r\ndateString : %@", self.dateString);
+    }
 }
 
 #pragma mark - public methods
 
 - (NSString *)text {
+    
+    // 如果是当前是显示时间，返回时间戳
+    if (self.pickerType == YOSInputViewPickerTypeAge || self.pickerType == YOSInputViewPickerTypeActivity) {
+        return self.dateString;
+    }
 
     if (_single) {
         return _textField.text;
@@ -237,16 +306,97 @@ static CGFloat kOneLineHeight = 44.0f;
 }
 
 #pragma mark UIPickerView DataSource & Delegate
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return 10;
-}
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 3;
+    return 2;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    if (component == 0) {
+        return self.dataSource.count;
+    } else {
+        
+        NSUInteger row = [pickerView selectedRowInComponent:0];
+        
+        // nothing selected
+        if (row == -1) {
+            row = 0;
+        }
+        
+        YOSCityModel *city = (YOSCityModel *)self.dataSource[row];
+        
+        NSArray *arr = city.area;
+        
+        return arr.count;
+    }
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return @"i sasa";
+    
+    if (component == 0) {
+        YOSCityModel *city = self.dataSource[row];
+        return city.name;
+    } else {
+        NSUInteger index = [pickerView selectedRowInComponent:0];
+        
+        YOSCityModel *city = (YOSCityModel *)self.dataSource[index];
+        
+        NSArray *arr = city.area;
+        
+        return ((YOSRegionModel *)arr[row]).name;
+    }
+    
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
+    if (component == 0) {
+        YOSCityModel *cityModel = (YOSCityModel *)self.dataSource[row];
+        
+        NSString *text = nil;
+        
+        NSString *city = cityModel.name;
+        
+        NSString *region = @"";
+        
+        if (cityModel.area.count) {
+            region = ((YOSRegionModel *)cityModel.area[0]).name;
+            
+            text = [NSString stringWithFormat:@"%@ %@", city, region];
+        } else {
+            text = city;
+        }
+        
+        _textField.text = text;
+        self.selected = YES;
+        
+    } else {
+        NSUInteger index = [pickerView selectedRowInComponent:0];
+        
+        YOSCityModel *cityModel = (YOSCityModel *)self.dataSource[index];
+        
+        NSString *text = nil;
+        
+        NSString *city = cityModel.name;
+        
+        NSString *region = @"";
+        
+        if (cityModel.area.count) {
+            region = ((YOSRegionModel *)cityModel.area[row]).name;
+            
+            text = [NSString stringWithFormat:@"%@ %@", city, region];
+        } else {
+            text = city;
+        }
+        
+        _textField.text = text;
+        self.selected = YES;
+    }
+    
+    if (component == 0) {
+        [pickerView reloadAllComponents];
+    }
 }
 
 #pragma mark - private method list 

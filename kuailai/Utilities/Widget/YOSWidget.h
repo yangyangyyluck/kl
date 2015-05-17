@@ -51,8 +51,29 @@
  */
 + (BOOL)validatePasswordWithTextField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 
+
 + (void)setUserDefaultWithKey:(NSString *)key value:(NSString *)value;
 
 + (id)getUserDefaultWithKey:(NSString *)key;
 
+/**
+ *  根据时间戳和格式返回当前时间
+ *
+ *  @param timeStamp 时间戳
+ *  @param format    格式
+ *
+ *  @return NSString
+ */
++ (NSString *)dateStringWithTimeStamp:(NSString *)timeStamp Format:(NSString *)format;
+
+/**
+ *  获取当前时间戳
+ *
+ *  @param date
+ *
+ *  @param format 格式 如 YYYY-MM-dd HH:mm:ss
+ *
+ *  @return NSString
+ */
++ (NSString *)dateStringWithDate:(NSDate *)date Format:(NSString *)format;
 @end

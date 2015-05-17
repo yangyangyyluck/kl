@@ -105,4 +105,34 @@
     return [[NSUserDefaults standardUserDefaults] objectForKey:key];
 }
 
++ (NSString *)dateStringWithTimeStamp:(NSString *)timeStamp Format:(NSString *)format {
+    
+    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+    
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:format];
+    [formatter setTimeZone:timeZone];
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp longLongValue] / 1000];
+    
+    NSString *result = [formatter stringFromDate:date];
+    
+    return result;
+}
+
++ (NSString *)dateStringWithDate:(NSDate *)date Format:(NSString *)format {
+    
+    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+    
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.dateFormat = format;
+    formatter.timeZone = timeZone;
+    
+    NSString *result = [formatter stringFromDate:date];
+    
+    return result;
+}
+
 @end

@@ -23,6 +23,16 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
 @property (nonatomic, assign) YOSInputViewPickerType pickerType;
 
 /**
+ *  YOSInputViewPickerTypeAllCity   // city的时候
+ */
+@property (nonatomic, strong) NSArray *dataSource;
+
+/**
+ *  YOSTextField's keyboardType
+ */
+@property (nonatomic, assign) UIKeyboardType keyboardType;
+
+/**
  *  当前选中状态
  */
 @property (nonatomic, assign) BOOL selected;

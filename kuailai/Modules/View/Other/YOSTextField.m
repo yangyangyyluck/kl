@@ -25,6 +25,14 @@
     return self;
 }
 
+- (CGRect)caretRectForPosition:(UITextPosition *)position {
+    if (self.isHideCursor) {
+        return CGRectZero;
+    } else {
+        return [super caretRectForPosition:position];
+    }
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

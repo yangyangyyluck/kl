@@ -12,4 +12,6 @@
  */
 @interface YOSTextField : UITextField
 
+@property (nonatomic, assign, getter=isHideCursor) BOOL hideCursor;
+
 @end

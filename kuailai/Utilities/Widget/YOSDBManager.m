@@ -156,7 +156,7 @@ static const NSString *kYOSTableCagro = @"yos_cargo";
             
             if (count) {
                 
-                BOOL status = [_db executeUpdate:updateSql, key, value];
+                BOOL status = [_db executeUpdate:updateSql, value, key];
                 if (!status) {
                     YOSLog(@"\r\n\r\nerror : %@", [_db lastErrorMessage]);
                 }
