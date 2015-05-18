@@ -16,8 +16,10 @@
 #import "YOSWidget.h"
 #import "YOSTextView.h"
 #import "Masonry.h"
-//#import "IQKeyboardManager.h"
+#import "IQKeyboardManager.h"
 #import "YOSDBManager.h"
+#import "IQUIView+IQKeyboardToolbar.h"
+#import "YOSTextField.h"
 
 @interface YOSHomeViewController ()
 
@@ -62,6 +64,8 @@
     _inputView0.placeholder = @"最多25个字";
     YOSInputView *_inputView1 = [[YOSInputView alloc] initWithTitle:@"开始时间:" selectedStatus:NO maxCharacters:25 isSingleLine:NO];
     _inputView1.pickerType = YOSInputViewPickerTypeActivity;
+    
+    [_inputView0.textField addCancelDoneOnKeyboardWithTarget:self cancelAction:@selector(cancelAction:) doneAction:@selector(doneAction:)];
 
     [self.view addSubview:_inputView0];
     [self.view addSubview:_inputView1];
@@ -77,6 +81,14 @@
         make.leading.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake(320, 44));
     }];
+}
+
+- (void)doneAction:(YOSInputView *)inputView {
+    NSLog(@"%s", __func__);
+}
+
+- (void)cancelAction:(YOSInputView *)inputView {
+    NSLog(@"%s", __func__);
 }
 
 - (void)viewDidAppear:(BOOL)animated {

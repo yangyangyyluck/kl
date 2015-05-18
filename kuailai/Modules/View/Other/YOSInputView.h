@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@class YOSTextField;
 
 typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
     YOSInputViewPickerTypeNone = 0,     // 不显示picker
@@ -16,6 +17,11 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
 };
 
 @interface YOSInputView : UIView
+
+/**
+ *  暴露出来主要是给IQKeyboardManager 用
+ */
+@property (nonatomic, strong, readonly) YOSTextField *textField;
 
 /**
  *  YOSInputViewDatePickerType type

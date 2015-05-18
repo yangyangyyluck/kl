@@ -14,8 +14,10 @@
 #import "IQKeyboardManager.h"
 #import "IQUIView+IQKeyboardToolbar.h"
 #import "YOSActiveGetCityRequest.h"
+#import "YOSActiveGetTypeRequest.h"
 #import "YOSDBManager.h"
 #import "YOSCityModel.h"
+#import "YOSIQContentView.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -28,7 +30,7 @@
     UIView *_contentView;
     
     // 容器1/2/3/4
-    UIView *_firstContentView;
+    YOSIQContentView *_firstContentView;
     UIView *_secondContentView;
     UIView *_thirdContentView;
     UIView *_fourhContentView;
@@ -43,6 +45,18 @@
     YOSInputView *_inputView6;
     YOSInputView *_inputView7;
     NSMutableArray *_inputViews;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    [self setupDataSource];
+    [self sendNetworkRequestGetType];
+    
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -64,7 +78,7 @@
     _scrollView = [UIScrollView new];
     _contentView = [UIView new];
     
-    _firstContentView = [UIView new];
+    _firstContentView = [YOSIQContentView new];
     _inputView0 = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
     _inputView0.placeholder = @"最多25个字";
     
@@ -86,21 +100,7 @@
     _inputView4.pickerType = YOSInputViewPickerTypeAllCity;
     
     // setup dataSource
-    {
-        [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
-        
-        NSArray *data = [[YOSDBManager sharedManager] getCargoDataWithKey:YOSDBTableCargoKeyTypeChooseCity];
-        
-        NSArray *arr = [YOSCityModel arrayOfModelsFromDictionaries:data];
-        
-        _inputView4.dataSource = arr;
-        
-        if (!data) {
-            [self sendNetworkRequest];
-        } else {
-            _inputView4.dataSource = arr;
-        }
-    }
+    [self setupDataSource];
     
     _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点:" selectedStatus:NO maxCharacters:125 isSingleLine:YES];
     _inputView5.placeholder = @"例：北京市海淀区中关村";
@@ -124,9 +124,9 @@
         [_firstContentView addSubview:obj];
         obj.tag = idx;
 //        [obj addPreviousNextDoneOnKeyboardWithTarget:self previousAction:@selector(previousAction:) nextAction:@selector(nextAction:) doneAction:@selector(doneAction:)];
-        [obj setCustomPreviousTarget:self action:@selector(previousAction:)];
-        [obj setCustomNextTarget:self action:@selector(nextAction:)];
-        [obj setCustomDoneTarget:self action:@selector(doneAction:)];
+//        [obj setCustomPreviousTarget:self action:@selector(previousAction:)];
+//        [obj setCustomNextTarget:self action:@selector(nextAction:)];
+//        [obj setCustomDoneTarget:self action:@selector(doneAction:)];
 //        [obj setEnablePrevious:NO next:YES];
     }];
 
@@ -192,8 +192,7 @@
 }
 
 - (void)click {
-    NSLog(@"%s", __func__);
-    YOSLog(@"%zi", _inputView0.text.length);
+
     
     [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
     
@@ -201,8 +200,10 @@
     
     NSArray *arr = [YOSCityModel arrayOfModelsFromDictionaries:data];
     
+    _inputView4.dataSource = arr;
+    
     if (!data) {
-        [self sendNetworkRequest];
+        [self sendNetworkRequestGetCity];
     } else {
         _inputView4.dataSource = arr;
     }
@@ -210,8 +211,28 @@
     
 }
 
+- (void)setupDataSource {
+    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
+    
+    NSArray *data = [[YOSDBManager sharedManager] getCargoDataWithKey:YOSDBTableCargoKeyTypeChooseCity];
+    
+    NSArray *arr = [YOSCityModel arrayOfModelsFromDictionaries:data];
+    
+    _inputView4.dataSource = arr;
+    
+    if (!data) {
+        [self sendNetworkRequestGetCity];
+    } else {
+        _inputView4.dataSource = arr;
+    }
+}
+
+- (void)setupActivityType {
+    
+}
+
 #pragma mark - network
-- (void)sendNetworkRequest {
+- (void)sendNetworkRequestGetCity {
     YOSActiveGetCityRequest *request = [[YOSActiveGetCityRequest alloc] initWithPid:@"0"];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
@@ -229,6 +250,20 @@
                                    };
             
             [[YOSDBManager sharedManager] updateCargoDataWithDictionary:dict isUseQueue:NO];
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
+
+}
+
+- (void)sendNetworkRequestGetType {
+    
+    YOSActiveGetTypeRequest *request2 = [[YOSActiveGetTypeRequest alloc] initWithPid:@"0"];
+    
+    [request2 startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];

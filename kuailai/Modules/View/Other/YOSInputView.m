@@ -180,7 +180,7 @@ static CGFloat kOneLineHeight = 44.0f;
         _datePicker.minimumDate = [NSDate date];
         [_datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
         _textField.inputView = _datePicker;
-        _textField.hideCursor = YES;
+//        _textField.hideCursor = YES;
     }
     
     if (pickerType == YOSInputViewPickerTypeAge) {
@@ -188,7 +188,7 @@ static CGFloat kOneLineHeight = 44.0f;
         _datePicker.datePickerMode = UIDatePickerModeDate;
         [_datePicker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
         _textField.inputView = _datePicker;
-        _textField.hideCursor = YES;
+//        _textField.hideCursor = YES;
     }
     
     if (pickerType == YOSInputViewPickerTypeAllCity) {
@@ -196,7 +196,7 @@ static CGFloat kOneLineHeight = 44.0f;
         _pickerView.dataSource = self;
         _pickerView.delegate = self;
         _textField.inputView = _pickerView;
-        _textField.hideCursor = YES;
+//        _textField.hideCursor = YES;
     }
     
 }

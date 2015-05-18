@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 #import "YTKNetworkConfig.h"
+#import "IQKeyboardManager.h"
+#import "YOSInputView.h"
+#import "YOSTextField.h"
+#import "YOSIQContentView.h"
 
 @interface AppDelegate ()
 
@@ -21,9 +25,13 @@
     
     [YTKNetworkConfig sharedInstance].baseUrl = YOSURLBase;
     
+    
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [[IQKeyboardManager sharedManager] considerToolbarPreviousNextInViewClass:[YOSIQContentView class]];
     
     [self configrueThiredLibrariesWith:application launchOptions:launchOptions];
     
