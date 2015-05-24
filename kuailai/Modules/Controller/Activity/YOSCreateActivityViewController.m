@@ -18,6 +18,8 @@
 #import "YOSDBManager.h"
 #import "YOSCityModel.h"
 #import "YOSIQContentView.h"
+#import "YOSActivityPhotoView.h"
+#import "XXNibConvention.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -45,6 +47,9 @@
     YOSInputView *_inputView6;
     YOSInputView *_inputView7;
     NSMutableArray *_inputViews;
+    
+    // _secondContentView
+    YOSActivityPhotoView *_activityPhotoView;
 }
 
 - (instancetype)init {
@@ -138,12 +143,6 @@
         make.width.mas_equalTo(YOSScreenWidth);
     }];
     
-    [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
-        make.width.mas_equalTo(YOSScreenWidth);
-        make.bottom.mas_equalTo(_firstContentView.mas_bottom);
-    }];
-    
     [_firstContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
@@ -163,8 +162,28 @@
         lastInputView = obj;
     }];
     
-    [[IQKeyboardManager sharedManager] considerToolbarPreviousNextInViewClass:[YOSTextField class]];
-    [[IQKeyboardManager sharedManager] considerToolbarPreviousNextInViewClass:[YOSInputView class]];
+    _secondContentView = [UIView new];
+    [_contentView addSubview:_secondContentView];
+    
+    _activityPhotoView = [YOSActivityPhotoView xx_instantiateFromNib];
+    
+    [_secondContentView addSubview:_activityPhotoView];
+    
+    [_secondContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_firstContentView.mas_bottom).offset(10);
+        make.left.mas_equalTo(0);
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 120));
+    }];
+    
+    [_activityPhotoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(_secondContentView).priorityLow();
+    }];
+    
+    [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+        make.bottom.mas_equalTo(_secondContentView.mas_bottom);
+    }];
 }
 
 #pragma mark - touchEvent
