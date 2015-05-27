@@ -135,8 +135,8 @@
 //        [obj setEnablePrevious:NO next:YES];
     }];
 
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click)];
-    [_scrollView addGestureRecognizer:tap];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click)];
+//    [_scrollView addGestureRecognizer:tap];
     
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view).priorityLow();
