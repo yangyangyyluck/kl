@@ -198,4 +198,17 @@ static const NSString *kYOSTableCagro = @"yos_cargo";
     return result;
 }
 
++ (void)setDataWithTable:(YOSDBManagerTableType)tableType cargoDataKey:(YOSDBTableCargoKeyType)key cargoDataValue:(id)value {
+    
+    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:value];
+    
+    NSDictionary *dict = @{YOSDBTableCargoDataKey : @(key),
+                           YOSDBTableCargoDataValue : data,
+                           };
+    
+    [[YOSDBManager sharedManager] updateCargoDataWithDictionary:dict isUseQueue:NO];
+}
+
 @end

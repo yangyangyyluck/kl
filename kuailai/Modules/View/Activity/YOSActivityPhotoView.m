@@ -28,24 +28,7 @@
 
 @implementation YOSActivityPhotoView
 
-- (IBAction)clickBtn:(UIButton *)sender {
-    NSLog(@"%s", __func__);
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-        QBImagePickerController *pickerVC = [QBImagePickerController new];
-        pickerVC.delegate = self;
-        pickerVC.allowsMultipleSelection = YES;
-        pickerVC.maximumNumberOfSelection = 4 - self.photos.count;
-        
-        [self.yos_viewController presentViewController:pickerVC animated:YES completion:nil];
-//        UIImagePickerController *pickerVC = [[UIImagePickerController alloc] init];
-//        pickerVC.delegate = self;
-//        pickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//        
-//        [self.yos_viewController presentViewController:pickerVC animated:YES completion:nil];
-    }
-    
-}
+#pragma mark - life cycle
 
 - (void)awakeFromNib {
     NSString *text = @"上传活动图片(推荐上传横幅图片，最多4张)";
@@ -72,6 +55,39 @@
         make.size.mas_equalTo(CGSizeMake(60, 60));
     }];
 }
+
+#pragma mark - event response
+
+- (IBAction)clickBtn:(UIButton *)sender {
+    NSLog(@"%s", __func__);
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        QBImagePickerController *pickerVC = [QBImagePickerController new];
+        pickerVC.delegate = self;
+        pickerVC.allowsMultipleSelection = YES;
+        pickerVC.maximumNumberOfSelection = 4 - self.photos.count;
+        
+        [self.yos_viewController presentViewController:pickerVC animated:YES completion:nil];
+
+        /*
+        UIImagePickerController *pickerVC = [[UIImagePickerController alloc] init];
+        pickerVC.delegate = self;
+        pickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [self.yos_viewController presentViewController:pickerVC animated:YES completion:nil];
+         */
+    }
+    
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"%s", __func__);
+    
+    [self saveImage:self.photos[0] withName:@"abc.jpeg"];
+
+}
+
+#pragma mark - private methods
 
 - (UIButton *)createButton {
     UIButton *btn = [UIButton new];
@@ -134,7 +150,21 @@
     }
 }
 
+//保存图片至沙盒
+- (void)saveImage:(UIImage *)currentImage withName:(NSString *)imageName
+{
+
+    NSData *imageData = UIImageJPEGRepresentation(currentImage, 0.5);
+    // 获取沙盒目录
+    
+    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:imageName];
+    // 将图片写入文件
+    
+    [imageData writeToFile:fullPath atomically:NO];
+}
+
 #pragma mark - image picker delegte
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     NSLog(@"%s", __func__);
@@ -166,19 +196,6 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     NSLog(@"%s", __func__);
     [self.yos_viewController dismissViewControllerAnimated:YES completion:^{}];
-}
-
-#pragma mark - 保存图片至沙盒
-- (void)saveImage:(UIImage *)currentImage withName:(NSString *)imageName
-{
-    
-    NSData *imageData = UIImageJPEGRepresentation(currentImage, 0.5);
-    // 获取沙盒目录
-    
-    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:imageName];
-    // 将图片写入文件
-    
-    [imageData writeToFile:fullPath atomically:NO];
 }
 
 #pragma mark - QBImagePickerControllerDelegate

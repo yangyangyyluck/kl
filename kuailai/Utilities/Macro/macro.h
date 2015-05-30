@@ -42,6 +42,12 @@
 
 #define YOSColorGreen                  YOSRGB(69, 198, 157)
 #define YOSColorGray                   YOSRGB(228, 228, 228)
+#define YOSColorFontGray                [UIColor colorWithHexString:@"#858585"]
+#define YOSColorFontBlack               [UIColor colorWithHexString:@"#2c2b2a"]
+
+
+#define YOSFontNormal                   [UIFont systemFontOfSize:14.0f]
+#define YOSFontSmall                    [UIFont systemFontOfSize:12.0f]
 
 
 #define YOSFliterNil2String(data) ((data) ? (data) : @"")

@@ -42,6 +42,11 @@
 		DD8DC8141ACE777D00918ADD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8DC80E1ACE777D00918ADD /* AppDelegate.m */; };
 		DD8DC8291ACE7F8800918ADD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8DC8271ACE7F8800918ADD /* main.m */; };
 		DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */; };
+		DDB6566E1B195EFE00531C71 /* YOSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB6566D1B195EFE00531C71 /* YOSButton.m */; };
+		DDB656711B196F1E00531C71 /* YOSActivityCheckView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB656701B196F1E00531C71 /* YOSActivityCheckView.m */; };
+		DDB656741B1989A700531C71 /* YOSActivityTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB656731B1989A700531C71 /* YOSActivityTypeView.m */; };
+		DDB656771B198C4500531C71 /* YOSActivityFatherTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB656761B198C4500531C71 /* YOSActivityFatherTypeModel.m */; };
+		DDB6567A1B198C8A00531C71 /* YOSActivitySonTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB656791B198C8A00531C71 /* YOSActivitySonTypeModel.m */; };
 		DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E6B1B01B6D500B37323 /* YOSEditViewController.m */; };
 		DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E6E1B01E01300B37323 /* YOSPresentViewController.m */; };
 		DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */; };
@@ -138,6 +143,16 @@
 		DD8DC8271ACE7F8800918ADD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DDA4266A1AEE80620043FB6B /* UIButton+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+YOSAdditions.h"; sourceTree = "<group>"; };
 		DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+YOSAdditions.m"; sourceTree = "<group>"; };
+		DDB6566C1B195EFE00531C71 /* YOSButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSButton.h; sourceTree = "<group>"; };
+		DDB6566D1B195EFE00531C71 /* YOSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSButton.m; sourceTree = "<group>"; };
+		DDB6566F1B196F1E00531C71 /* YOSActivityCheckView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivityCheckView.h; sourceTree = "<group>"; };
+		DDB656701B196F1E00531C71 /* YOSActivityCheckView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivityCheckView.m; sourceTree = "<group>"; };
+		DDB656721B1989A700531C71 /* YOSActivityTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivityTypeView.h; sourceTree = "<group>"; };
+		DDB656731B1989A700531C71 /* YOSActivityTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivityTypeView.m; sourceTree = "<group>"; };
+		DDB656751B198C4500531C71 /* YOSActivityFatherTypeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivityFatherTypeModel.h; sourceTree = "<group>"; };
+		DDB656761B198C4500531C71 /* YOSActivityFatherTypeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivityFatherTypeModel.m; sourceTree = "<group>"; };
+		DDB656781B198C8A00531C71 /* YOSActivitySonTypeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivitySonTypeModel.h; sourceTree = "<group>"; };
+		DDB656791B198C8A00531C71 /* YOSActivitySonTypeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivitySonTypeModel.m; sourceTree = "<group>"; };
 		DDC51E6A1B01B6D500B37323 /* YOSEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSEditViewController.h; sourceTree = "<group>"; };
 		DDC51E6B1B01B6D500B37323 /* YOSEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSEditViewController.m; sourceTree = "<group>"; };
 		DDC51E6D1B01E01300B37323 /* YOSPresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSPresentViewController.h; sourceTree = "<group>"; };
@@ -417,6 +432,12 @@
 				DDCF01001B116FAD00ED205F /* YOSTextView.m */,
 				DD163BF61B147DAF0068A771 /* YOSImageView.h */,
 				DD163BF71B147DAF0068A771 /* YOSImageView.m */,
+				DDB6566C1B195EFE00531C71 /* YOSButton.h */,
+				DDB6566D1B195EFE00531C71 /* YOSButton.m */,
+				DDB6566F1B196F1E00531C71 /* YOSActivityCheckView.h */,
+				DDB656701B196F1E00531C71 /* YOSActivityCheckView.m */,
+				DDB656721B1989A700531C71 /* YOSActivityTypeView.h */,
+				DDB656731B1989A700531C71 /* YOSActivityTypeView.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -456,6 +477,10 @@
 				DD8360B81B07955300DEAF86 /* YOSRegionModel.m */,
 				DD8360BA1B07956F00DEAF86 /* YOSCityModel.h */,
 				DD8360BB1B07956F00DEAF86 /* YOSCityModel.m */,
+				DDB656751B198C4500531C71 /* YOSActivityFatherTypeModel.h */,
+				DDB656761B198C4500531C71 /* YOSActivityFatherTypeModel.m */,
+				DDB656781B198C8A00531C71 /* YOSActivitySonTypeModel.h */,
+				DDB656791B198C8A00531C71 /* YOSActivitySonTypeModel.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -765,10 +790,13 @@
 				DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */,
 				DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */,
 				DD0DF33B1B08E03500CCE202 /* YOSActiveGetTypeRequest.m in Sources */,
+				DDB6567A1B198C8A00531C71 /* YOSActivitySonTypeModel.m in Sources */,
 				DD8360B91B07955300DEAF86 /* YOSRegionModel.m in Sources */,
 				DD00EDF31ADD1AAB00E811A2 /* YOSCreateActivityViewController.m in Sources */,
 				DDCF01031B116FAD00ED205F /* YOSInputView.m in Sources */,
+				DDB656771B198C4500531C71 /* YOSActivityFatherTypeModel.m in Sources */,
 				DDF840B41AD6273C006939DF /* YOSWidget.m in Sources */,
+				DDB656741B1989A700531C71 /* YOSActivityTypeView.m in Sources */,
 				DD00EDD81ADB6C3A00E811A2 /* YOSBaseRequest.m in Sources */,
 				DD00EDDC1ADB6C3A00E811A2 /* YOSAccessoryView.m in Sources */,
 				DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */,
@@ -783,7 +811,9 @@
 				DD00EDE21ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m in Sources */,
 				DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */,
 				DDF840951AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m in Sources */,
+				DDB6566E1B195EFE00531C71 /* YOSButton.m in Sources */,
 				DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */,
+				DDB656711B196F1E00531C71 /* YOSActivityCheckView.m in Sources */,
 				DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */,
 				DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */,
 				DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */,

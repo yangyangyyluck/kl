@@ -17,9 +17,11 @@
 #import "YOSActiveGetTypeRequest.h"
 #import "YOSDBManager.h"
 #import "YOSCityModel.h"
+#import "YOSActivityFatherTypeModel.h"
 #import "YOSIQContentView.h"
 #import "YOSActivityPhotoView.h"
 #import "XXNibConvention.h"
+#import "YOSActivityCheckView.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -50,6 +52,9 @@
     
     // _secondContentView
     YOSActivityPhotoView *_activityPhotoView;
+    
+    // _thirdContentView
+    YOSActivityCheckView *_activityCheckView;
 }
 
 - (instancetype)init {
@@ -57,9 +62,6 @@
     if (!self) {
         return nil;
     }
-    
-    [self setupDataSource];
-    [self sendNetworkRequestGetType];
     
     return self;
 }
@@ -106,6 +108,7 @@
     
     // setup dataSource
     [self setupDataSource];
+    [self setupActivityType];
     
     _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点:" selectedStatus:NO maxCharacters:125 isSingleLine:YES];
     _inputView5.placeholder = @"例：北京市海淀区中关村";
@@ -178,11 +181,28 @@
     [_activityPhotoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(_secondContentView).priorityLow();
     }];
+
+    _thirdContentView = [UIView new];
+    _activityCheckView = [YOSActivityCheckView new];
+
+    [_thirdContentView addSubview:_activityCheckView];
+    [_contentView addSubview:_thirdContentView];
+    
+    [_activityCheckView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+    }];
+    
+    [_thirdContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_secondContentView.mas_bottom).offset(10);
+        make.left.and.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(_activityCheckView.mas_bottom);
+    }];
     
     [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
-        make.bottom.mas_equalTo(_secondContentView.mas_bottom);
+        make.bottom.mas_equalTo(_thirdContentView.mas_bottom);
     }];
 }
 
@@ -237,8 +257,6 @@
     
     NSArray *arr = [YOSCityModel arrayOfModelsFromDictionaries:data];
     
-    _inputView4.dataSource = arr;
-    
     if (!data) {
         [self sendNetworkRequestGetCity];
     } else {
@@ -248,27 +266,35 @@
 
 - (void)setupActivityType {
     
+    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
+    
+    NSArray *data = [[YOSDBManager sharedManager] getCargoDataWithKey:YOSDBTableCargoKeyTypeActivityType];
+    
+    NSArray *arr = [YOSActivityFatherTypeModel arrayOfModelsFromDictionaries:data];
+    
+    if (!data) {
+        [self sendNetworkRequestGetType];
+    } else {
+        NSLog(@"%@", arr);
+    }
+    
 }
 
 #pragma mark - network
+
 - (void)sendNetworkRequestGetCity {
+    
     YOSActiveGetCityRequest *request = [[YOSActiveGetCityRequest alloc] initWithPid:@"0"];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
-            [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
             
             NSArray *arr = [YOSCityModel arrayOfModelsFromDictionaries:request.yos_data];
             
             _inputView4.dataSource = arr;
             
-            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:request.yos_data];
+            [YOSDBManager setDataWithTable:YOSDBManagerTableTypeCargoData cargoDataKey:YOSDBTableCargoKeyTypeChooseCity cargoDataValue:request.yos_data];
             
-            NSDictionary *dict = @{YOSDBTableCargoDataKey : @(YOSDBTableCargoKeyTypeChooseCity),
-                                   YOSDBTableCargoDataValue : data,
-                                   };
-            
-            [[YOSDBManager sharedManager] updateCargoDataWithDictionary:dict isUseQueue:NO];
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
@@ -277,12 +303,17 @@
 }
 
 - (void)sendNetworkRequestGetType {
+    NSLog(@"%s", __func__);
     
     YOSActiveGetTypeRequest *request2 = [[YOSActiveGetTypeRequest alloc] initWithPid:@"0"];
     
     [request2 startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
+            [YOSDBManager setDataWithTable:YOSDBManagerTableTypeCargoData cargoDataKey:YOSDBTableCargoKeyTypeActivityType cargoDataValue:request.yos_data];
             
+            NSArray *fatherModels = [YOSActivityFatherTypeModel arrayOfModelsFromDictionaries:request.yos_data];
+            
+            NSLog(@"%@", fatherModels);
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];

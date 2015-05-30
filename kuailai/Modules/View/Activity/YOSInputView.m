@@ -246,9 +246,9 @@ static CGFloat kOneLineHeight = 44.0f;
         if (cityModel.area.count) {
             region = ((YOSRegionModel *)cityModel.area[0]).name;
             
-            text = [NSString stringWithFormat:@"%@ %@", city, region];
+            text = [NSString stringWithFormat:@"%@ %@ ", city, region];
         } else {
-            text = city;
+            text = [NSString stringWithFormat:@"%@ ", city];
         }
         
         _textField.text = text;
@@ -363,9 +363,9 @@ static CGFloat kOneLineHeight = 44.0f;
         if (cityModel.area.count) {
             region = ((YOSRegionModel *)cityModel.area[0]).name;
             
-            text = [NSString stringWithFormat:@"%@ %@", city, region];
+            text = [NSString stringWithFormat:@"%@ %@ ", city, region];
         } else {
-            text = city;
+            text = [NSString stringWithFormat:@"%@ ", city];
         }
         
         _textField.text = text;
@@ -385,9 +385,9 @@ static CGFloat kOneLineHeight = 44.0f;
         if (cityModel.area.count) {
             region = ((YOSRegionModel *)cityModel.area[row]).name;
             
-            text = [NSString stringWithFormat:@"%@ %@", city, region];
+            text = [NSString stringWithFormat:@"%@ %@ ", city, region];
         } else {
-            text = city;
+            text = [NSString stringWithFormat:@"%@ ", city];
         }
         
         _textField.text = text;

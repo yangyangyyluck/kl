@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, YOSDBManagerTableType) {
  */
 typedef NS_ENUM(NSUInteger, YOSDBTableCargoKeyType){
     YOSDBTableCargoKeyTypeChooseCity = 1,   // 活动中选择城市数据
+    YOSDBTableCargoKeyTypeActivityType = 2, // 活动类型
 };
 
 /**
@@ -37,6 +38,10 @@ extern NSString * const YOSDBTableCargoDataValue;
 
 - (id)getCargoDataWithKey:(YOSDBTableCargoKeyType)key;
 
++ (void)setDataWithTable:(YOSDBManagerTableType)tableType cargoDataKey:(YOSDBTableCargoKeyType)key cargoDataValue:(id)value;
+
 /** -----------deal with table : yos_cagro------------ */
+
+
 
 @end

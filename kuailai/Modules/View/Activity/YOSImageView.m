@@ -8,9 +8,10 @@
 
 #import "YOSImageView.h"
 #import "Masonry.h"
+#import "YOSButton.h"
 
 @implementation YOSImageView {
-    UIButton *_deleteBtn;
+    YOSButton *_deleteBtn;
     UIImageView *_imageView;
     
     voidBlock _block;
@@ -36,7 +37,7 @@
         make.size.mas_equalTo(CGSizeMake(60, 60));
     }];
     
-    _deleteBtn = [UIButton new];
+    _deleteBtn = [YOSButton new];
     
     [_deleteBtn setBackgroundImage:[UIImage imageNamed:@"关闭"] forState:UIControlStateNormal];
     
