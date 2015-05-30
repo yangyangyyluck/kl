@@ -44,6 +44,7 @@
 #define YOSColorGray                   YOSRGB(228, 228, 228)
 #define YOSColorFontGray                [UIColor colorWithHexString:@"#858585"]
 #define YOSColorFontBlack               [UIColor colorWithHexString:@"#2c2b2a"]
+#define YOSColorLineGray                [UIColor colorWithHexString:@"#e5e5e5"]
 
 
 #define YOSFontNormal                   [UIFont systemFontOfSize:14.0f]

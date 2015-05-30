@@ -9,16 +9,26 @@
 #import "YOSActivityTypeView.h"
 #import "EDColor.h"
 #import "Masonry.h"
+#import "YOSActivityFatherTypeModel.h"
+#import "YOSActivitySonTypeModel.h"
+#import "UIImage+YOSAdditions.h"
+#import "UIView+YOSAdditions.h"
 
 @interface YOSActivityTypeView ()
 
-@property (nonatomic, strong) NSMutableArray *dataSource0;
+@property (nonatomic, strong) NSArray *activityFatherTypeModels;
 
 @end
 
 @implementation YOSActivityTypeView {
     UIView *_topView;
     UILabel *_titleLabel;
+    
+    UIView *_middleView;
+    NSMutableArray *_middleBtns;
+    
+    UIView *_bottomView;
+    NSMutableArray *_bottomBtns;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -28,11 +38,24 @@
         return nil;
     }
     
+    return self;
+}
+
+- (instancetype)initWithActivityFatherTypeModels:(NSArray *)activityFatherTypeModels {
+    
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    _activityFatherTypeModels = activityFatherTypeModels;
+    
     self.backgroundColor = [UIColor whiteColor];
     
     [self setupSubviews];
     
     return self;
+    
 }
 
 - (void)setupSubviews {
@@ -41,14 +64,29 @@
     
     _titleLabel = [UILabel new];
     _titleLabel.font = YOSFontNormal;
-    _titleLabel.textColor = YOSColorFontBlack;
+    _titleLabel.textColor = YOSColorFontGray;
     _titleLabel.text = @"活动类别";
     
     [_topView addSubview:_titleLabel];
     
-
+    _middleView = [UIView new];
+    [self addSubview:_middleView];
     
+    _middleBtns = [NSMutableArray array];
     
+    [self.activityFatherTypeModels enumerateObjectsUsingBlock:^(YOSActivityFatherTypeModel *obj, NSUInteger idx, BOOL *stop) {
+        
+        UIButton *btn = [self buttonWithTitle:obj.name];
+        btn.tag = idx;
+        [_middleBtns addObject:btn];
+        [_middleView addSubview:btn];
+        
+    }];
+    
+    _bottomView = [UIView new];
+    [self addSubview:_bottomView];
+    
+    _bottomBtns = [NSMutableArray array];
     
     // setup constraints
     [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -61,22 +99,166 @@
         make.centerY.mas_equalTo(_topView);
     }];
     
+    NSUInteger maxCols = 3;
+    CGFloat marginX = 8;
+    CGFloat spaceX = (YOSScreenWidth - maxCols * 93 - 2 * marginX) / (maxCols - 1);
+    CGFloat marginY = 15;
     
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(88);
+    [_middleBtns enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
+        NSUInteger row = idx / maxCols;
+        NSUInteger col = idx % maxCols;
+        [obj mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(93, 25));
+            make.left.mas_equalTo(marginX + (spaceX + 93) * col);
+            make.top.mas_equalTo((marginY + 25) * row);
+        }];
+    }];
+    
+    NSUInteger maxRows = ceil(_middleBtns.count / maxCols);
+    [_middleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_topView.mas_bottom);
+        make.left.and.right.mas_equalTo(0);
+        make.height.mas_equalTo(maxRows * 25 + (maxRows - 1) * 15);
+    }];
+    
+    [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_middleView.mas_bottom).offset(20);
+        make.height.mas_equalTo(0);
+        make.left.and.right.mas_equalTo(0);
     }];
 }
 
-#pragma mark - getter & setter 
-
-- (NSMutableArray *)dataSource0 {
-    if (!_dataSource0) {
-        _dataSource0 = [NSMutableArray array];
-        
-        [_dataSource0 addObjectsFromArray:@[@"商务"]];
-    }
+- (void)setupSonTypesWithIndex:(NSUInteger)index {
+    NSArray *array = ((YOSActivityFatherTypeModel *)self.activityFatherTypeModels[index]).ctype;
     
-    return _dataSource0;
+    if (array.count) {
+        [_bottomBtns enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+            [obj removeFromSuperview];
+        }];
+        
+        [_bottomBtns removeAllObjects];
+        
+        [array enumerateObjectsUsingBlock:^(YOSActivitySonTypeModel *obj, NSUInteger idx, BOOL *stop) {
+            UIButton *btn = [self subButtonWithTitle:obj.name];
+            
+            [_bottomBtns addObject:btn];
+            [_bottomView addSubview:btn];
+        }];
+        
+        [_bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(100);
+        }];
+        
+        CGFloat spaceX = 10.0f;
+        __block NSUInteger currentRow = 0;
+        __block CGFloat currentWidth = 8.0;
+        __block UIView *lastView = nil;
+        [_bottomBtns enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
+            CGSize size = [obj sizeThatFits:obj.frame.size];
+            size.width += 20;
+            
+            currentWidth = currentWidth + size.width + spaceX;
+            YOSActivityFatherTypeModel *f = self.activityFatherTypeModels[0];
+            NSLog(@"name %@ currentWidth %f", [f.ctype[idx] name], currentWidth);
+            
+            if (currentWidth > YOSScreenWidth) {
+                currentRow++;
+                currentWidth = 8.0 + size.width + spaceX;
+                
+            }
+            
+            NSUInteger rowOfLastView = 0;
+            if (lastView) {
+                rowOfLastView = [lastView.yos_attachment unsignedIntegerValue];
+            }
+            
+//            NSNumber *left = @8;
+//            if (rowOfLastView == currentRow && lastView) {
+//                left = @(currentWidth);
+//            }
+            
+            [obj mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                if (rowOfLastView == currentRow && lastView) {
+                    make.left.mas_equalTo(lastView.mas_right).offset(10);
+                } else {
+                    make.left.mas_equalTo(8);
+                }
+                
+                make.top.mas_equalTo(currentRow * 35);
+                make.size.mas_equalTo(size);
+            }];
+            
+            lastView = obj;
+            [lastView setYos_attachment:@(currentRow)];
+        }];
+        
+
+    }
+}
+
+#pragma mark - public methods
+
+- (CGFloat)currentHeight {
+    NSUInteger maxCols = 3;
+    NSUInteger maxRows = ceil(_middleBtns.count / maxCols);
+    
+    return 44 + maxRows * 25 + (maxRows - 1) * 15 + 200;
+}
+
+#pragma mark - private methods
+
+- (UIButton *)buttonWithTitle:(NSString *)title {
+    UIButton *btn = [UIButton new];
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:YOSColorFontGray forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [btn addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
+    btn.titleLabel.font = YOSFontSmall;
+    btn.layer.borderWidth = 0.5;
+    btn.layer.borderColor = YOSColorLineGray.CGColor;
+    btn.layer.masksToBounds = YES;
+
+    UIImage *selectedImage = [UIImage yos_imageWithColor:YOSRGB(252, 106, 67) size:CGSizeMake(1, 1)];
+    
+    [btn setBackgroundImage:selectedImage forState:UIControlStateSelected];
+    
+    return btn;
+}
+
+- (UIButton *)subButtonWithTitle:(NSString *)title {
+    UIButton *btn = [UIButton new];
+    [btn setImage:[UIImage imageNamed:@"对号"] forState:UIControlStateSelected];
+    [btn setImage:[UIImage imageNamed:@"勾选框"] forState:UIControlStateNormal];
+    [btn setTitleColor:YOSColorFontGray forState:UIControlStateNormal];
+    [btn setTitleColor:YOSColorFontBlack forState:UIControlStateSelected];
+    btn.titleLabel.font = YOSFontSmall;
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [btn setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
+    
+    btn.backgroundColor = [UIColor greenColor];
+    
+    [btn addTarget:self action:@selector(tappedSubButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return btn;
+}
+
+- (void)tappedButton:(UIButton *)button {
+    
+    [_middleBtns enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
+        obj.selected = NO;
+    }];
+    
+    button.selected = !button.selected;
+    
+    if (button.selected) {
+        [self setupSonTypesWithIndex:button.tag];
+    }
+}
+
+- (void)tappedSubButton:(UIButton *)button {
+    button.selected = !button.selected;
 }
 
 @end

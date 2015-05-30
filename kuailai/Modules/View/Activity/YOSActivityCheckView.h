@@ -10,4 +10,6 @@
 
 @interface YOSActivityCheckView : UIView
 
+- (CGFloat)currentHeight;
+
 @end

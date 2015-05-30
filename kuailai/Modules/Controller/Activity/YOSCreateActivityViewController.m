@@ -22,8 +22,15 @@
 #import "YOSActivityPhotoView.h"
 #import "XXNibConvention.h"
 #import "YOSActivityCheckView.h"
+#import "YOSActivityTypeView.h"
 
 @interface YOSCreateActivityViewController ()
+
+// 城市类型
+@property (nonatomic, strong) NSArray *citys;
+
+// 活动类型
+@property (nonatomic, strong) NSArray *types;
 
 @end
 
@@ -37,7 +44,7 @@
     YOSIQContentView *_firstContentView;
     UIView *_secondContentView;
     UIView *_thirdContentView;
-    UIView *_fourhContentView;
+    UIView *_fourthContentView;
     
     // firstContentView
     YOSInputView *_inputView0;
@@ -54,6 +61,9 @@
     YOSActivityPhotoView *_activityPhotoView;
     
     // _thirdContentView
+    YOSActivityTypeView *_activityTypeView;
+    
+    // _fourthContentView
     YOSActivityCheckView *_activityCheckView;
 }
 
@@ -69,7 +79,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupSubviews];
+    [self setupTypes];
+    [self setupCitys];
     
     [self setupBackArrow];
     [self setupNavTitle:@"发布活动"];
@@ -78,7 +89,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    
+    [super viewDidAppear:animated];
 }
 
 - (void)setupSubviews {
@@ -105,10 +116,7 @@
     _inputView4 = [[YOSInputView alloc] initWithTitle:@"城市地区:" selectedStatus:NO maxCharacters:100 isSingleLine:YES];
     _inputView4.placeholder = @"点击选择";
     _inputView4.pickerType = YOSInputViewPickerTypeAllCity;
-    
-    // setup dataSource
-    [self setupDataSource];
-    [self setupActivityType];
+    _inputView4.dataSource = self.citys;
     
     _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点:" selectedStatus:NO maxCharacters:125 isSingleLine:YES];
     _inputView5.placeholder = @"例：北京市海淀区中关村";
@@ -131,11 +139,6 @@
     [_inputViews enumerateObjectsUsingBlock:^(YOSInputView *obj, NSUInteger idx, BOOL *stop) {
         [_firstContentView addSubview:obj];
         obj.tag = idx;
-//        [obj addPreviousNextDoneOnKeyboardWithTarget:self previousAction:@selector(previousAction:) nextAction:@selector(nextAction:) doneAction:@selector(doneAction:)];
-//        [obj setCustomPreviousTarget:self action:@selector(previousAction:)];
-//        [obj setCustomNextTarget:self action:@selector(nextAction:)];
-//        [obj setCustomDoneTarget:self action:@selector(doneAction:)];
-//        [obj setEnablePrevious:NO next:YES];
     }];
 
 //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click)];
@@ -165,6 +168,7 @@
         lastInputView = obj;
     }];
     
+    // second
     _secondContentView = [UIView new];
     [_contentView addSubview:_secondContentView];
     
@@ -172,6 +176,7 @@
     
     [_secondContentView addSubview:_activityPhotoView];
     
+    _secondContentView.backgroundColor = YOSColorRandom;
     [_secondContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_firstContentView.mas_bottom).offset(10);
         make.left.mas_equalTo(0);
@@ -180,78 +185,71 @@
     
     [_activityPhotoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(_secondContentView).priorityLow();
-    }];
-
-    _thirdContentView = [UIView new];
-    _activityCheckView = [YOSActivityCheckView new];
-
-    [_thirdContentView addSubview:_activityCheckView];
-    [_contentView addSubview:_thirdContentView];
-    
-    [_activityCheckView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
     }];
     
+    // third
+    _thirdContentView = [UIView new];
+    _activityTypeView = [[YOSActivityTypeView alloc] initWithActivityFatherTypeModels:self.types];
+    
+    [_thirdContentView addSubview:_activityTypeView];
+    [_contentView addSubview:_thirdContentView];
+    
+    CGFloat height = _activityTypeView.currentHeight;
+    [_activityTypeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(_thirdContentView).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+        make.height.mas_equalTo(height);
+    }];
+    
+    _thirdContentView.backgroundColor = YOSColorRandom;
     [_thirdContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_secondContentView.mas_bottom).offset(10);
         make.left.and.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(_activityCheckView.mas_bottom);
+        make.height.mas_equalTo(_activityTypeView);
+    }];
+
+    // fourth
+    _fourthContentView = [UIView new];
+    _activityCheckView = [YOSActivityCheckView new];
+
+    [_fourthContentView addSubview:_activityCheckView];
+    [_contentView addSubview:_fourthContentView];
+    
+    CGFloat checkHeight = _activityCheckView.currentHeight;
+    [_activityCheckView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(_fourthContentView).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+        make.height.mas_equalTo(checkHeight);
+    }];
+    
+    _fourthContentView.backgroundColor = YOSColorRandom;
+    [_fourthContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_thirdContentView.mas_bottom).offset(10);
+        make.left.and.right.mas_equalTo(0);
+        make.height.mas_equalTo(_activityCheckView);
     }];
     
     [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
-        make.bottom.mas_equalTo(_thirdContentView.mas_bottom);
+        make.bottom.mas_equalTo(_fourthContentView.mas_bottom);
     }];
 }
 
-#pragma mark - touchEvent
-- (void)previousAction:(YOSInputView *)sender {
-    if (sender.tag == 0) {
-        [_inputView7 becomeFirstResponder];
-    } else {
-        [_inputViews[sender.tag] becomeFirstResponder];
-    }
-}
-
-- (void)nextAction:(YOSInputView *)sender {
-    if (sender.tag == 7) {
-        [_inputView0 becomeFirstResponder];
-    } else {
-        [_inputViews[sender.tag] becomeFirstResponder];
-    }
-}
-
-- (void)doneAction:(id)sender
-{
-    
-    
-    [self.view endEditing:YES];
-}
+#pragma mark - event response
 
 - (void)click {
 
     
-    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
-    
-    NSArray *data = [[YOSDBManager sharedManager] getCargoDataWithKey:YOSDBTableCargoKeyTypeChooseCity];
-    
-    NSArray *arr = [YOSCityModel arrayOfModelsFromDictionaries:data];
-    
-    _inputView4.dataSource = arr;
-    
-    if (!data) {
-        [self sendNetworkRequestGetCity];
-    } else {
-        _inputView4.dataSource = arr;
-    }
+
     
     
 }
 
-- (void)setupDataSource {
-    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
+#pragma mark - private methods
+
+- (void)setupCitys {
     
     NSArray *data = [[YOSDBManager sharedManager] getCargoDataWithKey:YOSDBTableCargoKeyTypeChooseCity];
     
@@ -260,13 +258,11 @@
     if (!data) {
         [self sendNetworkRequestGetCity];
     } else {
-        _inputView4.dataSource = arr;
+        self.citys = arr;
     }
 }
 
-- (void)setupActivityType {
-    
-    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
+- (void)setupTypes {
     
     NSArray *data = [[YOSDBManager sharedManager] getCargoDataWithKey:YOSDBTableCargoKeyTypeActivityType];
     
@@ -276,6 +272,7 @@
         [self sendNetworkRequestGetType];
     } else {
         NSLog(@"%@", arr);
+        self.types = arr;
     }
     
 }
@@ -291,9 +288,9 @@
             
             NSArray *arr = [YOSCityModel arrayOfModelsFromDictionaries:request.yos_data];
             
-            _inputView4.dataSource = arr;
-            
             [YOSDBManager setDataWithTable:YOSDBManagerTableTypeCargoData cargoDataKey:YOSDBTableCargoKeyTypeChooseCity cargoDataValue:request.yos_data];
+            
+            self.citys = arr;
             
         }
     } failure:^(YTKBaseRequest *request) {
@@ -313,21 +310,29 @@
             
             NSArray *fatherModels = [YOSActivityFatherTypeModel arrayOfModelsFromDictionaries:request.yos_data];
             
-            NSLog(@"%@", fatherModels);
+            self.types = fatherModels;
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
     }];
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - getter & setter
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)setCitys:(NSArray *)citys {
+    _citys = citys;
+    
+    if (_citys && _types) {
+        [self setupSubviews];
+    }
 }
-*/
+
+- (void)setTypes:(NSArray *)types {
+    _types = types;
+    
+    if (_citys && _types) {
+        [self setupSubviews];
+    }
+}
 
 @end

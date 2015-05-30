@@ -175,6 +175,9 @@ static const NSString *kYOSTableCagro = @"yos_cargo";
 }
 
 - (id)getCargoDataWithKey:(YOSDBTableCargoKeyType)key {
+    
+    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
+    
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE id = ?;", [kYOSTableCagro copy]];
     
     if (!_isDBInitSuccess) {

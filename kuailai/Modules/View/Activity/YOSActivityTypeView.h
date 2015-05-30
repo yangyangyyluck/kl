@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class YOSActivityFatherTypeModel;
 
 @interface YOSActivityTypeView : UIView
+
+- (instancetype)initWithActivityFatherTypeModels:(NSArray *)activityFatherTypeModels;
+
+- (CGFloat)currentHeight;
 
 @end

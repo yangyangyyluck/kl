@@ -77,10 +77,6 @@
         make.leading.mas_equalTo(_titleLabel);
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth - 8, 44));
     }];
-    
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(88);
-    }];
 }
 
 - (void)tappedSwitch:(UISwitch *)swh {
@@ -89,6 +85,12 @@
     } else {
         _titleLabel.textColor = YOSColorFontGray;
     }
+}
+
+#pragma mark - public methods
+
+- (CGFloat)currentHeight {
+    return 44 + 44 + 25 * 2 + 15 + 20;
 }
 
 @end
