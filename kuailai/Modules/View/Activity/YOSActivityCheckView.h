@@ -12,4 +12,8 @@
 
 - (CGFloat)currentHeight;
 
+- (NSString *)isOpenCheck;
+
+- (NSString *)checkField;
+
 @end

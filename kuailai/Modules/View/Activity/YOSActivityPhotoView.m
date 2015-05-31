@@ -20,7 +20,7 @@
 
 @property (strong, nonatomic) UIButton *button;
 
-@property (nonatomic, strong) NSMutableArray *photos;
+@property (nonatomic, strong, readwrite) NSMutableArray *photos;
 
 @property (nonatomic, strong) NSMutableArray *photosView;
 
@@ -83,7 +83,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"%s", __func__);
     
-    [self saveImage:self.photos[0] withName:@"abc.jpeg"];
+//    [self saveImage:self.photos[0] withName:@"abc.jpeg"];
 
 }
 
@@ -187,7 +187,7 @@
     NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"currentImage.png"];
     
     UIImage *savedImage = [[UIImage alloc] initWithContentsOfFile:fullPath];
-    
+     
     
     [self.button setImage:savedImage forState:0];
     

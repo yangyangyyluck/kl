@@ -41,7 +41,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,7 +79,16 @@
     button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [button addTarget:self action:@selector(clickLeftItem:) forControlEvents:UIControlEventTouchUpInside];
     
-    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -80, 0, 0)];
+    NSInteger offset = 0;
+    if (title.length == 2) {
+        offset = -80;
+    }
+    
+    if (title.length == 4) {
+        offset = -50;
+    }
+    
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, offset, 0, 0)];
 
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
     
@@ -97,7 +109,16 @@
     button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [button addTarget:self action:@selector(clickRightItem:) forControlEvents:UIControlEventTouchUpInside];
     
-    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -80)];
+    NSInteger offset = 0;
+    if (title.length == 2) {
+        offset = -80;
+    }
+    
+    if (title.length == 4) {
+        offset = -50;
+    }
+    
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, offset)];
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
     

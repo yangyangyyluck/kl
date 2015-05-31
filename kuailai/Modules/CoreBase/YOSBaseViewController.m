@@ -19,6 +19,14 @@
 
 @implementation YOSBaseViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+}
+
 - (void)setTitle:(NSString *)title {
     [self setupNavTitle:title];
 }
@@ -74,14 +82,64 @@
     self.navigationItem.titleView = label;
 }
 
-- (void)clickLeftItem:(UIBarButtonItem *)item {
+- (void)setupLeftButtonWithTitle:(NSString *)title {
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    [button setTitle:title forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [button addTarget:self action:@selector(clickLeftItem:) forControlEvents:UIControlEventTouchUpInside];
+    
+    NSInteger offset = 0;
+    if (title.length == 2) {
+        offset = -80;
+    }
+    
+    if (title.length == 4) {
+        offset = -50;
+    }
+    
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, offset, 0, 0)];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+    item.tintColor = [UIColor whiteColor];
+    
+    self.navigationItem.leftBarButtonItem = item;
+}
+
+- (void)clickLeftItem:(UIButton *)item {
     [SVProgressHUD dismiss];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+- (void)setupRightButtonWithTitle:(NSString *)title {
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    [button setTitle:title forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [button addTarget:self action:@selector(clickRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    
+    NSInteger offset = 0;
+    if (title.length == 2) {
+        offset = -80;
+    }
+    
+    if (title.length == 4) {
+        offset = -50;
+    }
+    
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, offset)];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+    item.tintColor = [UIColor whiteColor];
+    
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+- (void)clickRightItem:(UIButton *)item {
+    [SVProgressHUD dismiss];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

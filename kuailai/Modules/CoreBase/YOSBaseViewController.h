@@ -13,7 +13,10 @@
 + (instancetype)viewControllerFromStoryboardWithSBName:(NSString *)name;
 
 - (void)setupBackArrow;
-- (void)clickLeftItem:(UIBarButtonItem *)item;
+- (void)setupRightButtonWithTitle:(NSString *)title;
+- (void)setupLeftButtonWithTitle:(NSString *)title;
+- (void)clickLeftItem:(UIButton *)item;
+- (void)clickRightItem:(UIButton *)item;
 - (void)setupNavTitle:(NSString *)title;
 
 @end

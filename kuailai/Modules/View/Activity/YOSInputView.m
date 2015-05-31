@@ -30,6 +30,10 @@ static CGFloat kOneLineHeight = 44.0f;
 
 @property (nonatomic, copy) NSString *dateString;
 
+@property (nonatomic, copy) NSString *city;
+
+@property (nonatomic, copy) NSString *region;
+
 @end
 
 @implementation YOSInputView {
@@ -251,6 +255,9 @@ static CGFloat kOneLineHeight = 44.0f;
             text = [NSString stringWithFormat:@"%@ ", city];
         }
         
+        self.city = city;
+        self.region = region;
+        
         _textField.text = text;
         self.selected = YES;
     }
@@ -292,6 +299,10 @@ static CGFloat kOneLineHeight = 44.0f;
 
 - (CGFloat)height {
     return kOneLineHeight;
+}
+
+- (NSDate *)date {
+    return _datePicker.date;
 }
 
 - (void)setSelected:(BOOL)selected {
@@ -368,6 +379,9 @@ static CGFloat kOneLineHeight = 44.0f;
             text = [NSString stringWithFormat:@"%@ ", city];
         }
         
+        self.city = city;
+        self.region = region;
+        
         _textField.text = text;
         self.selected = YES;
         
@@ -389,6 +403,9 @@ static CGFloat kOneLineHeight = 44.0f;
         } else {
             text = [NSString stringWithFormat:@"%@ ", city];
         }
+        
+        self.city = city;
+        self.region = region;
         
         _textField.text = text;
         self.selected = YES;

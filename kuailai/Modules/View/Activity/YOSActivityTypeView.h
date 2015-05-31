@@ -11,8 +11,14 @@
 
 @interface YOSActivityTypeView : UIView
 
+@property (nonatomic, copy) voidBlock vBlock;
+
 - (instancetype)initWithActivityFatherTypeModels:(NSArray *)activityFatherTypeModels;
 
 - (CGFloat)currentHeight;
+
+- (NSString *)type;
+
+- (NSString *)childType;
 
 @end

@@ -10,6 +10,7 @@
 #import "YOSInputView.h"
 #import "YOSTextField.h"
 #import "Masonry.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 #import "IQKeyboardManager.h"
 #import "IQUIView+IQKeyboardToolbar.h"
@@ -23,6 +24,7 @@
 #import "XXNibConvention.h"
 #import "YOSActivityCheckView.h"
 #import "YOSActivityTypeView.h"
+#import "YOSSubmitInsetActiveModel.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -31,6 +33,8 @@
 
 // 活动类型
 @property (nonatomic, strong) NSArray *types;
+
+@property (nonatomic, strong) YOSSubmitInsetActiveModel *submitInsetActiveModel;
 
 @end
 
@@ -79,13 +83,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [self setupTypes];
     [self setupCitys];
     
     [self setupBackArrow];
     [self setupNavTitle:@"发布活动"];
     self.view.backgroundColor = YOSRGB(238, 238, 238);
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    [self setupRightButtonWithTitle:@"确认发布"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -94,6 +100,7 @@
 
 - (void)setupSubviews {
     _scrollView = [UIScrollView new];
+    _scrollView.bounces = NO;
     _contentView = [UIView new];
     
     _firstContentView = [YOSIQContentView new];
@@ -176,7 +183,6 @@
     
     [_secondContentView addSubview:_activityPhotoView];
     
-    _secondContentView.backgroundColor = YOSColorRandom;
     [_secondContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_firstContentView.mas_bottom).offset(10);
         make.left.mas_equalTo(0);
@@ -192,6 +198,19 @@
     _thirdContentView = [UIView new];
     _activityTypeView = [[YOSActivityTypeView alloc] initWithActivityFatherTypeModels:self.types];
     
+    YOSWSelf(weakSelf);
+    YOSWObject(_activityTypeView, weakActivityTypeView);
+    _activityTypeView.vBlock = ^{
+        
+        CGFloat height = weakActivityTypeView.currentHeight;
+        [weakActivityTypeView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(height);
+        }];
+        
+        [weakSelf.view layoutIfNeeded];
+        
+    };
+    
     [_thirdContentView addSubview:_activityTypeView];
     [_contentView addSubview:_thirdContentView];
     
@@ -202,7 +221,6 @@
         make.height.mas_equalTo(height);
     }];
     
-    _thirdContentView.backgroundColor = YOSColorRandom;
     [_thirdContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_secondContentView.mas_bottom).offset(10);
         make.left.and.right.mas_equalTo(0);
@@ -223,7 +241,6 @@
         make.height.mas_equalTo(checkHeight);
     }];
     
-    _fourthContentView.backgroundColor = YOSColorRandom;
     [_fourthContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_thirdContentView.mas_bottom).offset(10);
         make.left.and.right.mas_equalTo(0);
@@ -240,11 +257,104 @@
 #pragma mark - event response
 
 - (void)click {
+    NSLog(@"%s", __func__);
+}
+
+- (void)clickRightItem:(UIButton *)item {
+    NSLog(@"%s", __func__);
+    
+    
+    if (!_inputView0.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请输入活动标题哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    if (!_inputView1.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请选择开始时间哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    if (!_inputView2.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请选择结束时间哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    if (!_inputView3.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请选择报名截止时间哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    if (!_inputView4.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请选择城市地区哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    if (!_inputView5.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请输入活动地点哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    if (!_inputView6.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请输入活动人数哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    if (!_inputView7.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请输入人均费用哦(免费填0)~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    
+    
+    NSDate *startDate = _inputView1.date;
+    NSDate *endDate = _inputView2.date;
+    NSDate *closeDate = _inputView3.date;
+    
+    NSTimeInterval startTime = startDate.timeIntervalSince1970;
+    NSTimeInterval endTime = endDate.timeIntervalSince1970;
+    NSTimeInterval closeTime = closeDate.timeIntervalSince1970;
+    
+    if (startTime >= endTime) {
+        [SVProgressHUD showErrorWithStatus:@"活动开始时间必须小于结束时间哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    if (closeTime >= startTime) {
+        [SVProgressHUD showErrorWithStatus:@"报名截止时间必须小于活动开始时间哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    NSLog(@"%f, %f, %f", startTime, endTime, closeTime);
 
     
+    if (!_activityPhotoView.photos.count) {
+        [SVProgressHUD showErrorWithStatus:@"请上传活动图片哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    
+    self.submitInsetActiveModel.title = _inputView0.text;
+    self.submitInsetActiveModel.start_time = [NSString stringWithFormat:@"%.0f", startTime];
+    self.submitInsetActiveModel.end_time = [NSString stringWithFormat:@"%.0f", endTime];
+    self.submitInsetActiveModel.close_time = [NSString stringWithFormat:@"%.0f", closeTime];
+    self.submitInsetActiveModel.city = _inputView4.city;
 
+    if (_inputView4.region) {
+        self.submitInsetActiveModel.area = _inputView4.region;
+    }
     
+    self.submitInsetActiveModel.address = _inputView5.text;
+    self.submitInsetActiveModel.num = _inputView6.text;
+    self.submitInsetActiveModel.price = _inputView7.text;
+    self.submitInsetActiveModel.type = _activityTypeView.type;
+    self.submitInsetActiveModel.ctype = _activityTypeView.childType;
     
+    // no detail
+    
+    self.submitInsetActiveModel.is_audit = _activityCheckView.isOpenCheck;
+    self.submitInsetActiveModel.audit = _activityCheckView.checkField;
+    
+    YOSLog(@"%@", self.submitInsetActiveModel);
 }
 
 #pragma mark - private methods
@@ -323,6 +433,7 @@
     _citys = citys;
     
     if (_citys && _types) {
+        [SVProgressHUD dismiss];
         [self setupSubviews];
     }
 }
@@ -331,8 +442,17 @@
     _types = types;
     
     if (_citys && _types) {
+        [SVProgressHUD dismiss];
         [self setupSubviews];
     }
+}
+
+- (YOSSubmitInsetActiveModel *)submitInsetActiveModel {
+    if (!_submitInsetActiveModel) {
+        _submitInsetActiveModel = [YOSSubmitInsetActiveModel new];
+    }
+    
+    return _submitInsetActiveModel;
 }
 
 @end

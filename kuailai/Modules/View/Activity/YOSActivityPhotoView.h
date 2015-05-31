@@ -10,4 +10,6 @@
 
 @interface YOSActivityPhotoView : UIView
 
+@property (nonatomic, strong, readonly) NSMutableArray *photos;
+
 @end

@@ -18,6 +18,14 @@
 
 @property (nonatomic, strong) NSArray *activityFatherTypeModels;
 
+@property (nonatomic, assign) NSUInteger totalRows;
+
+@property (nonatomic, assign) NSUInteger currentFatherBtnIndex;
+
+@property (nonatomic, copy) NSString *type;
+
+@property (nonatomic, copy) NSString *childType;
+
 @end
 
 @implementation YOSActivityTypeView {
@@ -131,69 +139,72 @@
 - (void)setupSonTypesWithIndex:(NSUInteger)index {
     NSArray *array = ((YOSActivityFatherTypeModel *)self.activityFatherTypeModels[index]).ctype;
     
-    if (array.count) {
-        [_bottomBtns enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
-            [obj removeFromSuperview];
-        }];
+    [_bottomBtns enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [obj removeFromSuperview];
+    }];
+    
+    [_bottomBtns removeAllObjects];
+    
+    [array enumerateObjectsUsingBlock:^(YOSActivitySonTypeModel *obj, NSUInteger idx, BOOL *stop) {
+        UIButton *btn = [self subButtonWithTitle:obj.name];
+        btn.tag = idx;
         
-        [_bottomBtns removeAllObjects];
+        [_bottomBtns addObject:btn];
+        [_bottomView addSubview:btn];
+    }];
+    
+    [_bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(100);
+    }];
+    
+    CGFloat spaceX = 10.0f;
+    __block NSUInteger currentRow = 0;
+    __block CGFloat currentWidth = 8.0;
+    __block UIView *lastView = nil;
+    [_bottomBtns enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
+        CGSize size = [obj sizeThatFits:obj.frame.size];
+        size.width += 20;
         
-        [array enumerateObjectsUsingBlock:^(YOSActivitySonTypeModel *obj, NSUInteger idx, BOOL *stop) {
-            UIButton *btn = [self subButtonWithTitle:obj.name];
+        currentWidth = currentWidth + size.width + spaceX;
+//        YOSActivityFatherTypeModel *f = self.activityFatherTypeModels[0];
+//        NSLog(@"name %@ currentWidth %f", [f.ctype[idx] name], currentWidth);
+        
+        if (currentWidth > YOSScreenWidth) {
+            currentRow++;
+            currentWidth = 8.0 + size.width + spaceX;
             
-            [_bottomBtns addObject:btn];
-            [_bottomView addSubview:btn];
-        }];
+        }
         
-        [_bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(100);
-        }];
+        NSUInteger rowOfLastView = 0;
+        if (lastView) {
+            rowOfLastView = [lastView.yos_attachment unsignedIntegerValue];
+        }
         
-        CGFloat spaceX = 10.0f;
-        __block NSUInteger currentRow = 0;
-        __block CGFloat currentWidth = 8.0;
-        __block UIView *lastView = nil;
-        [_bottomBtns enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
-            CGSize size = [obj sizeThatFits:obj.frame.size];
-            size.width += 20;
+        [obj mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            currentWidth = currentWidth + size.width + spaceX;
-            YOSActivityFatherTypeModel *f = self.activityFatherTypeModels[0];
-            NSLog(@"name %@ currentWidth %f", [f.ctype[idx] name], currentWidth);
-            
-            if (currentWidth > YOSScreenWidth) {
-                currentRow++;
-                currentWidth = 8.0 + size.width + spaceX;
-                
+            if (rowOfLastView == currentRow && lastView) {
+                make.left.mas_equalTo(lastView.mas_right).offset(10);
+            } else {
+                make.left.mas_equalTo(8);
             }
             
-            NSUInteger rowOfLastView = 0;
-            if (lastView) {
-                rowOfLastView = [lastView.yos_attachment unsignedIntegerValue];
-            }
-            
-//            NSNumber *left = @8;
-//            if (rowOfLastView == currentRow && lastView) {
-//                left = @(currentWidth);
-//            }
-            
-            [obj mas_makeConstraints:^(MASConstraintMaker *make) {
-                
-                if (rowOfLastView == currentRow && lastView) {
-                    make.left.mas_equalTo(lastView.mas_right).offset(10);
-                } else {
-                    make.left.mas_equalTo(8);
-                }
-                
-                make.top.mas_equalTo(currentRow * 35);
-                make.size.mas_equalTo(size);
-            }];
-            
-            lastView = obj;
-            [lastView setYos_attachment:@(currentRow)];
+            make.top.mas_equalTo(currentRow * 35);
+            make.size.mas_equalTo(size);
         }];
         
-
+        lastView = obj;
+        [lastView setYos_attachment:@(currentRow)];
+    }];
+    
+    if (_bottomBtns.count) {
+        self.totalRows = currentRow + 1;
+    } else {
+        self.totalRows = currentRow;
+    }
+    
+    // update constraints
+    if (self.vBlock) {
+        self.vBlock();
     }
 }
 
@@ -203,7 +214,7 @@
     NSUInteger maxCols = 3;
     NSUInteger maxRows = ceil(_middleBtns.count / maxCols);
     
-    return 44 + maxRows * 25 + (maxRows - 1) * 15 + 200;
+    return 44 + maxRows * 25 + (maxRows - 1) * 15 + 20 + (self.totalRows * (15 + 20));
 }
 
 #pragma mark - private methods
@@ -244,21 +255,64 @@
     return btn;
 }
 
+#pragma mark - event response
+
 - (void)tappedButton:(UIButton *)button {
     
     [_middleBtns enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
-        obj.selected = NO;
+        if (obj != button) {
+            obj.selected = NO;
+        }
     }];
     
     button.selected = !button.selected;
     
     if (button.selected) {
+        self.currentFatherBtnIndex = button.tag;
+        
         [self setupSonTypesWithIndex:button.tag];
+        
+        YOSActivityFatherTypeModel *model = self.activityFatherTypeModels[button.tag];
+        self.type = model.ID;
+        
+    } else {
+        [_bottomBtns enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+            [obj removeFromSuperview];
+        }];
+        
+        [_bottomBtns removeAllObjects];
+        
+        self.totalRows = 0;
+        self.type = @"";
+        self.childType = @"";
+        
+        if (self.vBlock) {
+            self.vBlock();
+        }
     }
+
 }
 
 - (void)tappedSubButton:(UIButton *)button {
+    
+    [_bottomBtns enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
+        if (obj != button) {
+            obj.selected = NO;
+        }
+    }];
+    
     button.selected = !button.selected;
+    
+    if (button.selected) {
+        YOSActivityFatherTypeModel *model = self.activityFatherTypeModels[self.currentFatherBtnIndex];
+        
+        YOSActivitySonTypeModel *sonModel = model.ctype[button.tag];
+        
+        self.childType = sonModel.ID;
+    } else {
+        self.childType = @"";
+    }
+    
 }
 
 @end

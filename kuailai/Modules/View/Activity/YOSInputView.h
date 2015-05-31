@@ -74,4 +74,25 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
  */
 - (CGFloat)height;
 
+/**
+ *  当前选择的时间
+ *
+ *  @return time
+ */
+- (NSDate *)date;
+
+/**
+ *  当前城市
+ *
+ *  @return city
+ */
+- (NSString *)city;
+
+/**
+ *  当前区域
+ *
+ *  @return region
+ */
+- (NSString *)region;
+
 @end
