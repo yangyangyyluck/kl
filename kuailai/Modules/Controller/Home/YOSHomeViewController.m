@@ -111,30 +111,6 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"%s", __func__);
     
-//    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:YES];
-    
-    NSArray *citys = @[@"北京", @"上海", @"广州", @"深圳"];
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:citys];
-    
-    NSDictionary *dict = @{
-                           YOSDBTableCargoDataKey : @(YOSDBTableCargoKeyTypeChooseCity),
-                           YOSDBTableCargoDataValue : data
-                           };
-    
-    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:YES];
-    NSArray *arr = [[YOSDBManager sharedManager] getCargoDataWithKey:YOSDBTableCargoKeyTypeChooseCity];
-    
-    NSLog(@"arr is %@", arr);
-    
-    return;
-    
-    YOSLog(@"%@", NSStringFromCGRect(self.navigationController.navigationBar.frame));
-    YOSEditViewController *editVC = [[YOSEditViewController alloc] initWithTitle:@"活动标题" placeholder:@"最多输入50个字" maxCharacters:15];
-    [self presentViewController:editVC animated:YES completion:nil];
-    
-    return;
-    
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Register"] animated:YES];
         });

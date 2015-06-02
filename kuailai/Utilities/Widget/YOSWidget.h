@@ -76,4 +76,13 @@
  *  @return NSString
  */
 + (NSString *)dateStringWithDate:(NSDate *)date Format:(NSString *)format;
+
+/**
+ *  返回带~结尾的提示信息
+ *
+ *  @param string
+ *
+ *  @return xxxx~
+ */
++ (NSString *)waveMessageWithString:(NSString *)string;
 @end

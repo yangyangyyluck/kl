@@ -153,10 +153,6 @@
         [_bottomView addSubview:btn];
     }];
     
-    [_bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(100);
-    }];
-    
     CGFloat spaceX = 10.0f;
     __block NSUInteger currentRow = 0;
     __block CGFloat currentWidth = 8.0;
@@ -198,8 +194,14 @@
     
     if (_bottomBtns.count) {
         self.totalRows = currentRow + 1;
+        [_bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(currentRow * 20 + (currentRow + 1) * 15);
+        }];
     } else {
         self.totalRows = currentRow;
+        [_bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(0);
+        }];
     }
     
     // update constraints
@@ -295,20 +297,29 @@
 
 - (void)tappedSubButton:(UIButton *)button {
     
+    button.selected = !button.selected;
+    
+    NSMutableArray *arrayM = [NSMutableArray array];
     [_bottomBtns enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
-        if (obj != button) {
-            obj.selected = NO;
+        if (obj.selected) {
+            [arrayM addObject:@(obj.tag)];
         }
     }];
     
-    button.selected = !button.selected;
-    
-    if (button.selected) {
-        YOSActivityFatherTypeModel *model = self.activityFatherTypeModels[self.currentFatherBtnIndex];
+    if (arrayM.count) {
         
-        YOSActivitySonTypeModel *sonModel = model.ctype[button.tag];
+        NSMutableArray *arrayString = [NSMutableArray array];
         
-        self.childType = sonModel.ID;
+        [arrayM enumerateObjectsUsingBlock:^(NSNumber *obj, NSUInteger idx, BOOL *stop) {
+            YOSActivityFatherTypeModel *model = self.activityFatherTypeModels[self.currentFatherBtnIndex];
+            
+            YOSActivitySonTypeModel *sonModel = model.ctype[[obj unsignedIntegerValue]];
+            
+            [arrayString addObject:sonModel.ID];
+        }];
+        
+        self.childType = [arrayString componentsJoinedByString:@","];
+        
     } else {
         self.childType = @"";
     }

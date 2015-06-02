@@ -135,4 +135,12 @@
     return result;
 }
 
++ (NSString *)waveMessageWithString:(NSString *)string {
+    if ([string hasSuffix:@"~"]) {
+        return string;
+    } else {
+        return [NSString stringWithFormat:@"%@~", string];
+    }
+}
+
 @end

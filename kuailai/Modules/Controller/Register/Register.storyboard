@@ -195,7 +195,7 @@
                                     <outlet property="delegate" destination="ixz-8E-Kd2" id="jYa-Cp-KGw"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入姓名(至少2个字符)" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="QHH-gL-DjE">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入姓名(至少2个字)" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="QHH-gL-DjE">
                                 <rect key="frame" x="36" y="50" width="435" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="P9u-d6-NjD"/>

@@ -125,11 +125,11 @@ static const NSUInteger kTimeMaxCount = 16;
         }
         
         // 真机调试时候alert, 模拟器不alert
-        if (DEBUG && !TARGET_IPHONE_SIMULATOR && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
+        if (DEBUG && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
             [SVProgressHUD showInfoWithStatus:request.yos_data[@"code"]];
+        } else {
+            [SVProgressHUD showInfoWithStatus:@"验证码已发送，请查收~"];
         }
-        
-        [SVProgressHUD showInfoWithStatus:@"验证码已发送，请查收~"];
         
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
@@ -143,7 +143,8 @@ static const NSUInteger kTimeMaxCount = 16;
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         
         [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusBadRequest errorBlock:^{
-            [SVProgressHUD showErrorWithStatus:@"手机号或验证码有误~"];
+            
+            [SVProgressHUD showErrorWithStatus:request.yos_baseResponseModel.msg];
         }];
         
         if (![request yos_checkResponse]) {

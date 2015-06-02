@@ -12,8 +12,17 @@
 #import "AFJSONResponseSerializer+YOSAdditionsForPHP.h"
 @class YOSBaseResponseModel;
 
-
 typedef void (^responseCustomBlock)();
+
+@interface YOSBaseResponseModel : NSObject
+
+@property (nonatomic, assign) NSString *code;
+
+@property (nonatomic, copy) NSString *msg;
+
+@property (nonatomic, strong) id data;      // NSArray Or NSDictionary
+
+@end
 
 @interface YTKBaseRequest (YOSAdditions)
 

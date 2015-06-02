@@ -15,16 +15,6 @@
 #define kMessage    @"请求错误"
 #endif
 
-@interface YOSBaseResponseModel : NSObject
-
-@property (nonatomic, assign) NSString *code;
-
-@property (nonatomic, copy) NSString *msg;
-
-@property (nonatomic, strong) id data;      // NSArray Or NSDictionary
-
-@end
-
 @implementation YOSBaseResponseModel
 
 @end
