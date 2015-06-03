@@ -25,6 +25,7 @@
 #import "YOSActivityCheckView.h"
 #import "YOSActivityTypeView.h"
 #import "YOSSubmitInsetActiveModel.h"
+#import "YOSUploadActivityImageRequest.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -263,6 +264,20 @@
 - (void)clickRightItem:(UIButton *)item {
     NSLog(@"%s", __func__);
     
+    /*
+    [_activityPhotoView.photos enumerateObjectsUsingBlock:^(UIImage *obj, NSUInteger idx, BOOL *stop) {
+        YOSUploadActivityImageRequest *request = [[YOSUploadActivityImageRequest alloc] initWithImage:obj];
+        
+        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            if ([request yos_checkResponse]) {
+                YOSLog(@"%zi --- %@", idx, request.responseJSONObject);
+            }
+        } failure:^(YTKBaseRequest *request) {
+            [request yos_checkResponse];
+        }];
+        
+    }];
+     */
     
     if (!_inputView0.selected) {
         [SVProgressHUD showErrorWithStatus:@"请输入活动标题哦~" maskType:SVProgressHUDMaskTypeClear];
@@ -303,8 +318,6 @@
         [SVProgressHUD showErrorWithStatus:@"请输入人均费用哦(免费填0)~" maskType:SVProgressHUDMaskTypeClear];
         return;
     }
-    
-    
     
     NSDate *startDate = _inputView1.date;
     NSDate *endDate = _inputView2.date;

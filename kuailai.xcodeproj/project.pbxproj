@@ -52,6 +52,11 @@
 		DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E6B1B01B6D500B37323 /* YOSEditViewController.m */; };
 		DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E6E1B01E01300B37323 /* YOSPresentViewController.m */; };
 		DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */; };
+		DDC9DE651B1DE2E900629C84 /* YOSUploadActivityImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC9DE641B1DE2E900629C84 /* YOSUploadActivityImageRequest.m */; };
+		DDC9DE681B1DEBF400629C84 /* YOSHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC9DE671B1DEBF400629C84 /* YOSHomeCell.m */; };
+		DDC9DE6A1B1DEC0D00629C84 /* YOSHomeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDC9DE691B1DEC0D00629C84 /* YOSHomeCell.xib */; };
+		DDC9DE701B1DED0200629C84 /* YOSGetActiveListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC9DE6F1B1DED0200629C84 /* YOSGetActiveListRequest.m */; };
+		DDC9DE731B1DF0F300629C84 /* YOSActivityListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC9DE721B1DF0F300629C84 /* YOSActivityListModel.m */; };
 		DDCF01011B116FAD00ED205F /* YOSActivityPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCF00F71B116FAD00ED205F /* YOSActivityPhotoView.m */; };
 		DDCF01021B116FAD00ED205F /* YOSActivityPhotoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDCF00F81B116FAD00ED205F /* YOSActivityPhotoView.xib */; };
 		DDCF01031B116FAD00ED205F /* YOSInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCF00FA1B116FAD00ED205F /* YOSInputView.m */; };
@@ -165,6 +170,15 @@
 		DDC51E6E1B01E01300B37323 /* YOSPresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSPresentViewController.m; sourceTree = "<group>"; };
 		DDC51E731B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YOSAdditionForIQKeyboardManager.h"; sourceTree = "<group>"; };
 		DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YOSAdditionForIQKeyboardManager.m"; sourceTree = "<group>"; };
+		DDC9DE631B1DE2E900629C84 /* YOSUploadActivityImageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUploadActivityImageRequest.h; sourceTree = "<group>"; };
+		DDC9DE641B1DE2E900629C84 /* YOSUploadActivityImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUploadActivityImageRequest.m; sourceTree = "<group>"; };
+		DDC9DE661B1DEBF400629C84 /* YOSHomeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHomeCell.h; sourceTree = "<group>"; };
+		DDC9DE671B1DEBF400629C84 /* YOSHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHomeCell.m; sourceTree = "<group>"; };
+		DDC9DE691B1DEC0D00629C84 /* YOSHomeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YOSHomeCell.xib; sourceTree = "<group>"; };
+		DDC9DE6E1B1DED0200629C84 /* YOSGetActiveListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSGetActiveListRequest.h; sourceTree = "<group>"; };
+		DDC9DE6F1B1DED0200629C84 /* YOSGetActiveListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSGetActiveListRequest.m; sourceTree = "<group>"; };
+		DDC9DE711B1DF0F300629C84 /* YOSActivityListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivityListModel.h; sourceTree = "<group>"; };
+		DDC9DE721B1DF0F300629C84 /* YOSActivityListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivityListModel.m; sourceTree = "<group>"; };
 		DDCF00F61B116FAD00ED205F /* YOSActivityPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivityPhotoView.h; sourceTree = "<group>"; };
 		DDCF00F71B116FAD00ED205F /* YOSActivityPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivityPhotoView.m; sourceTree = "<group>"; };
 		DDCF00F81B116FAD00ED205F /* YOSActivityPhotoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YOSActivityPhotoView.xib; sourceTree = "<group>"; };
@@ -253,6 +267,9 @@
 			children = (
 				DD00EDAF1ADB6C3A00E811A2 /* YOSHomeViewController.h */,
 				DD00EDB01ADB6C3A00E811A2 /* YOSHomeViewController.m */,
+				DDC9DE661B1DEBF400629C84 /* YOSHomeCell.h */,
+				DDC9DE671B1DEBF400629C84 /* YOSHomeCell.m */,
+				DDC9DE691B1DEC0D00629C84 /* YOSHomeCell.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -474,6 +491,10 @@
 				DD0DF33A1B08E03500CCE202 /* YOSActiveGetTypeRequest.m */,
 				DD97C9E31B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.h */,
 				DD97C9E41B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m */,
+				DDC9DE631B1DE2E900629C84 /* YOSUploadActivityImageRequest.h */,
+				DDC9DE641B1DE2E900629C84 /* YOSUploadActivityImageRequest.m */,
+				DDC9DE6E1B1DED0200629C84 /* YOSGetActiveListRequest.h */,
+				DDC9DE6F1B1DED0200629C84 /* YOSGetActiveListRequest.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -491,6 +512,8 @@
 				DDB656791B198C8A00531C71 /* YOSActivitySonTypeModel.m */,
 				DD97C9E61B1B1B95003D6C10 /* YOSSubmitInsetActiveModel.h */,
 				DD97C9E71B1B1B95003D6C10 /* YOSSubmitInsetActiveModel.m */,
+				DDC9DE711B1DF0F300629C84 /* YOSActivityListModel.h */,
+				DDC9DE721B1DF0F300629C84 /* YOSActivityListModel.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -620,9 +643,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DDC9DE6D1B1DECD400629C84 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		DDF840AA1AD61657006939DF /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				DDC9DE6D1B1DECD400629C84 /* Home */,
 				DD8360B21B075C6E00DEAF86 /* Activity */,
 				DDF840AB1AD61865006939DF /* User */,
 			);
@@ -738,6 +769,7 @@
 			files = (
 				DDCF01021B116FAD00ED205F /* YOSActivityPhotoView.xib in Resources */,
 				DD8DC7F21ACE76A700918ADD /* Main.storyboard in Resources */,
+				DDC9DE6A1B1DEC0D00629C84 /* YOSHomeCell.xib in Resources */,
 				DD00EDD41ADB6C3A00E811A2 /* Register.storyboard in Resources */,
 				DD8DC7F71ACE76A700918ADD /* LaunchScreen.xib in Resources */,
 				DD8DC7F41ACE76A700918ADD /* Images.xcassets in Resources */,
@@ -792,6 +824,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
+				DDC9DE651B1DE2E900629C84 /* YOSUploadActivityImageRequest.m in Sources */,
 				DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */,
 				DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */,
 				DD8DC8141ACE777D00918ADD /* AppDelegate.m in Sources */,
@@ -799,6 +832,7 @@
 				DDCF01041B116FAD00ED205F /* YOSLRLabel.m in Sources */,
 				DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */,
 				DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */,
+				DDC9DE731B1DF0F300629C84 /* YOSActivityListModel.m in Sources */,
 				DD0DF33B1B08E03500CCE202 /* YOSActiveGetTypeRequest.m in Sources */,
 				DDB6567A1B198C8A00531C71 /* YOSActivitySonTypeModel.m in Sources */,
 				DD8360B91B07955300DEAF86 /* YOSRegionModel.m in Sources */,
@@ -826,6 +860,7 @@
 				DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */,
 				DDB656711B196F1E00531C71 /* YOSActivityCheckView.m in Sources */,
 				DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */,
+				DDC9DE701B1DED0200629C84 /* YOSGetActiveListRequest.m in Sources */,
 				DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */,
 				DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */,
 				DDCF01051B116FAD00ED205F /* YOSTextField.m in Sources */,
@@ -833,6 +868,7 @@
 				DD00EDD31ADB6C3A00E811A2 /* YOSHomeViewController.m in Sources */,
 				DD00EDDF1ADB9EF100E811A2 /* YOSUserRegisterRequest.m in Sources */,
 				DDCF01011B116FAD00ED205F /* YOSActivityPhotoView.m in Sources */,
+				DDC9DE681B1DEBF400629C84 /* YOSHomeCell.m in Sources */,
 				DD0DF3381B08D6D100CCE202 /* YOSIQContentView.m in Sources */,
 				DD97C9E51B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m in Sources */,
 				DD00EDD71ADB6C3A00E811A2 /* YOSBaseNavigationViewController.m in Sources */,

@@ -20,8 +20,12 @@
 #import "YOSDBManager.h"
 #import "IQUIView+IQKeyboardToolbar.h"
 #import "YOSTextField.h"
+#import "YOSGetActiveListRequest.h"
+#import "YOSActivityListModel.h"
 
 @interface YOSHomeViewController ()
+
+@property (nonatomic, strong) NSMutableArray *activityListModels;
 
 @end
 
@@ -29,106 +33,49 @@
     YOSTextView *_textView;
 }
 
+#pragma mark - life cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    UITextView *tv = [UITextView new];
-    [self.view addSubview:tv];
-    tv.text = @"sss";
-    tv.backgroundColor = [UIColor grayColor];
-    [tv mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.mas_equalTo(20);
-        make.top.mas_equalTo(150);
-        
-        make.height.mas_equalTo(44);
-        make.width.mas_equalTo(200);
-    }];
-    
-    _textView = [YOSTextView new];
-    _textView.placeholder = @"sasa say.";
-    [self.view addSubview:_textView];
-    _textView.backgroundColor = YOSRGB(222, 222, 222);
-//    _textView.text = @"safsd sasa .";
-//    [_textView scrollRangeToVisible:NSMakeRange(0, 1)];
-    
-    
-    [_textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(290);
-        make.leading.mas_equalTo(30);
-        make.width.mas_equalTo(200);
-//        make.height.mas_equalTo(44);
-    }];
-    
-    
-    YOSInputView *_inputView0 = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
-    _inputView0.placeholder = @"最多25个字";
-    YOSInputView *_inputView1 = [[YOSInputView alloc] initWithTitle:@"开始时间:" selectedStatus:NO maxCharacters:25 isSingleLine:NO];
-    _inputView1.pickerType = YOSInputViewPickerTypeActivity;
-    
-    [_inputView0.textField addCancelDoneOnKeyboardWithTarget:self cancelAction:@selector(cancelAction:) doneAction:@selector(doneAction:)];
-
-    [self.view addSubview:_inputView0];
-    [self.view addSubview:_inputView1];
-    
-    [_inputView0 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(120);
-        make.leading.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(320, 44));
-    }];
-    
-    [_inputView1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(220);
-        make.leading.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(320, 44));
-    }];
 }
 
-- (void)doneAction:(YOSInputView *)inputView {
-    NSLog(@"%s", __func__);
-}
-
-- (void)cancelAction:(YOSInputView *)inputView {
-    NSLog(@"%s", __func__);
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-//    _textView.text = @"safsd sasa112 123 123  .";
-    NSLog(@"%@", NSStringFromCGSize(_textView.contentSize));
-    
-}
-
-- (void)doSendCodeRequest {
-    YOSUserSendCodeRequest *request = [[YOSUserSendCodeRequest alloc] initWithPhoneNumber:@"18600950783"];
-    
-    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        if (![request yos_checkResponse]) { return; }
-        [YOSWidget alertMessage:request.yos_data[@"code"] title:@"验证码"];
-    } failure:^(YTKBaseRequest *request) {
-        [request yos_checkResponse];
-    }];
-}
+#pragma mark - event response
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"%s", __func__);
+    NSString *string = @"2";
     
+    if ([string isEqualToString:@"1"]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Register"] animated:YES];
         });
+    }
+    
+    if ([string isEqualToString:@"2"]) {
+        YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:YOSCityTypeBJ page:0 start_time:0 type:0];
+        
+        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            if ([request yos_checkResponse]) {
+                
+            }
+        } failure:^(YTKBaseRequest *request) {
+            [request yos_checkResponse];
+        }];
+    }
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - network
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - getter & setter
+
+- (NSMutableArray *)activityListModels {
+    if (!_activityListModels) {
+        _activityListModels = [NSMutableArray array];
+    }
+    
+    return _activityListModels;
 }
-*/
 
 @end

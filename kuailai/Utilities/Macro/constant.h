@@ -18,6 +18,17 @@ typedef NS_ENUM(NSUInteger, BusinessRequestStatus) {
     BusinessRequestStatusDefault                = 99999,    // 所有未处理的状态
 };
 
+typedef NS_ENUM(NSUInteger, YOSCityType) {
+    YOSCityTypeBJ = 1,                                      // 北京
+    YOSCityTypeSH,                                          // 上海
+    YOSCityTypeGZ,                                          // 广州
+    YOSCityTypeSZ,                                          // 深圳
+    YOSCityTypeHEB,                                         // 哈尔滨
+    YOSCityTypeCD,                                          // 成都
+    YOSCityTypeWLMQ,                                        // 乌鲁木齐
+    YOSCityTypeJN,                                          // 济南
+};
+
 typedef void (^voidBlock)(void);
 typedef void (^voidBlock1)(id);
 
