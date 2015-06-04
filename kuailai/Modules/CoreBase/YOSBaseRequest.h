@@ -11,4 +11,6 @@
 
 @interface YOSBaseRequest : YTKRequest
 
+- (NSDictionary *)encodeWithDictionary:(NSDictionary *)dict;
+
 @end

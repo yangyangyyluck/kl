@@ -7,11 +7,22 @@
 //
 
 #import "YOSBaseRequest.h"
+#import "YOSWidget.h"
 
 @implementation YOSBaseRequest
 
 - (YTKRequestMethod)requestMethod {
     return YTKRequestMethodPost;
+}
+
+- (NSDictionary *)encodeWithDictionary:(NSDictionary *)dict {
+    
+    NSMutableDictionary *mDict = [dict mutableCopy];
+
+    mDict[@"from"] = @"ios";
+    mDict[@"sign"] = yos_encodeWithDictionary(mDict);
+    
+    return mDict;
 }
 
 @end

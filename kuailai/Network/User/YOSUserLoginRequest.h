@@ -10,4 +10,6 @@
 
 @interface YOSUserLoginRequest : YOSBaseRequest
 
+- (instancetype)initWithUserName:(NSString *)username pwd:(NSString *)pwd models:(NSString *)models;
+
 @end

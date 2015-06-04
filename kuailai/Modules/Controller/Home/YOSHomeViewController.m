@@ -22,6 +22,7 @@
 #import "YOSTextField.h"
 #import "YOSGetActiveListRequest.h"
 #import "YOSActivityListModel.h"
+#import "YOSUserLoginRequest.h"
 
 @interface YOSHomeViewController ()
 
@@ -37,13 +38,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSDictionary *dict = @{@"name" : @"yy", @"pass" : @"abc"};
+    
+    NSString *str = yos_encodeWithDictionary(dict);
+    
+    NSLog(@"%@", str);
 }
 
 #pragma mark - event response
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"%s", __func__);
-    NSString *string = @"2";
+    NSString *string = @"3";
     
     if ([string isEqualToString:@"1"]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -53,6 +60,18 @@
     
     if ([string isEqualToString:@"2"]) {
         YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:YOSCityTypeBJ page:0 start_time:0 type:0];
+        
+        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            if ([request yos_checkResponse]) {
+                
+            }
+        } failure:^(YTKBaseRequest *request) {
+            [request yos_checkResponse];
+        }];
+    }
+    
+    if ([string isEqualToString:@"3"]) {
+        YOSUserLoginRequest *request = [[YOSUserLoginRequest alloc] initWithUserName:@"18600950783" pwd:@"123123" models:[[UIDevice currentDevice] model]];
         
         [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
             if ([request yos_checkResponse]) {

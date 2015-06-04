@@ -8,6 +8,35 @@
 
 #import "YOSUserLoginRequest.h"
 
-@implementation YOSUserLoginRequest
+@implementation YOSUserLoginRequest {
+    NSString *_username;
+    NSString *_pwd;
+    NSString *_models;
+}
+
+- (instancetype)initWithUserName:(NSString *)username pwd:(NSString *)pwd models:(NSString *)models {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    _username = YOSFliterNil2String(username);
+    _pwd = YOSFliterNil2String(pwd);
+    _models = YOSFliterNil2String(models);
+    
+    return self;
+}
+
+- (id)requestArgument {
+    return [self encodeWithDictionary:@{
+                                        @"username" : _username,
+                                        @"pwd" : _pwd,
+                                        @"models" : _models,
+                                        }];
+}
+
+- (NSString *)requestUrl {
+    return @"user/login";
+}
 
 @end

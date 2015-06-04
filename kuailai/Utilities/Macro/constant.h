@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSString+YOSAdditions.h"
 
 extern NSString * const YOSURLBase;
 
@@ -35,6 +36,13 @@ typedef void (^voidBlock1)(id);
 typedef BOOL (^boolBlock)(void);
 
 /**
+ *  sign keys
+ */
+extern NSString * const YOSEncodeSignUser;
+
+extern NSString * const YOSEncodeSignKey;
+
+/**
  *  UserDefault keys
  */
 extern NSString * const YOSUserDefaultKeyCurrentMobileNumber;
@@ -42,3 +50,5 @@ extern NSString * const YOSUserDefaultKeyCurrentMobileNumber;
 extern NSString * const YOSUserDefaultKeySignInMobileNumber;
 
 extern NSString * const YOSUserDefaultKeySignInID;
+
+NSString* yos_encodeWithDictionary(NSDictionary* dict);

@@ -30,10 +30,10 @@
 }
 
 - (id)requestArgument {
-    return @{
-             @"city" : @(_city),
-             @"page" : @(_page),
-             };
+    return [self encodeWithDictionary:@{
+                                        @"city" : @(_city),
+                                        @"page" : @(_page),
+                                        }];
 }
 
 @end

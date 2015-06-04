@@ -29,6 +29,7 @@
 		DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */; };
 		DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */; };
 		DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */; };
+		DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */; };
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
@@ -124,6 +125,8 @@
 		DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
 		DD3B1C151AD7CD9600A91838 /* YOSUserRegStepRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserRegStepRequest.h; sourceTree = "<group>"; };
 		DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserRegStepRequest.m; sourceTree = "<group>"; };
+		DD3EED211B208CCC002C0AB0 /* NSString+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+YOSAdditions.h"; sourceTree = "<group>"; };
+		DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD77078A1AD3BA3300795561 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DD77078B1AD3BAD300795561 /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		DD7707921AD3C05F00795561 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
@@ -605,6 +608,8 @@
 				DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */,
 				DDC51E731B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.h */,
 				DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */,
+				DD3EED211B208CCC002C0AB0 /* NSString+YOSAdditions.h */,
+				DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -824,6 +829,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
+				DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */,
 				DDC9DE651B1DE2E900629C84 /* YOSUploadActivityImageRequest.m in Sources */,
 				DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */,
 				DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */,
