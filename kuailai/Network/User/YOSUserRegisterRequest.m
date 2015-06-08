@@ -34,12 +34,12 @@
 }
 
 - (id)requestArgument {
-    return @{
-             @"nickname" : _username,
-             @"id" : _ID,
-             @"pwd" : _password1,
-             @"pwd1" : _password2,
-             };
+    return [self encodeWithDictionary:@{
+                                        @"nickname" : _username,
+                                        @"id" : _ID,
+                                        @"pwd" : _password1,
+                                        @"pwd1" : _password2,
+                                        }];
 }
 
 @end

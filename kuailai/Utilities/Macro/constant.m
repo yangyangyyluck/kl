@@ -17,11 +17,19 @@ NSString * const YOSEncodeSignKey = @"ao$i8nJ*S2AL";
 
 NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
 
-NSString * const YOSUserDefaultKeyCurrentMobileNumber =  @"YOSUserDefaultKeyCurrentMobileNumber";
+/**
+ *  UserDefault keys
+ */
 
-NSString * const YOSUserDefaultKeySignInMobileNumber = @"YOSUserDefaultKeySignInMobileNumber";
+NSString * const YOSUserDefaultKeyCurrentRegisterMobileNumber = @"YOSUserDefaultKeyCurrentRegisterMobileNumber";
 
-NSString * const YOSUserDefaultKeySignInID = @"YOSUserDefaultKeySignInID";
+NSString * const YOSUserDefaultKeyCurrentRegisterID = @"YOSUserDefaultKeyCurrentRegisterID";
+
+NSString * const YOSUserDefaultKeyCurrentLoginMobileNumber = @"YOSUserDefaultKeyCurrentLoginMobileNumber";
+
+NSString * const YOSUserDefaultKeyCurrentLoginID = @"YOSUserDefaultKeyCurrentLoginID";
+
+NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary = @"YOSUserDefaultKeyCurrentUserInfoDictionary";
 
 /**
  *  给出加密参数sign

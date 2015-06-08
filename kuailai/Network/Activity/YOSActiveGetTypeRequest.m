@@ -28,9 +28,9 @@
 }
 
 - (id)requestArgument {
-    return @{
-             @"pid" : _pid,
-             };
+    return [self encodeWithDictionary:@{
+                                        @"pid" : _pid,
+                                        }];
 }
 
 @end

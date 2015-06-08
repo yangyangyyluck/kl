@@ -28,9 +28,10 @@
 }
 
 - (id)requestArgument {
-    return @{
-             @"username" : YOSFliterNil2String(_phoneNumber)
-             };
+    
+    return [self encodeWithDictionary:@{
+                                        @"username" : YOSFliterNil2String(_phoneNumber)
+                                        }];
 }
 
 @end

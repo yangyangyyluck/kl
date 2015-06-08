@@ -75,7 +75,7 @@
         result[@"area"] = _model.area;
     }
     
-    return result;
+    return [self encodeWithDictionary:result];
 }
 
 @end

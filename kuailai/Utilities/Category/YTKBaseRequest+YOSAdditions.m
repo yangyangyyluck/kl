@@ -75,6 +75,7 @@
     
     if (!self.responseJSONObject) {
         // show some message
+        YOSLog(@"\r\n\r\nnetwork error, response JSON is nil, response headers : \r\n%@\r\n", self.responseHeaders);
         return NO;
     }
     

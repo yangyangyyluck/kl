@@ -30,10 +30,11 @@
 }
 
 - (id)requestArgument {
-    return @{
-             @"username" : _username,
-             @"code" : _code
-             };
+    
+    return [self encodeWithDictionary:@{
+                                        @"username" : _username,
+                                        @"code" : _code
+                                        }];
 }
 
 @end

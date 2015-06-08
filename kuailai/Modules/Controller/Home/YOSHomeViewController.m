@@ -23,6 +23,7 @@
 #import "YOSGetActiveListRequest.h"
 #import "YOSActivityListModel.h"
 #import "YOSUserLoginRequest.h"
+#import "YOSUserInfoModel.h"
 
 @interface YOSHomeViewController ()
 
@@ -75,6 +76,20 @@
         
         [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
             if ([request yos_checkResponse]) {
+                
+                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
+                
+                YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
+                
+                if (model.ID) {
+                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
+                    YOSLog(@"\r\n\r\n had set LoginID");
+                }
+                
+                if (model.username) {
+                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
+                    YOSLog(@"\r\n\r\n had set LoginMobile");
+                }
                 
             }
         } failure:^(YTKBaseRequest *request) {

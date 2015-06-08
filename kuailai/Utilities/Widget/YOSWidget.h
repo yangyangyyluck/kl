@@ -52,6 +52,9 @@
 + (BOOL)validatePasswordWithTextField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 
 
+/**
+ *  UserDefault
+ */
 + (void)setUserDefaultWithKey:(NSString *)key value:(NSString *)value;
 
 + (id)getUserDefaultWithKey:(NSString *)key;

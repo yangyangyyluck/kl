@@ -345,7 +345,6 @@
         return;
     }
     
-    
     self.submitInsetActiveModel.title = _inputView0.text;
     self.submitInsetActiveModel.start_time = [NSString stringWithFormat:@"%.0f", startTime];
     self.submitInsetActiveModel.end_time = [NSString stringWithFormat:@"%.0f", endTime];
