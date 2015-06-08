@@ -24,6 +24,8 @@
 
 @property (nonatomic, copy) NSString *ID;
 
+@property (nonatomic, copy) NSString *uid;
+
 @property (nonatomic, copy) NSString *thumb;
 
 @property (nonatomic, copy) NSString *num;
@@ -51,5 +53,9 @@
 @property (nonatomic, copy) NSString *ctype;
 
 @property (nonatomic, copy) NSString *address;
+
+@property (nonatomic, copy) NSString *username;
+
+@property (nonatomic, copy) NSString *avatar;
 
 @end

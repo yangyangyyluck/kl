@@ -28,11 +28,18 @@ PODS:
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
     - FMDB/common
+  - GPUImage (0.1.6)
   - IQKeyboardManager (3.2.2)
   - JSONModel (1.0.2)
   - Masonry (0.6.1)
   - QBImagePickerController (2.5.0)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
   - SVProgressHUD (1.1.3)
+  - UIActivityIndicator-for-SDWebImage (1.2):
+    - SDWebImage (~> 3.7)
+  - UIImage-Helpers (0.0.3)
   - XXNibBridge (2.1)
   - YTKNetwork (0.3.0):
     - AFDownloadRequestOperation (~> 2.0)
@@ -42,11 +49,14 @@ DEPENDENCIES:
   - AFNetworking
   - EDColor
   - FMDB
+  - GPUImage (= 0.1.6)
   - IQKeyboardManager (= 3.2.2)
   - JSONModel
   - Masonry
   - QBImagePickerController (= 2.5.0)
   - SVProgressHUD
+  - UIActivityIndicator-for-SDWebImage
+  - UIImage-Helpers
   - XXNibBridge (~> 2.1)
   - YTKNetwork
 
@@ -55,11 +65,15 @@ SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   EDColor: c83f9a61f9f9b3c23d541f1feb561558e29cb088
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
+  GPUImage: 4675ce4a5370ca92fcea8623b2a08b8f0c51b940
   IQKeyboardManager: 99df8006864663a4126a77b9a2f7ea70077eff31
   JSONModel: 6ffcb4ffa3659c9e9a2e5d45d6c7705bab187c03
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   QBImagePickerController: dc7598c883cd4061f33e522ff431815bb6582c93
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
+  UIImage-Helpers: 06b04a42bdd222844035602e87e936765c80f620
   XXNibBridge: 04ce6b4f8a2e33857396f1c369581436c390cb7d
   YTKNetwork: 6c42c364ac9139bdd5659e4816fce29156ca8fa9
 

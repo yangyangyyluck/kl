@@ -216,7 +216,7 @@
     if ([data isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dataDict = (NSDictionary *)data;
         
-        id result = [dataDict valueForKeyPath:@"result"];
+        id result = [dataDict valueForKeyPath:@"data"];
         if (result && [result isKindOfClass:[NSNull class]]) {
             return nil;
         }

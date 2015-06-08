@@ -10,7 +10,7 @@
 
 @implementation YOSActivityListModel
 
-+ (BOOL)propertyIsIgnored:(NSString *)propertyName {
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
     return YES;
 }
 
