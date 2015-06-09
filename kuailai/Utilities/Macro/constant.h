@@ -31,7 +31,7 @@ typedef NS_ENUM(NSUInteger, YOSCityType) {
 };
 
 typedef void (^voidBlock)(void);
-typedef void (^voidBlock1)(id);
+typedef void (^voidBlock_id)(id);
 
 typedef BOOL (^boolBlock)(void);
 

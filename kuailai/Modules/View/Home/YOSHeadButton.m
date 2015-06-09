@@ -15,7 +15,7 @@
 }
 
 - (CGRect)titleRectForContentRect:(CGRect)contentRect {
-    return CGRectMake(8, 50, 39, 10);
+    return CGRectMake(2.5, 50, 50, 10);
 }
 
 @end

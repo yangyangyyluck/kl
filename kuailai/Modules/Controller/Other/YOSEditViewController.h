@@ -10,7 +10,7 @@
 
 @interface YOSEditViewController : YOSPresentViewController
 
-@property (nonatomic, copy) voidBlock1 vBlock;
+@property (nonatomic, copy) voidBlock_id vBlock;
 @property (nonatomic, copy) NSString *text;
 
 - (instancetype)initWithTitle:(NSString *)title placeholder:(NSString *)placeholder maxCharacters:(NSUInteger)maxCharacters;

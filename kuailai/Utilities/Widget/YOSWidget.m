@@ -115,7 +115,7 @@
     [formatter setDateFormat:format];
     [formatter setTimeZone:timeZone];
     
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp longLongValue] / 1000];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp longLongValue]];
     
     NSString *result = [formatter stringFromDate:date];
     

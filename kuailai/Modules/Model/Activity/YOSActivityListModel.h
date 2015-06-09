@@ -58,4 +58,11 @@
 
 @property (nonatomic, copy) NSString *avatar;
 
+@property (nonatomic, copy) NSString *typeName;
+
+@property (nonatomic, copy) NSString *ctypeName;
+
+@property (nonatomic, copy) NSString *cityName;
+
+@property (nonatomic, copy) NSString *areaName;
 @end

@@ -9,6 +9,7 @@
 #import "YOSHomeViewController.h"
 #import "YOSRegisterViewController.h"
 #import "YOSEditViewController.h"
+#import "YOSActivityDetailViewController.h"
 #import "YOSInputView.h"
 #import "YOSTextField.h"
 #import "YOSHomeCell.h"
@@ -116,6 +117,7 @@
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.rowHeight = 170.0f;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.view addSubview:_tableView];
     
@@ -261,7 +263,7 @@
         cell = [YOSHomeCell xx_instantiateFromNib];
     }
     
-    cell.model = self.activityListModels[indexPath.row];
+    cell.model = self.activityListModels[indexPath.section];
     
     return cell;
 }
@@ -280,6 +282,14 @@
     } else {
         return 5.0f;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    YOSActivityListModel *model = self.activityListModels[indexPath.section];
+    
+    YOSActivityDetailViewController *activityDetailVC = [[YOSActivityDetailViewController alloc] initWithActivityId:model.ID];
+    
+    [self.navigationController pushViewController:activityDetailVC animated:YES];
 }
 
 
