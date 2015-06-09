@@ -141,11 +141,10 @@
         
         [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
             if ([request yos_checkResponse]) {
-                YOSLog(@"log : %@", [request.yos_data description]);
                 
-//                self.activityListModels = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                self.activityListModels = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
                 
-                self.currentPage++;
+//                self.currentPage++;
                 
                 self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
                 

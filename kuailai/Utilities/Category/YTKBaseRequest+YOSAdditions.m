@@ -99,16 +99,25 @@
     }
     
     YOSBaseResponseModel *baseResponseModel = [YOSBaseResponseModel new];
-    baseResponseModel.code = self.responseJSONObject[@"code"];
-    baseResponseModel.msg = self.responseJSONObject[@"msg"];
     
-    // 转data中的数据为字符串
-    NSDictionary *data = self.responseJSONObject[@"data"];
+    // 转responseJSONObject中的数据为字符串
+    NSDictionary *responseJSONObject = [self recursionTransferDataToString:self.responseJSONObject];
     
+    baseResponseModel.code = responseJSONObject[@"code"];
+    baseResponseModel.msg = responseJSONObject[@"msg"];
+    baseResponseModel.data = responseJSONObject[@"data"];
+    
+    /*
     if ([data isKindOfClass:[NSDictionary class]]) {
         NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
         [data enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            dictM[key] = [obj description];
+            
+            if ([obj isMemberOfClass:[NSNumber class]]) {
+                dictM[key] = [obj description];
+            } else {
+                dictM[key] = obj;
+            }
+
         }];
         baseResponseModel.data = dictM;
     }
@@ -116,6 +125,7 @@
     if ([data isKindOfClass:[NSArray class]]) {
         baseResponseModel.data = data;
     }
+     */
     
     self.yos_baseResponseModel = baseResponseModel;
     
@@ -224,6 +234,42 @@
     }
     
     return data;
+}
+
+- (id)recursionTransferDataToString:(id)data {
+    if ([data isKindOfClass:[NSDictionary class]]) {
+        
+        NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
+        [data enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            
+            if ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[NSArray class]]) {
+                dictM[key] = [self recursionTransferDataToString:obj];
+            } else {
+                dictM[key] = [obj description];
+            }
+            
+        }];
+
+        return dictM;
+    }
+    
+    if ([data isKindOfClass:[NSArray class]]) {
+        
+        NSMutableArray *arrM = [NSMutableArray array];
+        [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            
+            if ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[NSArray class]]) {
+                [arrM addObject:[self recursionTransferDataToString:obj]];
+            } else {
+                [arrM addObject:[obj description]];
+            }
+            
+        }];
+        
+        return arrM;
+    }
+    
+    return [data description];
 }
 
 @end
