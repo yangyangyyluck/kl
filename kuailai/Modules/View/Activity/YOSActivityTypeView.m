@@ -250,8 +250,6 @@
     [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
     [btn setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
     
-    btn.backgroundColor = [UIColor greenColor];
-    
     [btn addTarget:self action:@selector(tappedSubButton:) forControlEvents:UIControlEventTouchUpInside];
     
     return btn;

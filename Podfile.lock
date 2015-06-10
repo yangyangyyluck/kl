@@ -32,6 +32,7 @@ PODS:
   - IQKeyboardManager (3.2.2)
   - JSONModel (1.0.2)
   - Masonry (0.6.1)
+  - MJRefresh (1.4.4)
   - QBImagePickerController (2.5.0)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
@@ -53,6 +54,7 @@ DEPENDENCIES:
   - IQKeyboardManager (= 3.2.2)
   - JSONModel
   - Masonry
+  - MJRefresh
   - QBImagePickerController (= 2.5.0)
   - SVProgressHUD
   - UIActivityIndicator-for-SDWebImage
@@ -69,6 +71,7 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 99df8006864663a4126a77b9a2f7ea70077eff31
   JSONModel: 6ffcb4ffa3659c9e9a2e5d45d6c7705bab187c03
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
+  MJRefresh: e4a25dd1f3afbe5c547ff0d434cb40997803bc81
   QBImagePickerController: dc7598c883cd4061f33e522ff431815bb6582c93
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1

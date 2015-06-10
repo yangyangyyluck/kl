@@ -75,6 +75,10 @@
         result[@"area"] = _model.area;
     }
     
+    if (_model.picList && ![_model.picList isEqualToString:@""]) {
+        result[@"picList"] = _model.picList;
+    }
+    
     return [self encodeWithDictionary:result];
 }
 

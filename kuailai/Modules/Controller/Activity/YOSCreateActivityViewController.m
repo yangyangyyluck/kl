@@ -9,23 +9,28 @@
 #import "YOSCreateActivityViewController.h"
 #import "YOSInputView.h"
 #import "YOSTextField.h"
-#import "Masonry.h"
-#import "SVProgressHUD+YOSAdditions.h"
-
-#import "IQKeyboardManager.h"
-#import "IQUIView+IQKeyboardToolbar.h"
-#import "YOSActiveGetCityRequest.h"
-#import "YOSActiveGetTypeRequest.h"
-#import "YOSDBManager.h"
-#import "YOSCityModel.h"
-#import "YOSActivityFatherTypeModel.h"
 #import "YOSIQContentView.h"
 #import "YOSActivityPhotoView.h"
-#import "XXNibConvention.h"
 #import "YOSActivityCheckView.h"
 #import "YOSActivityTypeView.h"
-#import "YOSSubmitInsetActiveModel.h"
+
+#import "YOSActiveGetCityRequest.h"
+#import "YOSActiveGetTypeRequest.h"
 #import "YOSUploadActivityImageRequest.h"
+#import "YOSActiveInsertActiveRequest.h"
+#import "YTKBatchRequest.h"
+
+#import "YOSActivityFatherTypeModel.h"
+#import "YOSSubmitInsetActiveModel.h"
+
+#import "Masonry.h"
+#import "SVProgressHUD+YOSAdditions.h"
+#import "IQKeyboardManager.h"
+#import "IQUIView+IQKeyboardToolbar.h"
+#import "YOSDBManager.h"
+#import "YOSCityModel.h"
+#import "XXNibConvention.h"
+#import "YOSWidget.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -101,7 +106,6 @@
 
 - (void)setupSubviews {
     _scrollView = [UIScrollView new];
-    _scrollView.bounces = NO;
     _contentView = [UIView new];
     
     _firstContentView = [YOSIQContentView new];
@@ -263,22 +267,7 @@
 
 - (void)clickRightItem:(UIButton *)item {
     NSLog(@"%s", __func__);
-    
-    /*
-    [_activityPhotoView.photos enumerateObjectsUsingBlock:^(UIImage *obj, NSUInteger idx, BOOL *stop) {
-        YOSUploadActivityImageRequest *request = [[YOSUploadActivityImageRequest alloc] initWithImage:obj];
-        
-        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-            if ([request yos_checkResponse]) {
-                YOSLog(@"%zi --- %@", idx, request.responseJSONObject);
-            }
-        } failure:^(YTKBaseRequest *request) {
-            [request yos_checkResponse];
-        }];
-        
-    }];
-     */
-    
+
     if (!_inputView0.selected) {
         [SVProgressHUD showErrorWithStatus:@"请输入活动标题哦~" maskType:SVProgressHUDMaskTypeClear];
         return;
@@ -339,18 +328,12 @@
     
     NSLog(@"%f, %f, %f", startTime, endTime, closeTime);
 
-    
-    if (!_activityPhotoView.photos.count) {
-        [SVProgressHUD showErrorWithStatus:@"请上传活动图片哦~" maskType:SVProgressHUDMaskTypeClear];
-        return;
-    }
-    
     self.submitInsetActiveModel.title = _inputView0.text;
     self.submitInsetActiveModel.start_time = [NSString stringWithFormat:@"%.0f", startTime];
     self.submitInsetActiveModel.end_time = [NSString stringWithFormat:@"%.0f", endTime];
     self.submitInsetActiveModel.close_time = [NSString stringWithFormat:@"%.0f", closeTime];
     self.submitInsetActiveModel.city = _inputView4.city;
-
+    
     if (_inputView4.region) {
         self.submitInsetActiveModel.area = _inputView4.region;
     }
@@ -365,8 +348,69 @@
     
     self.submitInsetActiveModel.is_audit = _activityCheckView.isOpenCheck;
     self.submitInsetActiveModel.audit = _activityCheckView.checkField;
+    self.submitInsetActiveModel.uid = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID];
     
-    YOSLog(@"%@", self.submitInsetActiveModel);
+    if (!_activityPhotoView.photos.count) {
+        [SVProgressHUD showErrorWithStatus:@"请上传活动图片哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    // ************ 上传图片 ************
+    NSMutableArray *uploadRequests = [NSMutableArray array];
+    
+    [_activityPhotoView.photos enumerateObjectsUsingBlock:^(UIImage *obj, NSUInteger idx, BOOL *stop) {
+        YOSUploadActivityImageRequest *request = [[YOSUploadActivityImageRequest alloc] initWithImage:obj];
+        
+        [uploadRequests addObject:request];
+        
+    }];
+    
+    YTKBatchRequest *batchRequest = [[YTKBatchRequest alloc] initWithRequestArray:uploadRequests];
+    
+    [batchRequest startWithCompletionBlockWithSuccess:^(YTKBatchRequest *batchRequest) {
+        
+        NSMutableArray *picList = [NSMutableArray array];
+        
+        __block BOOL canInsert = NO;
+        [batchRequest.requestArray enumerateObjectsUsingBlock:^(YOSUploadActivityImageRequest *obj, NSUInteger idx, BOOL *stop) {
+            
+            if ([obj yos_checkResponse]) {
+                // 第一个图片 放入 thumb 字段
+                if (idx == 0) {
+                    self.submitInsetActiveModel.thumb = obj.yos_data;
+                    canInsert = YES;
+                } else {    // 其他的放入picList 逗号分割
+                    [picList addObject:obj.yos_data];
+                }
+            } else {
+                // do nothing
+            }
+            
+        }];
+        
+        if (picList.count) {
+            NSString *picListString = [picList componentsJoinedByString:@","];
+            self.submitInsetActiveModel.picList = picListString;
+        }
+        
+        // 可以提交
+        if (canInsert) {
+            [self sendNetworkRequestInsertActive];
+        }
+        
+    } failure:^(YTKBatchRequest *batchRequest) {
+        [batchRequest.requestArray enumerateObjectsUsingBlock:^(YOSUploadActivityImageRequest *obj, NSUInteger idx, BOOL *stop) {
+            
+            if ([obj yos_checkResponse]) {
+                
+            } else {
+                // do nothing
+            }
+            
+        }];
+    }];
+    // ************ 上传图片 ************
+
 }
 
 #pragma mark - private methods
@@ -433,6 +477,21 @@
             NSArray *fatherModels = [YOSActivityFatherTypeModel arrayOfModelsFromDictionaries:request.yos_data];
             
             self.types = fatherModels;
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
+}
+
+- (void)sendNetworkRequestInsertActive {
+    
+    YOSLog(@"%@", self.submitInsetActiveModel);
+    
+    YOSActiveInsertActiveRequest *request = [[YOSActiveInsertActiveRequest alloc] initWithModel:self.submitInsetActiveModel];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            YOSLog(@"\r\n\r\ninset active success..");
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];

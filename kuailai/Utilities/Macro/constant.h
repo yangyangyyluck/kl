@@ -30,6 +30,11 @@ typedef NS_ENUM(NSUInteger, YOSCityType) {
     YOSCityTypeJN,                                          // 济南
 };
 
+typedef NS_ENUM(NSUInteger, YOSRefreshType) {
+    YOSRefreshTypeHeader,
+    YOSRefreshTypeFooter,
+};
+
 typedef void (^voidBlock)(void);
 typedef void (^voidBlock_id)(id);
 

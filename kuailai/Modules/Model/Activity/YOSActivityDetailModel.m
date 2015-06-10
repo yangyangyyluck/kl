@@ -7,6 +7,7 @@
 //
 
 #import "YOSActivityDetailModel.h"
+#import "YOSUserInfoModel.h"
 
 @implementation YOSActivityDetailModel
 

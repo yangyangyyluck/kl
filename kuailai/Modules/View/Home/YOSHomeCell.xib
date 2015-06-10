@@ -98,6 +98,7 @@
                             <constraint firstAttribute="trailing" secondItem="odE-9b-NWr" secondAttribute="trailing" id="KYe-fk-IeC"/>
                             <constraint firstItem="odE-9b-NWr" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="PI9-ZW-jcu"/>
                             <constraint firstItem="28u-fc-eu5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="U7W-IV-zTr"/>
+                            <constraint firstAttribute="width" constant="580" id="ajd-Cz-kW3"/>
                             <constraint firstAttribute="trailing" secondItem="28u-fc-eu5" secondAttribute="trailing" id="dfr-dk-qo0"/>
                             <constraint firstAttribute="trailing" secondItem="dNp-Rp-RY7" secondAttribute="trailing" id="fTE-qA-9k0"/>
                             <constraint firstItem="dNp-Rp-RY7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ohl-ZD-v8e"/>
@@ -109,11 +110,11 @@
                     <constraint firstItem="iN0-l3-epB" firstAttribute="top" secondItem="4Nk-mw-d9g" secondAttribute="top" id="4zd-Mc-Mch"/>
                     <constraint firstItem="iN0-l3-epB" firstAttribute="leading" secondItem="4Nk-mw-d9g" secondAttribute="leading" constant="10" id="dLr-Hx-kjE"/>
                     <constraint firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="jub-KX-aVF"/>
-                    <constraint firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" constant="10" id="raI-zV-Tnj"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="containerView" destination="iN0-l3-epB" id="N54-1t-kRM"/>
+                <outlet property="containerViewWidthConstraint" destination="ajd-Cz-kW3" id="inf-Gy-6ab"/>
                 <outlet property="headButton" destination="NQg-iW-rNi" id="L4K-HL-cgC"/>
                 <outlet property="label0" destination="LfB-TG-2TD" id="dkz-6o-ad6"/>
                 <outlet property="label1" destination="yz9-ON-hbL" id="sbk-LA-8nD"/>

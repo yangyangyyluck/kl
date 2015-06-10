@@ -21,6 +21,7 @@
 NSString * const kHomeCellDefaultImage = @"首页默认图";
 
 @interface YOSHomeCell ()
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerViewWidthConstraint;
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 
@@ -83,6 +84,8 @@ NSString * const kHomeCellDefaultImage = @"首页默认图";
     self.containerView.layer.cornerRadius = 5.0f;
     self.containerView.layer.masksToBounds = YES;
     self.contentView.backgroundColor = YOSRGB(239, 239, 244);
+    
+    self.containerViewWidthConstraint.constant = YOSScreenWidth - 20;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -95,7 +98,7 @@ NSString * const kHomeCellDefaultImage = @"首页默认图";
 
 - (void)setModel:(YOSActivityListModel *)model {
     _model = model;
-    
+
 //    UIImage *image = [UIImage yos_imageWithColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.15f] size:CGSizeMake(YOSScreenWidth - 20, 20)];
 //    self.messageImageView.image = image;
     
@@ -138,6 +141,8 @@ NSString * const kHomeCellDefaultImage = @"首页默认图";
     
     self.messageLabel0.text = [NSString stringWithFormat:@"%@%@", _model.cityName, YOSFliterNil2String(_model.areaName)];
     self.messageLabel1.text = [YOSWidget dateStringWithTimeStamp:_model.start_time Format:@"YYYY-MM-dd HH:mm:ss"];
+    
+    MASAttachKeys(self.poisitionImageView, self.messageLabel0, self.messageLabel1, self.topImageView, self.messageImageView, self.headButton);
     
     [self.poisitionImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.removeExisting = YES;

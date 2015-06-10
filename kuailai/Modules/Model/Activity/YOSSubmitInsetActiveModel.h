@@ -42,4 +42,6 @@
 
 @property (nonatomic, copy) NSString *area;
 
+@property (nonatomic, copy) NSString *picList;
+
 @end

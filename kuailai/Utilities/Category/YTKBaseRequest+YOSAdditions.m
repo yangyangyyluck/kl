@@ -80,19 +80,19 @@
     }
     
     // 请求失败 HTTP状态码 不在200-299 网络错误等非业务类型错误
-    if (![self statusCodeValidator]) {
-        if (!self.isYos_hideDebug) {
-            YOSLog(@"\r\n\r\nnetwork error, response headers : \r\n%@\r\n", self.responseHeaders);
-        }
-        
-        if ([self yosp_performCustomWithStatus:BusinessRequestStatusFailure]) return NO;
-        if (showErrorMessage) {
-            // 系统统一处理网络异常
-            
-        }
-        
-        return NO;
-    }
+//    if (![self statusCodeValidator]) {
+//        if (!self.isYos_hideDebug) {
+//            YOSLog(@"\r\n\r\nnetwork error, response headers : \r\n%@\r\n", self.responseHeaders);
+//        }
+//        
+//        if ([self yosp_performCustomWithStatus:BusinessRequestStatusFailure]) return NO;
+//        if (showErrorMessage) {
+//            // 系统统一处理网络异常
+//            
+//        }
+//        
+//        return NO;
+//    }
     
     if (!self.isYos_hideDebug) {
         YOSLog(@"%@", self.yos_debugString);

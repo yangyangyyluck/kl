@@ -70,7 +70,7 @@
     _textView.delegate = self;
     _textView.text = _text;
     
-    _textView.frame = CGRectMake(0, 64, YOSScreenWidth, YOSScreenHeight - 64);
+    _textView.frame = CGRectMake(0, 64, YOSScreenWidth, YOSScreenHeight - 64 - 260 - 44);
     
     [_scrollView addSubview:_textView];
     
@@ -103,7 +103,7 @@
 #pragma mark - UITextViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [_textView resignFirstResponder];
+//    [_textView resignFirstResponder];
 }
 
 - (void)textViewDidChange:(UITextView *)textView {

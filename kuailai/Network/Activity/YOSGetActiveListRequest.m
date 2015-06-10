@@ -36,4 +36,8 @@
                                         }];
 }
 
+- (NSInteger)cacheTimeInSeconds {
+    return 1000;
+}
+
 @end

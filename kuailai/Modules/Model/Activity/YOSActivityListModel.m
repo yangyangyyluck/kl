@@ -20,4 +20,12 @@
                                                        }];
 }
 
+- (BOOL)isEqual:(YOSActivityListModel *)object {
+    if (self.ID && [self.ID isEqualToString:object.ID]) {
+        return YES;
+    } else {
+        return [super isEqual:object];
+    }
+}
+
 @end

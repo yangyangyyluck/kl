@@ -7,6 +7,7 @@
 //
 
 #import "JSONModel.h"
+@class YOSUserInfoModel;
 
 @interface YOSActivityDetailModel : JSONModel
 
@@ -54,6 +55,6 @@
 
 @property (nonatomic, copy) NSString *ctypeName;
 
-//@property (nonatomic, copy) NSArray *user;
+@property (nonatomic, copy) YOSUserInfoModel *user;
 
 @end

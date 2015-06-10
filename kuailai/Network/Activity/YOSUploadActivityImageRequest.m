@@ -30,8 +30,8 @@
 - (AFConstructingBlock)constructingBodyBlock {
     return ^(id<AFMultipartFormData> formData) {
         NSData *data = UIImageJPEGRepresentation(_image, 0.8);
-        NSString *name = @"image";
-        NSString *formKey = @"image";
+        NSString *name = @"img";
+        NSString *formKey = @"img";
         NSString *type = @"image/jpeg";
         [formData appendPartWithFileData:data name:formKey fileName:name mimeType:type];
     };
