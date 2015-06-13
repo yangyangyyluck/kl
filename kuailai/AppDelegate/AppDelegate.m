@@ -35,6 +35,8 @@
     
     [self configrueThiredLibrariesWith:application launchOptions:launchOptions];
     
+    self.window.backgroundColor = [UIColor whiteColor];
+    
     return YES;
 }
 

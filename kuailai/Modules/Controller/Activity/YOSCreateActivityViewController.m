@@ -355,6 +355,7 @@
         return;
     }
     
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     // ************ 上传图片 ************
     NSMutableArray *uploadRequests = [NSMutableArray array];
     
@@ -396,9 +397,13 @@
         // 可以提交
         if (canInsert) {
             [self sendNetworkRequestInsertActive];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"上传图片失败,请重试~" maskType:SVProgressHUDMaskTypeClear];
         }
         
     } failure:^(YTKBatchRequest *batchRequest) {
+        [SVProgressHUD showErrorWithStatus:@"上传图片失败,请重试~" maskType:SVProgressHUDMaskTypeClear];
+        
         [batchRequest.requestArray enumerateObjectsUsingBlock:^(YOSUploadActivityImageRequest *obj, NSUInteger idx, BOOL *stop) {
             
             if ([obj yos_checkResponse]) {
@@ -492,8 +497,11 @@
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
             YOSLog(@"\r\n\r\ninset active success..");
+            [SVProgressHUD dismiss];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     } failure:^(YTKBaseRequest *request) {
+        [SVProgressHUD showErrorWithStatus:@"对不起,网络开小差了,请重试~" maskType:SVProgressHUDMaskTypeClear];
         [request yos_checkResponse];
     }];
 }

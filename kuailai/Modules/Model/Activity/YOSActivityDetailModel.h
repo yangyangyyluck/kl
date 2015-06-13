@@ -55,6 +55,8 @@
 
 @property (nonatomic, copy) NSString *ctypeName;
 
+@property (nonatomic, copy) NSString *picList;
+
 @property (nonatomic, copy) YOSUserInfoModel *user;
 
 @end

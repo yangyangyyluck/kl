@@ -31,8 +31,8 @@
 
 #define YOSScreenWidth                [UIScreen mainScreen].bounds.size.width
 #define YOSScreenHeight               [UIScreen mainScreen].bounds.size.height
-#define YOSAutolayout(size)           (kScreenWidth / 320.0 * (size))
-#define YOSAutolayoutHeight(size)     (kScreenHeight / 568 * (size))
+#define YOSAutolayout(size)           (YOSScreenWidth / 320.0 * (size))
+#define YOSAutolayoutHeight(size)     (YOSScreenHeight / 568 * (size))
 
 
 #define YOSRGBA(r,g,b,a)               [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:a]
@@ -42,11 +42,13 @@
 
 #define YOSColorGreen                  YOSRGB(69, 198, 157)
 #define YOSColorGray                   YOSRGB(228, 228, 228)
+#define YOSColorBackgroundGray         YOSRGB(239, 239, 244)
+#define YOSColorMainRed                YOSRGB(255, 105, 58)
 #define YOSColorFontGray                [UIColor colorWithHexString:@"#858585"]
 #define YOSColorFontBlack               [UIColor colorWithHexString:@"#2c2b2a"]
 #define YOSColorLineGray                [UIColor colorWithHexString:@"#e5e5e5"]
 
-
+#define YOSFontBig                      [UIFont systemFontOfSize:15.0f]
 #define YOSFontNormal                   [UIFont systemFontOfSize:14.0f]
 #define YOSFontSmall                    [UIFont systemFontOfSize:12.0f]
 

@@ -83,7 +83,7 @@ NSString * const kHomeCellDefaultImage = @"首页默认图";
     
     self.containerView.layer.cornerRadius = 5.0f;
     self.containerView.layer.masksToBounds = YES;
-    self.contentView.backgroundColor = YOSRGB(239, 239, 244);
+    self.contentView.backgroundColor = YOSColorBackgroundGray;
     
     self.containerViewWidthConstraint.constant = YOSScreenWidth - 20;
 }
@@ -140,7 +140,7 @@ NSString * const kHomeCellDefaultImage = @"首页默认图";
     self.label1.text = [NSString stringWithFormat:@"类别：%@", _model.typeName];
     
     self.messageLabel0.text = [NSString stringWithFormat:@"%@%@", _model.cityName, YOSFliterNil2String(_model.areaName)];
-    self.messageLabel1.text = [YOSWidget dateStringWithTimeStamp:_model.start_time Format:@"YYYY-MM-dd HH:mm:ss"];
+    self.messageLabel1.text = [YOSWidget dateStringWithTimeStamp:_model.start_time Format:@"YYYY-MM-dd EEEE HH:mm:ss"];
     
     MASAttachKeys(self.poisitionImageView, self.messageLabel0, self.messageLabel1, self.topImageView, self.messageImageView, self.headButton);
     
