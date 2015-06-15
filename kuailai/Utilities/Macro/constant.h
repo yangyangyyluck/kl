@@ -30,6 +30,16 @@ typedef NS_ENUM(NSUInteger, YOSCityType) {
     YOSCityTypeJN,                                          // 济南
 };
 
+// 1姓名 2手机号码 3公司 4职位 5工作年限 6学历
+typedef NS_ENUM(NSUInteger, YOSAuditType) {
+    YOSAuditTypeName = 1,
+    YOSAuditTypeMobile,
+    YOSAuditTypeCompany,
+    YOSAuditTypeJobTitle,
+    YOSAuditTypeWorkYears,
+    YOSAuditTypeUniversity,
+};
+
 typedef NS_ENUM(NSUInteger, YOSRefreshType) {
     YOSRefreshTypeHeader,
     YOSRefreshTypeFooter,

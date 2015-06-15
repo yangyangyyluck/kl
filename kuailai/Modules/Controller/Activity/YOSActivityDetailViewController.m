@@ -11,6 +11,7 @@
 #import "YOSCollectionImageCell.h"
 #import "YOSDetailLabel.h"
 #import "YLLabel.h"
+#import "YOSNeedView.h"
 
 #import "YOSActiveGetActiveRequest.h"
 
@@ -63,7 +64,8 @@ static const NSUInteger numbersOfSections = 100;
     UILabel *_needLabel;
     
     // 资料按钮
-    UIView *_needDetailView;
+    UIView *_needContainerView;
+    YOSNeedView *_needDetailView;
     
 }
 
@@ -215,6 +217,60 @@ static const NSUInteger numbersOfSections = 100;
     
     [_contentView addSubview:_needLabel];
     
+    _needContainerView = [UIView new];
+    _needContainerView.backgroundColor = [UIColor whiteColor];
+    _needContainerView.layer.borderColor = YOSColorLineGray.CGColor;
+    _needContainerView.layer.borderWidth = 0.5;
+    [_contentView addSubview:_needContainerView];
+    
+    // 开启审核
+    NSMutableArray *audit = [NSMutableArray new];
+    if ([self.activityDetailModel.is_audit boolValue]) {
+        NSArray *temp = [self.activityDetailModel.audit componentsSeparatedByString:@","];
+        
+        [temp enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
+            
+            // 1姓名 2手机号码 3公司 4职位 5工作年限 6学历
+            switch ([obj integerValue]) {
+                case YOSAuditTypeName:
+                    [audit addObject:@"姓名"];
+                    break;
+                    
+                case YOSAuditTypeMobile:
+                    [audit addObject:@"手机号码"];
+                    break;
+                    
+                case YOSAuditTypeCompany:
+                    [audit addObject:@"公司"];
+                    break;
+                    
+                case YOSAuditTypeJobTitle:
+                    [audit addObject:@"职位"];
+                    break;
+                    
+                case YOSAuditTypeWorkYears:
+                    [audit addObject:@"工作年限"];
+                    break;
+                    
+                case YOSAuditTypeUniversity:
+                    [audit addObject:@"学历"];
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+        }];
+        
+    } else {
+        [audit addObject:@"姓名"];
+        [audit addObject:@"手机号码"];
+    }
+    
+    _needDetailView = [[YOSNeedView alloc] initWithTitles:audit];
+    
+    [_needContainerView addSubview:_needDetailView];
+    
     [self setupConstraints];
 }
 
@@ -290,6 +346,26 @@ static const NSUInteger numbersOfSections = 100;
         make.top.mas_equalTo(10);
         make.leading.mas_equalTo(4);
         make.size.mas_equalTo(_introduceDetailLabel.size);
+    }];
+    
+    [_needLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(_titleLabel);
+        make.top.mas_equalTo(_introduceDetailLabel.mas_bottom);
+        make.left.mas_equalTo(0);
+    }];
+    
+    [_needContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(_needDetailView.heightOfNeedView + 30);
+        make.width.mas_equalTo(YOSScreenWidth + 2);
+        make.left.mas_equalTo(-1);
+        make.top.mas_equalTo(_needLabel.mas_bottom);
+    }];
+    
+    [_needDetailView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(_needDetailView.heightOfNeedView);
+        make.width.mas_equalTo(YOSScreenWidth);
+        make.left.mas_equalTo(1);
+        make.top.mas_equalTo(15);
     }];
     
 }
@@ -423,6 +499,10 @@ static const NSUInteger numbersOfSections = 100;
         [request yos_checkResponse];
     }];
 }
+
+#pragma mark - private methods
+
+
 
 #pragma mark - getter & setter
 

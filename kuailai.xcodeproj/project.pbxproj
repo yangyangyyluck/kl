@@ -72,6 +72,7 @@
 		DDCF01061B116FAD00ED205F /* YOSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCF01001B116FAD00ED205F /* YOSTextView.m */; };
 		DDD799C71B2D2E1F00AF8A59 /* YOSDetailLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD799C61B2D2E1F00AF8A59 /* YOSDetailLabel.m */; };
 		DDD799CB1B2DB59100AF8A59 /* YLLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD799CA1B2DB59100AF8A59 /* YLLabel.m */; };
+		DDD79A161B2F143100AF8A59 /* YOSNeedView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD79A151B2F143100AF8A59 /* YOSNeedView.m */; };
 		DDF48D6B1B293D0500F5D6CA /* YOSActivityDetailItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF48D6A1B293D0500F5D6CA /* YOSActivityDetailItemView.m */; };
 		DDF8408F1AD4D991006939DF /* constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF8408E1AD4D991006939DF /* constant.m */; };
 		DDF840951AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840941AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m */; };
@@ -218,6 +219,8 @@
 		DDD799C61B2D2E1F00AF8A59 /* YOSDetailLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSDetailLabel.m; sourceTree = "<group>"; };
 		DDD799C91B2DB59100AF8A59 /* YLLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLLabel.h; sourceTree = "<group>"; };
 		DDD799CA1B2DB59100AF8A59 /* YLLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLLabel.m; sourceTree = "<group>"; };
+		DDD79A141B2F143100AF8A59 /* YOSNeedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSNeedView.h; sourceTree = "<group>"; };
+		DDD79A151B2F143100AF8A59 /* YOSNeedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSNeedView.m; sourceTree = "<group>"; };
 		DDF48D691B293D0500F5D6CA /* YOSActivityDetailItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivityDetailItemView.h; sourceTree = "<group>"; };
 		DDF48D6A1B293D0500F5D6CA /* YOSActivityDetailItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivityDetailItemView.m; sourceTree = "<group>"; };
 		DDF8408D1AD4D991006939DF /* constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant.h; sourceTree = "<group>"; };
@@ -503,6 +506,8 @@
 				DDF48D6A1B293D0500F5D6CA /* YOSActivityDetailItemView.m */,
 				DDD799C51B2D2E1F00AF8A59 /* YOSDetailLabel.h */,
 				DDD799C61B2D2E1F00AF8A59 /* YOSDetailLabel.m */,
+				DDD79A141B2F143100AF8A59 /* YOSNeedView.h */,
+				DDD79A151B2F143100AF8A59 /* YOSNeedView.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -939,6 +944,7 @@
 				DD0DF3381B08D6D100CCE202 /* YOSIQContentView.m in Sources */,
 				DDB6CF931B2AB19400C5B9B1 /* YOSCollectionImageCell.m in Sources */,
 				DD97C9E51B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m in Sources */,
+				DDD79A161B2F143100AF8A59 /* YOSNeedView.m in Sources */,
 				DD00EDD71ADB6C3A00E811A2 /* YOSBaseNavigationViewController.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,

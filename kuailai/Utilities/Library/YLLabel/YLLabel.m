@@ -171,7 +171,7 @@
     CGSize size = CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, CFRangeMake(0, mAttributedString.length), (__bridge CFDictionaryRef)dict, CGSizeMake(YOSScreenWidth - 16 - 6, MAXFLOAT), &range);
 
     size.width = ceil(size.width) + 16;
-    size.height = ceil(size.height);
+    size.height = ceil(size.height) + 10;
     
     return size;
 }
