@@ -89,10 +89,24 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
 - (NSString *)city;
 
 /**
+ *  当前城市id
+ *
+ *  @return
+ */
+- (NSString *)cityId;
+
+/**
  *  当前区域
  *
  *  @return region
  */
 - (NSString *)region;
+
+/**
+ *  当前区域id
+ *
+ *  @return id
+ */
+- (NSString *)regionId;
 
 @end

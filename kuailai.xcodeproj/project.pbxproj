@@ -70,6 +70,8 @@
 		DDCF01041B116FAD00ED205F /* YOSLRLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCF00FC1B116FAD00ED205F /* YOSLRLabel.m */; };
 		DDCF01051B116FAD00ED205F /* YOSTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCF00FE1B116FAD00ED205F /* YOSTextField.m */; };
 		DDCF01061B116FAD00ED205F /* YOSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCF01001B116FAD00ED205F /* YOSTextView.m */; };
+		DDD799C71B2D2E1F00AF8A59 /* YOSDetailLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD799C61B2D2E1F00AF8A59 /* YOSDetailLabel.m */; };
+		DDD799CB1B2DB59100AF8A59 /* YLLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD799CA1B2DB59100AF8A59 /* YLLabel.m */; };
 		DDF48D6B1B293D0500F5D6CA /* YOSActivityDetailItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF48D6A1B293D0500F5D6CA /* YOSActivityDetailItemView.m */; };
 		DDF8408F1AD4D991006939DF /* constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF8408E1AD4D991006939DF /* constant.m */; };
 		DDF840951AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840941AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m */; };
@@ -212,6 +214,10 @@
 		DDCF00FE1B116FAD00ED205F /* YOSTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTextField.m; sourceTree = "<group>"; };
 		DDCF00FF1B116FAD00ED205F /* YOSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSTextView.h; sourceTree = "<group>"; };
 		DDCF01001B116FAD00ED205F /* YOSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTextView.m; sourceTree = "<group>"; };
+		DDD799C51B2D2E1F00AF8A59 /* YOSDetailLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSDetailLabel.h; sourceTree = "<group>"; };
+		DDD799C61B2D2E1F00AF8A59 /* YOSDetailLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSDetailLabel.m; sourceTree = "<group>"; };
+		DDD799C91B2DB59100AF8A59 /* YLLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLLabel.h; sourceTree = "<group>"; };
+		DDD799CA1B2DB59100AF8A59 /* YLLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLLabel.m; sourceTree = "<group>"; };
 		DDF48D691B293D0500F5D6CA /* YOSActivityDetailItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivityDetailItemView.h; sourceTree = "<group>"; };
 		DDF48D6A1B293D0500F5D6CA /* YOSActivityDetailItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivityDetailItemView.m; sourceTree = "<group>"; };
 		DDF8408D1AD4D991006939DF /* constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant.h; sourceTree = "<group>"; };
@@ -495,6 +501,8 @@
 				DDB656731B1989A700531C71 /* YOSActivityTypeView.m */,
 				DDF48D691B293D0500F5D6CA /* YOSActivityDetailItemView.h */,
 				DDF48D6A1B293D0500F5D6CA /* YOSActivityDetailItemView.m */,
+				DDD799C51B2D2E1F00AF8A59 /* YOSDetailLabel.h */,
+				DDD799C61B2D2E1F00AF8A59 /* YOSDetailLabel.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -502,6 +510,7 @@
 		DD3B1C101AD7C16A00A91838 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				DDD799C81B2DB59100AF8A59 /* YLLabel */,
 				DD3B1C111AD7C16A00A91838 /* JRSwizzle */,
 			);
 			path = Library;
@@ -688,6 +697,15 @@
 			children = (
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		DDD799C81B2DB59100AF8A59 /* YLLabel */ = {
+			isa = PBXGroup;
+			children = (
+				DDD799C91B2DB59100AF8A59 /* YLLabel.h */,
+				DDD799CA1B2DB59100AF8A59 /* YLLabel.m */,
+			);
+			path = YLLabel;
 			sourceTree = "<group>";
 		};
 		DDF840AA1AD61657006939DF /* Network */ = {
@@ -898,6 +916,7 @@
 				DD8DC8291ACE7F8800918ADD /* main.m in Sources */,
 				DD00EDE21ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m in Sources */,
 				DD058EBC1B273D81003B50BE /* YOSActivityDetailViewController.m in Sources */,
+				DDD799C71B2D2E1F00AF8A59 /* YOSDetailLabel.m in Sources */,
 				DD1690481B2599500060B3EB /* YOSHomeCell.m in Sources */,
 				DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */,
 				DD058EB91B273D00003B50BE /* YOSActiveGetActiveRequest.m in Sources */,
@@ -912,6 +931,7 @@
 				DDCF01051B116FAD00ED205F /* YOSTextField.m in Sources */,
 				DDF48D6B1B293D0500F5D6CA /* YOSActivityDetailItemView.m in Sources */,
 				DD00EDDA1ADB6C3A00E811A2 /* YOSTabBar.m in Sources */,
+				DDD799CB1B2DB59100AF8A59 /* YLLabel.m in Sources */,
 				DD00EDD31ADB6C3A00E811A2 /* YOSHomeViewController.m in Sources */,
 				DD00EDDF1ADB9EF100E811A2 /* YOSUserRegisterRequest.m in Sources */,
 				DDCF01011B116FAD00ED205F /* YOSActivityPhotoView.m in Sources */,

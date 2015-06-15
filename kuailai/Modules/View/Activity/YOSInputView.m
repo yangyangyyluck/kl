@@ -34,6 +34,10 @@ static CGFloat kOneLineHeight = 44.0f;
 
 @property (nonatomic, copy) NSString *region;
 
+@property (nonatomic, copy) NSString *cityId;
+
+@property (nonatomic, copy) NSString *regionId;
+
 @end
 
 @implementation YOSInputView {
@@ -247,8 +251,10 @@ static CGFloat kOneLineHeight = 44.0f;
         
         NSString *region = @"";
         
+        YOSRegionModel *regionModel = (YOSRegionModel *)cityModel.area[0];
+        
         if (cityModel.area.count) {
-            region = ((YOSRegionModel *)cityModel.area[0]).name;
+            region = regionModel.name;
             
             text = [NSString stringWithFormat:@"%@ %@ ", city, region];
         } else {
@@ -256,7 +262,9 @@ static CGFloat kOneLineHeight = 44.0f;
         }
         
         self.city = city;
+        self.cityId = cityModel.ID;
         self.region = region;
+        self.regionId = regionModel.ID;
         
         _textField.text = text;
         self.selected = YES;
@@ -371,8 +379,10 @@ static CGFloat kOneLineHeight = 44.0f;
         
         NSString *region = @"";
         
+        YOSRegionModel *regionModel = (YOSRegionModel *)cityModel.area[0];
+        
         if (cityModel.area.count) {
-            region = ((YOSRegionModel *)cityModel.area[0]).name;
+            region = regionModel.name;
             
             text = [NSString stringWithFormat:@"%@ %@ ", city, region];
         } else {
@@ -380,7 +390,9 @@ static CGFloat kOneLineHeight = 44.0f;
         }
         
         self.city = city;
+        self.cityId = cityModel.ID;
         self.region = region;
+        self.regionId = regionModel.ID;
         
         _textField.text = text;
         self.selected = YES;
@@ -396,8 +408,10 @@ static CGFloat kOneLineHeight = 44.0f;
         
         NSString *region = @"";
         
+        YOSRegionModel *regionModel = (YOSRegionModel *)cityModel.area[row];
+        
         if (cityModel.area.count) {
-            region = ((YOSRegionModel *)cityModel.area[row]).name;
+            region = regionModel.name;
             
             text = [NSString stringWithFormat:@"%@ %@ ", city, region];
         } else {
@@ -405,7 +419,9 @@ static CGFloat kOneLineHeight = 44.0f;
         }
         
         self.city = city;
+        self.cityId = cityModel.ID;
         self.region = region;
+        self.regionId = regionModel.ID;
         
         _textField.text = text;
         self.selected = YES;

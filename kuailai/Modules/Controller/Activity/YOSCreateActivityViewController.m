@@ -332,10 +332,10 @@
     self.submitInsetActiveModel.start_time = [NSString stringWithFormat:@"%.0f", startTime];
     self.submitInsetActiveModel.end_time = [NSString stringWithFormat:@"%.0f", endTime];
     self.submitInsetActiveModel.close_time = [NSString stringWithFormat:@"%.0f", closeTime];
-    self.submitInsetActiveModel.city = _inputView4.city;
+    self.submitInsetActiveModel.city = _inputView4.cityId;
     
     if (_inputView4.region) {
-        self.submitInsetActiveModel.area = _inputView4.region;
+        self.submitInsetActiveModel.area = _inputView4.regionId;
     }
     
     self.submitInsetActiveModel.address = _inputView5.text;
@@ -495,9 +495,9 @@
     YOSActiveInsertActiveRequest *request = [[YOSActiveInsertActiveRequest alloc] initWithModel:self.submitInsetActiveModel];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
         if ([request yos_checkResponse]) {
             YOSLog(@"\r\n\r\ninset active success..");
-            [SVProgressHUD dismiss];
             [self.navigationController popViewControllerAnimated:YES];
         }
     } failure:^(YTKBaseRequest *request) {

@@ -19,6 +19,11 @@
     [super viewDidLoad];
     
     self.navigationBar.barTintColor = YOSColorMainRed;
+    self.navigationBar.translucent = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    
+    self.tabBarController.tabBar.translucent = NO;
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {

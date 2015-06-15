@@ -9,6 +9,8 @@
 #import "YOSActivityDetailViewController.h"
 #import "YOSActivityDetailItemView.h"
 #import "YOSCollectionImageCell.h"
+#import "YOSDetailLabel.h"
+#import "YLLabel.h"
 
 #import "YOSActiveGetActiveRequest.h"
 
@@ -18,6 +20,7 @@
 #import "EDColor.h"
 #import "YOSWidget.h"
 #import "UIView+YOSAdditions.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 static const NSUInteger numbersOfSections = 100;
 
@@ -53,7 +56,8 @@ static const NSUInteger numbersOfSections = 100;
     UILabel *_introduceLabel;
     
     // 活动详情
-    UILabel *_introduceDetailLabel;
+    UIView *_introduceDetailView;
+    YLLabel *_introduceDetailLabel;
     
     // 报名所需资料
     UILabel *_needLabel;
@@ -86,14 +90,21 @@ static const NSUInteger numbersOfSections = 100;
     [self setupBackArrow];
     
     self.view.backgroundColor = YOSColorBackgroundGray;
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
 }
 
 - (void)setupSubviews {
     
     _scrollView = [UIScrollView new];
     _contentView = [UIView new];
+    _scrollView.backgroundColor = YOSColorBackgroundGray;
     _contentView.backgroundColor = YOSColorBackgroundGray;
-    _scrollView.backgroundColor = [UIColor whiteColor];
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
     
@@ -182,6 +193,27 @@ static const NSUInteger numbersOfSections = 100;
     
     _introduceLabel = [_titleLabel yos_copySelf];
     _introduceLabel.text = @"活动介绍";
+    [_contentView addSubview:_introduceLabel];
+    
+    
+    _introduceDetailView = [UIView new];
+    _introduceDetailView.layer.borderWidth = 0.5;
+    _introduceDetailView.backgroundColor = [UIColor whiteColor];
+    _introduceDetailView.layer.borderColor = YOSColorLineGray.CGColor;
+    [_contentView addSubview:_introduceDetailView];
+    
+    _introduceDetailLabel = [YLLabel new];
+    _introduceDetailLabel.textColor = YOSColorFontBlack;
+    _introduceDetailLabel.font = YOSFontNormal;
+    [_introduceDetailLabel setText:self.activityDetailModel.detail];
+    
+    [_introduceDetailView addSubview:_introduceDetailLabel];
+    [_contentView addSubview:_introduceDetailView];
+    
+    _needLabel = [_titleLabel yos_copySelf];
+    _needLabel.text = @"报名所需资料";
+    
+    [_contentView addSubview:_needLabel];
     
     [self setupConstraints];
 }
@@ -197,7 +229,7 @@ static const NSUInteger numbersOfSections = 100;
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
         make.top.mas_equalTo(0);
-        make.height.mas_equalTo(YOSScreenHeight);
+        make.height.mas_equalTo(YOSScreenHeight * 5);
     }];
     
     [_collectionContainterView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -237,6 +269,27 @@ static const NSUInteger numbersOfSections = 100;
         make.top.mas_equalTo(_titleLabel.mas_bottom);
         make.left.mas_equalTo(-1);
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth + 2, listHeight));
+    }];
+    
+    [_introduceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.mas_equalTo(_titleLabel);
+        make.size.mas_equalTo(_titleLabel);
+        make.top.mas_equalTo(_listView.mas_bottom);
+    }];
+    
+    [_introduceDetailView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(_listView);
+        make.top.mas_equalTo(_introduceLabel.mas_bottom);
+        make.left.mas_equalTo(_listView);
+        make.bottom.mas_equalTo(_introduceDetailLabel.mas_bottom).offset(10);
+    }];
+    
+//    _introduceDetailLabel.preferredMaxLayoutWidth = YOSScreenWidth - 20;
+    [_introduceDetailLabel sizeToFit];
+    [_introduceDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(10);
+        make.leading.mas_equalTo(4);
+        make.size.mas_equalTo(_introduceDetailLabel.size);
     }];
     
 }
@@ -343,6 +396,8 @@ static const NSUInteger numbersOfSections = 100;
     YOSActiveGetActiveRequest *request = [[YOSActiveGetActiveRequest alloc] initWithId:self.activityId];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
+        
         if ([request yos_checkResponse]) {
             self.activityDetailModel = [[YOSActivityDetailModel alloc] initWithDictionary:request.yos_data error:nil];
             
@@ -352,17 +407,19 @@ static const NSUInteger numbersOfSections = 100;
                 NSArray *array = [self.activityDetailModel.picList componentsSeparatedByString:@","];
                 
                 if (array.count) {
-//                    [self.images addObjectsFromArray:array];
+                    [self.images addObjectsFromArray:array];
                     
-                    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                        [self.images addObject:self.activityDetailModel.thumb];
-                    }];
+//                    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//                        [self.images addObject:self.activityDetailModel.thumb];
+//                    }];
                 }
             }
             
             [self setupSubviews];
         }
     } failure:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
+        
         [request yos_checkResponse];
     }];
 }
