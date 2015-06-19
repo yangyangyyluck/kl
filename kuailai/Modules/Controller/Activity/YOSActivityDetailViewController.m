@@ -12,10 +12,13 @@
 #import "YOSDetailLabel.h"
 #import "YLLabel.h"
 #import "YOSNeedView.h"
+#import "YOSFriendCell.h"
 
 #import "YOSActiveGetActiveRequest.h"
 
 #import "YOSActivityDetailModel.h"
+#import "YOSUserInfoModel.h"
+#import "YOSFriendModel.h"
 
 #import "Masonry.h"
 #import "EDColor.h"
@@ -25,13 +28,15 @@
 
 static const NSUInteger numbersOfSections = 100;
 
-@interface YOSActivityDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface YOSActivityDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, copy) NSString *activityId;
 
 @property (nonatomic, strong) YOSActivityDetailModel *activityDetailModel;
 
 @property (nonatomic, strong) NSMutableArray *images;
+
+@property (nonatomic, strong) NSArray *friends;
 
 @end
 
@@ -67,6 +72,16 @@ static const NSUInteger numbersOfSections = 100;
     UIView *_needContainerView;
     YOSNeedView *_needDetailView;
     
+    // 他们都关注了
+    UILabel *_noticeLabel;
+    UIButton *_originatorView;
+    UILabel *_originatorLabel;
+    UILabel *_originatorNameLabel;
+    UIImageView *_rightArrowImageView;
+    
+    UITableView *_tableView;
+    UIButton *_moreUserButton;
+    UIButton *_signButton;
 }
 
 - (instancetype)initWithActivityId:(NSString *)activityId {
@@ -271,6 +286,67 @@ static const NSUInteger numbersOfSections = 100;
     
     [_needContainerView addSubview:_needDetailView];
     
+//    UIView *_noticeLabel;
+//    UIView *_originatorView;
+//    UILabel *_originatorLabel;
+//    UILabel *_originatorNameLabel;
+//    UIImageView *_rightArrowView;
+//    
+//    UITableView *_tableView;
+//    UIButton *_moreUserButton;
+//    UIButton *_signButton;
+    
+    _noticeLabel = [_titleLabel yos_copySelf];
+    _noticeLabel.text = @"他们都关注了";
+    
+    [_contentView addSubview:_noticeLabel];
+    
+    _originatorView = [UIButton new];
+    [_originatorView addTarget:self action:@selector(tappedOriginatorButton) forControlEvents:UIControlEventTouchUpInside];
+    _originatorView.backgroundColor = [UIColor whiteColor];
+    [_contentView addSubview:_originatorView];
+    
+    _originatorLabel = [UILabel new];
+    _originatorLabel.textColor = YOSColorFontBlack;
+    _originatorLabel.font = YOSFontNormal;
+    _originatorLabel.text = @"发起人";
+    [_originatorView addSubview:_originatorLabel];
+    
+    _originatorNameLabel = [_originatorLabel yos_copySelf];
+    _originatorNameLabel.textColor = YOSColorFontGray;
+    _originatorNameLabel.text = self.activityDetailModel.user.username;
+    [_originatorView addSubview:_originatorNameLabel];
+    
+    _rightArrowImageView = [UIImageView new];
+    _rightArrowImageView.image = [UIImage imageNamed:@"小箭头"];
+    [_originatorView addSubview:_rightArrowImageView];
+    
+    _tableView = [UITableView new];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.rowHeight = 60;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [_contentView addSubview:_tableView];
+    
+    _moreUserButton = [UIButton new];
+    [_moreUserButton setTitle:@"更多关注的人" forState:UIControlStateNormal];
+    _moreUserButton.titleLabel.font = YOSFontBig;
+    [_moreUserButton setTitleColor:YOSColorFontBlack forState:UIControlStateNormal];
+    [_moreUserButton addTarget:self action:@selector(tappedMoreUserButton) forControlEvents:UIControlEventTouchUpInside];
+    _moreUserButton.backgroundColor = [UIColor whiteColor];
+    
+    [_contentView addSubview:_moreUserButton];
+    
+    _signButton = [UIButton new];
+    [_signButton setTitle:@"报名参与" forState:UIControlStateNormal];
+    [_signButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _signButton.titleLabel.font = YOSFontBig;
+    [_signButton addTarget:self action:@selector(tappedSignButton) forControlEvents:UIControlEventTouchUpInside];
+    _signButton.backgroundColor = YOSRGB(249, 125, 77);
+    
+    [_contentView addSubview:_signButton];
+    
     [self setupConstraints];
 }
 
@@ -285,7 +361,7 @@ static const NSUInteger numbersOfSections = 100;
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
         make.top.mas_equalTo(0);
-        make.height.mas_equalTo(YOSScreenHeight * 5);
+        make.bottom.mas_equalTo(_signButton);
     }];
     
     [_collectionContainterView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -368,6 +444,67 @@ static const NSUInteger numbersOfSections = 100;
         make.top.mas_equalTo(15);
     }];
     
+    //    UIView *_noticeLabel;
+    //    UIView *_originatorView;
+    //    UILabel *_originatorLabel;
+    //    UILabel *_originatorNameLabel;
+    //    UIImageView *_rightArrowView;
+    //
+    //    UITableView *_tableView;
+    //    UIButton *_moreUserButton;
+    //    UIButton *_signButton;
+    
+    [_noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_needContainerView.mas_bottom);
+        make.size.mas_equalTo(_titleLabel);
+        make.left.mas_equalTo(10);
+    }];
+    
+    [_originatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_noticeLabel.mas_bottom);
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 40));
+        make.left.mas_equalTo(0);
+    }];
+    
+    [_originatorLabel sizeToFit];
+    [_originatorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(10);
+        make.centerY.mas_equalTo(_originatorView);
+    }];
+    
+    [_rightArrowImageView sizeToFit];
+    [_rightArrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-10);
+        make.centerY.mas_equalTo(_originatorView);
+    }];
+    
+    [_originatorNameLabel sizeToFit];
+    [_originatorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(_rightArrowImageView.mas_left).offset(-10);
+        make.centerY.mas_equalTo(_originatorView);
+    }];
+    
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_originatorView.mas_bottom);
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 60 * self.friends.count));
+        make.left.mas_equalTo(0);
+    }];
+    
+    CGFloat moreHeight = (self.friends.count ? 60 : 0);
+    if (moreHeight == 0) {
+        _moreUserButton.hidden = YES;
+    }
+    [_moreUserButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_tableView.mas_bottom);
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, moreHeight));
+        make.left.mas_equalTo(0);
+    }];
+    
+    [_signButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 38));
+        make.left.mas_equalTo(0);
+        make.top.mas_equalTo(_moreUserButton.mas_bottom);
+    }];
 }
 
 #pragma mark - collection methods
@@ -466,6 +603,42 @@ static const NSUInteger numbersOfSections = 100;
     _pageControl.currentPage = page;
 }
 
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    YOSFriendCell *cell = [YOSFriendCell cellWithTableView:tableView];
+    
+    cell.friendModel = self.friends[indexPath.row];
+    
+    if (indexPath.row == 0) {
+        cell.showTopLine = YES;
+    }
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.friends.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%s", __func__);
+}
+
+#pragma mark - event response 
+
+- (void)tappedOriginatorButton {
+    NSLog(@"%s", __func__);
+}
+
+- (void)tappedMoreUserButton {
+    NSLog(@"%s", __func__);
+}
+
+- (void)tappedSignButton {
+    NSLog(@"%s", __func__);
+}
+
 #pragma mark - network
 
 - (void)sendNetworkRequest {
@@ -490,6 +663,8 @@ static const NSUInteger numbersOfSections = 100;
 //                    }];
                 }
             }
+            
+            self.friends = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"collect"]];
             
             [self setupSubviews];
         }

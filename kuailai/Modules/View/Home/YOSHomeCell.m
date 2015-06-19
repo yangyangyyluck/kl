@@ -121,14 +121,13 @@ NSString * const kHomeCellDefaultImage = @"首页默认图";
     }
     
     [self.headButton setTitle:_model.username forState:UIControlStateNormal];
-    [self.headButton setImage:[UIImage imageNamed:@"产品分享"] forState:UIControlStateNormal];
     
-    if (_model.avatar) {
+    if (_model.avatar && ![_model.avatar isEqualToString:@""]) {
         NSURL *url = [NSURL URLWithString:_model.avatar];
         
-        [self.headButton sd_setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"产品分享"]];
+        [self.headButton sd_setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"默认头像"]];
     } else {
-        [self.headButton setImage:[UIImage imageNamed:@"产品分享"] forState:UIControlStateNormal];
+        [self.headButton setImage:[UIImage imageNamed:@"默认头像"] forState:UIControlStateNormal];
     }
     
     self.headButton.titleLabel.font = [UIFont systemFontOfSize:10.0f];
@@ -190,7 +189,6 @@ NSString * const kHomeCellDefaultImage = @"首页默认图";
 
 //TODO
     self.messageImageView.image = blurredImage;
-    [self.headButton setImage:blurredImage forState:UIControlStateNormal];
 }
 
 @end
