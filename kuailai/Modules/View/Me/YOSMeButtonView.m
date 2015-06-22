@@ -67,6 +67,23 @@
         make.centerY.mas_equalTo(leftLineView);
         make.left.mas_equalTo(self.button1.mas_right).offset(margin);
     }];
+    
+    UIView *topLineView = [leftLineView yos_copySelf];
+    [self addSubview:topLineView];
+    
+    [topLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.and.left.mas_equalTo(0);
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 0.5));
+    }];
+    
+    UIView *bottomLineView = [leftLineView yos_copySelf];
+    [self addSubview:bottomLineView];
+    
+    [bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.and.left.mas_equalTo(0);
+        make.size.mas_equalTo(topLineView);
+    }];
+    
 }
 
 #pragma mark - event response
