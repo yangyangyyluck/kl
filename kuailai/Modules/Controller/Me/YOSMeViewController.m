@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-    
+    self.hidesBottomBarWhenPushed = NO;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

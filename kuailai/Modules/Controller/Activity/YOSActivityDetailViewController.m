@@ -7,6 +7,7 @@
 //
 
 #import "YOSActivityDetailViewController.h"
+#import "YOSAttentionUserViewController.h"
 #import "YOSActivityDetailItemView.h"
 #import "YOSCollectionImageCell.h"
 #import "YOSDetailLabel.h"
@@ -92,8 +93,6 @@ static const NSUInteger numbersOfSections = 100;
     
     _activityId = activityId;
     
-    [self sendNetworkRequest];
-    
     return self;
 }
 
@@ -108,12 +107,7 @@ static const NSUInteger numbersOfSections = 100;
     
     self.view.backgroundColor = YOSColorBackgroundGray;
     
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    [self sendNetworkRequest];
 }
 
 - (void)setupSubviews {
@@ -633,6 +627,10 @@ static const NSUInteger numbersOfSections = 100;
 
 - (void)tappedMoreUserButton {
     NSLog(@"%s", __func__);
+    
+    YOSAttentionUserViewController *attentionVC = [[YOSAttentionUserViewController alloc] initWithAid:self.activityId];
+    
+    [self.navigationController pushViewController:attentionVC animated:YES];
 }
 
 - (void)tappedSignButton {
@@ -644,6 +642,7 @@ static const NSUInteger numbersOfSections = 100;
 - (void)sendNetworkRequest {
     YOSActiveGetActiveRequest *request = [[YOSActiveGetActiveRequest alloc] initWithId:self.activityId];
     
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         [SVProgressHUD dismiss];
         

@@ -25,7 +25,7 @@
     
     self.font = [UIFont systemFontOfSize:14.0f];
     self.textColor = [UIColor colorWithHexString:@"#2c2b2a"];
-    self.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    self.textContainerInset = UIEdgeInsetsMake(10, 7, 10, 0);
     
     return self;
 }
@@ -41,7 +41,7 @@
     NSLog(@"%s", __func__);
 
     if (!self.text.length) {
-        [_placeholder drawInRect:CGRectMake(14, 10, 100, 14.5) withAttributes:@{
+        [_placeholder drawInRect:CGRectMake(14, 10, 250, 14.5) withAttributes:@{
                                                                                 NSFontAttributeName : self.font,
                                                                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#dbdbdb"],
                                                                                 }];

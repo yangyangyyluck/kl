@@ -223,7 +223,7 @@ static CGFloat kOneLineHeight = 44.0f;
     // 有markedTextRange 为输入阶段 不检测
     if (!textField.markedTextRange) {
 
-        if (textField.text.length > _maxCharacters) {
+        if (_maxCharacters && (textField.text.length > _maxCharacters)) {
             [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"最多可输入%zi个字符", _maxCharacters] maskType:SVProgressHUDMaskTypeClear];
             
             NSLog(@"%@ --- %zi", textField.text, textField.text.length);
@@ -394,6 +394,8 @@ static CGFloat kOneLineHeight = 44.0f;
         self.region = region;
         self.regionId = regionModel.ID;
         
+        [pickerView selectRow:0 inComponent:1 animated:NO];
+        
         _textField.text = text;
         self.selected = YES;
         
@@ -432,7 +434,7 @@ static CGFloat kOneLineHeight = 44.0f;
     }
 }
 
-#pragma mark - private method list 
+#pragma mark - event response
 
 - (void)clickTextViewButton {
     NSLog(@"%s", __func__);
@@ -448,6 +450,8 @@ static CGFloat kOneLineHeight = 44.0f;
     
     [self.yos_viewController presentViewController:editVC animated:YES completion:nil];
 }
+
+#pragma mark - private method list
 
 // no used.
 - (UITextRange *)textRangeForInput:(UITextField *)input atRange:(NSRange)range {

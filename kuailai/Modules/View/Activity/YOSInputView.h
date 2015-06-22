@@ -109,4 +109,9 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
  */
 - (NSString *)regionId;
 
+/**
+ *  弹出editVC
+ */
+- (void)clickTextViewButton;
+
 @end

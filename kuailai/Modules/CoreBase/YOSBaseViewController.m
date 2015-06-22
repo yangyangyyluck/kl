@@ -19,12 +19,24 @@
 
 @implementation YOSBaseViewController
 
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.hidesBottomBarWhenPushed = YES;
+    
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
+
 }
 
 - (void)setTitle:(NSString *)title {

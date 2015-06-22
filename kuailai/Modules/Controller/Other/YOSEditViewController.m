@@ -110,7 +110,7 @@
     NSLog(@"\r\n\r\n%s", __func__);
     
     if (!textView.markedTextRange) {
-        if (textView.text.length > _maxCharacters) {
+        if (_maxCharacters && (textView.text.length > _maxCharacters)) {
             [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"最多可输入%zi个字符", _maxCharacters] maskType:SVProgressHUDMaskTypeClear];
             textView.text = [textView.text substringWithRange:NSMakeRange(0, _maxCharacters)];
         }

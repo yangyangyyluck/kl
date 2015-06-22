@@ -65,6 +65,7 @@
     YOSInputView *_inputView5;
     YOSInputView *_inputView6;
     YOSInputView *_inputView7;
+    YOSInputView *_inputView8;
     NSMutableArray *_inputViews;
     
     // _secondContentView
@@ -130,7 +131,7 @@
     _inputView4.pickerType = YOSInputViewPickerTypeAllCity;
     _inputView4.dataSource = self.citys;
     
-    _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点:" selectedStatus:NO maxCharacters:125 isSingleLine:YES];
+    _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点:" selectedStatus:NO maxCharacters:200 isSingleLine:YES];
     _inputView5.placeholder = @"例：北京市海淀区中关村";
     
     _inputView6 = [[YOSInputView alloc] initWithTitle:@"活动人数:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
@@ -140,9 +141,15 @@
     _inputView7 = [[YOSInputView alloc] initWithTitle:@"人均费用:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
     _inputView7.placeholder = @"例：0元(免费)、100元等";
     _inputView7.keyboardType = UIKeyboardTypeDecimalPad;
+//    [_inputView7.textField addPreviousNextDoneOnKeyboardWithTarget:self previousAction:@selector(inputView7Previous) nextAction:@selector(inputView7Next) doneAction:@selector(inputView7Done)];
+    [_inputView7.textField setCustomNextTarget:self action:@selector(inputView7Next:)];
+    
+    _inputView8 = [[YOSInputView alloc] initWithTitle:@"活动详情:" selectedStatus:NO maxCharacters:0 isSingleLine:NO];
+    _inputView8.placeholder = @"活动详情、地点、事件等";
+    
     
     _inputViews = [NSMutableArray array];
-    [_inputViews addObjectsFromArray:@[_inputView0, _inputView1, _inputView2, _inputView3, _inputView4, _inputView5, _inputView6, _inputView7]];
+    [_inputViews addObjectsFromArray:@[_inputView0, _inputView1, _inputView2, _inputView3, _inputView4, _inputView5, _inputView6, _inputView7, _inputView8]];
     
     [self.view addSubview:_scrollView];
     [_scrollView addSubview:_contentView];
@@ -152,9 +159,6 @@
         [_firstContentView addSubview:obj];
         obj.tag = idx;
     }];
-
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click)];
-//    [_scrollView addGestureRecognizer:tap];
     
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view).priorityLow();
@@ -164,7 +168,7 @@
     [_firstContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
-        make.bottom.mas_equalTo(_inputView7.mas_bottom);
+        make.bottom.mas_equalTo(_inputView8.mas_bottom);
     }];
     
     __block UIView *lastInputView = nil;
@@ -265,6 +269,11 @@
     NSLog(@"%s", __func__);
 }
 
+- (void)inputView7Next:(YOSInputView *)inputView {
+    NSLog(@"%s", __func__);
+    [_inputView8 clickTextViewButton];
+}
+
 - (void)clickRightItem:(UIButton *)item {
     NSLog(@"%s", __func__);
 
@@ -308,6 +317,11 @@
         return;
     }
     
+    if (!_inputView8.selected) {
+        [SVProgressHUD showErrorWithStatus:@"请输入活动详情哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
     NSDate *startDate = _inputView1.date;
     NSDate *endDate = _inputView2.date;
     NSDate *closeDate = _inputView3.date;
@@ -345,6 +359,7 @@
     self.submitInsetActiveModel.ctype = _activityTypeView.childType;
     
     // no detail
+    self.submitInsetActiveModel.detail = _inputView8.text;
     
     self.submitInsetActiveModel.is_audit = _activityCheckView.isOpenCheck;
     self.submitInsetActiveModel.audit = _activityCheckView.checkField;
