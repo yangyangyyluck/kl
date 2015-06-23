@@ -33,7 +33,7 @@
     [self.button0 setTitleColor:YOSColorFontBlack forState:UIControlStateNormal];
     [self.button0 setTitle:@"发布活动" forState:UIControlStateNormal];
     
-    [self.button1 setImage:[UIImage imageNamed:@"默认头像"] forState:UIControlStateNormal];
+    [self.button1 setImage:[UIImage imageNamed:@"我的收藏啊"] forState:UIControlStateNormal];
     self.button1.titleLabel.font = [UIFont systemFontOfSize:12.0f];
     self.button1.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.button1.titleLabel.textAlignment = NSTextAlignmentCenter;

@@ -8,8 +8,14 @@
 
 #import "YOSLoginViewController.h"
 
+#import "YOSUserLoginRequest.h"
+
+#import "YOSUserInfoModel.h"
+
 #import "UIView+YOSAdditions.h"
 #import "Masonry.h"
+#import "YOSWidget.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSLoginViewController ()
 
@@ -43,8 +49,8 @@
 - (void)setupSubviews {
     
     _closeButton = [UIButton new];
-    [_closeButton addTarget:self action:@selector(tappedCloseButton:) forControlEvents:UIControlEventTouchUpInside];
-    [_closeButton setImage:[UIImage imageNamed:@"关闭"] forState:UIControlStateNormal];
+    [_closeButton addTarget:self action:@selector(tappedCloseButton) forControlEvents:UIControlEventTouchUpInside];
+    [_closeButton setBackgroundImage:[UIImage imageNamed:@"白色关闭"] forState:UIControlStateNormal];
     
     [self.view addSubview:_closeButton];
     
@@ -64,6 +70,7 @@
     _userTextField.layer.cornerRadius = 19.0f;
     _userTextField.layer.masksToBounds = YES;
     _userTextField.placeholder = @"请输入账号";
+    _userTextField.keyboardType = UIKeyboardTypeNumberPad;
     [_userTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
     [self.view addSubview:_userTextField];
@@ -77,6 +84,7 @@
     _passTextField.layer.cornerRadius = 19.0f;
     _passTextField.layer.masksToBounds = YES;
     _passTextField.placeholder = @"请输入密码";
+    _passTextField.secureTextEntry = YES;
     [_passTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
     [self.view addSubview:_passTextField];
@@ -133,11 +141,20 @@
         make.centerY.mas_equalTo(_arrowImageView);
     }];
     
+    CGFloat marginBottom = -75;
+    if (YOSIsIphone6) {
+        marginBottom = -155;
+    }
+    
+    if (YOSIsIphone6P) {
+        marginBottom = -185;
+    }
+    
     [_registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(40);
         make.right.mas_equalTo(-40);
         make.height.mas_equalTo(40);
-        make.bottom.mas_equalTo(_forgetButton.mas_top).offset(-75);
+        make.bottom.mas_equalTo(_forgetButton.mas_top).offset(marginBottom);
     }];
     
     [_loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -158,14 +175,25 @@
         make.bottom.mas_equalTo(_passTextField.mas_top).offset(-15);
     }];
     
+    CGFloat marginTop = -75;
+    if (YOSIsIphone4) {
+        marginTop = -35;
+    }
+    
+    if (YOSIsIphone5) {
+        marginTop = -65;
+    }
+    
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(_userTextField.mas_top).offset(-65);
+        make.bottom.mas_equalTo(_userTextField.mas_top).offset(marginTop);
         make.centerX.mas_equalTo(_registerButton);
     }];
     
+//    _closeButton.backgroundColor = YOSColorRandom;
     [_closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-30);
-        make.top.mas_equalTo(30);
+        make.right.mas_equalTo(-10);
+        make.top.mas_equalTo(20);
+        make.size.mas_equalTo(CGSizeMake(35, 35));
     }];
 }
 
@@ -173,6 +201,20 @@
 
 - (void)tappedLoginButton {
     NSLog(@"%s", __func__);
+    
+    NSString *user = _userTextField.text;
+    if (user.length != 11) {
+        [SVProgressHUD showErrorWithStatus:@"输入手机号不正确哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    NSString *pass = _passTextField.text;
+    if (!pass || pass.length < 6) {
+        [SVProgressHUD showErrorWithStatus:@"密码最少6位哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
+    [self sendNetworkRequest];
 }
 
 - (void)tappedRegisterButton {
@@ -183,13 +225,46 @@
     NSLog(@"%s", __func__);
 }
 
-- (void)tappedCloseButton:(UIButton *)button {
+- (void)tappedCloseButton {
     NSLog(@"%s", __func__);
     
     [UIView animateWithDuration:0.25f animations:^{
-        button.transform=CGAffineTransformRotate(button.transform, -M_PI_2);
+        _closeButton.transform=CGAffineTransformRotate(_closeButton.transform, -M_PI_2);
     } completion:^(BOOL finished) {
         [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
+#pragma mark - network
+
+- (void)sendNetworkRequest {
+    
+    YOSUserLoginRequest *request = [[YOSUserLoginRequest alloc] initWithUserName:_userTextField.text pwd:_passTextField.text models:[[UIDevice currentDevice] model]];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
+        if ([request yos_checkResponse]) {
+            
+            [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
+            
+            YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
+            
+            if (model.ID) {
+                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
+                YOSLog(@"\r\n\r\n had set LoginID");
+            }
+            
+            if (model.username) {
+                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
+                YOSLog(@"\r\n\r\n had set LoginMobile");
+            }
+            
+            [self tappedCloseButton];
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
+        [request yos_checkResponse];
     }];
 }
 
