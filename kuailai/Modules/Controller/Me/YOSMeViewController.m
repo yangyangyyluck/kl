@@ -18,6 +18,7 @@
 #import "Masonry.h"
 #import "XXNibBridge.h"
 #import "YOSWidget.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSMeViewController ()
 
@@ -47,6 +48,8 @@
     [self setupNavTitle:@"个人"];
     
     [self setupLeftButtonWithTitle:@"sasa"];
+    
+    [self setupRightButtonWithTitle:@"create"];
     
     [self setupSubviews];
 }
@@ -162,14 +165,6 @@
     }];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"%s", __func__);
-    
-    YOSCreateActivityViewController *vc = [YOSCreateActivityViewController new];
-    
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -215,12 +210,19 @@
     [self presentViewController:loginVC animated:YES completion:nil];
 }
 
+- (void)clickRightItem:(UIButton *)item {
+    NSLog(@"%s", __func__);
+    
+    YOSCreateActivityViewController *vc = [YOSCreateActivityViewController new];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - getter & setter 
 
 - (YOSUserInfoModel *)userInfoModel {
     if (!_userInfoModel) {
-        NSDictionary *dict = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary];
-        _userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:dict error:nil];
+        _userInfoModel = [YOSWidget getCurrentUserInfoModel];
     }
     
     return _userInfoModel;

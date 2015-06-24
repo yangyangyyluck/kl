@@ -8,8 +8,9 @@
 
 #import "YOSMeButtonView.h"
 #import "YOSHeadButton.h"
-#import "Masonry.h"
+#import "YOSCreateActivityViewController.h"
 
+#import "Masonry.h"
 #import "UIView+YOSAdditions.h"
 #import "EDColor.h"
 
@@ -90,7 +91,10 @@
 
 - (IBAction)tappedButton0:(id)sender {
     NSLog(@"%s", __func__);
-    [self.button0 setImage:[UIImage imageNamed:@"发布活动"] forState:UIControlStateNormal];
+
+    YOSCreateActivityViewController *vc = [YOSCreateActivityViewController new];
+    
+    [self.yos_viewController.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)tappedButton1:(id)sender {
     NSLog(@"%s", __func__);

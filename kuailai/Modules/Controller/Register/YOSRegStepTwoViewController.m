@@ -14,6 +14,7 @@
 
 #import "YOSWidget.h"
 #import "SVProgressHUD.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSRegStepTwoViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView2HeightConstraint;
@@ -146,7 +147,9 @@
     [self.view endEditing:YES];
     
     NSString *username = _nickNameTextField.text;
-    NSString *ID = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentRegisterID];
+//    NSString *ID = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentRegisterID];
+    
+    NSString *ID = [GVUserDefaults standardUserDefaults].currentRegisterID;
     
     YOSUserRegisterRequest *request = [[YOSUserRegisterRequest alloc] initWithUserName:username ID:ID password1:_pwd1TextField.text password2:_pwd2TextField.text];
     

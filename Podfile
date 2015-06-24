@@ -13,5 +13,6 @@ pod 'GPUImage', '0.1.6'
 pod 'UIImage-Helpers'
 pod 'UIActivityIndicator-for-SDWebImage'
 pod 'MJRefresh'
+pod 'GVUserDefaults'
 
 #pod 'MWPhotoBrowser', '1.4.1'

@@ -33,6 +33,7 @@
 #import "UIImage+YOSAdditions.h"
 #import "UIImage-Helpers.h"
 #import "SVProgressHUD+YOSAdditions.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -139,31 +140,7 @@
         }];
     }
     
-    if ([string isEqualToString:@"3"]) {
-        YOSUserLoginRequest *request = [[YOSUserLoginRequest alloc] initWithUserName:@"18600950783" pwd:@"123123" models:[[UIDevice currentDevice] model]];
-        
-        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-            if ([request yos_checkResponse]) {
-                
-                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
-                
-                YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
-                
-                if (model.ID) {
-                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
-                    YOSLog(@"\r\n\r\n had set LoginID");
-                }
-                
-                if (model.username) {
-                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
-                    YOSLog(@"\r\n\r\n had set LoginMobile");
-                }
-                
-            }
-        } failure:^(YTKBaseRequest *request) {
-            [request yos_checkResponse];
-        }];
-    }
+    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -192,31 +169,31 @@
         }];
     }
     
-    if ([string isEqualToString:@"3"]) {
-        YOSUserLoginRequest *request = [[YOSUserLoginRequest alloc] initWithUserName:@"18600950783" pwd:@"123123" models:[[UIDevice currentDevice] model]];
-        
-        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-            if ([request yos_checkResponse]) {
-                
-                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
-                
-                YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
-                
-                if (model.ID) {
-                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
-                    YOSLog(@"\r\n\r\n had set LoginID");
-                }
-                
-                if (model.username) {
-                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
-                    YOSLog(@"\r\n\r\n had set LoginMobile");
-                }
-                
-            }
-        } failure:^(YTKBaseRequest *request) {
-            [request yos_checkResponse];
-        }];
-    }
+//    if ([string isEqualToString:@"3"]) {
+//        YOSUserLoginRequest *request = [[YOSUserLoginRequest alloc] initWithUserName:@"18600950783" pwd:@"123123" models:[[UIDevice currentDevice] model]];
+//        
+//        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+//            if ([request yos_checkResponse]) {
+//                
+//                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
+//                
+//                YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
+//                
+//                if (model.ID) {
+//                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
+//                    YOSLog(@"\r\n\r\n had set LoginID");
+//                }
+//                
+//                if (model.username) {
+//                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
+//                    YOSLog(@"\r\n\r\n had set LoginMobile");
+//                }
+//                
+//            }
+//        } failure:^(YTKBaseRequest *request) {
+//            [request yos_checkResponse];
+//        }];
+//    }
     
 }
 

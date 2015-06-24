@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class YOSUserInfoModel;
+
 @interface YOSWidget : NSObject
 
 /**
@@ -88,4 +90,7 @@
  *  @return xxxx~
  */
 + (NSString *)waveMessageWithString:(NSString *)string;
+
++ (YOSUserInfoModel *)getCurrentUserInfoModel;
+
 @end

@@ -33,10 +33,16 @@
 		DD1690481B2599500060B3EB /* YOSHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1690461B2599500060B3EB /* YOSHomeCell.m */; };
 		DD1690491B2599500060B3EB /* YOSHomeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1690471B2599500060B3EB /* YOSHomeCell.xib */; };
 		DD16904C1B25D4BD0060B3EB /* YOSHeadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DD16904B1B25D4BD0060B3EB /* YOSHeadButton.m */; };
+		DD177AFF1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = DD177AFE1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m */; };
 		DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */; };
 		DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */; };
 		DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */; };
 		DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */; };
+		DD4A17391B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4A17381B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m */; };
+		DD4A173C1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4A173B1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m */; };
+		DD4A173F1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4A173E1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m */; };
+		DD4A17421B3AB4FA00B10D4F /* YOSSetHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4A17411B3AB4FA00B10D4F /* YOSSetHeadView.m */; };
+		DD4A17441B3AB50B00B10D4F /* YOSSetHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD4A17431B3AB50B00B10D4F /* YOSSetHeadView.xib */; };
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
@@ -152,6 +158,8 @@
 		DD1690471B2599500060B3EB /* YOSHomeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YOSHomeCell.xib; sourceTree = "<group>"; };
 		DD16904A1B25D4BD0060B3EB /* YOSHeadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHeadButton.h; sourceTree = "<group>"; };
 		DD16904B1B25D4BD0060B3EB /* YOSHeadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHeadButton.m; sourceTree = "<group>"; };
+		DD177AFD1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GVUserDefaults+YOSProperties.h"; sourceTree = "<group>"; };
+		DD177AFE1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GVUserDefaults+YOSProperties.m"; sourceTree = "<group>"; };
 		DD3B1C061AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.h"; sourceTree = "<group>"; };
 		DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.m"; sourceTree = "<group>"; };
 		DD3B1C121AD7C16A00A91838 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
@@ -160,6 +168,15 @@
 		DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserRegStepRequest.m; sourceTree = "<group>"; };
 		DD3EED211B208CCC002C0AB0 /* NSString+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+YOSAdditions.h"; sourceTree = "<group>"; };
 		DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+YOSAdditions.m"; sourceTree = "<group>"; };
+		DD4A17371B3AAC1500B10D4F /* YOSUserUpdateUserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserUpdateUserRequest.h; sourceTree = "<group>"; };
+		DD4A17381B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserUpdateUserRequest.m; sourceTree = "<group>"; };
+		DD4A173A1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUpdateUserInfoModel.h; sourceTree = "<group>"; };
+		DD4A173B1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUpdateUserInfoModel.m; sourceTree = "<group>"; };
+		DD4A173D1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUpdateUserInfoViewController.h; sourceTree = "<group>"; };
+		DD4A173E1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUpdateUserInfoViewController.m; sourceTree = "<group>"; };
+		DD4A17401B3AB4FA00B10D4F /* YOSSetHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSSetHeadView.h; sourceTree = "<group>"; };
+		DD4A17411B3AB4FA00B10D4F /* YOSSetHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSSetHeadView.m; sourceTree = "<group>"; };
+		DD4A17431B3AB50B00B10D4F /* YOSSetHeadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YOSSetHeadView.xib; sourceTree = "<group>"; };
 		DD77078A1AD3BA3300795561 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DD77078B1AD3BAD300795561 /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		DD7707921AD3C05F00795561 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
@@ -338,6 +355,8 @@
 			children = (
 				DD00EDF41ADD1BE100E811A2 /* YOSMeViewController.h */,
 				DD00EDF51ADD1BE100E811A2 /* YOSMeViewController.m */,
+				DD4A173D1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.h */,
+				DD4A173E1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -423,6 +442,8 @@
 			children = (
 				DD16903A1B254A200060B3EB /* YOSUserInfoModel.h */,
 				DD16903B1B254A200060B3EB /* YOSUserInfoModel.m */,
+				DD4A173A1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.h */,
+				DD4A173B1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -485,6 +506,9 @@
 				DDE28F701B381CB3005BD036 /* YOSMeButton.m */,
 				DDE28F721B3839A2005BD036 /* YOSCellButton.h */,
 				DDE28F731B3839A2005BD036 /* YOSCellButton.m */,
+				DD4A17401B3AB4FA00B10D4F /* YOSSetHeadView.h */,
+				DD4A17411B3AB4FA00B10D4F /* YOSSetHeadView.m */,
+				DD4A17431B3AB50B00B10D4F /* YOSSetHeadView.xib */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -707,6 +731,8 @@
 				DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */,
 				DD3EED211B208CCC002C0AB0 /* NSString+YOSAdditions.h */,
 				DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */,
+				DD177AFD1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.h */,
+				DD177AFE1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -782,6 +808,8 @@
 				DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */,
 				DD00EDDD1ADB9EF100E811A2 /* YOSUserRegisterRequest.h */,
 				DD00EDDE1ADB9EF100E811A2 /* YOSUserRegisterRequest.m */,
+				DD4A17371B3AAC1500B10D4F /* YOSUserUpdateUserRequest.h */,
+				DD4A17381B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -885,6 +913,7 @@
 				DD00EDD41ADB6C3A00E811A2 /* Register.storyboard in Resources */,
 				DD8DC7F71ACE76A700918ADD /* LaunchScreen.xib in Resources */,
 				DD8DC7F41ACE76A700918ADD /* Images.xcassets in Resources */,
+				DD4A17441B3AB50B00B10D4F /* YOSSetHeadView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,6 +988,7 @@
 				DDB656741B1989A700531C71 /* YOSActivityTypeView.m in Sources */,
 				DD16904C1B25D4BD0060B3EB /* YOSHeadButton.m in Sources */,
 				DD00EDD81ADB6C3A00E811A2 /* YOSBaseRequest.m in Sources */,
+				DD4A173F1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m in Sources */,
 				DD00EDDC1ADB6C3A00E811A2 /* YOSAccessoryView.m in Sources */,
 				DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */,
 				DD00F21F1B04E32E009AFD66 /* YOSDBManager.m in Sources */,
@@ -985,10 +1015,12 @@
 				DDE28F791B3853C3005BD036 /* YOSLoginViewController.m in Sources */,
 				DDB6566E1B195EFE00531C71 /* YOSButton.m in Sources */,
 				DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */,
+				DD4A173C1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m in Sources */,
 				DDB656711B196F1E00531C71 /* YOSActivityCheckView.m in Sources */,
 				DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */,
 				DDF5993C1B330FA900BF2C42 /* YOSFriendModel.m in Sources */,
 				DDC9DE701B1DED0200629C84 /* YOSGetActiveListRequest.m in Sources */,
+				DD177AFF1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m in Sources */,
 				DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */,
 				DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */,
 				DDCF01051B116FAD00ED205F /* YOSTextField.m in Sources */,
@@ -999,8 +1031,10 @@
 				DD00EDDF1ADB9EF100E811A2 /* YOSUserRegisterRequest.m in Sources */,
 				DDCF01011B116FAD00ED205F /* YOSActivityPhotoView.m in Sources */,
 				DD058EBF1B273E76003B50BE /* YOSActivityDetailModel.m in Sources */,
+				DD4A17391B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m in Sources */,
 				DD0DF3381B08D6D100CCE202 /* YOSIQContentView.m in Sources */,
 				DDB6CF931B2AB19400C5B9B1 /* YOSCollectionImageCell.m in Sources */,
+				DD4A17421B3AB4FA00B10D4F /* YOSSetHeadView.m in Sources */,
 				DD97C9E51B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m in Sources */,
 				DDD79A161B2F143100AF8A59 /* YOSNeedView.m in Sources */,
 				DD00EDD71ADB6C3A00E811A2 /* YOSBaseNavigationViewController.m in Sources */,

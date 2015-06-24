@@ -8,6 +8,9 @@
 
 #import "YOSWidget.h"
 
+#import "YOSUserInfoModel.h"
+#import "GVUserDefaults+YOSProperties.h"
+
 @implementation YOSWidget
 
 + (void)alertMessage:(NSString *)message title:(NSString *)title {
@@ -141,6 +144,19 @@
     } else {
         return [NSString stringWithFormat:@"%@~", string];
     }
+}
+
++ (YOSUserInfoModel *)getCurrentUserInfoModel {
+    
+    NSDictionary *dict = [GVUserDefaults standardUserDefaults].currentUserInfoDictionary;
+    
+    if (dict) {
+        YOSUserInfoModel *userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:dict error:nil];
+        
+        return userInfoModel;
+    }
+    
+    return nil;
 }
 
 @end

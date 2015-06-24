@@ -16,6 +16,7 @@
 #import "Masonry.h"
 #import "YOSWidget.h"
 #import "SVProgressHUD+YOSAdditions.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSLoginViewController ()
 
@@ -246,17 +247,22 @@
         [SVProgressHUD dismiss];
         if ([request yos_checkResponse]) {
             
-            [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
+//            [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
+            
+            [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = request.yos_data;
+            
             
             YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
             
             if (model.ID) {
-                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
+//                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
+                [GVUserDefaults standardUserDefaults].currentLoginID = model.ID;
                 YOSLog(@"\r\n\r\n had set LoginID");
             }
             
             if (model.username) {
-                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
+//                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
+                [GVUserDefaults standardUserDefaults].currentLoginMobileNumber = model.username;
                 YOSLog(@"\r\n\r\n had set LoginMobile");
             }
             

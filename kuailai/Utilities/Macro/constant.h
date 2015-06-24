@@ -61,20 +61,20 @@ extern NSString * const YOSEncodeSignKey;
  *  UserDefault keys
  */
 
-/** 注册页：当前注册的手机号 */
-extern NSString * const YOSUserDefaultKeyCurrentRegisterMobileNumber;
-
-/** 注册页：当前注册手机号的ID */
-extern NSString * const YOSUserDefaultKeyCurrentRegisterID;
-
-/** 当前登录用户的手机号 */
-extern NSString * const YOSUserDefaultKeyCurrentLoginMobileNumber;
-
-/** 当前登录用户的手机号 */
-extern NSString * const YOSUserDefaultKeyCurrentLoginID;
-
-/** 当前登录用户的用户信息 */
-extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
+///** 注册页：当前注册的手机号 */
+//extern NSString * const YOSUserDefaultKeyCurrentRegisterMobileNumber;
+//
+///** 注册页：当前注册手机号的ID */
+//extern NSString * const YOSUserDefaultKeyCurrentRegisterID;
+//
+///** 当前登录用户的手机号 */
+//extern NSString * const YOSUserDefaultKeyCurrentLoginMobileNumber;
+//
+///** 当前登录用户的手机号 */
+//extern NSString * const YOSUserDefaultKeyCurrentLoginID;
+//
+///** 当前登录用户的用户信息 */
+//extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
 
 /**
  *  API权限验证用的签名

@@ -21,15 +21,15 @@ NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
  *  UserDefault keys
  */
 
-NSString * const YOSUserDefaultKeyCurrentRegisterMobileNumber = @"YOSUserDefaultKeyCurrentRegisterMobileNumber";
-
-NSString * const YOSUserDefaultKeyCurrentRegisterID = @"YOSUserDefaultKeyCurrentRegisterID";
-
-NSString * const YOSUserDefaultKeyCurrentLoginMobileNumber = @"YOSUserDefaultKeyCurrentLoginMobileNumber";
-
-NSString * const YOSUserDefaultKeyCurrentLoginID = @"YOSUserDefaultKeyCurrentLoginID";
-
-NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary = @"YOSUserDefaultKeyCurrentUserInfoDictionary";
+//NSString * const YOSUserDefaultKeyCurrentRegisterMobileNumber = @"YOSUserDefaultKeyCurrentRegisterMobileNumber";
+//
+//NSString * const YOSUserDefaultKeyCurrentRegisterID = @"YOSUserDefaultKeyCurrentRegisterID";
+//
+//NSString * const YOSUserDefaultKeyCurrentLoginMobileNumber = @"YOSUserDefaultKeyCurrentLoginMobileNumber";
+//
+//NSString * const YOSUserDefaultKeyCurrentLoginID = @"YOSUserDefaultKeyCurrentLoginID";
+//
+//NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary = @"YOSUserDefaultKeyCurrentUserInfoDictionary";
 
 /**
  *  给出加密参数sign

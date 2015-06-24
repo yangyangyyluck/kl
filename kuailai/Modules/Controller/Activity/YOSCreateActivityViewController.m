@@ -31,6 +31,7 @@
 #import "YOSCityModel.h"
 #import "XXNibConvention.h"
 #import "YOSWidget.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSCreateActivityViewController ()
 
@@ -363,7 +364,8 @@
     
     self.submitInsetActiveModel.is_audit = _activityCheckView.isOpenCheck;
     self.submitInsetActiveModel.audit = _activityCheckView.checkField;
-    self.submitInsetActiveModel.uid = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID];
+//    self.submitInsetActiveModel.uid = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID];
+    self.submitInsetActiveModel.uid = [GVUserDefaults standardUserDefaults].currentLoginID;
     
     if (!_activityPhotoView.photos.count) {
         [SVProgressHUD showErrorWithStatus:@"请上传活动图片哦~" maskType:SVProgressHUDMaskTypeClear];
