@@ -42,7 +42,7 @@
 
 #define YOSColorGreen                  YOSRGB(69, 198, 157)
 #define YOSColorGray                   YOSRGB(228, 228, 228)
-#define YOSColorBackgroundGray         YOSRGB(239, 239, 244)
+#define YOSColorBackgroundGray         YOSRGB(243, 241, 240)
 #define YOSColorMainRed                YOSRGB(255, 105, 58)
 #define YOSColorFontGray                [UIColor colorWithHexString:@"#858585"]
 #define YOSColorFontBlack               [UIColor colorWithHexString:@"#2c2b2a"]

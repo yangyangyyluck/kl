@@ -97,7 +97,7 @@
     
     [self setupBackArrow];
     [self setupNavTitle:@"发布活动"];
-    self.view.backgroundColor = YOSRGB(238, 238, 238);
+    self.view.backgroundColor = YOSColorBackgroundGray;
     
     [self setupRightButtonWithTitle:@"确认发布"];
 }

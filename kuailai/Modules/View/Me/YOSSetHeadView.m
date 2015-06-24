@@ -20,12 +20,17 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *headImageView;
 
+@property (weak, nonatomic) IBOutlet UIButton *bgButton;
+
 @end
 
 @implementation YOSSetHeadView
 
 - (void)awakeFromNib {
     self.titleLabel.textColor = YOSColorFontGray;
+    
+    self.bgButton.adjustsImageWhenHighlighted = YES;
+    [self.bgButton addTarget:self action:@selector(tappedBgButton) forControlEvents:UIControlEventTouchUpInside];
     
     YOSUserInfoModel *model = [YOSWidget getCurrentUserInfoModel];
     
@@ -41,6 +46,10 @@
 #pragma mark - event response
 
 - (void)tappedHeadImageButton {
+    NSLog(@"%s", __func__);
+}
+
+- (void)tappedBgButton {
     NSLog(@"%s", __func__);
 }
 

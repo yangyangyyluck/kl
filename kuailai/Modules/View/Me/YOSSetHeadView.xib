@@ -11,8 +11,14 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qSr-dk-nDl" userLabel="bgButton">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="小箭头" translatesAutoresizingMaskIntoConstraints="NO" id="LU9-KE-CkX">
-                    <rect key="frame" x="304" y="31" width="8" height="13"/>
+                    <rect key="frame" x="302" y="31" width="8" height="13"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="头像设置" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQL-MI-tOc">
                     <rect key="frame" x="8" y="29" width="60" height="18"/>
@@ -21,7 +27,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBC-Hd-25w">
-                    <rect key="frame" x="221" y="10" width="55" height="55"/>
+                    <rect key="frame" x="222" y="10" width="55" height="55"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="55" id="gwx-5K-0Yg"/>
                         <constraint firstAttribute="height" constant="55" id="rdw-Nh-yXh"/>
@@ -33,15 +39,20 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="LU9-KE-CkX" secondAttribute="trailing" constant="8" id="4BJ-RZ-2YQ"/>
+                <constraint firstItem="qSr-dk-nDl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0Ih-1R-G99"/>
+                <constraint firstAttribute="trailing" secondItem="LU9-KE-CkX" secondAttribute="trailing" constant="10" id="4BJ-RZ-2YQ"/>
                 <constraint firstItem="VQL-MI-tOc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="9YW-hX-G4m"/>
+                <constraint firstItem="qSr-dk-nDl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="DJx-aT-pdN"/>
+                <constraint firstAttribute="bottom" secondItem="qSr-dk-nDl" secondAttribute="bottom" id="KCh-Vd-MLx"/>
+                <constraint firstAttribute="trailing" secondItem="qSr-dk-nDl" secondAttribute="trailing" id="ceQ-35-7a4"/>
                 <constraint firstAttribute="centerY" secondItem="cBC-Hd-25w" secondAttribute="centerY" id="dOF-Qd-L6b"/>
                 <constraint firstAttribute="centerY" secondItem="LU9-KE-CkX" secondAttribute="centerY" id="n9N-nh-w2J"/>
                 <constraint firstAttribute="centerY" secondItem="VQL-MI-tOc" secondAttribute="centerY" id="q6l-aK-GDs"/>
-                <constraint firstItem="LU9-KE-CkX" firstAttribute="leading" secondItem="cBC-Hd-25w" secondAttribute="trailing" constant="28" id="snl-z4-gvr"/>
+                <constraint firstItem="LU9-KE-CkX" firstAttribute="leading" secondItem="cBC-Hd-25w" secondAttribute="trailing" constant="25" id="snl-z4-gvr"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="bgButton" destination="qSr-dk-nDl" id="tFx-a7-hKd"/>
                 <outlet property="headImageView" destination="cBC-Hd-25w" id="jAM-zb-pJw"/>
                 <outlet property="titleLabel" destination="VQL-MI-tOc" id="08N-7G-RxA"/>
             </connections>

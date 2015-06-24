@@ -8,6 +8,7 @@
 
 #import "YOSMeViewController.h"
 #import "YOSCreateActivityViewController.h"
+#import "YOSUpdateUserInfoViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSHeadDetailButton.h"
 #import "YOSMeButtonView.h"
@@ -200,6 +201,10 @@
 
 - (void)tappedHeadDetailButton:(YOSHeadDetailButton *)button {
     NSLog(@"%s", __func__);
+    
+    YOSUpdateUserInfoViewController *updateVC = [YOSUpdateUserInfoViewController new];
+    
+    [self.navigationController pushViewController:updateVC animated:YES];
 }
 
 - (void)clickLeftItem:(UIButton *)item {
