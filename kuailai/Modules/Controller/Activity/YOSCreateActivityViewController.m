@@ -111,41 +111,41 @@
     _contentView = [UIView new];
     
     _firstContentView = [YOSIQContentView new];
-    _inputView0 = [[YOSInputView alloc] initWithTitle:@"活动标题:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    _inputView0 = [[YOSInputView alloc] initWithTitle:@"活动标题" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
     _inputView0.placeholder = @"最多25个字";
     
-    _inputView1 = [[YOSInputView alloc] initWithTitle:@"开始时间:" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView1 = [[YOSInputView alloc] initWithTitle:@"开始时间" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView1.placeholder = @"点击选择";
     _inputView1.pickerType = YOSInputViewPickerTypeActivity;
     
-    _inputView2 = [[YOSInputView alloc] initWithTitle:@"结束时间:" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView2 = [[YOSInputView alloc] initWithTitle:@"结束时间" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView2.placeholder = @"点击选择";
     _inputView2.pickerType = YOSInputViewPickerTypeActivity;
     
-    _inputView3 = [[YOSInputView alloc] initWithTitle:@"报名截止:" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView3 = [[YOSInputView alloc] initWithTitle:@"报名截止" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView3.placeholder = @"点击选择";
     _inputView3.pickerType = YOSInputViewPickerTypeActivity;
     
     
-    _inputView4 = [[YOSInputView alloc] initWithTitle:@"城市地区:" selectedStatus:NO maxCharacters:100 isSingleLine:YES];
+    _inputView4 = [[YOSInputView alloc] initWithTitle:@"城市地区" selectedStatus:NO maxCharacters:100 isSingleLine:YES];
     _inputView4.placeholder = @"点击选择";
     _inputView4.pickerType = YOSInputViewPickerTypeAllCity;
     _inputView4.dataSource = self.citys;
     
-    _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点:" selectedStatus:NO maxCharacters:200 isSingleLine:YES];
+    _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点" selectedStatus:NO maxCharacters:200 isSingleLine:YES];
     _inputView5.placeholder = @"例：北京市海淀区中关村";
     
-    _inputView6 = [[YOSInputView alloc] initWithTitle:@"活动人数:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    _inputView6 = [[YOSInputView alloc] initWithTitle:@"活动人数" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
     _inputView6.placeholder = @"例：80人";
     _inputView6.keyboardType = UIKeyboardTypeNumberPad;
     
-    _inputView7 = [[YOSInputView alloc] initWithTitle:@"人均费用:" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    _inputView7 = [[YOSInputView alloc] initWithTitle:@"人均费用" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
     _inputView7.placeholder = @"例：0元(免费)、100元等";
     _inputView7.keyboardType = UIKeyboardTypeDecimalPad;
 //    [_inputView7.textField addPreviousNextDoneOnKeyboardWithTarget:self previousAction:@selector(inputView7Previous) nextAction:@selector(inputView7Next) doneAction:@selector(inputView7Done)];
     [_inputView7.textField setCustomNextTarget:self action:@selector(inputView7Next:)];
     
-    _inputView8 = [[YOSInputView alloc] initWithTitle:@"活动详情:" selectedStatus:NO maxCharacters:0 isSingleLine:NO];
+    _inputView8 = [[YOSInputView alloc] initWithTitle:@"活动详情" selectedStatus:NO maxCharacters:0 isSingleLine:NO];
     _inputView8.placeholder = @"活动详情、地点、事件等";
     
     

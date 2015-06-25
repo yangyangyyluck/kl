@@ -42,6 +42,7 @@ static CGFloat kOneLineHeight = 44.0f;
 
 @implementation YOSInputView {
     YOSLRLabel *_titleLabel;
+    UILabel *_symbolLabel;
     
     UIView *_lineView;
     UIImageView *_imageView;
@@ -79,6 +80,13 @@ static CGFloat kOneLineHeight = 44.0f;
     _titleLabel.textColor = [UIColor colorWithHexString:@"#858585"];
     _imageView = [UIImageView new];
     
+    _symbolLabel = [UILabel new];
+    _symbolLabel.font = [UIFont systemFontOfSize:14.0f];
+    _symbolLabel.textColor = [UIColor colorWithHexString:@"#858585"];
+    _symbolLabel.text = @":";
+    
+    [self addSubview:_symbolLabel];
+    
     _textField = [YOSTextField new];
     _textField.font = _titleLabel.font;
     _textField.delegate = self;
@@ -108,8 +116,13 @@ static CGFloat kOneLineHeight = 44.0f;
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.mas_equalTo(8);
-        make.size.mas_equalTo(CGSizeMake(75, 22));
+        make.size.mas_equalTo(CGSizeMake(70, 22));
         make.top.mas_equalTo(11);
+    }];
+    
+    [_symbolLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_titleLabel.mas_right);
+        make.centerY.mas_equalTo(_titleLabel);
     }];
 
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -438,7 +451,7 @@ static CGFloat kOneLineHeight = 44.0f;
 
 - (void)clickTextViewButton {
     NSLog(@"%s", __func__);
-    YOSEditViewController *editVC = [[YOSEditViewController alloc] initWithTitle:[_title substringToIndex:_title.length - 1] placeholder:_placeholder maxCharacters:_maxCharacters];
+    YOSEditViewController *editVC = [[YOSEditViewController alloc] initWithTitle:_title placeholder:_placeholder maxCharacters:_maxCharacters];
     editVC.text = self.text;
     
     YOSWSelf(weakSelf);

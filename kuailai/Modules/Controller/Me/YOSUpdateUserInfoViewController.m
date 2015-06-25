@@ -8,6 +8,7 @@
 
 #import "YOSUpdateUserInfoViewController.h"
 #import "YOSSetHeadView.h"
+#import "YOSInputView.h"
 
 #import "GVUserDefaults+YOSProperties.h"
 #import "Masonry.h"
@@ -23,6 +24,17 @@
     UIView *_contentView;
     
     YOSSetHeadView *_setHeadView;
+    
+    YOSInputView *_inputView0;
+    YOSInputView *_inputView1;
+    YOSInputView *_inputView2;
+    YOSInputView *_inputView3;
+    YOSInputView *_inputView4;
+    YOSInputView *_inputView5;
+    YOSInputView *_inputView6;
+    YOSInputView *_inputView7;
+    YOSInputView *_inputView8;
+    NSMutableArray *_inputViews;
 }
 
 #pragma mark - life cycles
@@ -49,6 +61,29 @@
     _setHeadView = [YOSSetHeadView xx_instantiateFromNib];
     [_contentView addSubview:_setHeadView];
     
+    _inputView0 = [[YOSInputView alloc] initWithTitle:@"真实姓名" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputView1 = [[YOSInputView alloc] initWithTitle:@"手机号码" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputView2 = [[YOSInputView alloc] initWithTitle:@"邮箱地址" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputView3 = [[YOSInputView alloc] initWithTitle:@"性别" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputView4 = [[YOSInputView alloc] initWithTitle:@"公司" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputView5 = [[YOSInputView alloc] initWithTitle:@"公司电话" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputView6 = [[YOSInputView alloc] initWithTitle:@"公司网址" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputView7 = [[YOSInputView alloc] initWithTitle:@"学历" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputView8 = [[YOSInputView alloc] initWithTitle:@"工作经验" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    
+    _inputViews = [[NSMutableArray alloc] initWithArray:@[_inputView0,_inputView1,_inputView2,_inputView3,_inputView4,_inputView5,_inputView6,_inputView7,_inputView8]];
+    
+    [_inputViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [self.view addSubview:obj];
+    }];
 
     [self setupConstraints];
 }
@@ -67,7 +102,27 @@
     
     [_setHeadView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 75));
-        make.top.and.left.mas_equalTo(0);
+        make.left.mas_equalTo(0);
+        make.top.mas_equalTo(10);
+    }];
+    
+    __block UIView *lastView = nil;
+    [_inputViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        if (idx == 0) {
+            [obj mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(_setHeadView.mas_bottom).offset(10);
+                make.width.mas_equalTo(YOSScreenWidth);
+                make.left.mas_equalTo(0);
+            }];
+        } else {
+            [obj mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(lastView.mas_bottom);
+                make.width.mas_equalTo(YOSScreenWidth);
+                make.left.mas_equalTo(0);
+            }];
+        }
+        
+        lastView = obj;
     }];
 }
 
