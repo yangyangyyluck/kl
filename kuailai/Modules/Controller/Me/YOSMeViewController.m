@@ -9,6 +9,7 @@
 #import "YOSMeViewController.h"
 #import "YOSCreateActivityViewController.h"
 #import "YOSUpdateUserInfoViewController.h"
+#import "YOSBaseNavigationViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSHeadDetailButton.h"
 #import "YOSMeButtonView.h"
@@ -211,8 +212,9 @@
     NSLog(@"%s", __func__);
     
     YOSLoginViewController *loginVC = [YOSLoginViewController new];
+    YOSBaseNavigationViewController *navVC = [[YOSBaseNavigationViewController alloc] initWithRootViewController:loginVC];
     
-    [self presentViewController:loginVC animated:YES completion:nil];
+    [self presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)clickRightItem:(UIButton *)item {

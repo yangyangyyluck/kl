@@ -10,6 +10,8 @@
 
 #import "YOSUserInfoModel.h"
 
+#import "YOSUploadActivityImageRequest.h"
+
 #import "EDColor.h"
 #import "YOSWidget.h"
 #import "UIButton+WebCache.h"
@@ -17,7 +19,6 @@
 #import "UIView+YOSAdditions.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "YOSUploadActivityImageRequest.h"
 #import "GVUserDefaults+YOSProperties.h"
 
 #define ORIGINAL_MAX_WIDTH 640.0f
@@ -45,7 +46,7 @@
     
     YOSUserInfoModel *model = [YOSWidget getCurrentUserInfoModel];
     
-    if (!model.avatar) {
+    if (model.avatar) {
         [self.headImageView sd_setBackgroundImageWithURL:[NSURL URLWithString:model.avatar] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"默认头像"]];
     } else {
         [self.headImageView setBackgroundImage:[UIImage imageNamed:@"默认头像"] forState:UIControlStateNormal];
@@ -89,7 +90,7 @@
             // update avatar
             NSDictionary *userInfo = [GVUserDefaults standardUserDefaults].currentUserInfoDictionary;
             NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
-            mUserInfo[@"avatar"] = request.yos_data;
+            mUserInfo[@"avatar"] = [NSString stringWithFormat:@"%@%@", YOSImageBaseUrl, request.yos_data];
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
         }
     } failure:^(YTKBaseRequest *request) {

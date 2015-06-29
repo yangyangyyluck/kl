@@ -9,9 +9,11 @@
 // 根据状态Log
 #ifdef DEBUG
     #define YOSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+    #define YOSImageBaseUrl @"http://kuailaipic.b0.upaiyun.com/"
 #else
     #define YOSLog(...)
     #define NSLog(...)
+    #define YOSImageBaseUrl @"http://img.comebar.cn"
 #endif
 
 

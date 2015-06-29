@@ -83,4 +83,13 @@ extern NSString * const YOSEncodeSignKey;
  *
  *  @return string
  */
-NSString* yos_encodeWithDictionary(NSDictionary* dict);
+NSString *yos_encodeWithDictionary(NSDictionary *dict);
+
+NSString *yos_getSex(NSString *sexId);
+NSString *yos_getSexId(NSString *sex);
+
+NSString *yos_getEducation(NSString *educationId);
+NSString *yos_getEducationId(NSString *education);
+
+NSString *yos_getJobYears(NSString *jobYearsId);
+NSString *yos_getJobYearsId(NSString *jobYears);

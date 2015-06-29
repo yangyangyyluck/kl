@@ -28,8 +28,10 @@ static CGFloat kOneLineHeight = 44.0f;
 
 @property (nonatomic, strong) YOSTextField *textField;
 
+
 @property (nonatomic, copy) NSString *dateString;
 
+// YOSInputViewPickerTypeAllCity
 @property (nonatomic, copy) NSString *city;
 
 @property (nonatomic, copy) NSString *region;
@@ -37,6 +39,21 @@ static CGFloat kOneLineHeight = 44.0f;
 @property (nonatomic, copy) NSString *cityId;
 
 @property (nonatomic, copy) NSString *regionId;
+
+// YOSInputViewPickerTypeSex
+@property (nonatomic, strong) NSArray *sexDataSource;
+
+@property (nonatomic, copy) NSString *sexId;
+
+// YOSInputViewPickerTypeEducation
+@property (nonatomic, strong) NSArray *educationDataSource;
+
+@property (nonatomic, copy) NSString *educationId;
+
+// YOSInputViewPickerTypeJobYears
+@property (nonatomic, strong) NSArray *jobYearsDataSource;
+
+@property (nonatomic, copy) NSString *jobYearsId;
 
 @end
 
@@ -116,7 +133,7 @@ static CGFloat kOneLineHeight = 44.0f;
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.mas_equalTo(8);
-        make.size.mas_equalTo(CGSizeMake(70, 22));
+        make.size.mas_equalTo(CGSizeMake(60, 22));
         make.top.mas_equalTo(11);
     }];
     
@@ -220,6 +237,30 @@ static CGFloat kOneLineHeight = 44.0f;
 //        _textField.hideCursor = YES;
     }
     
+    if (pickerType == YOSInputViewPickerTypeSex) {
+        _pickerView = [UIPickerView new];
+        _pickerView.dataSource = self;
+        _pickerView.delegate = self;
+        _textField.inputView = _pickerView;
+        //        _textField.hideCursor = YES;
+    }
+    
+    if (pickerType == YOSInputViewPickerTypeEducation) {
+        _pickerView = [UIPickerView new];
+        _pickerView.dataSource = self;
+        _pickerView.delegate = self;
+        _textField.inputView = _pickerView;
+        //        _textField.hideCursor = YES;
+    }
+    
+    if (pickerType == YOSInputViewPickerTypeJobYears) {
+        _pickerView = [UIPickerView new];
+        _pickerView.dataSource = self;
+        _pickerView.delegate = self;
+        _textField.inputView = _pickerView;
+        //        _textField.hideCursor = YES;
+    }
+    
 }
 
 - (void)setKeyboardType:(UIKeyboardType)keyboardType {
@@ -282,6 +323,24 @@ static CGFloat kOneLineHeight = 44.0f;
         _textField.text = text;
         self.selected = YES;
     }
+    
+    if ([noti.object isEqual:_textField] && _textField.text.length == 0 && self.pickerType == YOSInputViewPickerTypeSex) {
+        _textField.text = self.sexDataSource[0];
+        self.sexId = @"1";
+        self.selected = YES;
+    }
+    
+    if ([noti.object isEqual:_textField] && _textField.text.length == 0 && self.pickerType == YOSInputViewPickerTypeEducation) {
+        _textField.text = self.educationDataSource[0];
+        self.educationId = @"1";
+        self.selected = YES;
+    }
+    
+    if ([noti.object isEqual:_textField] && _textField.text.length == 0 && self.pickerType == YOSInputViewPickerTypeJobYears) {
+        _textField.text = self.jobYearsDataSource[0];
+        self.jobYearsId = @"1";
+        self.selected = YES;
+    }
 }
 
 #pragma mark - UIDatePicker valueChanged
@@ -340,110 +399,171 @@ static CGFloat kOneLineHeight = 44.0f;
 #pragma mark UIPickerView DataSource & Delegate
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 2;
+    
+    BOOL b1 = (self.pickerType == YOSInputViewPickerTypeSex);
+    BOOL b2 = (self.pickerType == YOSInputViewPickerTypeJobYears);
+    BOOL b3 = (self.pickerType == YOSInputViewPickerTypeEducation);
+    
+    if (b1 || b2 || b3) {
+        return 1;
+    } else {
+        return 2;
+    }
+    
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     
-    if (component == 0) {
-        return self.dataSource.count;
-    } else {
-        
-        NSUInteger row = [pickerView selectedRowInComponent:0];
-        
-        // nothing selected
-        if (row == -1) {
-            row = 0;
+    if (self.pickerType == YOSInputViewPickerTypeAllCity) {
+        if (component == 0) {
+            return self.dataSource.count;
+        } else {
+            
+            NSUInteger row = [pickerView selectedRowInComponent:0];
+            
+            // nothing selected
+            if (row == -1) {
+                row = 0;
+            }
+            
+            YOSCityModel *city = (YOSCityModel *)self.dataSource[row];
+            
+            NSArray *arr = city.area;
+            
+            return arr.count;
         }
-        
-        YOSCityModel *city = (YOSCityModel *)self.dataSource[row];
-        
-        NSArray *arr = city.area;
-        
-        return arr.count;
     }
+    
+    if (self.pickerType == YOSInputViewPickerTypeSex) {
+        return self.sexDataSource.count;
+    }
+    
+    if (self.pickerType == YOSInputViewPickerTypeEducation) {
+        return self.educationDataSource.count;
+    }
+    
+    if (self.pickerType == YOSInputViewPickerTypeJobYears) {
+        return self.jobYearsDataSource.count;
+    }
+    
+    return 0;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
-    if (component == 0) {
-        YOSCityModel *city = self.dataSource[row];
-        return city.name;
-    } else {
-        NSUInteger index = [pickerView selectedRowInComponent:0];
-        
-        YOSCityModel *city = (YOSCityModel *)self.dataSource[index];
-        
-        NSArray *arr = city.area;
-        
-        return ((YOSRegionModel *)arr[row]).name;
+    if (self.pickerType == YOSInputViewPickerTypeAllCity) {
+        if (component == 0) {
+            YOSCityModel *city = self.dataSource[row];
+            return city.name;
+        } else {
+            NSUInteger index = [pickerView selectedRowInComponent:0];
+            
+            YOSCityModel *city = (YOSCityModel *)self.dataSource[index];
+            
+            NSArray *arr = city.area;
+            
+            return ((YOSRegionModel *)arr[row]).name;
+        }
     }
     
+    if (self.pickerType == YOSInputViewPickerTypeSex) {
+        return self.sexDataSource[row];
+    }
+    
+    if (self.pickerType == YOSInputViewPickerTypeEducation) {
+        return self.educationDataSource[row];
+    }
+    
+    if (self.pickerType == YOSInputViewPickerTypeJobYears) {
+        return self.jobYearsDataSource[row];
+    }
+    
+    return @"";
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
-    if (component == 0) {
-        YOSCityModel *cityModel = (YOSCityModel *)self.dataSource[row];
-        
-        NSString *text = nil;
-        
-        NSString *city = cityModel.name;
-        
-        NSString *region = @"";
-        
-        YOSRegionModel *regionModel = (YOSRegionModel *)cityModel.area[0];
-        
-        if (cityModel.area.count) {
-            region = regionModel.name;
+    if (self.pickerType == YOSInputViewPickerTypeAllCity) {
+        if (component == 0) {
+            YOSCityModel *cityModel = (YOSCityModel *)self.dataSource[row];
             
-            text = [NSString stringWithFormat:@"%@ %@ ", city, region];
+            NSString *text = nil;
+            
+            NSString *city = cityModel.name;
+            
+            NSString *region = @"";
+            
+            YOSRegionModel *regionModel = (YOSRegionModel *)cityModel.area[0];
+            
+            if (cityModel.area.count) {
+                region = regionModel.name;
+                
+                text = [NSString stringWithFormat:@"%@ %@ ", city, region];
+            } else {
+                text = [NSString stringWithFormat:@"%@ ", city];
+            }
+            
+            self.city = city;
+            self.cityId = cityModel.ID;
+            self.region = region;
+            self.regionId = regionModel.ID;
+            
+            [pickerView selectRow:0 inComponent:1 animated:NO];
+            
+            _textField.text = text;
+            self.selected = YES;
+            
         } else {
-            text = [NSString stringWithFormat:@"%@ ", city];
+            NSUInteger index = [pickerView selectedRowInComponent:0];
+            
+            YOSCityModel *cityModel = (YOSCityModel *)self.dataSource[index];
+            
+            NSString *text = nil;
+            
+            NSString *city = cityModel.name;
+            
+            NSString *region = @"";
+            
+            YOSRegionModel *regionModel = (YOSRegionModel *)cityModel.area[row];
+            
+            if (cityModel.area.count) {
+                region = regionModel.name;
+                
+                text = [NSString stringWithFormat:@"%@ %@ ", city, region];
+            } else {
+                text = [NSString stringWithFormat:@"%@ ", city];
+            }
+            
+            self.city = city;
+            self.cityId = cityModel.ID;
+            self.region = region;
+            self.regionId = regionModel.ID;
+            
+            _textField.text = text;
+            self.selected = YES;
         }
         
-        self.city = city;
-        self.cityId = cityModel.ID;
-        self.region = region;
-        self.regionId = regionModel.ID;
-        
-        [pickerView selectRow:0 inComponent:1 animated:NO];
-        
-        _textField.text = text;
-        self.selected = YES;
-        
-    } else {
-        NSUInteger index = [pickerView selectedRowInComponent:0];
-        
-        YOSCityModel *cityModel = (YOSCityModel *)self.dataSource[index];
-        
-        NSString *text = nil;
-        
-        NSString *city = cityModel.name;
-        
-        NSString *region = @"";
-        
-        YOSRegionModel *regionModel = (YOSRegionModel *)cityModel.area[row];
-        
-        if (cityModel.area.count) {
-            region = regionModel.name;
-            
-            text = [NSString stringWithFormat:@"%@ %@ ", city, region];
-        } else {
-            text = [NSString stringWithFormat:@"%@ ", city];
+        if (component == 0) {
+            [pickerView reloadAllComponents];
         }
-        
-        self.city = city;
-        self.cityId = cityModel.ID;
-        self.region = region;
-        self.regionId = regionModel.ID;
-        
-        _textField.text = text;
+    }
+    
+    if (self.pickerType == YOSInputViewPickerTypeSex) {
+        _textField.text = self.sexDataSource[row];
+        self.sexId = [NSString stringWithFormat:@"%zi", row];
         self.selected = YES;
     }
     
-    if (component == 0) {
-        [pickerView reloadAllComponents];
+    if (self.pickerType == YOSInputViewPickerTypeEducation) {
+        _textField.text = self.educationDataSource[row];
+        self.educationId = [NSString stringWithFormat:@"%zi", row];
+        self.selected = YES;
+    }
+    
+    if (self.pickerType == YOSInputViewPickerTypeJobYears) {
+        _textField.text = self.jobYearsDataSource[row];
+        self.jobYearsId = [NSString stringWithFormat:@"%zi", row];
+        self.selected = YES;
     }
 }
 
@@ -528,6 +648,33 @@ static CGFloat kOneLineHeight = 44.0f;
     CGFloat maxWidth = _textField.frame.size.width - 20 - 8 - 8;
     
     return maxWidth;
+}
+
+#pragma mark - getter & setter 
+
+- (NSArray *)sexDataSource {
+//    1. 男
+//    2. 女
+    return @[@"男", @"女"];
+}
+
+- (NSArray *)educationDataSource {
+//    1. 高中
+//    2. 大专
+//    3. 本科
+//    4. 硕士
+//    5. 博士
+//    6. 其他
+    return @[@"高中", @"大专", @"本科", @"硕士", @"博士", @"其他"];
+}
+
+- (NSArray *)jobYearsDataSource {
+//    1. 1年以下
+//    2. 1-3年
+//    3. 3-5年
+//    4. 5-10年
+//    5. 10年以上
+    return @[@"1年以下", @"1-3年", @"3-5年", @"5-10年", @"10年以上"];
 }
 
 @end

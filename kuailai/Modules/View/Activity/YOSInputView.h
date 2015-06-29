@@ -9,11 +9,35 @@
 #import <UIKit/UIKit.h>
 @class YOSTextField;
 
+/*
+工作经验
+1. 1年以下
+2. 1-3年
+3. 3-5年
+4. 5-10年
+5. 10年以上
+
+学历：
+1. 高中
+2. 大专
+3. 本科
+4. 硕士
+5. 博士
+6. 其他
+ 
+性别：
+1. 男
+2. 女
+ */
+
 typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
     YOSInputViewPickerTypeNone = 0,     // 不显示picker
-    YOSInputViewPickerTypeActivity,     // 活动
+    YOSInputViewPickerTypeActivity,     // 活动[时间]
     YOSInputViewPickerTypeAge,          // 年龄
     YOSInputViewPickerTypeAllCity,      // 选择城市
+    YOSInputViewPickerTypeSex,          // 选择性别
+    YOSInputViewPickerTypeEducation,    // 选择学历
+    YOSInputViewPickerTypeJobYears,     // 选择工作年限
 };
 
 @interface YOSInputView : UIView
@@ -108,6 +132,27 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
  *  @return id
  */
 - (NSString *)regionId;
+
+/**
+ *  当前性别id
+ *
+ *  @return id
+ */
+- (NSString *)sexId;
+
+/**
+ *  当前学历id
+ *
+ *  @return id
+ */
+- (NSString *)educationId;
+
+/**
+ *  当前工作年限id
+ *
+ *  @return id
+ */
+- (NSString *)jobYearsId;
 
 /**
  *  弹出editVC

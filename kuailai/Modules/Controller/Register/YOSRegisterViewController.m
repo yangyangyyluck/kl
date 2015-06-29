@@ -47,6 +47,8 @@ static const NSUInteger kTimeMaxCount = 16;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationController.navigationBarHidden = NO;
    
     [self setupNavTitle:@"注册"];
     

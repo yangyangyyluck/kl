@@ -10,4 +10,6 @@
 
 @interface YOSLoginViewController : YOSPresentViewController
 
+@property (nonatomic, weak) UIViewController *pushVC;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "YOSLoginViewController.h"
+#import "YOSRegisterViewController.h"
 
 #import "YOSUserLoginRequest.h"
 
@@ -17,6 +18,7 @@
 #import "YOSWidget.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "GVUserDefaults+YOSProperties.h"
+#import "UIImage+YOSAdditions.h"
 
 @interface YOSLoginViewController ()
 
@@ -45,6 +47,11 @@
     self.view.backgroundColor = YOSColorMainRed;
     
     [self setupSubviews];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)setupSubviews {
@@ -94,7 +101,7 @@
     [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
     _loginButton.layer.cornerRadius = 19.0f;
     _loginButton.layer.masksToBounds = YES;
-    _loginButton.backgroundColor = YOSColorGreen;
+    [_loginButton setBackgroundImage:[UIImage yos_imageWithColor:YOSColorGreen size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     _loginButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     _loginButton.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     
@@ -104,7 +111,7 @@
     [_registerButton setTitle:@"注册" forState:UIControlStateNormal];
     _registerButton.layer.cornerRadius = 19.0f;
     _registerButton.layer.masksToBounds = YES;
-    _registerButton.backgroundColor = YOSRGB(253, 135, 97);
+    [_registerButton setBackgroundImage:[UIImage yos_imageWithColor:YOSRGB(253, 135, 97) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     _registerButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     _registerButton.titleLabel.font = [UIFont systemFontOfSize:17.0f];
 
@@ -220,6 +227,8 @@
 
 - (void)tappedRegisterButton {
     NSLog(@"%s", __func__);
+    
+    [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Register"] animated:YES];
 }
 
 - (void)tappedForgetButton {
