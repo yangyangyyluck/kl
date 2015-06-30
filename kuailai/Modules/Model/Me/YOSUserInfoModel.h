@@ -38,4 +38,6 @@
 
 @property (nonatomic, copy) NSString *website;
 
+@property (nonatomic, copy) NSString *degree;
+
 @end

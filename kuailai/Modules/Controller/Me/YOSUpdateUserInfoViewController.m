@@ -13,6 +13,9 @@
 #import "YOSIQContentView.h"
 
 #import "YOSUserInfoModel.h"
+#import "YOSUpdateUserInfoModel.h"
+
+#import "YOSUserUpdateUserRequest.h"
 
 #import "GVUserDefaults+YOSProperties.h"
 #import "Masonry.h"
@@ -43,6 +46,7 @@
     YOSInputView *_inputView7;
     YOSInputView *_inputView8;
     YOSInputView *_inputView9;
+    YOSInputView *_inputView10;
     NSMutableArray *_inputViews;
 }
 
@@ -55,6 +59,8 @@
     
     [self setupNavTitle:@"名片设置"];
     [self setupBackArrow];
+    
+    [self setupRightButtonWithTitle:@"保存设置"];
     
     self.view.backgroundColor = YOSColorBackgroundGray;
 }
@@ -107,26 +113,30 @@
     _inputView4.placeholder = @"请输入公司";
     _inputView4.textField.text = self.userInfoModel.company;
     
-    _inputView5 = [[YOSInputView alloc] initWithTitle:@"公司电话" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
-    _inputView5.placeholder = @"请输入公司电话";
-    _inputView5.textField.text = self.userInfoModel.phone;
+    _inputView5 = [[YOSInputView alloc] initWithTitle:@"职位" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView5.placeholder = @"请输入职位";
+    _inputView5.textField.text = self.userInfoModel.position;
     
-    _inputView6 = [[YOSInputView alloc] initWithTitle:@"公司网址" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
-    _inputView6.placeholder = @"请输入公司网址";
-    _inputView6.textField.text = self.userInfoModel.website;
+    _inputView6 = [[YOSInputView alloc] initWithTitle:@"公司电话" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView6.placeholder = @"请输入公司电话";
+    _inputView6.textField.text = self.userInfoModel.phone;
     
-    _inputView7 = [[YOSInputView alloc] initWithTitle:@"学历" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
-    _inputView7.placeholder = @"点击选择";
-    _inputView7.pickerType = YOSInputViewPickerTypeEducation;
+    _inputView7 = [[YOSInputView alloc] initWithTitle:@"公司网址" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView7.placeholder = @"请输入公司网址";
+    _inputView7.textField.text = self.userInfoModel.website;
     
-    _inputView8 = [[YOSInputView alloc] initWithTitle:@"工作经验" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView8 = [[YOSInputView alloc] initWithTitle:@"学历" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView8.placeholder = @"点击选择";
-    _inputView8.pickerType = YOSInputViewPickerTypeJobYears;
+    _inputView8.pickerType = YOSInputViewPickerTypeEducation;
     
-    _inputView9 = [[YOSInputView alloc] initWithTitle:@"诉求" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
-    _inputView9.placeholder = @"请输入您的诉求";
+    _inputView9 = [[YOSInputView alloc] initWithTitle:@"工作经验" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView9.placeholder = @"点击选择";
+    _inputView9.pickerType = YOSInputViewPickerTypeJobYears;
     
-    _inputViews = [[NSMutableArray alloc] initWithArray:@[_inputView0,_inputView1,_inputView2,_inputView3,_inputView4,_inputView5,_inputView6,_inputView7,_inputView8,_inputView9]];
+    _inputView10 = [[YOSInputView alloc] initWithTitle:@"诉求" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView10.placeholder = @"请输入您的诉求";
+    
+    _inputViews = [[NSMutableArray alloc] initWithArray:@[_inputView0,_inputView1,_inputView2,_inputView3,_inputView4,_inputView5,_inputView6,_inputView7,_inputView8,_inputView9,_inputView10]];
     
     [_inputViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [_iqContentView addSubview:obj];
@@ -144,7 +154,7 @@
     [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
-        make.bottom.mas_equalTo(_inputView9.mas_bottom);
+        make.bottom.mas_equalTo(_inputView10.mas_bottom);
     }];
     
     [_setHeadView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -156,7 +166,7 @@
     [_iqContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_setHeadView.mas_bottom).offset(10);
         make.left.and.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(_inputView8.mas_bottom);
+        make.bottom.mas_equalTo(_inputView10.mas_bottom);
     }];
     
     __block UIView *lastView = nil;
@@ -182,6 +192,55 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - event response 
+
+- (void)clickRightItem:(UIButton *)item {
+    [self sendNetworkRequest];
+}
+
+#pragma mark - network
+
+- (void)sendNetworkRequest {
+    
+    YOSUpdateUserInfoModel *updateModel = [YOSUpdateUserInfoModel new];
+    
+    updateModel.ID = [GVUserDefaults standardUserDefaults].currentLoginID;
+    updateModel.nickname = YOSFliterNil2String(_inputView0.text);
+    updateModel.email = YOSFliterNil2String(_inputView2.text);
+    updateModel.sex = YOSFliterNil2String(_inputView3.sexId);
+    updateModel.company = YOSFliterNil2String(_inputView4.text);
+    updateModel.position = YOSFliterNil2String(_inputView5.text);
+    updateModel.tel = YOSFliterNil2String(_inputView6.text);
+    updateModel.website = YOSFliterNil2String(_inputView7.text);
+    updateModel.degrees = YOSFliterNil2String(_inputView8.text);
+    updateModel.work_experience = YOSFliterNil2String(_inputView9.jobYearsId);
+    updateModel.demand = YOSFliterNil2String(_inputView10.text);
+    
+    YOSUserUpdateUserRequest *request = [[YOSUserUpdateUserRequest alloc] initWithUpdateUserInfoModel:updateModel];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            NSMutableDictionary *mUserInfo = [[GVUserDefaults standardUserDefaults].currentUserInfoDictionary mutableCopy];
+            mUserInfo[@"nickname"] = updateModel.nickname;
+            mUserInfo[@"email"] = updateModel.email;
+            mUserInfo[@"sex"] = updateModel.sex;
+            mUserInfo[@"company"] = updateModel.company;
+            mUserInfo[@"position"] = updateModel.position;
+            mUserInfo[@"tel"] = updateModel.tel;
+            mUserInfo[@"website"] = updateModel.website;
+            mUserInfo[@"degrees"] = updateModel.degrees;
+            mUserInfo[@"work_experience"] = updateModel.work_experience;
+            mUserInfo[@"demand"] = updateModel.demand;
+            
+            [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateUserInfo object:nil];
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 #pragma mark - getter & setter

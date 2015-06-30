@@ -10,7 +10,7 @@
 
 #import "YOSUserInfoModel.h"
 
-#import "YOSUploadActivityImageRequest.h"
+#import "YOSUserUpPhotoRequest.h"
 
 #import "EDColor.h"
 #import "YOSWidget.h"
@@ -83,15 +83,16 @@
     
     [self.headImageView setBackgroundImage:editedImage forState:UIControlStateNormal];
     
-    YOSUploadActivityImageRequest *request = [[YOSUploadActivityImageRequest alloc] initWithImage:editedImage];
+    YOSUserUpPhotoRequest *r2 = [[YOSUserUpPhotoRequest alloc] initWithImage:editedImage uid:[GVUserDefaults standardUserDefaults].currentLoginID];
     
-    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+    [r2 startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
             // update avatar
             NSDictionary *userInfo = [GVUserDefaults standardUserDefaults].currentUserInfoDictionary;
             NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
             mUserInfo[@"avatar"] = [NSString stringWithFormat:@"%@%@", YOSImageBaseUrl, request.yos_data];
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateUserInfo object:nil];
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse:NO];

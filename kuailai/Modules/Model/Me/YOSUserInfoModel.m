@@ -17,6 +17,7 @@
 + (JSONKeyMapper *)keyMapper {
     return [[JSONKeyMapper alloc] initWithDictionary:@{
                                                        @"id" : @"ID",
+                                                       @"degress" : @"degree",
                                                        }];
 }
 

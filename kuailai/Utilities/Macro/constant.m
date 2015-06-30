@@ -17,6 +17,8 @@ NSString * const YOSEncodeSignKey = @"ao$i8nJ*S2AL";
 
 NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
 
+NSString * const YOSNotificationUpdateUserInfo = @"YOSNotificationUpdateUserInfo";
+
 /**
  *  UserDefault keys
  */

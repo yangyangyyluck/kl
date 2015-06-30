@@ -12,6 +12,7 @@
 
 #import "Masonry.h"
 #import "UIImageView+WebCache.h"
+#import "YOSWidget.h"
 
 @implementation YOSHeadDetailButton {
     YOSUserInfoModel *_userInfoModel;
@@ -35,6 +36,8 @@
     _userInfoModel = userInfoModel;
     
     [self setupSubviews];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo) name:YOSNotificationUpdateUserInfo object:nil];
     
     return self;
 }
@@ -67,24 +70,6 @@
     
     _rightAccessaryImageView = [UIImageView new];
     [self addSubview:_rightAccessaryImageView];
-    
-    if (_userInfoModel.avatar && ![_userInfoModel.avatar isEqualToString:@""]) {
-        NSURL *url = [NSURL URLWithString:_userInfoModel.avatar];
-        
-        [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"默认头像"]];
-        
-    } else {
-        _imageView.image = [UIImage imageNamed:@"默认头像"];
-    }
-    
-    _nameLabel.text = _userInfoModel.nickname;
-    _jobTitleLabel.text = YOSIsEmpty(_userInfoModel.position) ? @"还未填写职位信息" : _userInfoModel.position;
-    _companyLabel.text = YOSIsEmpty(_userInfoModel.company) ? @"还未填写公司信息" : _userInfoModel.company;
-    
-    _rightAccessaryImageView.image = [UIImage imageNamed:@"小箭头"];
-    
-    _headBackgroundImageView.image = [UIImage imageNamed:@"首页默认图"];
-    _headBackgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     
     [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(17);
@@ -121,6 +106,38 @@
         make.size.mas_equalTo(self);
         make.top.and.left.mas_equalTo(0);
     }];
+    
+    [self setupUserInfo];
+}
+
+- (void)setupUserInfo {
+    if (_userInfoModel.avatar && ![_userInfoModel.avatar isEqualToString:@""]) {
+        NSURL *url = [NSURL URLWithString:_userInfoModel.avatar];
+        
+        [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"默认头像"]];
+        
+    } else {
+        _imageView.image = [UIImage imageNamed:@"默认头像"];
+    }
+    
+    _nameLabel.text = _userInfoModel.nickname;
+    _jobTitleLabel.text = YOSIsEmpty(_userInfoModel.position) ? @"还未填写职位信息" : _userInfoModel.position;
+    _companyLabel.text = YOSIsEmpty(_userInfoModel.company) ? @"还未填写公司信息" : _userInfoModel.company;
+    
+    _rightAccessaryImageView.image = [UIImage imageNamed:@"小箭头"];
+    
+    _headBackgroundImageView.image = [UIImage imageNamed:@"首页默认图"];
+    _headBackgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)updateUserInfo {
+    _userInfoModel = [YOSWidget getCurrentUserInfoModel];
+
+    [self setupUserInfo];
 }
 
 /*

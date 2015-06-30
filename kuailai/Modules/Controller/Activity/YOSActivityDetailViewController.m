@@ -8,6 +8,9 @@
 
 #import "YOSActivityDetailViewController.h"
 #import "YOSAttentionUserViewController.h"
+#import "YOSLoginViewController.h"
+#import "YOSBaseNavigationViewController.h"
+#import "YOSUpdateUserInfoViewController.h"
 #import "YOSActivityDetailItemView.h"
 #import "YOSCollectionImageCell.h"
 #import "YOSDetailLabel.h"
@@ -15,7 +18,10 @@
 #import "YOSNeedView.h"
 #import "YOSFriendCell.h"
 
+
 #import "YOSActiveGetActiveRequest.h"
+#import "YOSActiveSignUpRequest.h"
+#import "YOSActiveIsSignUpRequest.h"
 
 #import "YOSActivityDetailModel.h"
 #import "YOSUserInfoModel.h"
@@ -26,10 +32,12 @@
 #import "YOSWidget.h"
 #import "UIView+YOSAdditions.h"
 #import "SVProgressHUD+YOSAdditions.h"
+#import "GVUserDefaults+YOSProperties.h"
+#import "UIImage+YOSAdditions.h"
 
 static const NSUInteger numbersOfSections = 100;
 
-@interface YOSActivityDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface YOSActivityDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, copy) NSString *activityId;
 
@@ -38,6 +46,8 @@ static const NSUInteger numbersOfSections = 100;
 @property (nonatomic, strong) NSMutableArray *images;
 
 @property (nonatomic, strong) NSArray *friends;
+
+@property (nonatomic, strong) NSArray *signConditions;
 
 @end
 
@@ -276,19 +286,11 @@ static const NSUInteger numbersOfSections = 100;
         [audit addObject:@"手机号码"];
     }
     
+    self.signConditions = audit;
+    
     _needDetailView = [[YOSNeedView alloc] initWithTitles:audit];
     
     [_needContainerView addSubview:_needDetailView];
-    
-//    UIView *_noticeLabel;
-//    UIView *_originatorView;
-//    UILabel *_originatorLabel;
-//    UILabel *_originatorNameLabel;
-//    UIImageView *_rightArrowView;
-//    
-//    UITableView *_tableView;
-//    UIButton *_moreUserButton;
-//    UIButton *_signButton;
     
     _noticeLabel = [_titleLabel yos_copySelf];
     _noticeLabel.text = @"他们都关注了";
@@ -337,10 +339,11 @@ static const NSUInteger numbersOfSections = 100;
     [_signButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _signButton.titleLabel.font = YOSFontBig;
     [_signButton addTarget:self action:@selector(tappedSignButton) forControlEvents:UIControlEventTouchUpInside];
-    _signButton.backgroundColor = YOSRGB(249, 125, 77);
+    [_signButton setBackgroundImage:[UIImage yos_imageWithColor:YOSRGB(249, 125, 77) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     
     [_contentView addSubview:_signButton];
     
+    [self sendNetworkRequestForIsSignUp];
     [self setupConstraints];
 }
 
@@ -420,8 +423,8 @@ static const NSUInteger numbersOfSections = 100;
     
     [_needLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(_titleLabel);
-        make.top.mas_equalTo(_introduceDetailLabel.mas_bottom);
-        make.left.mas_equalTo(0);
+        make.top.mas_equalTo(_introduceDetailView.mas_bottom);
+        make.left.mas_equalTo(10);
     }];
     
     [_needContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -437,16 +440,6 @@ static const NSUInteger numbersOfSections = 100;
         make.left.mas_equalTo(1);
         make.top.mas_equalTo(15);
     }];
-    
-    //    UIView *_noticeLabel;
-    //    UIView *_originatorView;
-    //    UILabel *_originatorLabel;
-    //    UILabel *_originatorNameLabel;
-    //    UIImageView *_rightArrowView;
-    //
-    //    UITableView *_tableView;
-    //    UIButton *_moreUserButton;
-    //    UIButton *_signButton;
     
     [_noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_needContainerView.mas_bottom);
@@ -619,6 +612,18 @@ static const NSUInteger numbersOfSections = 100;
     NSLog(@"%s", __func__);
 }
 
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        // do nothing
+    } else {
+        YOSUpdateUserInfoViewController *updateVC = [YOSUpdateUserInfoViewController new];
+        
+        [self.navigationController pushViewController:updateVC animated:YES];
+    }
+}
+
 #pragma mark - event response 
 
 - (void)tappedOriginatorButton {
@@ -635,6 +640,18 @@ static const NSUInteger numbersOfSections = 100;
 
 - (void)tappedSignButton {
     NSLog(@"%s", __func__);
+    
+    // login
+    if (![GVUserDefaults standardUserDefaults].currentLoginID.length) {
+        YOSLoginViewController *loginVC = [YOSLoginViewController new];
+        YOSBaseNavigationViewController *navVC = [[YOSBaseNavigationViewController alloc] initWithRootViewController:loginVC];
+        
+        [self presentViewController:navVC animated:YES completion:nil];
+        
+        return;
+    }
+    
+    [self sendNetworkRequestForSignUp];
 }
 
 #pragma mark - network
@@ -656,10 +673,6 @@ static const NSUInteger numbersOfSections = 100;
                 
                 if (array.count) {
                     [self.images addObjectsFromArray:array];
-                    
-//                    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-//                        [self.images addObject:self.activityDetailModel.thumb];
-//                    }];
                 }
             }
             
@@ -674,9 +687,75 @@ static const NSUInteger numbersOfSections = 100;
     }];
 }
 
+- (void)sendNetworkRequestForIsSignUp {
+    
+    if (![GVUserDefaults standardUserDefaults].currentLoginID.length) {
+        return;
+    }
+    
+    YOSActiveIsSignUpRequest *request = [[YOSActiveIsSignUpRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andAid:self.activityId];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        [request yos_checkResponse:NO];
+        
+        // 已报名
+        if ([request.yos_baseResponseModel.code integerValue] == 200) {
+            [self invalidSignButton];
+        }
+        
+        // 未报名
+        if ([request.yos_baseResponseModel.code integerValue] == 400) {
+            [self validSignButton];
+        }
+        
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse:NO];
+    }];
+}
+
+- (void)sendNetworkRequestForSignUp {
+    
+    YOSActiveSignUpRequest *request = [[YOSActiveSignUpRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andAid:self.activityId];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
+        [request yos_checkResponse:NO];
+        
+        // 报名成功
+        if ([request.yos_baseResponseModel.code integerValue] == 200) {
+            [self invalidSignButton];
+        }
+        
+        // 条件不足
+        if ([request.yos_baseResponseModel.code integerValue] == 400) {
+            
+            NSString *string = [self.signConditions componentsJoinedByString:@","];
+            
+            NSString *warnString = [NSString stringWithFormat:@"报名需要补全这些资料哦:\r\n%@", string];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:warnString delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去补全", nil];
+            
+            [alert show];
+        }
+        
+    } failure:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
+        [request yos_checkResponse];
+    }];
+}
+
 #pragma mark - private methods
 
+- (void)invalidSignButton {
+    [_signButton setTitle:@"已报名" forState:UIControlStateNormal];
+    _signButton.enabled = NO;
+}
 
+- (void)validSignButton {
+    [_signButton setTitle:@"报名参与" forState:UIControlStateNormal];
+    _signButton.enabled = YES;
+}
 
 #pragma mark - getter & setter
 

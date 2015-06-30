@@ -47,9 +47,15 @@
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
+		DD793D7E1B40F89900CBC54F /* YOSUserUpPhotoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD793D7D1B40F89900CBC54F /* YOSUserUpPhotoRequest.m */; };
 		DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */; };
 		DD8360B91B07955300DEAF86 /* YOSRegionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360B81B07955300DEAF86 /* YOSRegionModel.m */; };
 		DD8360BC1B07956F00DEAF86 /* YOSCityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360BB1B07956F00DEAF86 /* YOSCityModel.m */; };
+		DD89D6871B4235CF00D542BB /* YOSActiveSignUpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6861B4235CF00D542BB /* YOSActiveSignUpRequest.m */; };
+		DD89D68A1B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6891B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m */; };
+		DD89D68D1B42407500D542BB /* YOSActiveIsSignUpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D68C1B42407500D542BB /* YOSActiveIsSignUpRequest.m */; };
+		DD89D6901B427A0800D542BB /* YOSMyReleaseActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */; };
+		DD89D6931B4293D700D542BB /* YOSMyActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6921B4293D700D542BB /* YOSMyActivityView.m */; };
 		DD8DC7F21ACE76A700918ADD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F01ACE76A700918ADD /* Main.storyboard */; };
 		DD8DC7F41ACE76A700918ADD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F31ACE76A700918ADD /* Images.xcassets */; };
 		DD8DC7F71ACE76A700918ADD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F51ACE76A700918ADD /* LaunchScreen.xib */; };
@@ -187,12 +193,24 @@
 		DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD7707951AD3C05F00795561 /* UIView+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YOSAdditions.h"; sourceTree = "<group>"; };
 		DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YOSAdditions.m"; sourceTree = "<group>"; };
+		DD793D7C1B40F89900CBC54F /* YOSUserUpPhotoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserUpPhotoRequest.h; sourceTree = "<group>"; };
+		DD793D7D1B40F89900CBC54F /* YOSUserUpPhotoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserUpPhotoRequest.m; sourceTree = "<group>"; };
 		DD8360B31B075C8A00DEAF86 /* YOSActiveGetCityRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveGetCityRequest.h; sourceTree = "<group>"; };
 		DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveGetCityRequest.m; sourceTree = "<group>"; };
 		DD8360B71B07955300DEAF86 /* YOSRegionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSRegionModel.h; sourceTree = "<group>"; };
 		DD8360B81B07955300DEAF86 /* YOSRegionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSRegionModel.m; sourceTree = "<group>"; };
 		DD8360BA1B07956F00DEAF86 /* YOSCityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSCityModel.h; sourceTree = "<group>"; };
 		DD8360BB1B07956F00DEAF86 /* YOSCityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSCityModel.m; sourceTree = "<group>"; };
+		DD89D6851B4235CF00D542BB /* YOSActiveSignUpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveSignUpRequest.h; sourceTree = "<group>"; };
+		DD89D6861B4235CF00D542BB /* YOSActiveSignUpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveSignUpRequest.m; sourceTree = "<group>"; };
+		DD89D6881B423B1E00D542BB /* YOSUserGetMySignUpListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserGetMySignUpListRequest.h; sourceTree = "<group>"; };
+		DD89D6891B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserGetMySignUpListRequest.m; sourceTree = "<group>"; };
+		DD89D68B1B42407500D542BB /* YOSActiveIsSignUpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveIsSignUpRequest.h; sourceTree = "<group>"; };
+		DD89D68C1B42407500D542BB /* YOSActiveIsSignUpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveIsSignUpRequest.m; sourceTree = "<group>"; };
+		DD89D68E1B427A0800D542BB /* YOSMyReleaseActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyReleaseActivityViewController.h; sourceTree = "<group>"; };
+		DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyReleaseActivityViewController.m; sourceTree = "<group>"; };
+		DD89D6911B4293D700D542BB /* YOSMyActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyActivityView.h; sourceTree = "<group>"; };
+		DD89D6921B4293D700D542BB /* YOSMyActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyActivityView.m; sourceTree = "<group>"; };
 		DD8DC7E31ACE76A700918ADD /* kuailai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kuailai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8DC7F11ACE76A700918ADD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DD8DC7F31ACE76A700918ADD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -360,6 +378,8 @@
 				DD00EDF51ADD1BE100E811A2 /* YOSMeViewController.m */,
 				DD4A173D1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.h */,
 				DD4A173E1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m */,
+				DD89D68E1B427A0800D542BB /* YOSMyReleaseActivityViewController.h */,
+				DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -512,6 +532,8 @@
 				DD4A17401B3AB4FA00B10D4F /* YOSSetHeadView.h */,
 				DD4A17411B3AB4FA00B10D4F /* YOSSetHeadView.m */,
 				DD4A17431B3AB50B00B10D4F /* YOSSetHeadView.xib */,
+				DD89D6911B4293D700D542BB /* YOSMyActivityView.h */,
+				DD89D6921B4293D700D542BB /* YOSMyActivityView.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -628,6 +650,10 @@
 				DD058EB81B273D00003B50BE /* YOSActiveGetActiveRequest.m */,
 				DDE28F611B37ED83005BD036 /* YOSActiveGetCollectRequest.h */,
 				DDE28F621B37ED83005BD036 /* YOSActiveGetCollectRequest.m */,
+				DD89D6851B4235CF00D542BB /* YOSActiveSignUpRequest.h */,
+				DD89D6861B4235CF00D542BB /* YOSActiveSignUpRequest.m */,
+				DD89D68B1B42407500D542BB /* YOSActiveIsSignUpRequest.h */,
+				DD89D68C1B42407500D542BB /* YOSActiveIsSignUpRequest.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -823,6 +849,10 @@
 				DD00EDDE1ADB9EF100E811A2 /* YOSUserRegisterRequest.m */,
 				DD4A17371B3AAC1500B10D4F /* YOSUserUpdateUserRequest.h */,
 				DD4A17381B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m */,
+				DD793D7C1B40F89900CBC54F /* YOSUserUpPhotoRequest.h */,
+				DD793D7D1B40F89900CBC54F /* YOSUserUpPhotoRequest.m */,
+				DD89D6881B423B1E00D542BB /* YOSUserGetMySignUpListRequest.h */,
+				DD89D6891B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1005,6 +1035,7 @@
 				DD4A173F1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m in Sources */,
 				DD00EDDC1ADB6C3A00E811A2 /* YOSAccessoryView.m in Sources */,
 				DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */,
+				DD89D6931B4293D700D542BB /* YOSMyActivityView.m in Sources */,
 				DD00F21F1B04E32E009AFD66 /* YOSDBManager.m in Sources */,
 				DD00EDF61ADD1BE100E811A2 /* YOSMeViewController.m in Sources */,
 				DDCF01061B116FAD00ED205F /* YOSTextView.m in Sources */,
@@ -1012,11 +1043,13 @@
 				DD16903C1B254A200060B3EB /* YOSUserInfoModel.m in Sources */,
 				DD8360BC1B07956F00DEAF86 /* YOSCityModel.m in Sources */,
 				DDE28F6C1B38145F005BD036 /* YOSMeButtonView.m in Sources */,
+				DD89D68A1B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m in Sources */,
 				DDF599371B33025E00BF2C42 /* YOSFriendCell.m in Sources */,
 				DDF840B11AD61A15006939DF /* YOSUserSendCodeRequest.m in Sources */,
 				DD00EDD61ADB6C3A00E811A2 /* YOSRegStepTwoViewController.m in Sources */,
 				DD00EDDB1ADB6C3A00E811A2 /* YOSTabBarItem.m in Sources */,
 				DD8DC8291ACE7F8800918ADD /* main.m in Sources */,
+				DD89D6901B427A0800D542BB /* YOSMyReleaseActivityViewController.m in Sources */,
 				DD00EDE21ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m in Sources */,
 				DD058EBC1B273D81003B50BE /* YOSActivityDetailViewController.m in Sources */,
 				DDE28F631B37ED83005BD036 /* YOSActiveGetCollectRequest.m in Sources */,
@@ -1029,10 +1062,12 @@
 				DDE28F791B3853C3005BD036 /* YOSLoginViewController.m in Sources */,
 				DDB6566E1B195EFE00531C71 /* YOSButton.m in Sources */,
 				DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */,
+				DD793D7E1B40F89900CBC54F /* YOSUserUpPhotoRequest.m in Sources */,
 				DD4A173C1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m in Sources */,
 				DDB656711B196F1E00531C71 /* YOSActivityCheckView.m in Sources */,
 				DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */,
 				DDF5993C1B330FA900BF2C42 /* YOSFriendModel.m in Sources */,
+				DD89D6871B4235CF00D542BB /* YOSActiveSignUpRequest.m in Sources */,
 				DDC9DE701B1DED0200629C84 /* YOSGetActiveListRequest.m in Sources */,
 				DD177AFF1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m in Sources */,
 				DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */,
@@ -1055,6 +1090,7 @@
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,
 				DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */,
+				DD89D68D1B42407500D542BB /* YOSActiveIsSignUpRequest.m in Sources */,
 				DD00EDD91ADB6C3A00E811A2 /* YOSBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

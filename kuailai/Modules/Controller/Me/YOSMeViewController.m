@@ -10,6 +10,7 @@
 #import "YOSCreateActivityViewController.h"
 #import "YOSUpdateUserInfoViewController.h"
 #import "YOSBaseNavigationViewController.h"
+#import "YOSMyReleaseActivityViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSHeadDetailButton.h"
 #import "YOSMeButtonView.h"
@@ -54,6 +55,8 @@
     [self setupRightButtonWithTitle:@"create"];
     
     [self setupSubviews];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo) name:YOSNotificationUpdateUserInfo object:nil];
 }
 
 - (void)setupSubviews {
@@ -172,6 +175,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - event response 
 
 - (void)tappedCellButton:(YOSCellButton *)button {
@@ -179,7 +186,8 @@
     
     // 已发布的活动
     if (button.tag == 0) {
-    
+        YOSMyReleaseActivityViewController *releaseVC = [YOSMyReleaseActivityViewController new];
+        [self.navigationController pushViewController:releaseVC animated:YES];
         return;
     }
     
@@ -223,6 +231,12 @@
     YOSCreateActivityViewController *vc = [YOSCreateActivityViewController new];
     
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - private method list
+
+- (void)updateUserInfo {
+    self.userInfoModel = [YOSWidget getCurrentUserInfoModel];
 }
 
 #pragma mark - getter & setter 
