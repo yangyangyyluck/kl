@@ -79,7 +79,7 @@
     _meButtonView = [YOSMeButtonView xx_instantiateFromNib];
     [_contentView addSubview:_meButtonView];
     
-    _cellButton0 = [[YOSCellButton alloc] initWithImage:@"我的邀请" title:@"已发布的活动"];
+    _cellButton0 = [[YOSCellButton alloc] initWithImage:@"我的邀请" title:@"发布的活动"];
     _cellButton0.showTopLine = YES;
     _cellButton0.tag = 0;
     [_cellButton0 addTarget:self action:@selector(tappedCellButton:) forControlEvents:UIControlEventTouchUpInside];

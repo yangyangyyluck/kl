@@ -81,6 +81,9 @@ NSString * const kHomeCellDefaultImage = @"首页默认图";
     
     self.messageImageView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.15f];
     
+    self.headButton.imageView.layer.cornerRadius = 20.0f;
+    self.headButton.imageView.layer.masksToBounds = YES;
+    
     self.containerView.layer.cornerRadius = 5.0f;
     self.containerView.layer.masksToBounds = YES;
     self.contentView.backgroundColor = YOSColorBackgroundGray;

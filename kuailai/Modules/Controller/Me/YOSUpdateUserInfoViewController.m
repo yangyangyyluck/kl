@@ -21,6 +21,7 @@
 #import "Masonry.h"
 #import "XXNibConvention.h"
 #import "YOSWidget.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSUpdateUserInfoViewController ()
 
@@ -63,6 +64,8 @@
     [self setupRightButtonWithTitle:@"保存设置"];
     
     self.view.backgroundColor = YOSColorBackgroundGray;
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(progressDidDisappear) name:SVProgressHUDDidDisappearNotification object:nil];
 }
 
 - (void)setupSubviews {
@@ -189,16 +192,25 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - event response 
+#pragma mark - event response
 
 - (void)clickRightItem:(UIButton *)item {
+    
+    if (!_inputView0.selected) {
+        [SVProgressHUD showErrorWithStatus:@"姓名必须填写哦~" maskType:SVProgressHUDMaskTypeClear];
+        return;
+    }
+    
     [self sendNetworkRequest];
 }
+
+//- (void)progressDidDisappear {
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 
 #pragma mark - network
 
@@ -220,6 +232,7 @@
     
     YOSUserUpdateUserRequest *request = [[YOSUserUpdateUserRequest alloc] initWithUpdateUserInfoModel:updateModel];
     
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
             NSMutableDictionary *mUserInfo = [[GVUserDefaults standardUserDefaults].currentUserInfoDictionary mutableCopy];
@@ -237,8 +250,17 @@
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
             
             [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateUserInfo object:nil];
+            
+            [SVProgressHUD showSuccessWithStatus:@"保存成功" maskType:SVProgressHUDMaskTypeClear];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"网络开小差了,请重试~"];
         }
     } failure:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
         [request yos_checkResponse];
     }];
 }

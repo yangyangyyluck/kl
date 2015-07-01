@@ -56,6 +56,11 @@
 		DD89D68D1B42407500D542BB /* YOSActiveIsSignUpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D68C1B42407500D542BB /* YOSActiveIsSignUpRequest.m */; };
 		DD89D6901B427A0800D542BB /* YOSMyReleaseActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */; };
 		DD89D6931B4293D700D542BB /* YOSMyActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6921B4293D700D542BB /* YOSMyActivityView.m */; };
+		DD89D6981B42CCED00D542BB /* YOSUserGetMyActiveListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6971B42CCED00D542BB /* YOSUserGetMyActiveListRequest.m */; };
+		DD89D69B1B42D0EB00D542BB /* YOSMyReleaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D69A1B42D0EB00D542BB /* YOSMyReleaseCell.m */; };
+		DD89D6A11B43DDF900D542BB /* YOSActivityAuditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6A01B43DDF900D542BB /* YOSActivityAuditViewController.m */; };
+		DD89D6A41B43E74300D542BB /* YOSAuditFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6A31B43E74300D542BB /* YOSAuditFriendCell.m */; };
+		DD89D6A71B43E95A00D542BB /* YOSActiveGetSignUpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6A61B43E95A00D542BB /* YOSActiveGetSignUpRequest.m */; };
 		DD8DC7F21ACE76A700918ADD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F01ACE76A700918ADD /* Main.storyboard */; };
 		DD8DC7F41ACE76A700918ADD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F31ACE76A700918ADD /* Images.xcassets */; };
 		DD8DC7F71ACE76A700918ADD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD8DC7F51ACE76A700918ADD /* LaunchScreen.xib */; };
@@ -211,6 +216,16 @@
 		DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyReleaseActivityViewController.m; sourceTree = "<group>"; };
 		DD89D6911B4293D700D542BB /* YOSMyActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyActivityView.h; sourceTree = "<group>"; };
 		DD89D6921B4293D700D542BB /* YOSMyActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyActivityView.m; sourceTree = "<group>"; };
+		DD89D6961B42CCED00D542BB /* YOSUserGetMyActiveListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserGetMyActiveListRequest.h; sourceTree = "<group>"; };
+		DD89D6971B42CCED00D542BB /* YOSUserGetMyActiveListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserGetMyActiveListRequest.m; sourceTree = "<group>"; };
+		DD89D6991B42D0EB00D542BB /* YOSMyReleaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyReleaseCell.h; sourceTree = "<group>"; };
+		DD89D69A1B42D0EB00D542BB /* YOSMyReleaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyReleaseCell.m; sourceTree = "<group>"; };
+		DD89D69F1B43DDF900D542BB /* YOSActivityAuditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActivityAuditViewController.h; sourceTree = "<group>"; };
+		DD89D6A01B43DDF900D542BB /* YOSActivityAuditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActivityAuditViewController.m; sourceTree = "<group>"; };
+		DD89D6A21B43E74300D542BB /* YOSAuditFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSAuditFriendCell.h; sourceTree = "<group>"; };
+		DD89D6A31B43E74300D542BB /* YOSAuditFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSAuditFriendCell.m; sourceTree = "<group>"; };
+		DD89D6A51B43E95A00D542BB /* YOSActiveGetSignUpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveGetSignUpRequest.h; sourceTree = "<group>"; };
+		DD89D6A61B43E95A00D542BB /* YOSActiveGetSignUpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveGetSignUpRequest.m; sourceTree = "<group>"; };
 		DD8DC7E31ACE76A700918ADD /* kuailai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kuailai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8DC7F11ACE76A700918ADD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DD8DC7F31ACE76A700918ADD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -380,6 +395,8 @@
 				DD4A173E1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m */,
 				DD89D68E1B427A0800D542BB /* YOSMyReleaseActivityViewController.h */,
 				DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */,
+				DD89D69F1B43DDF900D542BB /* YOSActivityAuditViewController.h */,
+				DD89D6A01B43DDF900D542BB /* YOSActivityAuditViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -534,6 +551,10 @@
 				DD4A17431B3AB50B00B10D4F /* YOSSetHeadView.xib */,
 				DD89D6911B4293D700D542BB /* YOSMyActivityView.h */,
 				DD89D6921B4293D700D542BB /* YOSMyActivityView.m */,
+				DD89D6991B42D0EB00D542BB /* YOSMyReleaseCell.h */,
+				DD89D69A1B42D0EB00D542BB /* YOSMyReleaseCell.m */,
+				DD89D6A21B43E74300D542BB /* YOSAuditFriendCell.h */,
+				DD89D6A31B43E74300D542BB /* YOSAuditFriendCell.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -654,6 +675,8 @@
 				DD89D6861B4235CF00D542BB /* YOSActiveSignUpRequest.m */,
 				DD89D68B1B42407500D542BB /* YOSActiveIsSignUpRequest.h */,
 				DD89D68C1B42407500D542BB /* YOSActiveIsSignUpRequest.m */,
+				DD89D6A51B43E95A00D542BB /* YOSActiveGetSignUpRequest.h */,
+				DD89D6A61B43E95A00D542BB /* YOSActiveGetSignUpRequest.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -853,6 +876,8 @@
 				DD793D7D1B40F89900CBC54F /* YOSUserUpPhotoRequest.m */,
 				DD89D6881B423B1E00D542BB /* YOSUserGetMySignUpListRequest.h */,
 				DD89D6891B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m */,
+				DD89D6961B42CCED00D542BB /* YOSUserGetMyActiveListRequest.h */,
+				DD89D6971B42CCED00D542BB /* YOSUserGetMyActiveListRequest.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1009,6 +1034,7 @@
 			files = (
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
 				DDE28F741B3839A2005BD036 /* YOSCellButton.m in Sources */,
+				DD89D6A41B43E74300D542BB /* YOSAuditFriendCell.m in Sources */,
 				DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */,
 				DDC9DE651B1DE2E900629C84 /* YOSUploadActivityImageRequest.m in Sources */,
 				DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */,
@@ -1022,11 +1048,13 @@
 				DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */,
 				DDC9DE731B1DF0F300629C84 /* YOSActivityListModel.m in Sources */,
 				DD0DF33B1B08E03500CCE202 /* YOSActiveGetTypeRequest.m in Sources */,
+				DD89D6981B42CCED00D542BB /* YOSUserGetMyActiveListRequest.m in Sources */,
 				DDB6567A1B198C8A00531C71 /* YOSActivitySonTypeModel.m in Sources */,
 				DD8360B91B07955300DEAF86 /* YOSRegionModel.m in Sources */,
 				DD00EDF31ADD1AAB00E811A2 /* YOSCreateActivityViewController.m in Sources */,
 				DD177B131B3C48AD00E86F24 /* VPImageCropperViewController.m in Sources */,
 				DDCF01031B116FAD00ED205F /* YOSInputView.m in Sources */,
+				DD89D6A71B43E95A00D542BB /* YOSActiveGetSignUpRequest.m in Sources */,
 				DDB656771B198C4500531C71 /* YOSActivityFatherTypeModel.m in Sources */,
 				DDF840B41AD6273C006939DF /* YOSWidget.m in Sources */,
 				DDB656741B1989A700531C71 /* YOSActivityTypeView.m in Sources */,
@@ -1039,6 +1067,7 @@
 				DD00F21F1B04E32E009AFD66 /* YOSDBManager.m in Sources */,
 				DD00EDF61ADD1BE100E811A2 /* YOSMeViewController.m in Sources */,
 				DDCF01061B116FAD00ED205F /* YOSTextView.m in Sources */,
+				DD89D69B1B42D0EB00D542BB /* YOSMyReleaseCell.m in Sources */,
 				DD97C9E81B1B1B95003D6C10 /* YOSSubmitInsetActiveModel.m in Sources */,
 				DD16903C1B254A200060B3EB /* YOSUserInfoModel.m in Sources */,
 				DD8360BC1B07956F00DEAF86 /* YOSCityModel.m in Sources */,
@@ -1087,6 +1116,7 @@
 				DD97C9E51B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m in Sources */,
 				DDD79A161B2F143100AF8A59 /* YOSNeedView.m in Sources */,
 				DD00EDD71ADB6C3A00E811A2 /* YOSBaseNavigationViewController.m in Sources */,
+				DD89D6A11B43DDF900D542BB /* YOSActivityAuditViewController.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,
 				DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */,

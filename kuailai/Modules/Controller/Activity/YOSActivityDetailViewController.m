@@ -703,6 +703,11 @@ static const NSUInteger numbersOfSections = 100;
             [self invalidSignButton];
         }
         
+        // 已满员
+        if ([request.yos_baseResponseModel.code integerValue] == 201) {
+            [self fullSignButton];
+        }
+        
         // 未报名
         if ([request.yos_baseResponseModel.code integerValue] == 400) {
             [self validSignButton];
@@ -725,6 +730,12 @@ static const NSUInteger numbersOfSections = 100;
         // 报名成功
         if ([request.yos_baseResponseModel.code integerValue] == 200) {
             [self invalidSignButton];
+        }
+        
+        // 已满员
+        if ([request.yos_baseResponseModel.code integerValue] == 201) {
+            [self fullSignButton];
+            [SVProgressHUD showInfoWithStatus:@"当前活动已满员啦~" maskType:SVProgressHUDMaskTypeClear];
         }
         
         // 条件不足
@@ -755,6 +766,11 @@ static const NSUInteger numbersOfSections = 100;
 - (void)validSignButton {
     [_signButton setTitle:@"报名参与" forState:UIControlStateNormal];
     _signButton.enabled = YES;
+}
+
+- (void)fullSignButton {
+    [_signButton setTitle:@"已满员" forState:UIControlStateNormal];
+    _signButton.enabled = NO;
 }
 
 #pragma mark - getter & setter

@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class YOSActivityListModel;
+
 @interface YOSMyActivityView : UIView
+
+@property (nonatomic, strong) YOSActivityListModel *activityListModel;
+
+@property (nonatomic, assign) BOOL showTopLine;
+
+@property (nonatomic, assign) BOOL showBottomLine;
 
 @end

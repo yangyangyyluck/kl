@@ -8,10 +8,13 @@
 
 #import "YOSMyActivityView.h"
 
-#import "EDColor.h"
+#import "YOSActivityListModel.h"
 
+#import "EDColor.h"
 #import "UIView+YOSAdditions.h"
 #import "Masonry.h"
+#import "YOSWidget.h"
+#import "UIImageView+WebCache.h"
 
 @implementation YOSMyActivityView {
     UIImageView *_imageView;
@@ -36,6 +39,9 @@
     }
     
     [self setupSubviews];
+    _showBottomLine = YES;
+    _showTopLine = YES;
+    self.backgroundColor = [UIColor whiteColor];
     
     return self;
 }
@@ -63,6 +69,7 @@
     
     _subImageView2 = [UIImageView new];
     _subImageView2.image = [UIImage imageNamed:@"报名费"];
+    _subImageView0.backgroundColor = YOSColorRandom;
     _subImageView1.backgroundColor = YOSColorRandom;
     _subImageView2.backgroundColor = YOSColorRandom;
     [self addSubview:_subImageView2];
@@ -81,6 +88,14 @@
     [self addSubview:_subTitle0];
     [self addSubview:_subTitle1];
     [self addSubview:_subTitle2];
+    
+    _topLineView = [UIView new];
+    _topLineView.backgroundColor = YOSColorLineGray;
+    [self addSubview:_topLineView];
+    
+    _bottomLineView = [UIView new];
+    _bottomLineView.backgroundColor = YOSColorLineGray;
+    [self addSubview:_bottomLineView];
     
     [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(10);
@@ -139,7 +154,52 @@
         make.left.mas_equalTo(_subTitle0);
         make.centerY.mas_equalTo(_subImageView2);
     }];
+    
+    [_topLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 0.5));
+        make.left.and.right.mas_equalTo(0);
+    }];
+    
+    [_bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(_topLineView);
+        make.bottom.and.left.mas_equalTo(0);
+    }];
 
+}
+
+- (void)setActivityListModel:(YOSActivityListModel *)activityListModel {
+    _activityListModel = activityListModel;
+    
+    _titleLabel.text = activityListModel.title;
+    if (activityListModel.thumb.length) {
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:activityListModel.thumb] placeholderImage:[UIImage imageNamed:@"发布活动"]];
+    } else {
+        _imageView.image = [UIImage imageNamed:@"发布活动"];
+    }
+    
+    _subTitle0.text = activityListModel.address;
+    NSString *time1 = [YOSWidget dateStringWithTimeStamp:activityListModel.start_time Format:@"YYYY-mm-dd"];
+    NSString *time2 = [YOSWidget dateStringWithTimeStamp:activityListModel.end_time Format:@"YYYY-mm-dd"];
+    _subTitle1.text = [NSString stringWithFormat:@"%@ 一 %@", time1, time2];
+    
+    if ([activityListModel.price integerValue] == 0) {
+        _subTitle2.text = @"免费";
+        _subTitle2.textColor = [UIColor greenColor];
+    } else {
+        _subTitle2.text = [NSString stringWithFormat:@"¥ %@", activityListModel.price];
+        _subTitle2.textColor = YOSColorMainRed;
+    }
+    
+}
+
+- (void)setShowTopLine:(BOOL)showTopLine {
+    _showTopLine = showTopLine;
+    _topLineView.hidden = !showTopLine;
+}
+
+- (void)setShowBottomLine:(BOOL)showBottomLine {
+    _showBottomLine = showBottomLine;
+    _bottomLineView.hidden = !showBottomLine;
 }
 
 @end
