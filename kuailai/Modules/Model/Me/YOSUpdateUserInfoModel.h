@@ -22,8 +22,6 @@
 
 @property (nonatomic, copy) NSString *sex;
 
-@property (nonatomic, copy) NSString *address;
-
 @property (nonatomic, copy) NSString *website;
 
 @property (nonatomic, copy) NSString *tel;

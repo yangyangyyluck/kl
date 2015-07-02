@@ -34,6 +34,7 @@
     }
     
     _userInfoModel = userInfoModel;
+    _showRightAccessory = YES;
     
     [self setupSubviews];
     
@@ -50,7 +51,7 @@
     _imageView.layer.cornerRadius = 35;
     _imageView.layer.masksToBounds = YES;
     _imageView.layer.borderWidth = 2;
-    _imageView.layer.borderColor = [UIColor redColor].CGColor;
+    _imageView.layer.borderColor = [UIColor whiteColor].CGColor;
     [self addSubview:_imageView];
     
     _nameLabel = [UILabel new];
@@ -138,6 +139,12 @@
     _userInfoModel = [YOSWidget getCurrentUserInfoModel];
 
     [self setupUserInfo];
+}
+
+- (void)setShowRightAccessory:(BOOL)showRightAccessory {
+    _showRightAccessory = showRightAccessory;
+    
+    _rightAccessaryImageView.hidden = !showRightAccessory;
 }
 
 /*

@@ -81,7 +81,7 @@
     _subTitle1 = [_subTitle0 yos_copySelf];
     _subTitle2 = [_subTitle0 yos_copySelf];
     
-    _subTitle0.text = @"朝阳区 乌龟街道";
+    _subTitle0.text = @"朝阳区 街道";
     _subTitle1.text = @"2014-10-11 一 2014-11-11";
     _subTitle2.text = @"¥ 1500";
     
@@ -184,7 +184,7 @@
     
     if ([activityListModel.price integerValue] == 0) {
         _subTitle2.text = @"免费";
-        _subTitle2.textColor = [UIColor greenColor];
+        _subTitle2.textColor = YOSColorGreen;
     } else {
         _subTitle2.text = [NSString stringWithFormat:@"¥ %@", activityListModel.price];
         _subTitle2.textColor = YOSColorMainRed;

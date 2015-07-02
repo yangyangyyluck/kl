@@ -118,7 +118,7 @@ NSString *yos_getSex(NSString *sexId) {
             break;
     }
     
-    return nil;
+    return sex;
 }
 
 NSString *yos_getSexId(NSString *sex) {

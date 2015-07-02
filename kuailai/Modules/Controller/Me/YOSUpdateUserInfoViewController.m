@@ -85,6 +85,7 @@
     _inputView0 = [[YOSInputView alloc] initWithTitle:@"真实姓名" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView0.placeholder = @"请输入真实姓名";
     _inputView0.textField.text = self.userInfoModel.nickname;
+    _inputView0.selected = (BOOL)self.userInfoModel.nickname.length;
     
     _inputView1 = [[YOSInputView alloc] initWithTitle:@"手机号码" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView1.textField.text = [GVUserDefaults standardUserDefaults].currentLoginMobileNumber;
@@ -97,47 +98,53 @@
     _inputView2 = [[YOSInputView alloc] initWithTitle:@"邮箱地址" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView2.placeholder = @"请输入邮箱地址";
     _inputView2.textField.text = self.userInfoModel.email;
+    _inputView2.selected = (BOOL)self.userInfoModel.email.length;
     
     _inputView3 = [[YOSInputView alloc] initWithTitle:@"性别" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView3.placeholder = @"点击选择";
     _inputView3.pickerType = YOSInputViewPickerTypeSex;
-    NSString *sex = nil;
-    NSUInteger sexId = [self.userInfoModel.sex integerValue];
-    if (sexId == 1) {
-        sex = @"男";
-    } else if (sexId == 2) {
-        sex = @"女";
-    } else {
-        sex = @"";
-    }
-    _inputView3.textField.text = sex;
+    _inputView3.textField.text = yos_getSex(self.userInfoModel.sex);
+    _inputView3.sexId = ([self.userInfoModel.sex integerValue] ? self.userInfoModel.sex : nil);
+    _inputView3.selected = (BOOL)self.userInfoModel.sex.integerValue;
     
     _inputView4 = [[YOSInputView alloc] initWithTitle:@"公司" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView4.placeholder = @"请输入公司";
     _inputView4.textField.text = self.userInfoModel.company;
+    _inputView4.selected = (BOOL)self.userInfoModel.company.length;
     
     _inputView5 = [[YOSInputView alloc] initWithTitle:@"职位" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView5.placeholder = @"请输入职位";
     _inputView5.textField.text = self.userInfoModel.position;
+    _inputView5.selected = (BOOL)self.userInfoModel.position.length;
     
     _inputView6 = [[YOSInputView alloc] initWithTitle:@"公司电话" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView6.placeholder = @"请输入公司电话";
-    _inputView6.textField.text = self.userInfoModel.phone;
+    _inputView6.textField.text = self.userInfoModel.tel;
+    _inputView6.selected = (BOOL)self.userInfoModel.tel.length;
     
     _inputView7 = [[YOSInputView alloc] initWithTitle:@"公司网址" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView7.placeholder = @"请输入公司网址";
     _inputView7.textField.text = self.userInfoModel.website;
+    _inputView7.selected = (BOOL)self.userInfoModel.website.length;
     
     _inputView8 = [[YOSInputView alloc] initWithTitle:@"学历" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView8.placeholder = @"点击选择";
     _inputView8.pickerType = YOSInputViewPickerTypeEducation;
+    _inputView8.textField.text = yos_getEducation(self.userInfoModel.degree);
+    _inputView8.educationId = ([self.userInfoModel.degree integerValue] ? self.userInfoModel.degree : nil);
+    _inputView8.selected = (BOOL)[self.userInfoModel.degree integerValue];
     
     _inputView9 = [[YOSInputView alloc] initWithTitle:@"工作经验" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView9.placeholder = @"点击选择";
     _inputView9.pickerType = YOSInputViewPickerTypeJobYears;
+    _inputView9.textField.text = yos_getJobYears(self.userInfoModel.work_experience);
+    _inputView9.jobYearsId = ([self.userInfoModel.work_experience integerValue] ? self.userInfoModel.work_experience : nil);
+    _inputView9.selected = (BOOL)[self.userInfoModel.work_experience integerValue];
     
     _inputView10 = [[YOSInputView alloc] initWithTitle:@"诉求" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView10.placeholder = @"请输入您的诉求";
+    _inputView10.textField.text = self.userInfoModel.demand;
+    _inputView10.selected = (BOOL)self.userInfoModel.demand.length;
     
     _inputViews = [[NSMutableArray alloc] initWithArray:@[_inputView0,_inputView1,_inputView2,_inputView3,_inputView4,_inputView5,_inputView6,_inputView7,_inputView8,_inputView9,_inputView10]];
     
@@ -226,7 +233,7 @@
     updateModel.position = YOSFliterNil2String(_inputView5.text);
     updateModel.tel = YOSFliterNil2String(_inputView6.text);
     updateModel.website = YOSFliterNil2String(_inputView7.text);
-    updateModel.degrees = YOSFliterNil2String(_inputView8.text);
+    updateModel.degrees = YOSFliterNil2String(_inputView8.educationId);
     updateModel.work_experience = YOSFliterNil2String(_inputView9.jobYearsId);
     updateModel.demand = YOSFliterNil2String(_inputView10.text);
     
@@ -243,7 +250,7 @@
             mUserInfo[@"position"] = updateModel.position;
             mUserInfo[@"tel"] = updateModel.tel;
             mUserInfo[@"website"] = updateModel.website;
-            mUserInfo[@"degrees"] = updateModel.degrees;
+            mUserInfo[@"degress"] = updateModel.degrees;
             mUserInfo[@"work_experience"] = updateModel.work_experience;
             mUserInfo[@"demand"] = updateModel.demand;
             

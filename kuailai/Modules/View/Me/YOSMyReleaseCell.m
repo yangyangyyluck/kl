@@ -97,7 +97,7 @@
     // do something..
     _myActivityView.activityListModel = activityListModel;
     
-    if ([activityListModel.status integerValue] == 1) {
+    if ([activityListModel.status integerValue] == 0) {
         [_leftButton setTitleColor:YOSColorFontGray forState:UIControlStateNormal];
         [_rightButton setTitleColor:YOSColorFontGray forState:UIControlStateNormal];
     } else {
@@ -105,8 +105,8 @@
         [_rightButton setTitleColor:YOSColorMainRed forState:UIControlStateNormal];
     }
     
-    _leftButton.enabled = ![activityListModel.status integerValue];
-    _rightButton.enabled = ![activityListModel.status integerValue];
+    _leftButton.enabled = [activityListModel.status integerValue];
+    _rightButton.enabled = [activityListModel.status integerValue];
 }
 
 #pragma mark - event response

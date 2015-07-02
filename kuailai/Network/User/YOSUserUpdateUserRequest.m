@@ -32,7 +32,6 @@
                                         @"company" : YOSFliterNil2String(_model.company),
                                         @"position" : YOSFliterNil2String(_model.position),
                                         @"sex" : YOSFliterNil2String(_model.sex),
-                                        @"address" : YOSFliterNil2String(_model.address),
                                         @"website" : YOSFliterNil2String(_model.website),
                                         @"tel" : YOSFliterNil2String(_model.tel),
                                         @"demand" : YOSFliterNil2String(_model.demand),

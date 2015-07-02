@@ -54,6 +54,8 @@
 
 - (void)setupSubviews {
     _headImageView = [UIImageView new];
+    _headImageView.layer.cornerRadius = 20;
+    _headImageView.layer.masksToBounds = YES;
     
     [self.contentView addSubview:_headImageView];
     
@@ -109,8 +111,8 @@
     }
     
     _nameLabel.text = friendModel.nickname;
-    _jobTitleLabel.text = friendModel.position;
-    _companyLabel.text = friendModel.company;
+    _jobTitleLabel.text = (friendModel.position.length ? friendModel.position : @"暂无职位信息");
+    _companyLabel.text = (friendModel.company.length ? friendModel.company : @"暂无公司信息");
     
     [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.removeExisting = YES;
@@ -134,7 +136,7 @@
         
         make.centerY.mas_equalTo(_nameLabel);
         make.left.mas_equalTo(_nameLabel.mas_right).offset(8);
-        make.size.mas_equalTo(CGSizeMake(120, 14));
+        make.size.mas_equalTo(CGSizeMake(120, 16));
     }];
     
     [_companyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -142,7 +144,7 @@
         
         make.bottom.mas_equalTo(_headImageView).offset(2);
         make.left.mas_equalTo(_nameLabel);
-        make.size.mas_equalTo(CGSizeMake(150, 15));
+        make.size.mas_equalTo(CGSizeMake(150, 17));
     }];
     
 }

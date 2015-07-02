@@ -22,6 +22,8 @@
 
 @property (nonatomic, copy) NSString *sex;
 
+@property (nonatomic, copy) NSString *sex_name;
+
 @property (nonatomic, copy) NSString *company;
 
 @property (nonatomic, copy) NSString *username;
@@ -39,5 +41,15 @@
 @property (nonatomic, copy) NSString *website;
 
 @property (nonatomic, copy) NSString *degree;
+
+@property (nonatomic, copy) NSString *degree_name;
+
+@property (nonatomic, copy) NSString *work_experience;
+
+@property (nonatomic, copy) NSString *work_experience_name;
+
+@property (nonatomic, copy) NSString *demand;
+
+@property (nonatomic, copy) NSString *tel;
 
 @end

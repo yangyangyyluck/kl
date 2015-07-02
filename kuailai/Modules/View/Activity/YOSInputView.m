@@ -43,17 +43,11 @@ static CGFloat kOneLineHeight = 44.0f;
 // YOSInputViewPickerTypeSex
 @property (nonatomic, strong) NSArray *sexDataSource;
 
-@property (nonatomic, copy) NSString *sexId;
-
 // YOSInputViewPickerTypeEducation
 @property (nonatomic, strong) NSArray *educationDataSource;
 
-@property (nonatomic, copy) NSString *educationId;
-
 // YOSInputViewPickerTypeJobYears
 @property (nonatomic, strong) NSArray *jobYearsDataSource;
-
-@property (nonatomic, copy) NSString *jobYearsId;
 
 @end
 

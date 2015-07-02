@@ -73,6 +73,21 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
 @property (nonatomic, strong) NSString *placeholder;
 
 /**
+ *  当前性别id
+ */
+@property (nonatomic, copy) NSString *sexId;
+
+/**
+ *  当前学历id
+ */
+@property (nonatomic, copy) NSString *educationId;
+
+/**
+ *  当前工作年限id
+ */
+@property (nonatomic, copy) NSString *jobYearsId;
+
+/**
  *  init method
  *
  *  @param title         左边title
@@ -132,27 +147,6 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
  *  @return id
  */
 - (NSString *)regionId;
-
-/**
- *  当前性别id
- *
- *  @return id
- */
-- (NSString *)sexId;
-
-/**
- *  当前学历id
- *
- *  @return id
- */
-- (NSString *)educationId;
-
-/**
- *  当前工作年限id
- *
- *  @return id
- */
-- (NSString *)jobYearsId;
 
 /**
  *  弹出editVC

@@ -21,6 +21,8 @@
 
 @interface YOSMyReleaseActivityViewController () <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, assign) NSUInteger auditStatus;
+
 @property (nonatomic, strong) NSMutableArray *activityListModels;
 
 /** 总数据量 */
@@ -54,6 +56,7 @@
     
     self.currentPage = 0;
     self.isNoMoreData = NO;
+    self.auditStatus = 1;
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
@@ -137,7 +140,7 @@
     }
     
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-    YOSUserGetMyActiveListRequest *request = [[YOSUserGetMyActiveListRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andPage:[NSString stringWithFormat:@"%zi", self.currentPage] andStatus:[NSString stringWithFormat:@"%zi", self.segmented.selectedSegmentIndex]];
+    YOSUserGetMyActiveListRequest *request = [[YOSUserGetMyActiveListRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andPage:[NSString stringWithFormat:@"%zi", self.currentPage] andStatus:[NSString stringWithFormat:@"%zi", self.auditStatus]];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         [SVProgressHUD dismiss];
@@ -206,14 +209,16 @@
     // 已审核
     if (segmented.selectedSegmentIndex == 0) {
         YOSLog(@"已审核");
-        [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
+        self.auditStatus = 1;
     }
     
     // 未审核
     if (segmented.selectedSegmentIndex == 1) {
         YOSLog(@"未审核");
-        [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
+        self.auditStatus = 0;
     }
+    
+    [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
 }
 
 @end

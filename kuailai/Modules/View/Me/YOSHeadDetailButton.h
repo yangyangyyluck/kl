@@ -11,6 +11,8 @@
 @class YOSUserInfoModel;
 @interface YOSHeadDetailButton : UIButton
 
+@property (nonatomic, assign) BOOL showRightAccessory;
+
 - (instancetype)initWithUserInfoModel:(YOSUserInfoModel *)userInfoModel;
 
 @end

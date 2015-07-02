@@ -7,6 +7,7 @@
 //
 
 #import "YOSActivityAuditViewController.h"
+#import "YOSActivityAuditIndividualViewController.h"
 #import "YOSFriendCell.h"
 
 #import "YOSActivityListModel.h"
@@ -74,6 +75,8 @@
     self.isNoMoreData = NO;
     
     [self setupSubviews];
+    
+    [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
 }
 
 - (void)setupSubviews {
@@ -92,12 +95,12 @@
     
     _leftLabel = [UILabel new];
     _leftLabel.font = YOSFontNormal;
-    _leftLabel.text = @"报名人数: 150人";
+    _leftLabel.text = @"报名人数: 人";
     [_contentView addSubview:_leftLabel];
     
     _rightButton = [UIButton new];
     [_rightButton setTitle:@"一键全通过" forState:UIControlStateNormal];
-    [_rightButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    [_rightButton setTitleColor:YOSColorGreen forState:UIControlStateNormal];
     _rightButton.titleLabel.font = YOSFontNormal;
     [_rightButton addTarget:self action:@selector(tappedAllSignButton) forControlEvents:UIControlEventTouchUpInside];
     [_contentView addSubview:_rightButton];
@@ -105,6 +108,9 @@
     _tableView = [UITableView new];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.tableFooterView = [UIView new];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.rowHeight = 60;
     [_contentView addSubview:_tableView];
     
     YOSWSelf(weakSelf);
@@ -168,6 +174,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
+    
+    YOSActivityAuditIndividualViewController *auditVC = [YOSActivityAuditIndividualViewController new];
+    [self.navigationController pushViewController:auditVC animated:YES];
 }
 
 #pragma mark - network
@@ -241,6 +250,17 @@
 
 - (void)tappedAllSignButton {
     NSLog(@"%s", __func__);
+    
+    YOSActivityAuditIndividualViewController *auditVC = [YOSActivityAuditIndividualViewController new];
+    [self.navigationController pushViewController:auditVC animated:YES];
+}
+
+#pragma mark - getter & setter 
+
+- (void)setCount:(NSUInteger)count {
+    _count = count;
+    
+    _leftLabel.text = [NSString stringWithFormat:@"报名人数: %zi人", count];
 }
 
 @end
