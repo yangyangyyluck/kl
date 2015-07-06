@@ -15,4 +15,6 @@
 
 - (instancetype)initWithUserInfoModel:(YOSUserInfoModel *)userInfoModel;
 
+@property (nonatomic, strong) YOSUserInfoModel *userInfoModel;
+
 @end

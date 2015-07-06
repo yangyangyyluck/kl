@@ -35,7 +35,7 @@
                                         @"website" : YOSFliterNil2String(_model.website),
                                         @"tel" : YOSFliterNil2String(_model.tel),
                                         @"demand" : YOSFliterNil2String(_model.demand),
-                                        @"degrees" : YOSFliterNil2String(_model.degrees),
+                                        @"degress" : YOSFliterNil2String(_model.degrees),
                                         @"work_experience" : YOSFliterNil2String(_model.work_experience),
                                         }];
 }

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class YOSUserInfoModel;
+
 @interface YOSActivityAuditIndividualView : UIView
+
+@property (nonatomic, strong) YOSUserInfoModel *userInfoModel;
 
 @end

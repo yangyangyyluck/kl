@@ -15,8 +15,6 @@
 #import "YOSWidget.h"
 
 @implementation YOSHeadDetailButton {
-    YOSUserInfoModel *_userInfoModel;
-    
     // UI
     UIImageView *_imageView;
     UILabel *_nameLabel;
@@ -39,6 +37,18 @@
     [self setupSubviews];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo) name:YOSNotificationUpdateUserInfo object:nil];
+    
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    
+    if (!self) {
+        return nil;
+    }
+    
+    [self setupSubviews];
     
     return self;
 }
@@ -145,6 +155,12 @@
     _showRightAccessory = showRightAccessory;
     
     _rightAccessaryImageView.hidden = !showRightAccessory;
+}
+
+- (void)setUserInfoModel:(YOSUserInfoModel *)userInfoModel {
+    _userInfoModel = userInfoModel;
+    
+    [self setupUserInfo];
 }
 
 /*

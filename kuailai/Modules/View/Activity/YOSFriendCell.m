@@ -127,8 +127,8 @@
         make.removeExisting = YES;
         
         make.left.mas_equalTo(_headImageView.mas_right).offset(8);
-        make.top.mas_equalTo(_headImageView).offset(2);
-        make.size.mas_equalTo(CGSizeMake(100, 16));
+        make.top.mas_equalTo(_headImageView).offset(0);
+        make.size.mas_equalTo(CGSizeMake(150, 19));
     }];
     
     [_jobTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -144,7 +144,7 @@
         
         make.bottom.mas_equalTo(_headImageView).offset(2);
         make.left.mas_equalTo(_nameLabel);
-        make.size.mas_equalTo(CGSizeMake(150, 17));
+        make.size.mas_equalTo(CGSizeMake(150, 18));
     }];
     
 }

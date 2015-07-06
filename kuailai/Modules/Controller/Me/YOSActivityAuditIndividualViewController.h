@@ -10,4 +10,10 @@
 
 @interface YOSActivityAuditIndividualViewController : YOSBaseViewController
 
+@property (nonatomic, strong) NSMutableArray *userInfoModels;
+
+@property (nonatomic, strong) NSIndexPath *currentIndexPath;
+
+@property (nonatomic, copy) NSString *aid;
+
 @end

@@ -12,6 +12,7 @@
 
 #import "YOSActivityListModel.h"
 #import "YOSFriendModel.h"
+#import "YOSUserInfoModel.h"
 
 #import "YOSActiveGetSignUpRequest.h"
 
@@ -24,6 +25,13 @@
 
 @property (nonatomic, strong) YOSActivityListModel *activityListModel;
 
+/** userInfoModels */
+@property (nonatomic, strong) NSMutableArray *userInfoModels;
+
+/** currentIndexPath */
+@property (nonatomic, strong) NSIndexPath *currentIndexPath;
+
+/** 报名活动的用户 */
 @property (nonatomic, strong) NSMutableArray *friends;
 
 /** 总数据量 */
@@ -175,7 +183,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
     
+    self.currentIndexPath = [NSIndexPath indexPathForItem:(indexPath.item % 2) inSection:(self.currentPage - 1)];
+    
     YOSActivityAuditIndividualViewController *auditVC = [YOSActivityAuditIndividualViewController new];
+    auditVC.currentIndexPath = self.currentIndexPath;
+    auditVC.userInfoModels = self.userInfoModels;
+    auditVC.aid = self.activityListModel.ID;
+    
     [self.navigationController pushViewController:auditVC animated:YES];
 }
 
@@ -223,9 +237,9 @@
             if (type == YOSRefreshTypeHeader) {
                 self.friends = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
             } else {
-                NSArray *array = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                NSArray *array = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
                 
-                [array enumerateObjectsUsingBlock:^(YOSActivityListModel *obj, NSUInteger idx, BOOL *stop) {
+                [array enumerateObjectsUsingBlock:^(YOSFriendModel *obj, NSUInteger idx, BOOL *stop) {
                     
                     if (![self.friends containsObject:obj]) {
                         [self.friends addObject:obj];
@@ -234,7 +248,30 @@
                 }];
             }
             
-            NSLog(@"activity list : %@", self.friends);
+            if (type == YOSRefreshTypeHeader) {
+                [self.userInfoModels removeAllObjects];
+                NSUInteger i = 1;
+                while (i <= self.totalPage) {
+                    NSMutableArray *temp = [NSMutableArray array];
+                    if (i == self.currentPage) {
+                        NSArray *userInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                        [temp addObjectsFromArray:userInfoModels];
+                    }
+                    [self.userInfoModels addObject:temp];
+                    i++;
+                }
+            } else {
+                NSArray *subUserInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                
+                if (self.currentPage != 2) {
+                    self.userInfoModels[self.currentPage - 1] = subUserInfoModels;
+                }
+                
+            }
+
+            
+            
+            NSLog(@"activity list, firends : %@, userInfoModels : %@", self.friends, self.userInfoModels);
             
             [_tableView reloadData];
         }
@@ -252,6 +289,9 @@
     NSLog(@"%s", __func__);
     
     YOSActivityAuditIndividualViewController *auditVC = [YOSActivityAuditIndividualViewController new];
+    
+    auditVC.userInfoModels = self.userInfoModels;
+    
     [self.navigationController pushViewController:auditVC animated:YES];
 }
 
@@ -261,6 +301,14 @@
     _count = count;
     
     _leftLabel.text = [NSString stringWithFormat:@"报名人数: %zi人", count];
+}
+
+- (NSMutableArray *)userInfoModels {
+    if (!_userInfoModels) {
+        _userInfoModels = [NSMutableArray array];
+    }
+    
+    return _userInfoModels;
 }
 
 @end

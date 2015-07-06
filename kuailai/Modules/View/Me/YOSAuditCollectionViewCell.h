@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class YOSUserInfoModel;
+
 @interface YOSAuditCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, strong) YOSUserInfoModel *userInfoModel;
 
 @end

@@ -79,6 +79,7 @@
     _userTextField.layer.masksToBounds = YES;
     _userTextField.placeholder = @"请输入账号";
     _userTextField.keyboardType = UIKeyboardTypeNumberPad;
+    _userTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [_userTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
     [self.view addSubview:_userTextField];
@@ -93,6 +94,7 @@
     _passTextField.layer.masksToBounds = YES;
     _passTextField.placeholder = @"请输入密码";
     _passTextField.secureTextEntry = YES;
+    _passTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [_passTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
     [self.view addSubview:_passTextField];
@@ -238,6 +240,8 @@
 - (void)tappedCloseButton {
     NSLog(@"%s", __func__);
     
+    [self.view endEditing:YES];
+    
     [UIView animateWithDuration:0.25f animations:^{
         _closeButton.transform=CGAffineTransformRotate(_closeButton.transform, -M_PI_2);
     } completion:^(BOOL finished) {
@@ -253,29 +257,27 @@
     
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
+        
         if ([request yos_checkResponse]) {
-            
-//            [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
-            
+            [SVProgressHUD dismiss];
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = request.yos_data;
             
             
             YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
             
             if (model.ID) {
-//                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
                 [GVUserDefaults standardUserDefaults].currentLoginID = model.ID;
                 YOSLog(@"\r\n\r\n had set LoginID");
             }
             
             if (model.username) {
-//                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
                 [GVUserDefaults standardUserDefaults].currentLoginMobileNumber = model.username;
                 YOSLog(@"\r\n\r\n had set LoginMobile");
             }
             
             [self tappedCloseButton];
+        } else {
+            [SVProgressHUD showErrorWithStatus:request.yos_baseResponseModel.msg maskType:SVProgressHUDMaskTypeClear];
         }
     } failure:^(YTKBaseRequest *request) {
         [SVProgressHUD dismiss];

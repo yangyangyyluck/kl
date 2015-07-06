@@ -38,4 +38,10 @@
     }];
 }
 
+- (void)setUserInfoModel:(YOSUserInfoModel *)userInfoModel {
+    _userInfoModel = userInfoModel;
+    
+    _auditIndividualView.userInfoModel = userInfoModel;
+}
+
 @end

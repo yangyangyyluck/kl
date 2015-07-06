@@ -147,7 +147,6 @@
     [self.view endEditing:YES];
     
     NSString *username = _nickNameTextField.text;
-//    NSString *ID = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentRegisterID];
     
     NSString *ID = [GVUserDefaults standardUserDefaults].currentRegisterID;
     
@@ -155,10 +154,15 @@
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if (![request yos_checkResponse]) {
+            [SVProgressHUD dismiss];
             return;
+        } else {
+            [self.view endEditing:YES];
+            [SVProgressHUD showSuccessWithStatus:@"注册成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
         }
-        
-        [SVProgressHUD showSuccessWithStatus:@"ok!"];
         
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
