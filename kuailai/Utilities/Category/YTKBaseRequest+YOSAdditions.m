@@ -7,6 +7,8 @@
 //
 
 #import "YTKBaseRequest+YOSAdditions.h"
+#import "SVProgressHUD+YOSAdditions.h"
+#import "JRSwizzle.h"
 #import <objc/runtime.h>
 
 #ifdef DEBUG
@@ -73,26 +75,26 @@
 
 - (BOOL)yos_checkResponse:(BOOL)showErrorMessage {
     
+    // 请求失败 HTTP状态码 不在200-299 网络错误等非业务类型错误
+    if (![self statusCodeValidator]) {
+        if (!self.isYos_hideDebug) {
+            YOSLog(@"\r\n\r\nnetwork error, response headers : \r\n%@\r\n", self.responseHeaders);
+        }
+        
+        if ([self yosp_performCustomWithStatus:BusinessRequestStatusFailure]) return NO;
+        if (showErrorMessage) {
+            // 系统统一处理网络异常
+            [SVProgressHUD showErrorWithStatus:YOSNetworkErrorFailure maskType:SVProgressHUDMaskTypeClear];
+        }
+        
+        return NO;
+    }
+    
     if (!self.responseJSONObject) {
         // show some message
         YOSLog(@"\r\n\r\nnetwork error, response JSON is nil, response headers : \r\n%@\r\n", self.responseHeaders);
         return NO;
     }
-    
-    // 请求失败 HTTP状态码 不在200-299 网络错误等非业务类型错误
-//    if (![self statusCodeValidator]) {
-//        if (!self.isYos_hideDebug) {
-//            YOSLog(@"\r\n\r\nnetwork error, response headers : \r\n%@\r\n", self.responseHeaders);
-//        }
-//        
-//        if ([self yosp_performCustomWithStatus:BusinessRequestStatusFailure]) return NO;
-//        if (showErrorMessage) {
-//            // 系统统一处理网络异常
-//            
-//        }
-//        
-//        return NO;
-//    }
     
     if (!self.isYos_hideDebug) {
         YOSLog(@"%@", self.yos_debugString);
@@ -134,6 +136,9 @@
             // 请求成功
         case BusinessRequestStatusSuccess: {
             
+            // 请求成功都取消HUD
+            [SVProgressHUD dismiss];
+            
             if ([self yosp_performCustomWithStatus:BusinessRequestStatusSuccess]) return YES;
             
             if (showErrorMessage) {
@@ -152,7 +157,7 @@
             
             if (showErrorMessage) {
                 // 系统统一处理网络异常
-                
+                [SVProgressHUD showErrorWithStatus:YOSNetworkErrorBadRequest maskType:SVProgressHUDMaskTypeClear];
             }
             
             return NO;
@@ -165,7 +170,7 @@
             
             if (showErrorMessage) {
                 // 系统统一处理网络异常
-                
+                [SVProgressHUD showErrorWithStatus:YOSNetworkErrorNoAuthorization maskType:SVProgressHUDMaskTypeClear];
             }
             
             return NO;
@@ -178,7 +183,7 @@
             
             if (showErrorMessage) {
                 // 系统统一处理网络异常
-                
+                [SVProgressHUD showErrorWithStatus:YOSNetworkErrorDefault maskType:SVProgressHUDMaskTypeClear];
             }
             
             return NO;
@@ -270,6 +275,20 @@
     }
     
     return [data description];
+}
+
+- (NSTimeInterval)yos_requestTimeoutInterval {
+    return 5;
+}
+
++ (void)load {
+    NSError *error = nil;
+    [self jr_swizzleMethod:@selector(requestTimeoutInterval) withMethod:@selector(yos_requestTimeoutInterval) error:&error];
+    
+    if (error) {
+        YOSLog(@"\r\n fatal error : JRSwizzle wrong.");
+    }
+    
 }
 
 @end

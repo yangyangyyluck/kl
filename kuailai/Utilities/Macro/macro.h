@@ -64,3 +64,8 @@
 #define YOSSSelf(strongSelf)  __strong __typeof(&*self)strongSelf = self
 #define YOSWObject(object, weakObject)  __weak __typeof(&*object)weakObject = object
 #define YOSSObject(object, strongObject)  __strong __typeof(&*object)strongObject = object
+
+#define YOSNetworkErrorBadRequest       @"服务器返回异常,请重试~"
+#define YOSNetworkErrorNoAuthorization  @"请先登录哦~"
+#define YOSNetworkErrorFailure          @"网络开小差啦,请重试~"
+#define YOSNetworkErrorDefault          @"网络开小差啦,请重试~"

@@ -512,13 +512,12 @@
     YOSActiveInsertActiveRequest *request = [[YOSActiveInsertActiveRequest alloc] initWithModel:self.submitInsetActiveModel];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
+        
         if ([request yos_checkResponse]) {
             YOSLog(@"\r\n\r\ninset active success..");
             [self.navigationController popViewControllerAnimated:YES];
         }
     } failure:^(YTKBaseRequest *request) {
-        [SVProgressHUD showErrorWithStatus:@"对不起,网络开小差了,请重试~" maskType:SVProgressHUDMaskTypeClear];
         [request yos_checkResponse];
     }];
 }

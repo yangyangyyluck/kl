@@ -19,9 +19,14 @@
 
 @interface YOSActivityAuditIndividualViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
+/** 当前偏移量，用于计算是像左还是向右滚动 */
 @property (nonatomic, assign) CGPoint currentOffset;
 
+/** 标志位：当前是向左滚动还是向右，影响发送网络请求时的page参数 */
 @property (nonatomic, assign) BOOL isScrollLeft;
+
+/** 标识位：需要发送网络请求 */
+@property (nonatomic, assign) BOOL isNeedSendNetworkRequest;
 
 @end
 
@@ -113,7 +118,7 @@
     if (subUserInfoModels.count >= (indexPath.item + 1)) {
         userInfoModel = subUserInfoModels[indexPath.item];
     } else {
-        [self sendNetworkRequest];
+        self.isNeedSendNetworkRequest = YES;
     }
     
     cell.userInfoModel = userInfoModel;
@@ -130,9 +135,19 @@
     }
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self sendNetworkRequest];
+}
+
 #pragma mark - network
 
 - (void)sendNetworkRequest {
+    
+    if (!self.isNeedSendNetworkRequest) {
+        return;
+    } else {
+        self.isNeedSendNetworkRequest = NO;
+    }
     
     NSUInteger page = 0;
     if (self.isScrollLeft) {
@@ -155,8 +170,6 @@
             }
             
             NSArray *subUserInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:array];
-            
-#warning TODO here.
             
             self.userInfoModels[page - 1] = subUserInfoModels;
             

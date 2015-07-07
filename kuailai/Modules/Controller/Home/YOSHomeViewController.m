@@ -216,7 +216,7 @@
     YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:YOSCityTypeBJ page:self.currentPage start_time:0 type:0];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
+        
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
         
@@ -257,7 +257,6 @@
             [_tableView reloadData];
         }
     } failure:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
         [request yos_checkResponse];
