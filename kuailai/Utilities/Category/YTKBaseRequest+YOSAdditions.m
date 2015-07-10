@@ -75,20 +75,24 @@
 
 - (BOOL)yos_checkResponse:(BOOL)showErrorMessage {
     
-    // 请求失败 HTTP状态码 不在200-299 网络错误等非业务类型错误
-    if (![self statusCodeValidator]) {
-        if (!self.isYos_hideDebug) {
-            YOSLog(@"\r\n\r\nnetwork error, response headers : \r\n%@\r\n", self.responseHeaders);
-        }
-        
-        if ([self yosp_performCustomWithStatus:BusinessRequestStatusFailure]) return NO;
-        if (showErrorMessage) {
-            // 系统统一处理网络异常
-            [SVProgressHUD showErrorWithStatus:YOSNetworkErrorFailure maskType:SVProgressHUDMaskTypeClear];
-        }
-        
-        return NO;
+    if (!self.isYos_hideDebug) {
+        YOSLog(@"%@", self.yos_debugString);
     }
+    
+//    // 请求失败 HTTP状态码 不在200-299 网络错误等非业务类型错误
+//    if (![self statusCodeValidator]) {
+//        if (!self.isYos_hideDebug) {
+//            YOSLog(@"\r\n\r\nnetwork error, response headers : \r\n%@\r\n", self.responseHeaders);
+//        }
+//        
+//        if ([self yosp_performCustomWithStatus:BusinessRequestStatusFailure]) return NO;
+//        if (showErrorMessage) {
+//            // 系统统一处理网络异常
+//            [SVProgressHUD showErrorWithStatus:YOSNetworkErrorFailure maskType:SVProgressHUDMaskTypeClear];
+//        }
+//        
+//        return NO;
+//    }
     
     if (!self.responseJSONObject) {
         // show some message
@@ -96,9 +100,7 @@
         return NO;
     }
     
-    if (!self.isYos_hideDebug) {
-        YOSLog(@"%@", self.yos_debugString);
-    }
+    
     
     YOSBaseResponseModel *baseResponseModel = [YOSBaseResponseModel new];
     
@@ -108,26 +110,6 @@
     baseResponseModel.code = responseJSONObject[@"code"];
     baseResponseModel.msg = responseJSONObject[@"msg"];
     baseResponseModel.data = responseJSONObject[@"data"];
-    
-    /*
-    if ([data isKindOfClass:[NSDictionary class]]) {
-        NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
-        [data enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            
-            if ([obj isMemberOfClass:[NSNumber class]]) {
-                dictM[key] = [obj description];
-            } else {
-                dictM[key] = obj;
-            }
-
-        }];
-        baseResponseModel.data = dictM;
-    }
-    
-    if ([data isKindOfClass:[NSArray class]]) {
-        baseResponseModel.data = data;
-    }
-     */
     
     self.yos_baseResponseModel = baseResponseModel;
     
@@ -157,7 +139,13 @@
             
             if (showErrorMessage) {
                 // 系统统一处理网络异常
-                [SVProgressHUD showErrorWithStatus:YOSNetworkErrorBadRequest maskType:SVProgressHUDMaskTypeClear];
+                
+                if (self.yos_baseResponseModel.msg) {
+                    [SVProgressHUD showErrorWithStatus:self.yos_baseResponseModel.msg maskType:SVProgressHUDMaskTypeClear];
+                } else {
+                    [SVProgressHUD showErrorWithStatus:YOSNetworkErrorBadRequest maskType:SVProgressHUDMaskTypeClear];
+                }
+                
             }
             
             return NO;
@@ -278,7 +266,7 @@
 }
 
 - (NSTimeInterval)yos_requestTimeoutInterval {
-    return 5;
+    return 25;
 }
 
 + (void)load {

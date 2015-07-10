@@ -41,7 +41,6 @@
     
     [self setupBackArrow];
     [self setupNavTitle:@"审核报名"];
-    [self setupRightButtonWithTitle:@"test"];
     
     [self setupSubviews];
 }
@@ -55,12 +54,7 @@
 }
 
 - (void)dealloc {
-    YOSLog(@"YOSActivityAuditIndividualViewController dealloc");
-}
-
-- (void)clickRightItem:(UIButton *)item {
-    NSLog(@"%s", __func__);
-    [_collectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+    YOSLog(@"\r\n\r\nYOSActivityAuditIndividualViewController dealloc");
 }
 
 - (void)setupSubviews {

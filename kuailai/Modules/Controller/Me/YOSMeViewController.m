@@ -10,13 +10,18 @@
 #import "YOSCreateActivityViewController.h"
 #import "YOSUpdateUserInfoViewController.h"
 #import "YOSBaseNavigationViewController.h"
+#import "YOSEditTapViewController.h"
 #import "YOSMyReleaseActivityViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSHeadDetailButton.h"
 #import "YOSMeButtonView.h"
 #import "YOSCellButton.h"
+#import "YOSTapView.h"
 
 #import "YOSUserInfoModel.h"
+
+#import "YOSUserAddTagRequest.h"
+#import "YOSUserGetTagListRequest.h"
 
 #import "Masonry.h"
 #import "XXNibBridge.h"
@@ -42,6 +47,8 @@
     
     YOSCellButton *_cellButtonTag;
     UIButton *_editTagButton;
+    
+    YOSTapView *_tapView;
 }
 
 #pragma mark - life cycles
@@ -55,6 +62,8 @@
     [self setupRightButtonWithTitle:@"create"];
     
     [self setupSubviews];
+    
+    [self sendNetworkRequest];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo) name:YOSNotificationUpdateUserInfo object:nil];
 }
@@ -111,6 +120,10 @@
     [_editTagButton addTarget:self action:@selector(tappedEditTagButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [_cellButtonTag addSubview:_editTagButton];
+    
+    _tapView = [[YOSTapView alloc] initWithTapArray:@[@"帅锅", @"超级大帅锅", @"帅到京东了党", @"super Mario", @"King of the worlD", @"hello skipper", @"be", @"ok super."]];
+    
+    [_contentView addSubview:_tapView];
  
     [self setupConstraints];
 }
@@ -124,7 +137,7 @@
     [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
-        make.height.mas_equalTo(YOSScreenHeight * 3);
+        make.bottom.mas_equalTo(_tapView.mas_bottom);
     }];
     
     _headDetailButton.backgroundColor = YOSColorRandom;
@@ -168,6 +181,12 @@
         make.centerY.mas_equalTo(_cellButtonTag);
         make.size.mas_equalTo(CGSizeMake(50, 13));
     }];
+    
+    [_tapView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.mas_equalTo(0);
+        make.top.mas_equalTo(_cellButtonTag.mas_bottom);
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -206,6 +225,22 @@
 
 - (void)tappedEditTagButton:(UIButton *)button {
     NSLog(@"%s", __func__);
+    
+    YOSEditTapViewController *editVC = [YOSEditTapViewController new];
+    
+    [self.navigationController pushViewController:editVC animated:YES];
+    
+    return;
+
+    YOSUserAddTagRequest *request = [[YOSUserAddTagRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID tagString:@"pjSGqblring"];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 - (void)tappedHeadDetailButton:(YOSHeadDetailButton *)button {
@@ -231,6 +266,20 @@
     YOSCreateActivityViewController *vc = [YOSCreateActivityViewController new];
     
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - network
+
+- (void)sendNetworkRequest {
+    YOSUserGetTagListRequest *request = [[YOSUserGetTagListRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            NSLog(@"%s", __func__);
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 #pragma mark - private method list

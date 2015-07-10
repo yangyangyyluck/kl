@@ -19,4 +19,7 @@
 - (void)clickRightItem:(UIButton *)item;
 - (void)setupNavTitle:(NSString *)title;
 
+// custom methods for kuai lai
+- (void)setupKuaiLai;
+
 @end

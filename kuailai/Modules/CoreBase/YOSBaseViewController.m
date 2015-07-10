@@ -154,6 +154,20 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)setupKuaiLai {
+    UIButton *btn = [UIButton new];
+    [btn setImage:[UIImage imageNamed:@"快来水印"] forState:UIControlStateNormal];
+    btn.frame = CGRectMake(0, 0, 40, 20);
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0, -13, 0, 0);
+    btn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    btn.adjustsImageWhenHighlighted = NO;
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    self.navigationItem.leftBarButtonItem = item;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

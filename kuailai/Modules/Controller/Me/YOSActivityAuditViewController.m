@@ -43,6 +43,9 @@
 /** 当前页数量 */
 @property (nonatomic, assign) NSUInteger currentPage;
 
+/** 每页数量 */
+@property (nonatomic, assign) NSUInteger pageSize;
+
 @property (nonatomic, assign) BOOL isNoMoreData;
 
 // UI
@@ -183,7 +186,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
     
-    self.currentIndexPath = [NSIndexPath indexPathForItem:(indexPath.item % 2) inSection:(self.currentPage - 1)];
+    self.currentIndexPath = [NSIndexPath indexPathForItem:(indexPath.item % self.pageSize) inSection:(indexPath.row / self.pageSize)];
+    
+    YOSLog(@"\r\n\r\n\r\n currentIndexPath %@", self.currentIndexPath);
     
     YOSActivityAuditIndividualViewController *auditVC = [YOSActivityAuditIndividualViewController new];
     auditVC.currentIndexPath = self.currentIndexPath;
@@ -221,6 +226,8 @@
             self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
             
             self.count = ((NSString *)request.yos_data[@"count"]).integerValue;
+            
+            self.pageSize = ((NSString *)request.yos_data[@"pageSize"]).integerValue;
             
             NSArray *array = request.yos_data[@"data"];
             
@@ -263,16 +270,13 @@
             } else {
                 NSArray *subUserInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
                 
-                if (self.currentPage != 2) {
+#warning TODO TEST here.
+//                if (self.currentPage != 2) {
                     self.userInfoModels[self.currentPage - 1] = subUserInfoModels;
-                }
+//                }
                 
             }
 
-            
-            
-            NSLog(@"activity list, firends : %@, userInfoModels : %@", self.friends, self.userInfoModels);
-            
             [_tableView reloadData];
         }
     } failure:^(YTKBaseRequest *request) {

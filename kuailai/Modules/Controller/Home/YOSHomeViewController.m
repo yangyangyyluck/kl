@@ -34,6 +34,7 @@
 #import "UIImage-Helpers.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "GVUserDefaults+YOSProperties.h"
+#import "UIView+YOSAdditions.h"
 
 @interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -66,7 +67,9 @@
     
     [self setupSubviews];
     
-    [self setupRightButtonWithTitle:@"点击"];
+    [self setupKuaiLai];
+    
+    [self setupNavigationRightButtons];
     
     self.currentPage = 0;
     self.isNoMoreData = NO;
@@ -105,97 +108,59 @@
     }];
 }
 
+- (void)setupNavigationRightButtons {
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 120, 25)];
+    
+    toolbar.barStyle = UIBarStyleDefault;
+
+    //定义两个flexibleSpace的button，放在toolBar上，这样完成按钮就会在最右边
+    UIBarButtonItem * flexibleItem0 =[[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
+    flexibleItem0.width =23;
+    
+    UIBarButtonItem * flexibleItem1 = [[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
+    flexibleItem1.width =23;
+
+    
+    UIButton *btn0 = [UIButton new];
+    btn0.frame = CGRectMake(0, 0, 25, 25);
+    [btn0 setImage:[UIImage imageNamed:@"时间"] forState:UIControlStateNormal];
+    btn0.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    btn0.backgroundColor = YOSColorRandom;
+    
+    UIButton *btn1 = [UIButton new];
+    btn1.frame = CGRectMake(0, 0, 25, 25);
+    [btn1 setImage:[UIImage imageNamed:@"兴趣-1"] forState:UIControlStateNormal];
+    btn1.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    btn1.backgroundColor = YOSColorRandom;
+    
+    UIButton *btn2 = [UIButton new];
+    btn2.frame = CGRectMake(0, 0, 25, 25);
+    btn2.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [btn2 setImage:[UIImage imageNamed:@"位置"] forState:UIControlStateNormal];
+    btn2.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    btn2.backgroundColor = YOSColorRandom;
+    
+
+    
+    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithCustomView:btn0];
+    
+    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithCustomView:btn1];
+    
+    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithCustomView:btn2];
+    
+    toolbar.items = @[item0, flexibleItem1, item1, flexibleItem0, item2];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
+    
+    self.navigationItem.rightBarButtonItem = item;
+    
+    
+}
+
 #pragma mark - event response
 
-- (void)clickRightItem:(UIButton *)item {
-    NSLog(@"%s", __func__);
-    NSString *string = @"2";
-    
-    if ([string isEqualToString:@"1"]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Register"] animated:YES];
-        });
-    }
-    
-    if ([string isEqualToString:@"2"]) {
-        YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:YOSCityTypeBJ page:(self.currentPage + 1) start_time:0 type:0];
-        
-        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-            if ([request yos_checkResponse]) {
-                
-                self.activityListModels = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
-                
-//                self.currentPage++;
-                
-                self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
-                
-                self.count = ((NSString *)request.yos_data[@"count"]).integerValue;
-                
-                NSLog(@"activity list : %@", self.activityListModels);
-                
-                [_tableView reloadData];
-            }
-        } failure:^(YTKBaseRequest *request) {
-            [request yos_checkResponse];
-        }];
-    }
-    
-    
-}
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"%s", __func__);
-    NSString *string = @"2";
-    
-    if ([string isEqualToString:@"1"]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.navigationController pushViewController:[YOSRegisterViewController viewControllerFromStoryboardWithSBName:@"Register"] animated:YES];
-        });
-    }
-    
-    if ([string isEqualToString:@"2"]) {
-        YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:YOSCityTypeBJ page:0 start_time:0 type:0];
-        
-        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-            if ([request yos_checkResponse]) {
-                self.activityListModels = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data];
-                
-                NSLog(@"activity list : %@", self.activityListModels);
-                
-                [_tableView reloadData];
-            }
-        } failure:^(YTKBaseRequest *request) {
-            [request yos_checkResponse];
-        }];
-    }
-    
-//    if ([string isEqualToString:@"3"]) {
-//        YOSUserLoginRequest *request = [[YOSUserLoginRequest alloc] initWithUserName:@"18600950783" pwd:@"123123" models:[[UIDevice currentDevice] model]];
-//        
-//        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-//            if ([request yos_checkResponse]) {
-//                
-//                [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentUserInfoDictionary value:request.yos_data];
-//                
-//                YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
-//                
-//                if (model.ID) {
-//                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID value:model.ID];
-//                    YOSLog(@"\r\n\r\n had set LoginID");
-//                }
-//                
-//                if (model.username) {
-//                    [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginMobileNumber value:model.username];
-//                    YOSLog(@"\r\n\r\n had set LoginMobile");
-//                }
-//                
-//            }
-//        } failure:^(YTKBaseRequest *request) {
-//            [request yos_checkResponse];
-//        }];
-//    }
-    
-}
 
 #pragma mark - network
 

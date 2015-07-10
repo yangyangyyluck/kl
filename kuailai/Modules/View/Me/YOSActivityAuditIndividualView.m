@@ -12,10 +12,13 @@
 
 #import "YOSUserInfoModel.h"
 
+#import "YOSUserAuditRegisterRequest.h"
+
 #import "YOSWidget.h"
 #import "EDColor.h"
 #import "Masonry.h"
 #import "UIImage+YOSAdditions.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSActivityAuditIndividualView() <UITableViewDataSource, UITableViewDelegate>
 
@@ -162,10 +165,30 @@
 
 - (void)tappedRightButton {
     NSLog(@"%s", __func__);
+    
+    [self sendNetworkRequestWithStatus:YOSUserAuditRegisterTypePass];
 }
 
 - (void)tappedLeftButton {
     NSLog(@"%s", __func__);
+    
+    [self sendNetworkRequestWithStatus:YOSUserAuditRegisterTypeRefuse];
+}
+
+#pragma mark - network
+
+- (void)sendNetworkRequestWithStatus:(YOSUserAuditRegisterType)status {
+    YOSUserAuditRegisterRequest *request = [[YOSUserAuditRegisterRequest alloc] initWithID:self.userInfoModel.ID andStatus:status];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            NSLog(@"%s", __func__);
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [SVProgressHUD dismiss];
+        [request yos_checkResponse];
+    }];
 }
 
 #pragma mark - getter & setter
