@@ -10,7 +10,7 @@
 #import "YOSCreateActivityViewController.h"
 #import "YOSUpdateUserInfoViewController.h"
 #import "YOSBaseNavigationViewController.h"
-#import "YOSEditTapViewController.h"
+#import "YOSTagEditViewController.h"
 #import "YOSMyReleaseActivityViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSHeadDetailButton.h"
@@ -19,6 +19,7 @@
 #import "YOSTapView.h"
 
 #import "YOSUserInfoModel.h"
+#import "YOSTagModel.h"
 
 #import "YOSUserAddTagRequest.h"
 #import "YOSUserGetTagListRequest.h"
@@ -27,10 +28,13 @@
 #import "XXNibBridge.h"
 #import "YOSWidget.h"
 #import "GVUserDefaults+YOSProperties.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSMeViewController ()
 
 @property (nonatomic, strong) YOSUserInfoModel *userInfoModel;
+
+@property (nonatomic, strong) NSArray *tags;
 
 @end
 
@@ -60,8 +64,6 @@
     [self setupLeftButtonWithTitle:@"sasa"];
     
     [self setupRightButtonWithTitle:@"create"];
-    
-    [self setupSubviews];
     
     [self sendNetworkRequest];
     
@@ -121,7 +123,14 @@
     
     [_cellButtonTag addSubview:_editTagButton];
     
-    _tapView = [[YOSTapView alloc] initWithTapArray:@[@"帅锅", @"超级大帅锅", @"帅到京东了党", @"super Mario", @"King of the worlD", @"hello skipper", @"be", @"ok super."]];
+    NSMutableArray *temp = [NSMutableArray array];
+    
+    [self.tags enumerateObjectsUsingBlock:^(YOSTagModel *obj, NSUInteger idx, BOOL *stop) {
+        [temp addObject:obj.name];
+    }];
+    
+    _tapView = [YOSTapView new];
+    _tapView.tapArray = temp;
     
     [_contentView addSubview:_tapView];
  
@@ -226,7 +235,7 @@
 - (void)tappedEditTagButton:(UIButton *)button {
     NSLog(@"%s", __func__);
     
-    YOSEditTapViewController *editVC = [YOSEditTapViewController new];
+    YOSTagEditViewController *editVC = [YOSTagEditViewController new];
     
     [self.navigationController pushViewController:editVC animated:YES];
     
@@ -271,11 +280,28 @@
 #pragma mark - network
 
 - (void)sendNetworkRequest {
+    NSLog(@"%s", __func__);
+    
+    NSDictionary *data = [GVUserDefaults standardUserDefaults].currentTagDictionary;
+    
+    // tag 数据从缓存中来
+    if (data) {
+        self.tags = [YOSTagModel arrayOfModelsFromDictionaries:data[@"data"]];
+        [self setupSubviews];
+        
+        return;
+    }
+    
     YOSUserGetTagListRequest *request = [[YOSUserGetTagListRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID];
     
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
-            NSLog(@"%s", __func__);
+            [GVUserDefaults standardUserDefaults].currentTagDictionary = request.yos_data;
+            
+            self.tags = [YOSTagModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+            
+            [self setupSubviews];
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];

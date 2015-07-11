@@ -10,10 +10,9 @@
 
 #import "UIView+YOSAdditions.h"
 #import "Masonry.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSTapView ()
-
-@property (nonatomic, strong) NSArray *tapArray;
 
 @property (nonatomic, strong) NSMutableArray *btns;
 
@@ -23,24 +22,24 @@
 
 @implementation YOSTapView
 
-- (instancetype)initWithTapArray:(NSArray *)array {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    
     if (!self) {
         return nil;
     }
     
     _btns = [NSMutableArray array];
-    self.tapArray = array;
     
     self.backgroundColor = [UIColor whiteColor];
     
-    [self setupSubviews];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTagInfo) name:YOSNotificationUpdateTagInfo object:nil];
     
     return self;
 }
 
-- (void)setupSubviews {
-    
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setTapArray:(NSArray *)tapArray {
@@ -127,6 +126,27 @@
     btn.backgroundColor = YOSColorGreen;
     
     return btn;
+}
+
+#pragma mark - deal notification
+
+- (void)updateTagInfo {
+    NSLog(@"%s", __func__);
+    
+    NSDictionary *data = [GVUserDefaults standardUserDefaults].currentTagDictionary;
+    
+    NSArray *array = nil;
+    if (data) {
+        array = data[@"data"];
+    }
+    
+    NSMutableArray *temp = [NSMutableArray array];
+    
+    [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+        [temp addObject:obj[@"name"]];
+    }];
+    
+    self.tapArray = temp;
 }
 
 @end

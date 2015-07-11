@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class YOSTagModel;
+
 @interface YOSTapDeleteView : UIView
 
 @property (nonatomic, assign, readonly) CGSize yos_contentSize;
 
-- (instancetype)initWithString:(NSString *)string;
+- (instancetype)initWithTagModel:(YOSTagModel *)tagModel;
 
 @end

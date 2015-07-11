@@ -31,10 +31,16 @@ extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
 
 @property (nonatomic, weak) NSString *currentRegisterID;
 
+/** 退出时清空 */
 @property (nonatomic, weak) NSString *currentLoginMobileNumber;
 
+/** 退出时清空 */
 @property (nonatomic, weak) NSString *currentLoginID;
 
+/** 退出时清空 */
 @property (nonatomic, weak) NSDictionary *currentUserInfoDictionary;
+
+/** 退出时清空 */
+@property (nonatomic, weak) NSDictionary *currentTagDictionary;
 
 @end

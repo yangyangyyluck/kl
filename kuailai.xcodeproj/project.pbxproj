@@ -38,6 +38,7 @@
 		DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */; };
 		DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */; };
 		DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */; };
+		DD3EE78E1B4F9F3A0087A475 /* YOSUserDelTagRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3EE78D1B4F9F3A0087A475 /* YOSUserDelTagRequest.m */; };
 		DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */; };
 		DD4A17391B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4A17381B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m */; };
 		DD4A173C1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4A173B1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m */; };
@@ -118,7 +119,8 @@
 		DDFC6B3D1B4E4D65008DB181 /* YOSUserGetTagListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B3C1B4E4D65008DB181 /* YOSUserGetTagListRequest.m */; };
 		DDFC6B401B4E5A88008DB181 /* YOSTapEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B3F1B4E5A88008DB181 /* YOSTapEditView.m */; };
 		DDFC6B431B4E5AA1008DB181 /* YOSTapDeleteView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B421B4E5AA1008DB181 /* YOSTapDeleteView.m */; };
-		DDFC6B461B4E6CDD008DB181 /* YOSEditTapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B451B4E6CDD008DB181 /* YOSEditTapViewController.m */; };
+		DDFC6B461B4E6CDD008DB181 /* YOSTagEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B451B4E6CDD008DB181 /* YOSTagEditViewController.m */; };
+		DDFC6B491B4F6F97008DB181 /* YOSTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B481B4F6F97008DB181 /* YOSTagModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +194,8 @@
 		DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
 		DD3B1C151AD7CD9600A91838 /* YOSUserRegStepRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserRegStepRequest.h; sourceTree = "<group>"; };
 		DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserRegStepRequest.m; sourceTree = "<group>"; };
+		DD3EE78C1B4F9F3A0087A475 /* YOSUserDelTagRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserDelTagRequest.h; sourceTree = "<group>"; };
+		DD3EE78D1B4F9F3A0087A475 /* YOSUserDelTagRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserDelTagRequest.m; sourceTree = "<group>"; };
 		DD3EED211B208CCC002C0AB0 /* NSString+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+YOSAdditions.h"; sourceTree = "<group>"; };
 		DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD4A17371B3AAC1500B10D4F /* YOSUserUpdateUserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserUpdateUserRequest.h; sourceTree = "<group>"; };
@@ -349,8 +353,10 @@
 		DDFC6B3F1B4E5A88008DB181 /* YOSTapEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTapEditView.m; sourceTree = "<group>"; };
 		DDFC6B411B4E5AA1008DB181 /* YOSTapDeleteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSTapDeleteView.h; sourceTree = "<group>"; };
 		DDFC6B421B4E5AA1008DB181 /* YOSTapDeleteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTapDeleteView.m; sourceTree = "<group>"; };
-		DDFC6B441B4E6CDD008DB181 /* YOSEditTapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSEditTapViewController.h; sourceTree = "<group>"; };
-		DDFC6B451B4E6CDD008DB181 /* YOSEditTapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSEditTapViewController.m; sourceTree = "<group>"; };
+		DDFC6B441B4E6CDD008DB181 /* YOSTagEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSTagEditViewController.h; sourceTree = "<group>"; };
+		DDFC6B451B4E6CDD008DB181 /* YOSTagEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTagEditViewController.m; sourceTree = "<group>"; };
+		DDFC6B471B4F6F97008DB181 /* YOSTagModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSTagModel.h; sourceTree = "<group>"; };
+		DDFC6B481B4F6F97008DB181 /* YOSTagModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTagModel.m; sourceTree = "<group>"; };
 		E053BE27C34D168D01D86306 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -435,8 +441,8 @@
 				DD89D6A01B43DDF900D542BB /* YOSActivityAuditViewController.m */,
 				DD89D6A81B44E76D00D542BB /* YOSActivityAuditIndividualViewController.h */,
 				DD89D6A91B44E76D00D542BB /* YOSActivityAuditIndividualViewController.m */,
-				DDFC6B441B4E6CDD008DB181 /* YOSEditTapViewController.h */,
-				DDFC6B451B4E6CDD008DB181 /* YOSEditTapViewController.m */,
+				DDFC6B441B4E6CDD008DB181 /* YOSTagEditViewController.h */,
+				DDFC6B451B4E6CDD008DB181 /* YOSTagEditViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -524,6 +530,8 @@
 				DD16903B1B254A200060B3EB /* YOSUserInfoModel.m */,
 				DD4A173A1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.h */,
 				DD4A173B1B3AAE2400B10D4F /* YOSUpdateUserInfoModel.m */,
+				DDFC6B471B4F6F97008DB181 /* YOSTagModel.h */,
+				DDFC6B481B4F6F97008DB181 /* YOSTagModel.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -938,6 +946,8 @@
 				DDFC6B361B4E1A3F008DB181 /* YOSUserAddTagRequest.m */,
 				DDFC6B3B1B4E4D65008DB181 /* YOSUserGetTagListRequest.h */,
 				DDFC6B3C1B4E4D65008DB181 /* YOSUserGetTagListRequest.m */,
+				DD3EE78C1B4F9F3A0087A475 /* YOSUserDelTagRequest.h */,
+				DD3EE78D1B4F9F3A0087A475 /* YOSUserDelTagRequest.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1092,11 +1102,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDFC6B461B4E6CDD008DB181 /* YOSEditTapViewController.m in Sources */,
+				DDFC6B461B4E6CDD008DB181 /* YOSTagEditViewController.m in Sources */,
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
 				DDE28F741B3839A2005BD036 /* YOSCellButton.m in Sources */,
 				DD89D6A41B43E74300D542BB /* YOSAuditFriendCell.m in Sources */,
 				DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */,
+				DD3EE78E1B4F9F3A0087A475 /* YOSUserDelTagRequest.m in Sources */,
 				DDC9DE651B1DE2E900629C84 /* YOSUploadActivityImageRequest.m in Sources */,
 				DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */,
 				DDE28F661B37EE6B005BD036 /* YOSAttentionUserViewController.m in Sources */,
@@ -1188,6 +1199,7 @@
 				DD97C9E51B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m in Sources */,
 				DDD79A161B2F143100AF8A59 /* YOSNeedView.m in Sources */,
 				DD00EDD71ADB6C3A00E811A2 /* YOSBaseNavigationViewController.m in Sources */,
+				DDFC6B491B4F6F97008DB181 /* YOSTagModel.m in Sources */,
 				DD89D6A11B43DDF900D542BB /* YOSActivityAuditViewController.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,

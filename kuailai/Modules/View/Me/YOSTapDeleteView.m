@@ -9,7 +9,13 @@
 #import "YOSTapDeleteView.h"
 #import "YOSButton.h"
 
+#import "YOSTagModel.h"
+
+#import "YOSUserDelTagRequest.h"
+
 #import "Masonry.h"
+#import "SVProgressHUD+YOSAdditions.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSTapDeleteView ()
 
@@ -21,16 +27,16 @@
     UILabel *_label;
     YOSButton *_deleteBtn;
     
-    NSString *_string;
+    YOSTagModel *_tagModel;
 }
 
-- (instancetype)initWithString:(NSString *)string {
+- (instancetype)initWithTagModel:(YOSTagModel *)tagModel {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    _string = YOSFliterNil2String(string);
+    _tagModel = tagModel;
     
     [self setupSubviews];
     
@@ -42,7 +48,7 @@
     _label.font = YOSFontNormal;
     _label.textColor = [UIColor whiteColor];
     _label.backgroundColor = YOSColorGreen;
-    _label.text = _string;
+    _label.text = _tagModel.name;
     _label.textAlignment = NSTextAlignmentCenter;
     
     [self addSubview:_label];
@@ -73,6 +79,46 @@
 
 - (void)tappedDeleteButton {
     NSLog(@"%s", __func__);
+    
+    YOSUserDelTagRequest *request = [[YOSUserDelTagRequest alloc] initWithID:_tagModel.ID];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        
+        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
+            [SVProgressHUD showInfoWithStatus:@"删除成功~" maskType:SVProgressHUDMaskTypeClear];
+        }];
+        
+        if ([request yos_checkResponse]) {
+            // do nothing..
+            
+            // delete tagDictionary of GVUserDefaults
+            NSDictionary *data = [GVUserDefaults standardUserDefaults].currentTagDictionary;
+            
+            NSMutableDictionary *mData = [NSMutableDictionary dictionaryWithDictionary:data];
+            
+            NSArray *arr = mData[@"data"];
+            
+            NSMutableArray *mArr = [NSMutableArray arrayWithArray:arr];
+        
+            [mArr enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+                if ([obj[@"id"] isEqualToString:_tagModel.ID]) {
+                    YOSLog(@"delete");
+                    [mArr removeObject:obj];
+                }
+            }];
+            
+            mData[@"data"] = mArr;
+            
+            [GVUserDefaults standardUserDefaults].currentTagDictionary = mData;
+            
+            // 发出更新tag通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateTagInfo object:nil];
+        }
+        
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 @end

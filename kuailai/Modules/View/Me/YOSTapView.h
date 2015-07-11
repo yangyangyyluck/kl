@@ -10,6 +10,7 @@
 
 @interface YOSTapView : UIView
 
-- (instancetype)initWithTapArray:(NSArray *)array;
+/** taps */
+@property (nonatomic, strong) NSArray *tapArray;
 
 @end

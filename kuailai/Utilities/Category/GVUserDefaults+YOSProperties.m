@@ -20,6 +20,8 @@
 
 @dynamic currentUserInfoDictionary;
 
+@dynamic currentTagDictionary;
+
 - (NSDictionary *)setupDefaults {
     return nil;
 }

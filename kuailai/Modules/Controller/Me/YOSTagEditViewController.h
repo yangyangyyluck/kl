@@ -8,6 +8,6 @@
 
 #import "YOSBaseViewController.h"
 
-@interface YOSEditTapViewController : YOSBaseViewController
+@interface YOSTagEditViewController : YOSBaseViewController
 
 @end

@@ -6,12 +6,13 @@
 //  Copyright (c) 2015年 kuailai.inc. All rights reserved.
 //
 
-#import "YOSEditTapViewController.h"
+#import "YOSTagEditViewController.h"
 #import "YOSTapEditView.h"
 
 #import "Masonry.h"
+#import "GVUserDefaults+YOSProperties.h"
 
-@implementation YOSEditTapViewController {
+@implementation YOSTagEditViewController {
     YOSTapEditView *_tapEditView;
 }
 
@@ -30,7 +31,15 @@
 
 - (void)setupSubviews {
     
-    _tapEditView = [[YOSTapEditView alloc] initWithTapArray:@[@"帅锅", @"超级大帅锅", @"帅到京东了党", @"super Mario", @"King of the worlD", @"hello skipper", @"be", @"ok super."]];
+    NSDictionary *data = [GVUserDefaults standardUserDefaults].currentTagDictionary;
+    
+    NSArray *array = nil;
+    if (data) {
+        array = data[@"data"];
+    }
+    
+    _tapEditView = [YOSTapEditView new];
+    _tapEditView.tapArray = array;
     
     [self.view addSubview:_tapEditView];
     
