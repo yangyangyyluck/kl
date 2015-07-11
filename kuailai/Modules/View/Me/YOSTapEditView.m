@@ -183,19 +183,66 @@
     self.tapArray = array;
 }
 
-#pragma mark - event response 
+#pragma mark - network 
+
+- (void)sendNetworkRequestWithString:(NSString *)string {
+    YOSUserAddTagRequest *request = [[YOSUserAddTagRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID tagString:string];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            // add success.
+            
+            NSDictionary *tagDict = [GVUserDefaults standardUserDefaults].currentTagDictionary;
+            
+            NSMutableDictionary *mTagDict = [NSMutableDictionary dictionaryWithDictionary:tagDict];
+            
+            NSArray *data = tagDict[@"data"];
+            
+            NSMutableArray *mData = [NSMutableArray arrayWithArray:data];
+            
+            NSDictionary *lastDict = request.yos_data;
+            
+            [mData insertObject:lastDict atIndex:0];
+            
+            mTagDict[@"data"] = mData;
+            
+            [GVUserDefaults standardUserDefaults].currentTagDictionary = mTagDict;
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            YOSLog(@"tag : %@", mTagDict);
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateTagInfo object:nil];
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
+}
+
+#pragma mark - event response
 
 - (void)addTag {
     NSLog(@"%s", __func__);
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"请输入您的标签(10个字以内哦~)" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    NSDictionary *tapDict = [GVUserDefaults standardUserDefaults].currentTagDictionary;
     
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    alert.delegate = self;
+    NSArray *tapArr = tapDict[@"data"];
     
-    self.alert = alert;
+    // 最多30个标签
+    if (tapArr.count >= 30) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"最多可添加30个标签,已经30个了哦~" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
+        [alert show];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"请输入您的标签(10个字以内哦~)" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        alert.delegate = self;
+        
+        self.alert = alert;
+        
+        [alert show];
+    }
     
-    [alert show];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -208,19 +255,10 @@
         
         YOSLog(@"input tag : %@", textField.text);
         
-         YOSUserAddTagRequest *request = [[YOSUserAddTagRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID tagString:textField.text];
+        if (textField.text.length) {
+            [self sendNetworkRequestWithString:textField.text];
+        }
         
-        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-            if ([request yos_checkResponse]) {
-                // add success.
-                
-                NSDictionary *dict = [GVUserDefaults standardUserDefaults].currentTagDictionary;
-                
-                YOSLog(@"tag : %@", dict);
-            }
-        } failure:^(YTKBaseRequest *request) {
-            [request yos_checkResponse];
-        }];
     }
 }
 

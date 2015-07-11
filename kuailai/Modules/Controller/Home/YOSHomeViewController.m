@@ -33,7 +33,6 @@
 #import "UIImage+YOSAdditions.h"
 #import "UIImage-Helpers.h"
 #import "SVProgressHUD+YOSAdditions.h"
-#import "GVUserDefaults+YOSProperties.h"
 #import "UIView+YOSAdditions.h"
 
 @interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate>

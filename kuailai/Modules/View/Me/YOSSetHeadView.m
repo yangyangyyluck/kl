@@ -92,6 +92,8 @@
             NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
             mUserInfo[@"avatar"] = [NSString stringWithFormat:@"%@%@", YOSImageBaseUrl, request.yos_data];
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateUserInfo object:nil];
         }
     } failure:^(YTKBaseRequest *request) {

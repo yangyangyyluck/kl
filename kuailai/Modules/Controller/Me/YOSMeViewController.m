@@ -75,6 +75,7 @@
     _scrollView = [UIScrollView new];
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.backgroundColor = YOSColorBackgroundGray;
     [self.view addSubview:_scrollView];
     
     _contentView = [UIView new];
@@ -238,18 +239,6 @@
     YOSTagEditViewController *editVC = [YOSTagEditViewController new];
     
     [self.navigationController pushViewController:editVC animated:YES];
-    
-    return;
-
-    YOSUserAddTagRequest *request = [[YOSUserAddTagRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID tagString:@"pjSGqblring"];
-    
-    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        if ([request yos_checkResponse]) {
-            
-        }
-    } failure:^(YTKBaseRequest *request) {
-        [request yos_checkResponse];
-    }];
 }
 
 - (void)tappedHeadDetailButton:(YOSHeadDetailButton *)button {
@@ -272,6 +261,16 @@
 - (void)clickRightItem:(UIButton *)item {
     NSLog(@"%s", __func__);
     
+    NSString *loginID = [GVUserDefaults standardUserDefaults].currentLoginID;
+    
+    NSString *username = [GVUserDefaults standardUserDefaults].currentLoginMobileNumber;
+    
+    NSString *loginID2 = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentLoginID"];
+    
+    NSLog(@"\r\n\r\n id is : %@, id2 is : %@, username is %@", loginID, loginID2, username);
+    
+    return;
+    
     YOSCreateActivityViewController *vc = [YOSCreateActivityViewController new];
     
     [self.navigationController pushViewController:vc animated:YES];
@@ -283,6 +282,7 @@
     NSLog(@"%s", __func__);
     
     NSDictionary *data = [GVUserDefaults standardUserDefaults].currentTagDictionary;
+    
     
     // tag 数据从缓存中来
     if (data) {
@@ -298,6 +298,8 @@
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
             [GVUserDefaults standardUserDefaults].currentTagDictionary = request.yos_data;
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
             self.tags = [YOSTagModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
             

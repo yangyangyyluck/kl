@@ -34,6 +34,7 @@
 
 @implementation YOSActivityAuditIndividualView {
     YOSHeadDetailButton *_headDetailButton;
+    UIImageView *_stampImageView;
     
     UIView *_titleContentView;
     UILabel *_titleLabel;
@@ -61,6 +62,9 @@
     _headDetailButton.showRightAccessory = NO;
     
     [self addSubview:_headDetailButton];
+    
+    _stampImageView = [UIImageView new];
+    [self addSubview:_stampImageView];
     
     _titleContentView = [UIView new];
     _titleContentView.backgroundColor = YOSColorBackgroundGray;
@@ -98,13 +102,19 @@
     [_rightButton setTitle:@"审核通过" forState:UIControlStateNormal];
     [_rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _rightButton.titleLabel.font = YOSFontBig;
-    [_rightButton setBackgroundImage:[UIImage yos_imageWithColor:YOSColorMainRed size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+    [_rightButton setBackgroundImage:[UIImage yos_imageWithColor:YOSColorGreen size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     [_rightButton addTarget:self action:@selector(tappedRightButton) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_rightButton];
     
     [_headDetailButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.and.left.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 110));
+    }];
+    
+    [_stampImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(85, 85));
+        make.centerY.mas_equalTo(_headDetailButton);
+        make.right.mas_equalTo(0);
     }];
     
     [_titleContentView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -140,6 +150,8 @@
         make.right.and.bottom.mas_equalTo(0);
         make.size.mas_equalTo(_leftButton);
     }];
+    
+    _stampImageView.hidden = YES;
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
@@ -241,6 +253,29 @@
     
     [self.tableView reloadData];
     self.tableView.hidden = !self.dataSource.count;
+    
+    // 未审核
+    if ([userInfoModel.status integerValue] == 0) {
+        _stampImageView.hidden = YES;
+        _leftButton.enabled = YES;
+        _rightButton.enabled = YES;
+    }
+    
+    // 通过审核
+    if ([userInfoModel.status integerValue] == 1) {
+        _stampImageView.image = [UIImage imageNamed:@"已通过印章"];
+        _stampImageView.hidden = NO;
+        _leftButton.enabled = NO;
+        _rightButton.enabled = NO;
+    }
+    
+    // 已拒绝
+    if ([userInfoModel.status integerValue] == 2) {
+        _stampImageView.image = [UIImage imageNamed:@"已拒绝印章"];
+        _stampImageView.hidden = NO;
+        _leftButton.enabled = NO;
+        _rightButton.enabled = NO;
+    }
     
     _headDetailButton.userInfoModel = userInfoModel;
 

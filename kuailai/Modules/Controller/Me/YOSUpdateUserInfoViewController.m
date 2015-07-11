@@ -256,6 +256,8 @@
             
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
             
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateUserInfo object:nil];
             
             [SVProgressHUD showSuccessWithStatus:@"保存成功" maskType:SVProgressHUDMaskTypeClear];

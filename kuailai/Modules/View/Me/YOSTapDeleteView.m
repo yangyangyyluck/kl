@@ -112,6 +112,8 @@
             
             [GVUserDefaults standardUserDefaults].currentTagDictionary = mData;
             
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
             // 发出更新tag通知
             [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateTagInfo object:nil];
         }

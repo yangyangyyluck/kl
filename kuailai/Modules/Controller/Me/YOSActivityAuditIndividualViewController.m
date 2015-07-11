@@ -194,9 +194,6 @@
 
 - (void)setUserInfoModels:(NSMutableArray *)userInfoModels {
     _userInfoModels = userInfoModels;
-    
-//    [_collectionView reloadData];
-//    [_collectionView scrollToItemAtIndexPath:self.currentIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
 }
 
 @end

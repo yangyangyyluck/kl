@@ -43,7 +43,6 @@
     
     [self.view addSubview:_tapEditView];
     
-    _tapEditView.backgroundColor = YOSColorRandom;
     [_tapEditView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.and.left.mas_equalTo(0);
         make.width.mas_equalTo(YOSScreenWidth);

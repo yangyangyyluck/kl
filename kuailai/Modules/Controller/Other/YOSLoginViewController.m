@@ -262,7 +262,6 @@
             [SVProgressHUD dismiss];
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = request.yos_data;
             
-            
             YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
             
             if (model.ID) {
@@ -275,7 +274,10 @@
                 YOSLog(@"\r\n\r\n had set LoginMobile");
             }
             
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
             [self tappedCloseButton];
+            
         } else {
             [SVProgressHUD showErrorWithStatus:request.yos_baseResponseModel.msg maskType:SVProgressHUDMaskTypeClear];
         }

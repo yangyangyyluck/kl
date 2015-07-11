@@ -156,12 +156,12 @@ static const NSUInteger kTimeMaxCount = 16;
         // now can get remote server userid
         YOSLog(@"\r\n\r\nuser id is %@", request.yos_data[@"id"]);
         
-//        [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentRegisterID value:request.yos_data[@"id"]];
         [GVUserDefaults standardUserDefaults].currentRegisterID = request.yos_data[@"id"];
         
         // 存入mobile number
-//        [YOSWidget setUserDefaultWithKey:YOSUserDefaultKeyCurrentRegisterMobileNumber value:username];
         [GVUserDefaults standardUserDefaults].currentRegisterMobileNumber = username;
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
         YOSRegStepTwoViewController *regStepTwoVC = [YOSRegStepTwoViewController viewControllerFromStoryboardWithSBName:@"Register"];
         
