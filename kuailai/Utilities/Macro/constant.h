@@ -16,6 +16,8 @@ extern NSString * const YOSNotificationUpdateUserInfo;
 
 extern NSString * const YOSNotificationUpdateTagInfo;
 
+extern NSString * const YOSNotificationUpdateAuditInfo;
+
 typedef NS_ENUM(NSUInteger, BusinessRequestStatus) {
     BusinessRequestStatusSuccess                = 200,      // 请求成功
     BusinessRequestStatusBadRequest             = 400,      // 坏请求

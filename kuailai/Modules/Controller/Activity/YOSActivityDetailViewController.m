@@ -182,7 +182,7 @@ static const NSUInteger numbersOfSections = 100;
     _lists = [NSMutableArray array];
     
     NSString *time = [NSString stringWithFormat:@"%@ 至 %@", [YOSWidget dateStringWithTimeStamp:self.activityDetailModel.start_time Format:@"MM-dd EEEE HH:mm"], [YOSWidget dateStringWithTimeStamp:self.activityDetailModel.end_time Format:@"MM-dd EEEE HH:mm"]];
-    YOSActivityDetailItemView *item0 = [[YOSActivityDetailItemView alloc] initWithImage:@"时间" title:time];
+    YOSActivityDetailItemView *item0 = [[YOSActivityDetailItemView alloc] initWithImage:@"黑时间" title:time];
     item0.showBottomLine = YES;
 
     YOSActivityDetailItemView *item1 = [[YOSActivityDetailItemView alloc] initWithImage:@"地点" title:self.activityDetailModel.address];

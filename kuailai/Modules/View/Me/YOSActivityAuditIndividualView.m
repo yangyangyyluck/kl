@@ -195,7 +195,14 @@
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
-            NSLog(@"%s", __func__);
+            
+            YOSUserInfoModel *model = [self.userInfoModel copy];
+            model.status = [NSString stringWithFormat:@"%zi", status];
+            // setter will reset UI
+            self.userInfoModel = model;
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateAuditInfo object:nil userInfo:@{@"uid" : self.userInfoModel.uid, @"status" : model.status}];
+            
         }
     } failure:^(YTKBaseRequest *request) {
         [SVProgressHUD dismiss];

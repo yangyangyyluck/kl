@@ -20,4 +20,7 @@
 
 @property (nonatomic, copy) NSString *status;
 
+/** 活动审核的时候使用 YOSActivityAuditIndividualView & YOSActivityAuditViewController */
+@property (nonatomic, copy) NSString *uid;
+
 @end

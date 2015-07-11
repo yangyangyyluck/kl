@@ -21,6 +21,8 @@ NSString * const YOSNotificationUpdateUserInfo = @"YOSNotificationUpdateUserInfo
 
 NSString * const YOSNotificationUpdateTagInfo = @"YOSNotificationUpdateTagInfo";
 
+NSString * const YOSNotificationUpdateAuditInfo = @"YOSNotificationUpdateAuditInfo";
+
 /**
  *  UserDefault keys
  */

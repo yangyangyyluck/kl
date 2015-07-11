@@ -88,6 +88,12 @@
     [self setupSubviews];
     
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAuditInfo:) name:YOSNotificationUpdateAuditInfo object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setupSubviews {
@@ -202,26 +208,24 @@
 
 - (void)sendNetworkRequestWithType:(YOSRefreshType)type {
     
-    if (type == YOSRefreshTypeHeader) {
-        self.currentPage = 1;
-        self.isNoMoreData = NO;
-    } else {
-        
-        if (!self.isNoMoreData) {
-            self.currentPage++;
-        }
-        
+    NSUInteger requestPage = 0;
+    if (type == YOSRefreshTypeFooter) {
+        requestPage = self.currentPage + 1;
     }
     
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-    YOSActiveGetSignUpRequest *request = [[YOSActiveGetSignUpRequest alloc] initWithAid:self.activityListModel.ID andPage:[NSString stringWithFormat:@"%zi", self.currentPage]];
+    YOSActiveGetSignUpRequest *request = [[YOSActiveGetSignUpRequest alloc] initWithAid:self.activityListModel.ID andPage:[NSString stringWithFormat:@"%zi", requestPage]];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
         
         if ([request yos_checkResponse]) {
+
+            if (type == YOSRefreshTypeHeader) {
+                self.isNoMoreData = NO;
+            }
+            self.currentPage++;
             
             self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
             
@@ -299,6 +303,41 @@
     [self.navigationController pushViewController:auditVC animated:YES];
 }
 
+#pragma mark - deal notification
+
+- (void)updateAuditInfo:(NSNotification *)noti {
+    NSLog(@"%s -- noti : %@", __func__, noti);
+    
+    NSDictionary *userInfo = noti.userInfo;
+    
+    NSString *uid = userInfo[@"uid"];
+    NSString *status = userInfo[@"status"];
+    
+    if (!uid) {
+        return;
+    }
+    
+    [self.userInfoModels enumerateObjectsUsingBlock:^(NSArray *obj, NSUInteger idx, BOOL *stop) {
+        
+        [obj enumerateObjectsUsingBlock:^(YOSUserInfoModel *subObj, NSUInteger idx, BOOL *stop) {
+            if ([subObj.uid isEqualToString:uid]) {
+                subObj.status = status;
+            }
+        }];
+        
+    }];
+    
+    [self.friends enumerateObjectsUsingBlock:^(YOSFriendModel *obj, NSUInteger idx, BOOL *stop) {
+        
+        if ([obj.uid isEqualToString:uid]) {
+            obj.status = status;
+        }
+        
+    }];
+    
+    [_tableView reloadData];
+}
+
 #pragma mark - getter & setter 
 
 - (void)setCount:(NSUInteger)count {
@@ -313,6 +352,14 @@
     }
     
     return _userInfoModels;
+}
+
+- (NSMutableArray *)friends {
+    if (!_friends) {
+        _friends = [NSMutableArray array];
+    }
+    
+    return _friends;
 }
 
 @end

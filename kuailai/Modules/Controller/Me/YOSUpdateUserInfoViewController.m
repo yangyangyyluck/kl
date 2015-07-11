@@ -241,6 +241,11 @@
     
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        
+        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
+           [SVProgressHUD showSuccessWithStatus:@"保存成功" maskType:SVProgressHUDMaskTypeClear];
+        }];
+        
         if ([request yos_checkResponse]) {
             NSMutableDictionary *mUserInfo = [[GVUserDefaults standardUserDefaults].currentUserInfoDictionary mutableCopy];
             mUserInfo[@"nickname"] = updateModel.nickname;
@@ -259,8 +264,6 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateUserInfo object:nil];
-            
-            [SVProgressHUD showSuccessWithStatus:@"保存成功" maskType:SVProgressHUDMaskTypeClear];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];

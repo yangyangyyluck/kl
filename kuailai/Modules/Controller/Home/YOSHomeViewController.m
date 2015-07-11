@@ -165,19 +165,13 @@
 
 - (void)sendNetworkRequestWithType:(YOSRefreshType)type {
     
-    if (type == YOSRefreshTypeHeader) {
-        self.currentPage = 1;
-        self.isNoMoreData = NO;
-    } else {
-        
-        if (!self.isNoMoreData) {
-            self.currentPage++;
-        }
-        
+    NSUInteger requestPage = 0;
+    if (type == YOSRefreshTypeFooter) {
+        requestPage = self.currentPage + 1;
     }
     
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-    YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:YOSCityTypeBJ page:self.currentPage start_time:0 type:0];
+    YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:YOSCityTypeBJ page:requestPage start_time:0 type:0];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         
@@ -185,6 +179,11 @@
         [self.tableView.footer endRefreshing];
         
         if ([request yos_checkResponse]) {
+            
+            if (type == YOSRefreshTypeHeader) {
+                self.isNoMoreData = NO;
+            }
+            self.currentPage++;
             
             self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
             
@@ -215,8 +214,6 @@
                     
                 }];
             }
-            
-            NSLog(@"activity list : %@", self.activityListModels);
             
             [_tableView reloadData];
         }

@@ -544,19 +544,19 @@ static CGFloat kOneLineHeight = 44.0f;
     
     if (self.pickerType == YOSInputViewPickerTypeSex) {
         _textField.text = self.sexDataSource[row];
-        self.sexId = [NSString stringWithFormat:@"%zi", row];
+        self.sexId = [NSString stringWithFormat:@"%zi", row + 1];
         self.selected = YES;
     }
     
     if (self.pickerType == YOSInputViewPickerTypeEducation) {
         _textField.text = self.educationDataSource[row];
-        self.educationId = [NSString stringWithFormat:@"%zi", row];
+        self.educationId = [NSString stringWithFormat:@"%zi", row + 1];
         self.selected = YES;
     }
     
     if (self.pickerType == YOSInputViewPickerTypeJobYears) {
         _textField.text = self.jobYearsDataSource[row];
-        self.jobYearsId = [NSString stringWithFormat:@"%zi", row];
+        self.jobYearsId = [NSString stringWithFormat:@"%zi", row + 1];
         self.selected = YES;
     }
 }

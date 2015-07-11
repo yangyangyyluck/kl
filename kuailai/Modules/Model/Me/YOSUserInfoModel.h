@@ -52,4 +52,7 @@
 
 @property (nonatomic, copy) NSString *tel;
 
+/** 活动审核的时候使用 YOSActivityAuditIndividualView & YOSActivityAuditViewController */
+@property (nonatomic, copy) NSString *uid;
+
 @end

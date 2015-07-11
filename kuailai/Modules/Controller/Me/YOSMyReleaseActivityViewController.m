@@ -128,26 +128,24 @@
 
 - (void)sendNetworkRequestWithType:(YOSRefreshType)type {
     
-    if (type == YOSRefreshTypeHeader) {
-        self.currentPage = 1;
-        self.isNoMoreData = NO;
-    } else {
-        
-        if (!self.isNoMoreData) {
-            self.currentPage++;
-        }
-        
+    NSUInteger requestPage = 0;
+    if (type == YOSRefreshTypeFooter) {
+        requestPage = self.currentPage + 1;
     }
     
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-    YOSUserGetMyActiveListRequest *request = [[YOSUserGetMyActiveListRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andPage:[NSString stringWithFormat:@"%zi", self.currentPage] andStatus:[NSString stringWithFormat:@"%zi", self.auditStatus]];
+    YOSUserGetMyActiveListRequest *request = [[YOSUserGetMyActiveListRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andPage:[NSString stringWithFormat:@"%zi", requestPage] andStatus:[NSString stringWithFormat:@"%zi", self.auditStatus]];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
         [self.tableView.header endRefreshing];
         [self.tableView.footer endRefreshing];
         
         if ([request yos_checkResponse]) {
+            
+            if (type == YOSRefreshTypeHeader) {
+                self.isNoMoreData = NO;
+            }
+            self.currentPage++;
             
             self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
             
@@ -178,8 +176,6 @@
                     
                 }];
             }
-            
-            NSLog(@"activity list : %@", self.activityListModels);
             
             [_tableView reloadData];
         }
@@ -219,6 +215,16 @@
     }
     
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
+}
+
+#pragma mark - getter & setter
+
+- (NSMutableArray *)activityListModels {
+    if (!_activityListModels) {
+        _activityListModels = [NSMutableArray array];
+    }
+    
+    return _activityListModels;
 }
 
 @end
