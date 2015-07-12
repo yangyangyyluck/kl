@@ -15,6 +15,7 @@
 #import "YOSUserInfoModel.h"
 
 #import "YOSActiveGetSignUpRequest.h"
+#import "YOSUserAllAuditRegisterRequest.h"
 
 #import "Masonry.h"
 #import "YOSMyActivityView.h"
@@ -208,7 +209,7 @@
 
 - (void)sendNetworkRequestWithType:(YOSRefreshType)type {
     
-    NSUInteger requestPage = 0;
+    NSUInteger requestPage = 1;
     if (type == YOSRefreshTypeFooter) {
         requestPage = self.currentPage + 1;
     }
@@ -225,7 +226,7 @@
             if (type == YOSRefreshTypeHeader) {
                 self.isNoMoreData = NO;
             }
-            self.currentPage++;
+            self.currentPage = requestPage;
             
             self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
             
@@ -291,16 +292,44 @@
     }];
 }
 
+- (void)sendNetworkRequestForAllSign {
+    YOSUserAllAuditRegisterRequest *request = [[YOSUserAllAuditRegisterRequest alloc] initWithAid:self.activityListModel.ID];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        
+        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
+            [SVProgressHUD showInfoWithStatus:@"操作成功" maskType:SVProgressHUDMaskTypeClear];
+        }];
+        
+        if ([request yos_checkResponse]) {
+            
+            [self.userInfoModels enumerateObjectsUsingBlock:^(NSArray *obj, NSUInteger idx, BOOL *stop) {
+                
+                [obj enumerateObjectsUsingBlock:^(YOSUserInfoModel *subObj, NSUInteger idx, BOOL *stop) {
+                        subObj.status = @"1";
+                }];
+                
+            }];
+            
+            [self.friends enumerateObjectsUsingBlock:^(YOSFriendModel *obj, NSUInteger idx, BOOL *stop) {
+                    obj.status = @"1";
+            }];
+            
+            [_tableView reloadData];
+            
+        }
+        
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
+}
+
 #pragma mark - event response 
 
 - (void)tappedAllSignButton {
     NSLog(@"%s", __func__);
     
-    YOSActivityAuditIndividualViewController *auditVC = [YOSActivityAuditIndividualViewController new];
-    
-    auditVC.userInfoModels = self.userInfoModels;
-    
-    [self.navigationController pushViewController:auditVC animated:YES];
+    [self sendNetworkRequestForAllSign];
 }
 
 #pragma mark - deal notification

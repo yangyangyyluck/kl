@@ -364,7 +364,6 @@
     
     self.submitInsetActiveModel.is_audit = _activityCheckView.isOpenCheck;
     self.submitInsetActiveModel.audit = _activityCheckView.checkField;
-//    self.submitInsetActiveModel.uid = [YOSWidget getUserDefaultWithKey:YOSUserDefaultKeyCurrentLoginID];
     self.submitInsetActiveModel.uid = [GVUserDefaults standardUserDefaults].currentLoginID;
     
     if (!_activityPhotoView.photos.count) {
@@ -391,6 +390,11 @@
         
         __block BOOL canInsert = NO;
         [batchRequest.requestArray enumerateObjectsUsingBlock:^(YOSUploadActivityImageRequest *obj, NSUInteger idx, BOOL *stop) {
+            
+            [obj yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
+                // do nothing..
+                // so did not do [SVProgressHUD dismiss]
+            }];
             
             if ([obj yos_checkResponse]) {
                 // 第一个图片 放入 thumb 字段
@@ -419,17 +423,10 @@
         }
         
     } failure:^(YTKBatchRequest *batchRequest) {
+        
         [SVProgressHUD showErrorWithStatus:@"上传图片失败,请重试~" maskType:SVProgressHUDMaskTypeClear];
         
-        [batchRequest.requestArray enumerateObjectsUsingBlock:^(YOSUploadActivityImageRequest *obj, NSUInteger idx, BOOL *stop) {
-            
-            if ([obj yos_checkResponse]) {
-                
-            } else {
-                // do nothing
-            }
-            
-        }];
+        // do nothing..
     }];
     // ************ 上传图片 ************
 
@@ -507,15 +504,21 @@
 
 - (void)sendNetworkRequestInsertActive {
     
-    YOSLog(@"%@", self.submitInsetActiveModel);
+    YOSLog(@"submitInsetActiveModel : %@", self.submitInsetActiveModel);
     
     YOSActiveInsertActiveRequest *request = [[YOSActiveInsertActiveRequest alloc] initWithModel:self.submitInsetActiveModel];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         
+        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
+            [SVProgressHUD showSuccessWithStatus:@"创建成功" maskType:SVProgressHUDMaskTypeClear];
+        }];
+        
         if ([request yos_checkResponse]) {
-            YOSLog(@"\r\n\r\ninset active success..");
-            [self.navigationController popViewControllerAnimated:YES];
+            YOSLog(@"\r\n\r\n inset active success..");
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];

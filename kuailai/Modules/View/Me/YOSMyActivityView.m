@@ -51,7 +51,7 @@
     _imageView.layer.cornerRadius = 3;
     _imageView.layer.masksToBounds = YES;
     [self addSubview:_imageView];
-    _imageView.image = [UIImage imageNamed:@"发布活动"];
+    _imageView.image = [UIImage imageNamed:@"活动默认图"];
     
     _titleLabel = [UILabel new];
     _titleLabel.textColor = YOSColorFontBlack;
@@ -172,9 +172,9 @@
     
     _titleLabel.text = activityListModel.title;
     if (activityListModel.thumb.length) {
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:activityListModel.thumb] placeholderImage:[UIImage imageNamed:@"发布活动"]];
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:activityListModel.thumb] placeholderImage:[UIImage imageNamed:@"活动默认图"]];
     } else {
-        _imageView.image = [UIImage imageNamed:@"发布活动"];
+        _imageView.image = [UIImage imageNamed:@"活动默认图"];
     }
     
     _subTitle0.text = activityListModel.address;

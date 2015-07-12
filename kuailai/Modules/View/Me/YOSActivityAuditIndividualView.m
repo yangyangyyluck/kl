@@ -243,8 +243,8 @@
         [self.dataSource addObject:[NSString stringWithFormat:@"手机号: %@", userInfoModel.phone]];
     }
     
-    if (userInfoModel.work_experience_name.length) {
-        [self.dataSource addObject:[NSString stringWithFormat:@"工作年限: %@", userInfoModel.work_experience_name]];
+    if ([userInfoModel.work_experience integerValue]) {
+        [self.dataSource addObject:[NSString stringWithFormat:@"工作年限: %@", yos_getEducation(userInfoModel.work_experience)]];
     }
     
     if (userInfoModel.degree_name.length) {

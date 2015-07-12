@@ -13,6 +13,7 @@
 #import "YOSTagEditViewController.h"
 #import "YOSMyReleaseActivityViewController.h"
 #import "YOSLoginViewController.h"
+#import "YOSTestViewController.h"
 #import "YOSHeadDetailButton.h"
 #import "YOSMeButtonView.h"
 #import "YOSCellButton.h"
@@ -260,6 +261,12 @@
 
 - (void)clickRightItem:(UIButton *)item {
     NSLog(@"%s", __func__);
+    
+    YOSTestViewController *testVC = [YOSTestViewController new];
+    
+    [self.navigationController pushViewController:testVC animated:YES];
+    
+    return;
     
     NSString *loginID = [GVUserDefaults standardUserDefaults].currentLoginID;
     

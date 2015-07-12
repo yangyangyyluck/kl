@@ -128,7 +128,7 @@
 
 - (void)sendNetworkRequestWithType:(YOSRefreshType)type {
     
-    NSUInteger requestPage = 0;
+    NSUInteger requestPage = 1;
     if (type == YOSRefreshTypeFooter) {
         requestPage = self.currentPage + 1;
     }
@@ -145,7 +145,7 @@
             if (type == YOSRefreshTypeHeader) {
                 self.isNoMoreData = NO;
             }
-            self.currentPage++;
+            self.currentPage = requestPage;
             
             self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
             
