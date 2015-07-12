@@ -7,6 +7,7 @@
 //
 
 #import "YOSTestViewController.h"
+#import "YOSQRScanViewController.h"
 
 #import "UIImage+MDQRCode.h"
 
@@ -24,6 +25,12 @@
     iv.image = image;
     
     [self.view addSubview:iv];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    YOSQRScanViewController *scanVC = [YOSQRScanViewController new];
+    
+    [self.navigationController pushViewController:scanVC animated:YES];
 }
 
 @end

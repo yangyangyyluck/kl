@@ -57,21 +57,18 @@
     _titleLabel.textColor = YOSColorFontBlack;
     _titleLabel.font = YOSFontBig;
     [self addSubview:_titleLabel];
-    _titleLabel.text = @"这是一个活动这是一个活动这是一个活动这是一个活动这是一个活动";
+    _titleLabel.text = @"这是一个活动";
     
     _subImageView0 = [UIImageView new];
-    _subImageView0.image = [UIImage imageNamed:@"活动地点"];
+    _subImageView0.image = [UIImage imageNamed:@"审核地点"];
     [self addSubview:_subImageView0];
     
     _subImageView1 = [UIImageView new];
-    _subImageView1.image = [UIImage imageNamed:@"活动时间"];
+    _subImageView1.image = [UIImage imageNamed:@"审核时间"];
     [self addSubview:_subImageView1];
     
     _subImageView2 = [UIImageView new];
-    _subImageView2.image = [UIImage imageNamed:@"报名费"];
-    _subImageView0.backgroundColor = YOSColorRandom;
-    _subImageView1.backgroundColor = YOSColorRandom;
-    _subImageView2.backgroundColor = YOSColorRandom;
+    _subImageView2.image = [UIImage imageNamed:@"审核报名费"];
     [self addSubview:_subImageView2];
     
     _subTitle0 = [UILabel new];

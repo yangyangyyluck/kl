@@ -55,6 +55,10 @@
 		DD64122E1B525DEB00C5BFFB /* split.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6412241B525DEB00C5BFFB /* split.mm */; };
 		DD64122F1B525DEB00C5BFFB /* UIImage+MDQRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6412271B525DEB00C5BFFB /* UIImage+MDQRCode.m */; };
 		DD6412321B525E1300C5BFFB /* YOSTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6412311B525E1300C5BFFB /* YOSTestViewController.m */; };
+		DD64123B1B52623600C5BFFB /* YOSQRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD64123A1B52623600C5BFFB /* YOSQRScanViewController.m */; };
+		DD64123D1B52677500C5BFFB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD64123C1B52677500C5BFFB /* AVFoundation.framework */; };
+		DD6412441B5267C500C5BFFB /* AES128.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6412401B5267C500C5BFFB /* AES128.m */; };
+		DD6412451B5267C500C5BFFB /* YOSGTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6412421B5267C500C5BFFB /* YOSGTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
@@ -240,6 +244,14 @@
 		DD6412331B525E8000C5BFFB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DD6412351B525E8800C5BFFB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DD6412371B525E9400C5BFFB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DD6412391B52623600C5BFFB /* YOSQRScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSQRScanViewController.h; sourceTree = "<group>"; };
+		DD64123A1B52623600C5BFFB /* YOSQRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSQRScanViewController.m; sourceTree = "<group>"; };
+		DD64123C1B52677500C5BFFB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DD64123F1B5267C500C5BFFB /* AES128.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AES128.h; sourceTree = "<group>"; };
+		DD6412401B5267C500C5BFFB /* AES128.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AES128.m; sourceTree = "<group>"; };
+		DD6412411B5267C500C5BFFB /* YOSGTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSGTMBase64.h; sourceTree = "<group>"; };
+		DD6412421B5267C500C5BFFB /* YOSGTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSGTMBase64.m; sourceTree = "<group>"; };
+		DD6412431B5267C500C5BFFB /* YOSGTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSGTMDefines.h; sourceTree = "<group>"; };
 		DD77078A1AD3BA3300795561 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DD77078B1AD3BAD300795561 /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		DD7707921AD3C05F00795561 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
@@ -398,6 +410,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD64123D1B52677500C5BFFB /* AVFoundation.framework in Frameworks */,
 				5D06332A08141014FD4F795B /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,6 +428,7 @@
 		C4EE99AC6BA6FB4A0E27D5C3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD64123C1B52677500C5BFFB /* AVFoundation.framework */,
 				DD6412371B525E9400C5BFFB /* CoreGraphics.framework */,
 				DD6412351B525E8800C5BFFB /* Foundation.framework */,
 				DD6412331B525E8000C5BFFB /* UIKit.framework */,
@@ -499,6 +513,8 @@
 				DDE28F781B3853C3005BD036 /* YOSLoginViewController.m */,
 				DD6412301B525E1300C5BFFB /* YOSTestViewController.h */,
 				DD6412311B525E1300C5BFFB /* YOSTestViewController.m */,
+				DD6412391B52623600C5BFFB /* YOSQRScanViewController.h */,
+				DD64123A1B52623600C5BFFB /* YOSQRScanViewController.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -736,6 +752,7 @@
 		DD3B1C101AD7C16A00A91838 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				DD64123E1B5267C500C5BFFB /* AES128 */,
 				DD6412161B525DEB00C5BFFB /* QR */,
 				DD177B101B3C48AD00E86F24 /* VPImageCropper */,
 				DDD799C81B2DB59100AF8A59 /* YLLabel */,
@@ -782,6 +799,18 @@
 				DD6412251B525DEB00C5BFFB /* split.h */,
 			);
 			path = libqrencode;
+			sourceTree = "<group>";
+		};
+		DD64123E1B5267C500C5BFFB /* AES128 */ = {
+			isa = PBXGroup;
+			children = (
+				DD64123F1B5267C500C5BFFB /* AES128.h */,
+				DD6412401B5267C500C5BFFB /* AES128.m */,
+				DD6412411B5267C500C5BFFB /* YOSGTMBase64.h */,
+				DD6412421B5267C500C5BFFB /* YOSGTMBase64.m */,
+				DD6412431B5267C500C5BFFB /* YOSGTMDefines.h */,
+			);
+			path = AES128;
 			sourceTree = "<group>";
 		};
 		DD8360B21B075C6E00DEAF86 /* Activity */ = {
@@ -1177,6 +1206,7 @@
 				DDFC6B461B4E6CDD008DB181 /* YOSTagEditViewController.m in Sources */,
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
 				DDE28F741B3839A2005BD036 /* YOSCellButton.m in Sources */,
+				DD6412441B5267C500C5BFFB /* AES128.m in Sources */,
 				DD89D6A41B43E74300D542BB /* YOSAuditFriendCell.m in Sources */,
 				DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */,
 				DD3EE78E1B4F9F3A0087A475 /* YOSUserDelTagRequest.m in Sources */,
@@ -1214,6 +1244,7 @@
 				DD00EDDC1ADB6C3A00E811A2 /* YOSAccessoryView.m in Sources */,
 				DD64122A1B525DEB00C5BFFB /* qrencode.mm in Sources */,
 				DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */,
+				DD64123B1B52623600C5BFFB /* YOSQRScanViewController.m in Sources */,
 				DD89D6931B4293D700D542BB /* YOSMyActivityView.m in Sources */,
 				DD00F21F1B04E32E009AFD66 /* YOSDBManager.m in Sources */,
 				DD00EDF61ADD1BE100E811A2 /* YOSMeViewController.m in Sources */,
@@ -1225,6 +1256,7 @@
 				DD8360BC1B07956F00DEAF86 /* YOSCityModel.m in Sources */,
 				DDE28F6C1B38145F005BD036 /* YOSMeButtonView.m in Sources */,
 				DD89D68A1B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m in Sources */,
+				DD6412451B5267C500C5BFFB /* YOSGTMBase64.m in Sources */,
 				DDF599371B33025E00BF2C42 /* YOSFriendCell.m in Sources */,
 				DDF840B11AD61A15006939DF /* YOSUserSendCodeRequest.m in Sources */,
 				DD00EDD61ADB6C3A00E811A2 /* YOSRegStepTwoViewController.m in Sources */,

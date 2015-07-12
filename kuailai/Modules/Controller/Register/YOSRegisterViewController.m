@@ -127,7 +127,7 @@ static const NSUInteger kTimeMaxCount = 16;
         }
         
         // 真机调试时候alert, 模拟器不alert
-        if (DEBUG && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
+        if (TARGET_OS_IPHONE && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
             [SVProgressHUD showInfoWithStatus:request.yos_data[@"code"]];
         } else {
             [SVProgressHUD showInfoWithStatus:@"验证码已发送，请查收~"];
