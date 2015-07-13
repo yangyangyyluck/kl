@@ -61,6 +61,10 @@
 		DD6412451B5267C500C5BFFB /* YOSGTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6412421B5267C500C5BFFB /* YOSGTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD735BD31B53641B002F0B0F /* YOSMyAttendActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BD21B53641B002F0B0F /* YOSMyAttendActivityViewController.m */; };
 		DD735BD61B536B90002F0B0F /* YOSMyAttendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BD51B536B90002F0B0F /* YOSMyAttendCell.m */; };
+		DD735BD91B53727E002F0B0F /* YOSMyAttendDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BD81B53727E002F0B0F /* YOSMyAttendDetailViewController.m */; };
+		DD735BDF1B53A749002F0B0F /* YOSTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BDE1B53A749002F0B0F /* YOSTimeView.m */; };
+		DD735BE21B53C3E9002F0B0F /* YOSChangeTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE11B53C3E9002F0B0F /* YOSChangeTouchButton.m */; };
+		DD735BE51B53C4FD002F0B0F /* YOSHideTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE41B53C4FD002F0B0F /* YOSHideTextField.m */; };
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
@@ -258,6 +262,14 @@
 		DD735BD21B53641B002F0B0F /* YOSMyAttendActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyAttendActivityViewController.m; sourceTree = "<group>"; };
 		DD735BD41B536B90002F0B0F /* YOSMyAttendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyAttendCell.h; sourceTree = "<group>"; };
 		DD735BD51B536B90002F0B0F /* YOSMyAttendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyAttendCell.m; sourceTree = "<group>"; };
+		DD735BD71B53727E002F0B0F /* YOSMyAttendDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyAttendDetailViewController.h; sourceTree = "<group>"; };
+		DD735BD81B53727E002F0B0F /* YOSMyAttendDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyAttendDetailViewController.m; sourceTree = "<group>"; };
+		DD735BDD1B53A749002F0B0F /* YOSTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSTimeView.h; sourceTree = "<group>"; };
+		DD735BDE1B53A749002F0B0F /* YOSTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSTimeView.m; sourceTree = "<group>"; };
+		DD735BE01B53C3E9002F0B0F /* YOSChangeTouchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSChangeTouchButton.h; sourceTree = "<group>"; };
+		DD735BE11B53C3E9002F0B0F /* YOSChangeTouchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSChangeTouchButton.m; sourceTree = "<group>"; };
+		DD735BE31B53C4FD002F0B0F /* YOSHideTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHideTextField.h; sourceTree = "<group>"; };
+		DD735BE41B53C4FD002F0B0F /* YOSHideTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHideTextField.m; sourceTree = "<group>"; };
 		DD77078A1AD3BA3300795561 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DD77078B1AD3BAD300795561 /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		DD7707921AD3C05F00795561 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
@@ -501,6 +513,8 @@
 				DDFC6B451B4E6CDD008DB181 /* YOSTagEditViewController.m */,
 				DD735BD11B53641B002F0B0F /* YOSMyAttendActivityViewController.h */,
 				DD735BD21B53641B002F0B0F /* YOSMyAttendActivityViewController.m */,
+				DD735BD71B53727E002F0B0F /* YOSMyAttendDetailViewController.h */,
+				DD735BD81B53727E002F0B0F /* YOSMyAttendDetailViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -647,6 +661,8 @@
 		DD00EDCE1ADB6C3A00E811A2 /* Me */ = {
 			isa = PBXGroup;
 			children = (
+				DD735BDD1B53A749002F0B0F /* YOSTimeView.h */,
+				DD735BDE1B53A749002F0B0F /* YOSTimeView.m */,
 				DDE28F671B380001005BD036 /* YOSHeadDetailButton.h */,
 				DDE28F681B380001005BD036 /* YOSHeadDetailButton.m */,
 				DDE28F6A1B38145F005BD036 /* YOSMeButtonView.h */,
@@ -679,6 +695,10 @@
 				DDFC6B421B4E5AA1008DB181 /* YOSTapDeleteView.m */,
 				DD735BD41B536B90002F0B0F /* YOSMyAttendCell.h */,
 				DD735BD51B536B90002F0B0F /* YOSMyAttendCell.m */,
+				DD735BE01B53C3E9002F0B0F /* YOSChangeTouchButton.h */,
+				DD735BE11B53C3E9002F0B0F /* YOSChangeTouchButton.m */,
+				DD735BE31B53C4FD002F0B0F /* YOSHideTextField.h */,
+				DD735BE41B53C4FD002F0B0F /* YOSHideTextField.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -1258,6 +1278,7 @@
 				DD64123B1B52623600C5BFFB /* YOSQRScanViewController.m in Sources */,
 				DD89D6931B4293D700D542BB /* YOSMyActivityView.m in Sources */,
 				DD00F21F1B04E32E009AFD66 /* YOSDBManager.m in Sources */,
+				DD735BD91B53727E002F0B0F /* YOSMyAttendDetailViewController.m in Sources */,
 				DD00EDF61ADD1BE100E811A2 /* YOSMeViewController.m in Sources */,
 				DDCF01061B116FAD00ED205F /* YOSTextView.m in Sources */,
 				DD89D69B1B42D0EB00D542BB /* YOSMyReleaseCell.m in Sources */,
@@ -1275,6 +1296,7 @@
 				DD00EDDB1ADB6C3A00E811A2 /* YOSTabBarItem.m in Sources */,
 				DDFC6B401B4E5A88008DB181 /* YOSTapEditView.m in Sources */,
 				DD8DC8291ACE7F8800918ADD /* main.m in Sources */,
+				DD735BE51B53C4FD002F0B0F /* YOSHideTextField.m in Sources */,
 				DD89D6901B427A0800D542BB /* YOSMyReleaseActivityViewController.m in Sources */,
 				DDFC6B3D1B4E4D65008DB181 /* YOSUserGetTagListRequest.m in Sources */,
 				DD64122D1B525DEB00C5BFFB /* rscode.mm in Sources */,
@@ -1318,6 +1340,7 @@
 				DD735BD31B53641B002F0B0F /* YOSMyAttendActivityViewController.m in Sources */,
 				DD4A17391B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m in Sources */,
 				DD0DF3381B08D6D100CCE202 /* YOSIQContentView.m in Sources */,
+				DD735BDF1B53A749002F0B0F /* YOSTimeView.m in Sources */,
 				DDB6CF931B2AB19400C5B9B1 /* YOSCollectionImageCell.m in Sources */,
 				DD4A17421B3AB4FA00B10D4F /* YOSSetHeadView.m in Sources */,
 				DD97C9E51B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m in Sources */,
@@ -1330,6 +1353,7 @@
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,
 				DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */,
+				DD735BE21B53C3E9002F0B0F /* YOSChangeTouchButton.m in Sources */,
 				DD89D68D1B42407500D542BB /* YOSActiveIsSignUpRequest.m in Sources */,
 				DD00EDD91ADB6C3A00E811A2 /* YOSBaseViewController.m in Sources */,
 			);

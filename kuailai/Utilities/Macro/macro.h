@@ -34,7 +34,7 @@
 #define YOSScreenWidth                [UIScreen mainScreen].bounds.size.width
 #define YOSScreenHeight               [UIScreen mainScreen].bounds.size.height
 #define YOSAutolayout(size)           (YOSScreenWidth / 320.0 * (size))
-#define YOSAutolayoutHeight(size)     (YOSScreenHeight / 568 * (size))
+#define YOSAutolayoutHeight(size)     (YOSScreenHeight / 568.0 * (size))
 
 
 #define YOSRGBA(r,g,b,a)               [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:a]

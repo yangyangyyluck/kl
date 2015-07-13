@@ -7,6 +7,7 @@
 //
 
 #import "YOSMyAttendActivityViewController.h"
+#import "YOSMyAttendDetailViewController.h"
 #import "YOSMyAttendCell.h"
 
 #import "YOSActivityListModel.h"
@@ -165,6 +166,28 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
+    
+    YOSActivityListModel *model = self.activityListModels[indexPath.row];
+    
+    // 未审核
+    if ([model.status integerValue] == 0) {
+        YOSLog(@"未审核");
+    }
+    
+    // 成功
+    if ([model.status integerValue] == 1) {
+        YOSLog(@"成功");
+        YOSMyAttendDetailViewController *detailVC = [YOSMyAttendDetailViewController new];
+        detailVC.activityListModel = model;
+        
+        [self.navigationController pushViewController:detailVC animated:YES];
+        return;
+    }
+    
+    // 拒绝
+    if ([model.status integerValue] == 2) {
+        YOSLog(@"拒绝");
+    }
 }
 
 #pragma mark - getter & setter
