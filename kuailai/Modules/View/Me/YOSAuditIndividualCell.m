@@ -44,7 +44,7 @@
     [self.contentView addSubview:_titleLabel];
     
     [_bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(0);
+        make.bottom.and.left.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 0.5));
     }];
     

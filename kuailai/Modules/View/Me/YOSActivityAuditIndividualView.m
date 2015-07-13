@@ -84,6 +84,7 @@
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.showsHorizontalScrollIndicator = NO;
     _tableView.tableFooterView = [UIView new];
+    _tableView.bounces = NO;
     [self addSubview:_tableView];
     
     _placeholderImageView = [UIImageView new];
@@ -131,6 +132,7 @@
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
         make.top.mas_equalTo(_titleLabel.mas_bottom);
         make.bottom.mas_equalTo(-44);
     }];
@@ -238,17 +240,19 @@
 
 - (void)setUserInfoModel:(YOSUserInfoModel *)userInfoModel {
     _userInfoModel = userInfoModel;
+    
+    [self.dataSource removeAllObjects];
 
-    if (userInfoModel.phone.length) {
-        [self.dataSource addObject:[NSString stringWithFormat:@"手机号: %@", userInfoModel.phone]];
+    if (userInfoModel.username.length) {
+        [self.dataSource addObject:[NSString stringWithFormat:@"手机号: %@", userInfoModel.username]];
     }
     
     if ([userInfoModel.work_experience integerValue]) {
-        [self.dataSource addObject:[NSString stringWithFormat:@"工作年限: %@", yos_getEducation(userInfoModel.work_experience)]];
+        [self.dataSource addObject:[NSString stringWithFormat:@"工作年限: %@", yos_getJobYears(userInfoModel.work_experience)]];
     }
     
-    if (userInfoModel.degree_name.length) {
-        [self.dataSource addObject:[NSString stringWithFormat:@"学历: %@", userInfoModel.degree_name]];
+    if (userInfoModel.degree.length) {
+        [self.dataSource addObject:[NSString stringWithFormat:@"学历: %@", yos_getEducation(userInfoModel.degree)]];
     }
     
     [self.dataSource enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {

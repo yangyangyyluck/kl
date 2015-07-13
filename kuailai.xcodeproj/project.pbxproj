@@ -59,6 +59,8 @@
 		DD64123D1B52677500C5BFFB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD64123C1B52677500C5BFFB /* AVFoundation.framework */; };
 		DD6412441B5267C500C5BFFB /* AES128.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6412401B5267C500C5BFFB /* AES128.m */; };
 		DD6412451B5267C500C5BFFB /* YOSGTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6412421B5267C500C5BFFB /* YOSGTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DD735BD31B53641B002F0B0F /* YOSMyAttendActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BD21B53641B002F0B0F /* YOSMyAttendActivityViewController.m */; };
+		DD735BD61B536B90002F0B0F /* YOSMyAttendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BD51B536B90002F0B0F /* YOSMyAttendCell.m */; };
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
@@ -252,6 +254,10 @@
 		DD6412411B5267C500C5BFFB /* YOSGTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSGTMBase64.h; sourceTree = "<group>"; };
 		DD6412421B5267C500C5BFFB /* YOSGTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSGTMBase64.m; sourceTree = "<group>"; };
 		DD6412431B5267C500C5BFFB /* YOSGTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSGTMDefines.h; sourceTree = "<group>"; };
+		DD735BD11B53641B002F0B0F /* YOSMyAttendActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyAttendActivityViewController.h; sourceTree = "<group>"; };
+		DD735BD21B53641B002F0B0F /* YOSMyAttendActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyAttendActivityViewController.m; sourceTree = "<group>"; };
+		DD735BD41B536B90002F0B0F /* YOSMyAttendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyAttendCell.h; sourceTree = "<group>"; };
+		DD735BD51B536B90002F0B0F /* YOSMyAttendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyAttendCell.m; sourceTree = "<group>"; };
 		DD77078A1AD3BA3300795561 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DD77078B1AD3BAD300795561 /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		DD7707921AD3C05F00795561 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
@@ -493,6 +499,8 @@
 				DD89D6A91B44E76D00D542BB /* YOSActivityAuditIndividualViewController.m */,
 				DDFC6B441B4E6CDD008DB181 /* YOSTagEditViewController.h */,
 				DDFC6B451B4E6CDD008DB181 /* YOSTagEditViewController.m */,
+				DD735BD11B53641B002F0B0F /* YOSMyAttendActivityViewController.h */,
+				DD735BD21B53641B002F0B0F /* YOSMyAttendActivityViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -669,6 +677,8 @@
 				DDFC6B3F1B4E5A88008DB181 /* YOSTapEditView.m */,
 				DDFC6B411B4E5AA1008DB181 /* YOSTapDeleteView.h */,
 				DDFC6B421B4E5AA1008DB181 /* YOSTapDeleteView.m */,
+				DD735BD41B536B90002F0B0F /* YOSMyAttendCell.h */,
+				DD735BD51B536B90002F0B0F /* YOSMyAttendCell.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -1232,6 +1242,7 @@
 				DD64122F1B525DEB00C5BFFB /* UIImage+MDQRCode.m in Sources */,
 				DD00EDF31ADD1AAB00E811A2 /* YOSCreateActivityViewController.m in Sources */,
 				DD177B131B3C48AD00E86F24 /* VPImageCropperViewController.m in Sources */,
+				DD735BD61B536B90002F0B0F /* YOSMyAttendCell.m in Sources */,
 				DDCF01031B116FAD00ED205F /* YOSInputView.m in Sources */,
 				DD89D6A71B43E95A00D542BB /* YOSActiveGetSignUpRequest.m in Sources */,
 				DDB656771B198C4500531C71 /* YOSActivityFatherTypeModel.m in Sources */,
@@ -1304,6 +1315,7 @@
 				DDCF01011B116FAD00ED205F /* YOSActivityPhotoView.m in Sources */,
 				DD058EBF1B273E76003B50BE /* YOSActivityDetailModel.m in Sources */,
 				DD6412281B525DEB00C5BFFB /* bitstream.mm in Sources */,
+				DD735BD31B53641B002F0B0F /* YOSMyAttendActivityViewController.m in Sources */,
 				DD4A17391B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m in Sources */,
 				DD0DF3381B08D6D100CCE202 /* YOSIQContentView.m in Sources */,
 				DDB6CF931B2AB19400C5B9B1 /* YOSCollectionImageCell.m in Sources */,

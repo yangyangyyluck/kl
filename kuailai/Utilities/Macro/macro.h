@@ -69,3 +69,5 @@
 #define YOSNetworkErrorNoAuthorization  @"请先登录哦~"
 #define YOSNetworkErrorFailure          @"网络开小差啦,请重试~"
 #define YOSNetworkErrorDefault          @"网络开小差啦,请重试~"
+
+#define YOSInt2String(num) [NSString stringWithFormat:@"%zi", (num)]

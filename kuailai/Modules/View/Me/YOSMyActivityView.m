@@ -100,7 +100,7 @@
         make.size.mas_equalTo(CGSizeMake(80, 80));
     }];
     
-    CGFloat maxWidth = 210;
+    CGFloat maxWidth = 195;
     if (YOSIsIphone6P) {
         maxWidth = 230;
     }

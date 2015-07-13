@@ -12,6 +12,7 @@
 #import "YOSBaseNavigationViewController.h"
 #import "YOSTagEditViewController.h"
 #import "YOSMyReleaseActivityViewController.h"
+#import "YOSMyAttendActivityViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSTestViewController.h"
 #import "YOSHeadDetailButton.h"
@@ -223,7 +224,8 @@
     
     // 参与的活动
     if (button.tag == 1) {
-        
+        YOSMyAttendActivityViewController *attendVC = [YOSMyAttendActivityViewController new];
+        [self.navigationController pushViewController:attendVC animated:YES];
         return;
     }
     
