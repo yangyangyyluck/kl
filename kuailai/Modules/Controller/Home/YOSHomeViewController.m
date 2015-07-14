@@ -34,6 +34,7 @@
 #import "UIImage-Helpers.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "UIView+YOSAdditions.h"
+#import "YOSLocalNotificationManager.h"
 
 @interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -79,6 +80,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [[YOSLocalNotificationManager sharedManager] dealWithCurrentNotification];
 }
 
 - (void)setupSubviews {

@@ -11,7 +11,12 @@
 @implementation YOSHideTextField
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-    return YES;
+    
+    CGPoint pt = [self convertPoint:point toView:self.agencyView];
+    
+    BOOL status = [super pointInside:pt withEvent:event];
+    
+    return status;
 }
 
 @end

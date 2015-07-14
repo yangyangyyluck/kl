@@ -14,4 +14,6 @@
  */
 @interface YOSHideTextField : YOSTextField
 
+@property (nonatomic, weak) id agencyView;
+
 @end

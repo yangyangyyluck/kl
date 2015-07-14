@@ -34,6 +34,7 @@
 #import "SVProgressHUD+YOSAdditions.h"
 #import "GVUserDefaults+YOSProperties.h"
 #import "UIImage+YOSAdditions.h"
+#import "YOSLocalNotificationManager.h"
 
 static const NSUInteger numbersOfSections = 100;
 
@@ -730,6 +731,11 @@ static const NSUInteger numbersOfSections = 100;
         // 报名成功
         if ([request.yos_baseResponseModel.code integerValue] == 200) {
             [self invalidSignButton];
+            
+            // 注册本地通知
+            NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityDetailModel.start_time integerValue] - 2 * 3600];
+            
+            [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:startDate UserInfo:@{@"activityId" : self.activityDetailModel.ID, @"title" : self.activityDetailModel.title}];
         }
         
         // 已满员

@@ -175,8 +175,8 @@
     }
     
     _subTitle0.text = activityListModel.address;
-    NSString *time1 = [YOSWidget dateStringWithTimeStamp:activityListModel.start_time Format:@"YYYY-mm-dd"];
-    NSString *time2 = [YOSWidget dateStringWithTimeStamp:activityListModel.end_time Format:@"YYYY-mm-dd"];
+    NSString *time1 = [YOSWidget dateStringWithTimeStamp:activityListModel.start_time Format:@"YYYY-MM-dd"];
+    NSString *time2 = [YOSWidget dateStringWithTimeStamp:activityListModel.end_time Format:@"YYYY-MM-dd"];
     _subTitle1.text = [NSString stringWithFormat:@"%@ 一 %@", time1, time2];
     
     if ([activityListModel.price integerValue] == 0) {

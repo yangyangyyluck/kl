@@ -12,6 +12,7 @@
 #import "YOSInputView.h"
 #import "YOSTextField.h"
 #import "YOSIQContentView.h"
+#import "YOSLocalNotificationManager.h"
 
 @interface AppDelegate ()
 
@@ -19,17 +20,15 @@
 
 @implementation AppDelegate
 
-- (void)configrueThiredLibrariesWith:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
-    
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    
-    [YTKNetworkConfig sharedInstance].baseUrl = YOSURLBase;
-    
-    
-    
-}
+#pragma mark - application life cycles
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    
+    if (localNotification) {
+        [YOSLocalNotificationManager sharedManager].currentNotification = localNotification;
+    }
     
     [[IQKeyboardManager sharedManager] considerToolbarPreviousNextInViewClass:[YOSIQContentView class]];
     
@@ -60,6 +59,27 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - locate notification
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    NSLog(@"%s", __func__);
+    [YOSLocalNotificationManager sharedManager].currentNotification = notification;
+    
+    if (application.applicationState != UIApplicationStateInactive) {
+        [[YOSLocalNotificationManager sharedManager] dealWithCurrentNotification];
+    }
+    
+}
+
+#pragma mark - private methods 
+
+- (void)configrueThiredLibrariesWith:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
+    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    
+    [YTKNetworkConfig sharedInstance].baseUrl = YOSURLBase;
 }
 
 @end

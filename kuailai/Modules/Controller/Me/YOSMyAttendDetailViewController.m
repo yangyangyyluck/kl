@@ -18,6 +18,7 @@
 #import "UIView+YOSAdditions.h"
 #import "Masonry.h"
 #import "UIImage+MDQRCode.h"
+#import "YOSLocalNotificationManager.h"
 
 @implementation YOSMyAttendDetailViewController {
     UIScrollView *_scrollView;
@@ -55,6 +56,10 @@
     [self setupSubviews];
 }
 
+- (void)dealloc {
+    YOSLog(@"YOSMyAttendDetailViewController dealloc");
+}
+
 - (void)setupSubviews {
 
     _scrollView = [UIScrollView new];
@@ -83,21 +88,50 @@
     [_grayContentView0 addSubview:_leftLabel0];
     
     _addButton = [YOSChangeTouchButton new];
-    [_addButton setImage:[UIImage imageNamed:@"添加标签"] forState:UIControlStateNormal];
+    [_addButton setImage:[UIImage imageNamed:@"活动加号"] forState:UIControlStateNormal];
     [_addButton addTarget:self action:@selector(tappedAddButton) forControlEvents:UIControlEventTouchUpInside];
-    _addButton.backgroundColor = YOSColorRandom;
     [_grayContentView0 addSubview:_addButton];
     
     _hideTextField = [YOSHideTextField new];
+    _hideTextField.agencyView = _addButton;
     _hideTextField.hideCursor = YES;
     _hideTextField.borderStyle = UITextBorderStyleNone;
     UIDatePicker *picker = [UIDatePicker new];
-    picker.datePickerMode = UIDatePickerModeDate;
+    picker.datePickerMode = UIDatePickerModeDateAndTime;
+    picker.minimumDate = [NSDate date];
     [picker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
     _hideTextField.inputView = picker;
     [_contentView addSubview:_hideTextField];
     
     _timeView = [YOSTimeView new];
+    YOSWObject(_timeView, weakObject);
+    NSDictionary *userInfo = @{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title};
+    UILocalNotification *noti = [[YOSLocalNotificationManager sharedManager] notificationWithUserInfo:userInfo];
+    NSDate *startDate = nil;
+    if (noti) {
+        startDate = noti.fireDate;
+    } else {
+        startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityListModel.start_time integerValue] - 2 * 3600];
+        
+        NSTimeInterval interval0 = [startDate timeIntervalSince1970];
+        NSTimeInterval interval1 = [[NSDate date] timeIntervalSince1970];
+        
+        // 过期了
+        if (interval0 < interval1) {
+            startDate = nil;
+        }
+    }
+    _timeView.alertDate = startDate;
+    _timeView.swh.on = [[YOSLocalNotificationManager sharedManager] isExistNotificationWithUserInfo:userInfo];
+    _timeView.idBlock = ^(UISwitch *swh) {
+        
+        if (swh.on) {
+            [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:weakObject.alertDate UserInfo:userInfo];
+        } else {
+            [[YOSLocalNotificationManager sharedManager] deleteNotificationWithUserInfo:userInfo];
+        }
+        
+    };
     [_contentView addSubview:_timeView];
     
     _grayContentView1 = [UIView new];
@@ -128,7 +162,7 @@
     
     _imageView = [UIImageView new];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
-    _imageView.image = [UIImage mdQRCodeForString:@"1-23-45" size:YOSAutolayout(140)];
+    _imageView.image = [UIImage mdQRCodeForString:@"1-23-45" size:140];
     [_imageWhiteBackgroundView addSubview:_imageView];
     
     _bottomLabel = [_leftLabel0 yos_copySelf];
@@ -251,6 +285,8 @@
     NSLog(@"%s", __func__);
     
     _timeView.alertDate = picker.date;
+    
+    [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:picker.date UserInfo:@{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title}];
 }
 
 @end

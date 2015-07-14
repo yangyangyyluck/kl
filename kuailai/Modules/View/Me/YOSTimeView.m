@@ -10,6 +10,14 @@
 
 #import "EDColor.h"
 #import "Masonry.h"
+#import "YOSWidget.h"
+#import "YOSLocalNotificationManager.h"
+
+@interface YOSTimeView ()
+
+@property (nonatomic, strong, readwrite) UISwitch *swh;
+
+@end
 
 @implementation YOSTimeView {
     UILabel *_leftLabel;
@@ -19,7 +27,7 @@
     UIView *_topLineView;
     UIView *_bottomLineView;
     
-    UISwitch *_swh;
+    NSTimer *_timer;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -30,9 +38,18 @@
     
     self.backgroundColor = [UIColor whiteColor];
     
+    _timer = [NSTimer timerWithTimeInterval:40 target:self selector:@selector(updateAlertDate) userInfo:nil repeats:YES];
+    
+    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    
     [self setupSubviews];
     
     return self;
+}
+
+- (void)dealloc {
+    [_timer invalidate];
+    _timer = nil;
 }
 
 - (void)setupSubviews {
@@ -40,19 +57,19 @@
     _leftLabel.textColor = YOSColorMainRed;
     _leftLabel.font = [UIFont boldSystemFontOfSize:22.0f];
     [self addSubview:_leftLabel];
-    _leftLabel.text = @"10:30AM";
+    _leftLabel.text = @"00:00AM";
     
     _rightLabel = [UILabel new];
     _rightLabel.textColor = YOSColorMainRed;
     _rightLabel.font = YOSFontNormal;
     [self addSubview:_rightLabel];
-    _rightLabel.text = @"2014-10-17";
+    _rightLabel.text = @"0000-00-00";
     
     _bottomLabel = [UILabel new];
     _bottomLabel.textColor = YOSColorFontGray;
     _bottomLabel.font = YOSFontSmall;
     [self addSubview:_bottomLabel];
-    _bottomLabel.text = @"5天13小时47分钟后响铃";
+    _bottomLabel.text = @"0天0小时0分钟后响铃";
     
     _swh = [UISwitch new];
     _swh.onTintColor = YOSRGB(76, 197, 158);
@@ -100,6 +117,49 @@
 
 - (void)tappedSwitch:(UISwitch *)swh {
     NSLog(@"%s", __func__);
+    
+    if (self.idBlock) {
+        self.idBlock(swh);
+    }
+    
+}
+
+- (void)setAlertDate:(NSDate *)alertDate {
+    NSLog(@"%s", __func__);
+    
+    if (!alertDate) {
+        return;
+    }
+    
+    _alertDate = alertDate;
+    
+    _leftLabel.text = [YOSWidget dateStringWithDate:alertDate Format:@"h:mm a"];
+    _rightLabel.text = [YOSWidget dateStringWithDate:alertDate Format:@"yyyy-MM-dd"];
+    
+    NSTimeInterval interval = [alertDate timeIntervalSince1970] - [[NSDate date] timeIntervalSince1970];
+    
+    NSUInteger day =  interval / (24 * 3600);
+    NSUInteger hour = (interval - day * (24 * 3600)) / 3600;
+    NSUInteger minute = ceil((interval - day * (24 * 3600) - 3600 * hour) / 60);
+    
+    _bottomLabel.text = [NSString stringWithFormat:@"%zi天%zi小时%zi分钟后响铃", day, hour, minute];
+}
+
+- (void)updateAlertDate {
+    NSLog(@"%s", __func__);
+    
+    NSTimeInterval interval0 = [self.alertDate timeIntervalSince1970];
+    NSTimeInterval interval1 = [[NSDate date] timeIntervalSince1970];
+    
+    NSInteger interval = interval0 - interval1;
+    
+    if (interval <= 0) {
+        [_timer invalidate];
+        _timer = nil;
+    } else {
+        self.alertDate = self.alertDate;
+    }
+    
 }
 
 @end

@@ -65,6 +65,7 @@
 		DD735BDF1B53A749002F0B0F /* YOSTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BDE1B53A749002F0B0F /* YOSTimeView.m */; };
 		DD735BE21B53C3E9002F0B0F /* YOSChangeTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE11B53C3E9002F0B0F /* YOSChangeTouchButton.m */; };
 		DD735BE51B53C4FD002F0B0F /* YOSHideTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE41B53C4FD002F0B0F /* YOSHideTextField.m */; };
+		DD735BE81B54B6FB002F0B0F /* YOSLocalNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE71B54B6FB002F0B0F /* YOSLocalNotificationManager.m */; };
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
@@ -270,6 +271,8 @@
 		DD735BE11B53C3E9002F0B0F /* YOSChangeTouchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSChangeTouchButton.m; sourceTree = "<group>"; };
 		DD735BE31B53C4FD002F0B0F /* YOSHideTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHideTextField.h; sourceTree = "<group>"; };
 		DD735BE41B53C4FD002F0B0F /* YOSHideTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHideTextField.m; sourceTree = "<group>"; };
+		DD735BE61B54B6FB002F0B0F /* YOSLocalNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSLocalNotificationManager.h; sourceTree = "<group>"; };
+		DD735BE71B54B6FB002F0B0F /* YOSLocalNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSLocalNotificationManager.m; sourceTree = "<group>"; };
 		DD77078A1AD3BA3300795561 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DD77078B1AD3BAD300795561 /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		DD7707921AD3C05F00795561 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
@@ -1007,6 +1010,8 @@
 				DDF840B31AD6273C006939DF /* YOSWidget.m */,
 				DD00F21D1B04E32E009AFD66 /* YOSDBManager.h */,
 				DD00F21E1B04E32E009AFD66 /* YOSDBManager.m */,
+				DD735BE61B54B6FB002F0B0F /* YOSLocalNotificationManager.h */,
+				DD735BE71B54B6FB002F0B0F /* YOSLocalNotificationManager.m */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -1341,6 +1346,7 @@
 				DD4A17391B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m in Sources */,
 				DD0DF3381B08D6D100CCE202 /* YOSIQContentView.m in Sources */,
 				DD735BDF1B53A749002F0B0F /* YOSTimeView.m in Sources */,
+				DD735BE81B54B6FB002F0B0F /* YOSLocalNotificationManager.m in Sources */,
 				DDB6CF931B2AB19400C5B9B1 /* YOSCollectionImageCell.m in Sources */,
 				DD4A17421B3AB4FA00B10D4F /* YOSSetHeadView.m in Sources */,
 				DD97C9E51B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m in Sources */,

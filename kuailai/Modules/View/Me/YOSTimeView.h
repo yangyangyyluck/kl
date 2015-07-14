@@ -10,6 +10,10 @@
 
 @interface YOSTimeView : UIView
 
+@property (nonatomic, strong, readonly) UISwitch *swh;
+
 @property (nonatomic, strong) NSDate *alertDate;
+
+@property (nonatomic, copy) voidBlock_id idBlock;
 
 @end
