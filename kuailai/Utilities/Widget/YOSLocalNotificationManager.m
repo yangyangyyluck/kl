@@ -9,6 +9,8 @@
 #import "YOSLocalNotificationManager.h"
 #import "YOSActivityDetailViewController.h"
 
+#import "YOSWidget.h"
+
 @implementation YOSLocalNotificationManager
 
 + (instancetype)sharedManager {
@@ -32,6 +34,7 @@
 - (void)addNotificationWithDate:(NSDate *)date UserInfo:(NSDictionary *)userInfo {
     
     NSString *title = userInfo[@"title"];
+    NSString *start_time = userInfo[@"start_time"];
     
     // 先删除以前设置的本地通知
     [self deleteNotificationWithUserInfo:userInfo];
@@ -47,7 +50,7 @@
     
     //去掉下面2行就不会弹出提示框
     //提示信息 弹出提示框
-    notification.alertBody=[NSString stringWithFormat:@"温馨提示:您参加的活动 \"%@\" 将于2小时后开始,注意把握时间哦~", title];
+    notification.alertBody=[NSString stringWithFormat:@"温馨提示:您参加的活动 \"%@\" 将于%@开始,注意把握时间哦~", [YOSWidget dateStringWithTimeStamp:start_time Format:@"YYYY-MM-dd HH:mm"], title];
     //提示框按钮
 //    notification.alertAction = @"打开";
     //是否显示额外的按钮，为no时alertAction消失

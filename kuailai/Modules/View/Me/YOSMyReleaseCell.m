@@ -8,12 +8,13 @@
 
 #import "YOSMyReleaseCell.h"
 #import "YOSActivityAuditViewController.h"
-#import "UIView+YOSAdditions.h"
+#import "YOSQRScanViewController.h"
 #import "YOSMyActivityView.h"
 
 #import "YOSActivityListModel.h"
 #import "EDColor.h"
 #import "Masonry.h"
+#import "UIView+YOSAdditions.h"
 
 @implementation YOSMyReleaseCell {
     YOSMyActivityView *_myActivityView;
@@ -113,6 +114,9 @@
 
 - (void)tappedLeftButton {
     NSLog(@"%s", __func__);
+    YOSQRScanViewController *scanVC = [YOSQRScanViewController new];
+    
+    [self.yos_viewController.navigationController pushViewController:scanVC animated:YES];
 }
 
 - (void)tappedRightButton {

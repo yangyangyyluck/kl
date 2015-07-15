@@ -35,6 +35,7 @@
 		DD16904C1B25D4BD0060B3EB /* YOSHeadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DD16904B1B25D4BD0060B3EB /* YOSHeadButton.m */; };
 		DD177AFF1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = DD177AFE1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m */; };
 		DD177B131B3C48AD00E86F24 /* VPImageCropperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD177B121B3C48AD00E86F24 /* VPImageCropperViewController.m */; };
+		DD311F121B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */; };
 		DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */; };
 		DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */; };
 		DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */; };
@@ -209,6 +210,8 @@
 		DD177AFE1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GVUserDefaults+YOSProperties.m"; sourceTree = "<group>"; };
 		DD177B111B3C48AD00E86F24 /* VPImageCropperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPImageCropperViewController.h; sourceTree = "<group>"; };
 		DD177B121B3C48AD00E86F24 /* VPImageCropperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPImageCropperViewController.m; sourceTree = "<group>"; };
+		DD311F101B55F79A0094A91C /* YOSUserConfirmRegisterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserConfirmRegisterRequest.h; sourceTree = "<group>"; };
+		DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserConfirmRegisterRequest.m; sourceTree = "<group>"; };
 		DD3B1C061AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.h"; sourceTree = "<group>"; };
 		DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.m"; sourceTree = "<group>"; };
 		DD3B1C121AD7C16A00A91838 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
@@ -1084,6 +1087,8 @@
 				DD3EE78D1B4F9F3A0087A475 /* YOSUserDelTagRequest.m */,
 				DD6412131B522CCA00C5BFFB /* YOSUserAllAuditRegisterRequest.h */,
 				DD6412141B522CCB00C5BFFB /* YOSUserAllAuditRegisterRequest.m */,
+				DD311F101B55F79A0094A91C /* YOSUserConfirmRegisterRequest.h */,
+				DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1342,6 +1347,7 @@
 				DDCF01011B116FAD00ED205F /* YOSActivityPhotoView.m in Sources */,
 				DD058EBF1B273E76003B50BE /* YOSActivityDetailModel.m in Sources */,
 				DD6412281B525DEB00C5BFFB /* bitstream.mm in Sources */,
+				DD311F121B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m in Sources */,
 				DD735BD31B53641B002F0B0F /* YOSMyAttendActivityViewController.m in Sources */,
 				DD4A17391B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m in Sources */,
 				DD0DF3381B08D6D100CCE202 /* YOSIQContentView.m in Sources */,

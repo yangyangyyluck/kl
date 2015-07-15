@@ -19,6 +19,7 @@
 #import "Masonry.h"
 #import "UIImage+MDQRCode.h"
 #import "YOSLocalNotificationManager.h"
+#import "AES128.h"
 
 @implementation YOSMyAttendDetailViewController {
     UIScrollView *_scrollView;
@@ -105,7 +106,7 @@
     
     _timeView = [YOSTimeView new];
     YOSWObject(_timeView, weakObject);
-    NSDictionary *userInfo = @{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title};
+    NSDictionary *userInfo = @{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title, @"start_time" : self.activityListModel.start_time};
     UILocalNotification *noti = [[YOSLocalNotificationManager sharedManager] notificationWithUserInfo:userInfo];
     NSDate *startDate = nil;
     if (noti) {
@@ -162,7 +163,9 @@
     
     _imageView = [UIImageView new];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
-    _imageView.image = [UIImage mdQRCodeForString:@"1-23-45" size:140];
+    NSString *idString = [NSString stringWithFormat:@"%@-%@", self.activityListModel.uid, self.activityListModel.ID];
+    NSString *AESCode = [AES128 AES128Encrypt:idString withKey:YOSAESKey];
+    _imageView.image = [UIImage mdQRCodeForString:AESCode size:140];
     [_imageWhiteBackgroundView addSubview:_imageView];
     
     _bottomLabel = [_leftLabel0 yos_copySelf];
@@ -286,7 +289,7 @@
     
     _timeView.alertDate = picker.date;
     
-    [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:picker.date UserInfo:@{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title}];
+    [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:picker.date UserInfo:@{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title, @"start_time" : self.activityListModel.start_time}];
 }
 
 @end

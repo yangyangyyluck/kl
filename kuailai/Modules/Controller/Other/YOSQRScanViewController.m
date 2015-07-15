@@ -8,9 +8,13 @@
 
 #import "YOSQRScanViewController.h"
 
+#import "YOSUserConfirmRegisterRequest.h"
+
 #import <AVFoundation/AVFoundation.h>
 #import "Masonry.h"
 #import "UIView+YOSAdditions.h"
+#import "AES128.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSQRScanViewController () <UIAlertViewDelegate,AVCaptureMetadataOutputObjectsDelegate>
 
@@ -165,10 +169,34 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        // no nothing..
-    } else {
         [self restart];
     }
+}
+
+#pragma mark - network
+
+- (void)sendNetworkRequestWithUid:(NSString *)uid aid:(NSString *)aid {
+    YOSUserConfirmRegisterRequest *request = [[YOSUserConfirmRegisterRequest alloc] initWithUid:uid aid:aid];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        [request yos_checkResponse:NO];
+        
+        // 验票成功
+        if ([request.yos_baseResponseModel.code integerValue] == 200) {
+            NSString *msg = [NSString stringWithFormat:@"验票成功!\r\n用户:%@", request.yos_data[@"nickname"]];
+            [self showAlertWithMessage:msg];
+        }
+        
+        // 验票失败等
+        if ([request.yos_baseResponseModel.code integerValue] == 400) {
+            NSString *msg = [NSString stringWithFormat:@"验票失败!\r\n原因:%@", request.yos_baseResponseModel.msg];
+            [self showAlertWithMessage:msg];
+        }
+        
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 #pragma mark - private methods
@@ -294,9 +322,34 @@
 - (void)dealWithResult {
     NSLog(@"%s", __func__);
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:self.resultString delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    NSString *decode = [AES128 AES128Decrypt:self.resultString withKey:YOSAESKey];
+    
+    if (!decode) {
+        [self showAlertWithMessage:[NSString stringWithFormat:@"这个不是活动二维码哦:\r\n%@", self.resultString]];
+    } else {
+        
+        NSArray *array = [decode componentsSeparatedByString:@"-"];
+        
+        if (array.count != 2) {
+            [self showAlertWithMessage:[NSString stringWithFormat:@"这个不是活动二维码哦:\r\n%@", self.resultString]];
+            return;
+        }
+        
+        NSString *uid = array[0];
+        NSString *aid = array[1];
+        
+        [self sendNetworkRequestWithUid:uid aid:aid];
+    }
+    
+    
+}
+
+- (void)showAlertWithMessage:(NSString *)message {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     
     [alert show];
 }
+
+
 
 @end

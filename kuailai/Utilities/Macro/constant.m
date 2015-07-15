@@ -15,6 +15,17 @@ NSString * const YOSEncodeSignUser = @"kuailai";
 
 NSString * const YOSEncodeSignKey = @"ao$i8nJ*S2AL";
 
+NSString * const YOSAESKey = @"ooookuaiLai7oooo";
+
+NSString * const YOSEaseMobAppKey = @"kuailai#kuailai";
+
+#ifdef DEBUG
+NSString * const YOSEaseMobCertName = @"dev";
+#else
+NSString * const YOSEaseMobCertName = @"pro";
+#endif
+
+
 NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
 
 NSString * const YOSNotificationUpdateUserInfo = @"YOSNotificationUpdateUserInfo";

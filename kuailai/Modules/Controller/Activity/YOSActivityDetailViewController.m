@@ -735,7 +735,7 @@ static const NSUInteger numbersOfSections = 100;
             // 注册本地通知
             NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityDetailModel.start_time integerValue] - 2 * 3600];
             
-            [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:startDate UserInfo:@{@"activityId" : self.activityDetailModel.ID, @"title" : self.activityDetailModel.title}];
+            [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:startDate UserInfo:@{@"activityId" : self.activityDetailModel.ID, @"title" : self.activityDetailModel.title, @"start_time" : self.activityDetailModel.start_time}];
         }
         
         // 已满员

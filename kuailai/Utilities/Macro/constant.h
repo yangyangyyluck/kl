@@ -64,6 +64,12 @@ extern NSString * const YOSEncodeSignUser;
 
 extern NSString * const YOSEncodeSignKey;
 
+extern NSString * const YOSAESKey;
+
+extern NSString * const YOSEaseMobAppKey;
+
+extern NSString * const YOSEaseMobCertName;
+
 /**
  *  UserDefault keys
  */
