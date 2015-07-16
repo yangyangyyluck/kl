@@ -36,6 +36,10 @@
 		DD177AFF1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = DD177AFE1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m */; };
 		DD177B131B3C48AD00E86F24 /* VPImageCropperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD177B121B3C48AD00E86F24 /* VPImageCropperViewController.m */; };
 		DD311F121B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */; };
+		DD311F151B5756170094A91C /* YOSMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F141B5756170094A91C /* YOSMessageViewController.m */; };
+		DD311F181B5759330094A91C /* YOSMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F171B5759330094A91C /* YOSMessageCell.m */; };
+		DD311F1B1B5766620094A91C /* YOSMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F1A1B5766620094A91C /* YOSMessageModel.m */; };
+		DD311F1E1B57A2D20094A91C /* YOSEaseMobManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F1D1B57A2D20094A91C /* YOSEaseMobManager.m */; };
 		DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */; };
 		DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */; };
 		DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */; };
@@ -212,6 +216,14 @@
 		DD177B121B3C48AD00E86F24 /* VPImageCropperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPImageCropperViewController.m; sourceTree = "<group>"; };
 		DD311F101B55F79A0094A91C /* YOSUserConfirmRegisterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserConfirmRegisterRequest.h; sourceTree = "<group>"; };
 		DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserConfirmRegisterRequest.m; sourceTree = "<group>"; };
+		DD311F131B5756170094A91C /* YOSMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMessageViewController.h; sourceTree = "<group>"; };
+		DD311F141B5756170094A91C /* YOSMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMessageViewController.m; sourceTree = "<group>"; };
+		DD311F161B5759330094A91C /* YOSMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMessageCell.h; sourceTree = "<group>"; };
+		DD311F171B5759330094A91C /* YOSMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMessageCell.m; sourceTree = "<group>"; };
+		DD311F191B5766620094A91C /* YOSMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMessageModel.h; sourceTree = "<group>"; };
+		DD311F1A1B5766620094A91C /* YOSMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMessageModel.m; sourceTree = "<group>"; };
+		DD311F1C1B57A2D20094A91C /* YOSEaseMobManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSEaseMobManager.h; sourceTree = "<group>"; };
+		DD311F1D1B57A2D20094A91C /* YOSEaseMobManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSEaseMobManager.m; sourceTree = "<group>"; };
 		DD3B1C061AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.h"; sourceTree = "<group>"; };
 		DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.m"; sourceTree = "<group>"; };
 		DD3B1C121AD7C16A00A91838 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
@@ -528,6 +540,8 @@
 		DD00EDB21ADB6C3A00E811A2 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				DD311F131B5756170094A91C /* YOSMessageViewController.h */,
+				DD311F141B5756170094A91C /* YOSMessageViewController.m */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -621,6 +635,8 @@
 		DD00EDC91ADB6C3A00E811A2 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				DD311F191B5766620094A91C /* YOSMessageModel.h */,
+				DD311F1A1B5766620094A91C /* YOSMessageModel.m */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -712,6 +728,8 @@
 		DD00EDCF1ADB6C3A00E811A2 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				DD311F161B5759330094A91C /* YOSMessageCell.h */,
+				DD311F171B5759330094A91C /* YOSMessageCell.m */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1015,6 +1033,8 @@
 				DD00F21E1B04E32E009AFD66 /* YOSDBManager.m */,
 				DD735BE61B54B6FB002F0B0F /* YOSLocalNotificationManager.h */,
 				DD735BE71B54B6FB002F0B0F /* YOSLocalNotificationManager.m */,
+				DD311F1C1B57A2D20094A91C /* YOSEaseMobManager.h */,
+				DD311F1D1B57A2D20094A91C /* YOSEaseMobManager.m */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -1247,6 +1267,7 @@
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
 				DDE28F741B3839A2005BD036 /* YOSCellButton.m in Sources */,
 				DD6412441B5267C500C5BFFB /* AES128.m in Sources */,
+				DD311F151B5756170094A91C /* YOSMessageViewController.m in Sources */,
 				DD89D6A41B43E74300D542BB /* YOSAuditFriendCell.m in Sources */,
 				DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */,
 				DD3EE78E1B4F9F3A0087A475 /* YOSUserDelTagRequest.m in Sources */,
@@ -1315,6 +1336,7 @@
 				DDE28F631B37ED83005BD036 /* YOSActiveGetCollectRequest.m in Sources */,
 				DDD799C71B2D2E1F00AF8A59 /* YOSDetailLabel.m in Sources */,
 				DDE28F691B380001005BD036 /* YOSHeadDetailButton.m in Sources */,
+				DD311F181B5759330094A91C /* YOSMessageCell.m in Sources */,
 				DD1690481B2599500060B3EB /* YOSHomeCell.m in Sources */,
 				DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */,
 				DDFC6B341B4E0F94008DB181 /* YOSUserAuditRegisterRequest.m in Sources */,
@@ -1334,12 +1356,14 @@
 				DD89D6871B4235CF00D542BB /* YOSActiveSignUpRequest.m in Sources */,
 				DD89D6B31B44EFE000D542BB /* UITableViewCell+YOSAdditions.m in Sources */,
 				DDC9DE701B1DED0200629C84 /* YOSGetActiveListRequest.m in Sources */,
+				DD311F1B1B5766620094A91C /* YOSMessageModel.m in Sources */,
 				DD177AFF1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m in Sources */,
 				DD89D6AD1B44E7A700D542BB /* YOSActivityAuditIndividualView.m in Sources */,
 				DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */,
 				DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */,
 				DDCF01051B116FAD00ED205F /* YOSTextField.m in Sources */,
 				DDF48D6B1B293D0500F5D6CA /* YOSActivityDetailItemView.m in Sources */,
+				DD311F1E1B57A2D20094A91C /* YOSEaseMobManager.m in Sources */,
 				DD00EDDA1ADB6C3A00E811A2 /* YOSTabBar.m in Sources */,
 				DDD799CB1B2DB59100AF8A59 /* YLLabel.m in Sources */,
 				DD00EDD31ADB6C3A00E811A2 /* YOSHomeViewController.m in Sources */,

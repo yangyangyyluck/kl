@@ -52,6 +52,11 @@
 
 @property (nonatomic, copy) NSString *tel;
 
+/** 环信 */
+@property (nonatomic, copy) NSString *hx_user;
+
+@property (nonatomic, copy) NSString *hx_pwd;
+
 /** 活动审核的时候使用 YOSActivityAuditIndividualView & YOSActivityAuditViewController */
 @property (nonatomic, copy) NSString *uid;
 

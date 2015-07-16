@@ -14,7 +14,7 @@
 #import "YOSLocalNotificationManager.h"
 #import "EaseMob.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <EMChatManagerDelegate>
 
 @end
 
@@ -95,7 +95,47 @@
     {
         [[EaseMob sharedInstance] registerSDKWithAppKey:YOSEaseMobAppKey apnsCertName:YOSEaseMobCertName];
         [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+        [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
     }
+}
+
+#pragma mark - EMChatManagerDelegate
+
+- (void)willAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
+    NSLog(@"%s", __func__);
+    YOSLog(@"用户将要进行自动登录操作的回调");
+}
+
+- (void)didAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
+    NSLog(@"%s", __func__);
+    YOSLog(@"用户自动登录完成后的回调");
+}
+
+- (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
+    NSLog(@"%s", __func__);
+    YOSLog(@"登陆成功。");
+}
+
+/*!
+ @method
+ @brief 将要发起自动重连操作时发送该回调
+ @discussion
+ @result
+ */
+- (void)willAutoReconnect {
+    NSLog(@"%s", __func__);
+    YOSLog(@"将要发起自动重连操作时发送该回调");
+}
+
+/*!
+ @method
+ @brief 自动重连操作完成后的回调（成功的话，error为nil，失败的话，查看error的错误信息）
+ @discussion
+ @result
+ */
+- (void)didAutoReconnectFinishedWithError:(NSError *)error {
+    NSLog(@"%s", __func__);
+    YOSLog(@"自动重连操作完成后的回调（成功的话，error为nil，失败的话，查看error的错误信息）");
 }
 
 @end

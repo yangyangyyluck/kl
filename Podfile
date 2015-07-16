@@ -12,7 +12,7 @@ pod 'QBImagePickerController', '2.5.0'
 #pod 'GPUImage', '0.1.6'
 pod 'UIImage-Helpers'
 pod 'UIActivityIndicator-for-SDWebImage'
-pod 'MJRefresh'
+pod 'MJRefresh', '1.4.7'
 pod 'GVUserDefaults'
 pod 'EaseMobSDK'
 
