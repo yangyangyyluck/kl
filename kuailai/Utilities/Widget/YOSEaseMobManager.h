@@ -12,6 +12,8 @@
 
 + (instancetype)sharedManager;
 
+- (void)registerWithApplication:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions;
+
 - (BOOL)registerNewAccount;
 
 - (void)loginEaseMob;

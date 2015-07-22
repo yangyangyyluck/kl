@@ -11,7 +11,7 @@
 #import "YOSWidget.h"
 #import "YOSUserInfoModel.h"
 
-@interface YOSEaseMobManager ()
+@interface YOSEaseMobManager () <EMChatManagerDelegate>
 
 @property (nonatomic, strong) EaseMob *easeMob;
 
@@ -31,9 +31,17 @@
     return mgr;
 }
 
+- (void)registerWithApplication:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
+    
+    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
+    [[EaseMob sharedInstance] registerSDKWithAppKey:YOSEaseMobAppKey apnsCertName:YOSEaseMobCertName];
+    [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
 - (BOOL)registerNewAccount {
     
-    NSString *user = self.userInfoModel.hx_user;
+//    NSString *user = self.userInfoModel.hx_user;
+    NSString *user = self.userInfoModel.username;
     NSString *pass = self.userInfoModel.hx_pwd;
     
     if (user.length == 0 || pass.length == 0) {
@@ -62,8 +70,10 @@
         return;
     }
     
-    NSString *user = self.userInfoModel.hx_user;
-    NSString *pass = self.userInfoModel.hx_pwd;
+//    NSString *user = self.userInfoModel.hx_user;
+    NSString *user = self.userInfoModel.username;
+//    NSString *pass = self.userInfoModel.hx_pwd;
+    NSString *pass = @"123123";
     
     if (user.length == 0 || pass.length == 0) {
 #warning TODO login out
@@ -119,6 +129,50 @@
 
 - (YOSUserInfoModel *)userInfoModel {
     return [YOSWidget getCurrentUserInfoModel];
+}
+
+#pragma mark - EMChatManagerDelegate
+
+- (void)willAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
+    NSLog(@"%s", __func__);
+    YOSLog(@"用户将要进行自动登录操作的回调");
+}
+
+- (void)didAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
+    NSLog(@"%s", __func__);
+    YOSLog(@"用户自动登录完成后的回调");
+}
+
+- (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
+    NSLog(@"%s", __func__);
+    YOSLog(@"登陆成功。");
+}
+
+- (void)didReceiveBuddyRequest:(NSString *)username
+                       message:(NSString *)message {
+    [YOSWidget alertMessage:username title:message];
+}
+
+/*!
+ @method
+ @brief 将要发起自动重连操作时发送该回调
+ @discussion
+ @result
+ */
+- (void)willAutoReconnect {
+    NSLog(@"%s", __func__);
+    YOSLog(@"将要发起自动重连操作时发送该回调");
+}
+
+/*!
+ @method
+ @brief 自动重连操作完成后的回调（成功的话，error为nil，失败的话，查看error的错误信息）
+ @discussion
+ @result
+ */
+- (void)didAutoReconnectFinishedWithError:(NSError *)error {
+    NSLog(@"%s", __func__);
+    YOSLog(@"自动重连操作完成后的回调（成功的话，error为nil，失败的话，查看error的错误信息）");
 }
 
 @end

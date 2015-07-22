@@ -14,6 +14,7 @@
 #import "Masonry.h"
 #import "UITableViewCell+YOSAdditions.h"
 #import "EaseMob.h"
+#import "YOSWidget.h"
 
 @interface YOSTestViewController () <UITableViewDataSource, UITableViewDelegate, EMChatManagerDelegate>
 
@@ -103,7 +104,11 @@
     }
     
     if (row == 4) {
-        
+        EMError *error = nil;
+        BOOL isSuccess = [[EaseMob sharedInstance].chatManager addBuddy:@"18600950783" message:@"我想加您为好友" error:&error];
+        if (isSuccess && !error) {
+            NSLog(@"添加成功");
+        }
     }
     
     if (row == 5) {
@@ -127,6 +132,13 @@
 - (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
     NSLog(@"%s", __func__);
     YOSLog(@"登陆成功。");
+}
+
+- (void)didReceiveBuddyRequest:(NSString *)username
+                       message:(NSString *)message {
+    NSLog(@"%s", __func__);
+    NSLog(@"%@ -- %@", username, message);
+    [YOSWidget alertMessage:username title:message];
 }
 
 @end
