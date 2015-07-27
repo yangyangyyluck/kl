@@ -22,4 +22,12 @@
                                                        }];
 }
 
+- (BOOL)isEqual:(YOSUserInfoModel *)object {
+    if ([self.ID isEqualToString:object.ID]) {
+        return YES;
+    } else {
+        return [super isEqual:object];
+    }
+}
+
 @end

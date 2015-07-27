@@ -39,7 +39,7 @@
         make.width.mas_equalTo(YOSScreenWidth);
     }];
     
-    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
+//    [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -112,7 +112,22 @@
     }
     
     if (row == 5) {
+        [[YOSEaseMobManager sharedManager] getBuddyListSync];
         
+        NSArray *arr = [YOSEaseMobManager sharedManager].buddyList;
+        
+        EMBuddy *buddy = arr[0];
+        
+        
+        NSLog(@"arr %@ ", buddy.username);
+    }
+    
+    if (row == 6) {
+        EMBuddy *buddy = [EMBuddy buddyWithUsername:@"15510693558"];
+        
+        EMBuddyFollowState followS = buddy.followState;
+        
+        NSLog(@"%zi", followS);
     }
     
 }

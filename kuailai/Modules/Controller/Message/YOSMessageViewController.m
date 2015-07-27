@@ -7,6 +7,7 @@
 //
 
 #import "YOSMessageViewController.h"
+#import "YOSAddBuddyViewController.h"
 #import "YOSMessageCell.h"
 
 #import "YOSMessageModel.h"
@@ -143,6 +144,10 @@
 
 - (void)clickRightItem:(UIButton *)item {
     self.messageModels = nil;
+    
+    YOSAddBuddyViewController *addVC = [YOSAddBuddyViewController new];
+    
+    [self.navigationController pushViewController:addVC animated:NO];
     
     [self.tableView reloadData];
 }
