@@ -14,6 +14,13 @@ NSString * const YOSDBTableCargoDataValue = @"YOSDBTableCargoDataValue";
 
 static const NSString *kDBName = @"kawayiSASA.db";
 static const NSString *kYOSTableCagro = @"yos_cargo";
+static const NSString *kYOSTableBuddyRequest = @"yos_buddyrequest";
+
+static const NSString *kSQLCreateTableCagro = @"CREATE TABLE IF NOT EXISTS yos_cargo (id integer PRIMARY KEY AUTOINCREMENT, cargo_data blob NOT NULL);";
+
+static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXISTS yos_buddyrequest (id integer PRIMARY KEY AUTOINCREMENT, current_username text NOT NULL, buddy_username text NOT NULL, buddy_message text)";
+
+#pragma mark - single
 
 @implementation YOSDBManager {
     FMDatabase *_db;
@@ -45,8 +52,15 @@ static const NSString *kYOSTableCagro = @"yos_cargo";
     dispatch_once(&onceToken, ^{
         NSString *path = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[kDBName copy]];
         
+        YOSLog(@"db path is %@", path);
+        
         _db = [FMDatabase databaseWithPath:path];
         _dbQueue = [FMDatabaseQueue databaseQueueWithPath:path];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path] && [_db open]) {
+            [_db executeUpdate:[kSQLCreateTableCagro copy]];
+            [_db executeUpdate:[kSQLCreateTableBuddyRequest copy]];
+        }
         
         if (!_db || !_dbQueue) {
             YOSLog(@"\r\n\r\n warnning : sqlite initialize failture.");
@@ -75,6 +89,12 @@ static const NSString *kYOSTableCagro = @"yos_cargo";
             sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (id integer PRIMARY KEY AUTOINCREMENT, cargo_data blob NOT NULL);", tableName];
             break;
         }
+            
+        case YOSDBManagerTableTypeBuddyRequest: {
+            tableName = [kYOSTableBuddyRequest copy];
+            sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (id integer PRIMARY KEY AUTOINCREMENT, current_username text NOT NULL, buddy_username text NOT NULL, buddy_message text);", tableName];
+            break;
+        }
 
         default: {
             break;
@@ -92,6 +112,8 @@ static const NSString *kYOSTableCagro = @"yos_cargo";
     }
     
 }
+
+#pragma mark - CargoData
 
 /**
  *  blob 格式的存储
@@ -212,6 +234,90 @@ static const NSString *kYOSTableCagro = @"yos_cargo";
                            };
     
     [[YOSDBManager sharedManager] updateCargoDataWithDictionary:dict isUseQueue:NO];
+}
+
+#pragma mark - BuddyRequest
+
+- (void)updateBuddyRequestWithCurrentUser:(NSString *)current buddy:(NSString *)buddy message:(NSString *)message {
+    
+    if (!_isDBInitSuccess) {
+        return;
+    }
+    
+    if (!current.length || !buddy.length) {
+        return;
+    }
+    
+    if (!message) {
+        message = @"";
+    }
+    
+    NSString *getCountSql = [NSString stringWithFormat:@"SELECT COUNT(*) AS count FROM %@ WHERE current_username = ? AND buddy_username = ?", [kYOSTableBuddyRequest copy]];
+    
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (current_username, buddy_username, buddy_message)VALUES(?, ?, ?)", [kYOSTableBuddyRequest copy]];
+    
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET buddy_message = ? WHERE current_username = ? AND buddy_username = ?", [kYOSTableBuddyRequest copy]];
+    
+    FMResultSet *set = [_db executeQuery:getCountSql, current, buddy];
+    
+    if ([set next]) {
+        NSUInteger count = [set intForColumn:@"count"];
+        
+        BOOL status = NO;
+        
+        if (count) {
+            status = [_db executeUpdate:updateSql, message, current, buddy];
+        } else {
+            status = [_db executeUpdate:insertSql, current, buddy, message];
+        }
+        
+        if (!status) {
+            YOSLog(@"\r\n\r\n error : %@", [_db lastErrorMessage]);
+        } else {
+            YOSLog(@"\r\n\r\n success : update %@ --- %@", current, buddy);
+        }
+    }
+    
+}
+
+- (void)deleteBuddyRequestWithCurrentUser:(NSString *)current buddy:(NSString *)buddy {
+    
+    if (!_isDBInitSuccess) {
+        return;
+    }
+    
+    if (!current.length || !buddy.length) {
+        return;
+    }
+    
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE current_username = ? AND buddy_username = ?", [kYOSTableBuddyRequest copy]];
+    
+    
+    BOOL status = [_db executeUpdate:deleteSql, current, buddy];
+    
+    if (!status) {
+        YOSLog(@"\r\n\r\nerror : %@", [_db lastErrorMessage]);
+    } else {
+        YOSLog(@"\r\n\r\n success : delete %@ --- %@", current, buddy);
+    }
+}
+
+- (NSArray *)getBuddyListWithUsername:(NSString *)username {
+    
+    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE current_username = ?", [kYOSTableBuddyRequest copy]];
+    
+    FMResultSet *set = [_db executeQuery:selectSql, username];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    while ([set next]) {
+        NSString *hx_user = [set stringForColumn:@"buddy_username"];
+        NSString *message = [set stringForColumn:@"buddy_message"];
+        
+        [array addObject:@{@"hx_user" : hx_user, @"message" : YOSFliterNil2String(message)}];
+    }
+    
+    return array;
 }
 
 @end

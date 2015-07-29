@@ -68,23 +68,23 @@ static const NSUInteger kTimeMaxCount = 16;
     self.nextStepButton.layer.cornerRadius = 20.5;
     self.nextStepButton.layer.masksToBounds = YES;
 
-    YOSWSelf(weakSelf);
-    YOSAccessoryView *accessoryView1 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
-        [weakSelf.view endEditing:YES];
-    }];
-    
-    [accessoryView1 buttonWithTitle:@"获取验证码" target:weakSelf method:@selector(signPasswordTextField) position:YOSAccessoryViewPositionRight];
-    
-    _accessoryView1 = accessoryView1;
-    self.userNameTextField.inputAccessoryView = accessoryView1;
-    
-    YOSAccessoryView *accessoryView2 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
-        [weakSelf.view endEditing:YES];
-    }];
-    [accessoryView2 buttonWithTitle:@"下一步" target:weakSelf method:@selector(clickNextStepButton:) position:YOSAccessoryViewPositionRight];
-    
-    _accessoryView2 = accessoryView2;
-    self.verifyCodeTextField.inputAccessoryView = accessoryView2;
+//    YOSWSelf(weakSelf);
+//    YOSAccessoryView *accessoryView1 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
+//        [weakSelf.view endEditing:YES];
+//    }];
+//    
+//    [accessoryView1 buttonWithTitle:@"获取验证码" target:weakSelf method:@selector(signPasswordTextField) position:YOSAccessoryViewPositionRight];
+//    
+//    _accessoryView1 = accessoryView1;
+//    self.userNameTextField.inputAccessoryView = accessoryView1;
+//    
+//    YOSAccessoryView *accessoryView2 = [[YOSAccessoryView alloc] initWithDefaultPlaceBlock:^{
+//        [weakSelf.view endEditing:YES];
+//    }];
+//    [accessoryView2 buttonWithTitle:@"下一步" target:weakSelf method:@selector(clickNextStepButton:) position:YOSAccessoryViewPositionRight];
+//    
+//    _accessoryView2 = accessoryView2;
+//    self.verifyCodeTextField.inputAccessoryView = accessoryView2;
     
 }
 

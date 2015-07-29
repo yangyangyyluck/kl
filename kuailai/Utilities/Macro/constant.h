@@ -52,6 +52,12 @@ typedef NS_ENUM(NSUInteger, YOSRefreshType) {
     YOSRefreshTypeFooter,
 };
 
+typedef NS_ENUM(NSUInteger, YOSFriendType) {
+    YOSFriendTypeNotAdd = 0,
+    YOSFriendTypeWaitForVerify,
+    YOSFriendTypeBoth,
+};
+
 typedef void (^voidBlock)(void);
 typedef void (^voidBlock_id)(id);
 

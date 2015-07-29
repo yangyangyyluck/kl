@@ -13,4 +13,6 @@
 /** taps */
 @property (nonatomic, strong) NSArray *tapArray;
 
+- (void)updateTagInfo;
+
 @end

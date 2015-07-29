@@ -10,6 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, YOSDBManagerTableType) {
     YOSDBManagerTableTypeCargoData,     // 存杂货
+    YOSDBManagerTableTypeBuddyRequest,  // 添加好友请求
 };
 
 /**
@@ -42,6 +43,13 @@ extern NSString * const YOSDBTableCargoDataValue;
 
 /** -----------deal with table : yos_cagro------------ */
 
+/** -----------deal with table : yos_buddyrequest------------ */
+- (void)updateBuddyRequestWithCurrentUser:(NSString *)current buddy:(NSString *)buddy message:(NSString *)message;
+
+- (void)deleteBuddyRequestWithCurrentUser:(NSString *)current buddy:(NSString *)buddy;
+
+- (NSArray *)getBuddyListWithUsername:(NSString *)username;
+/** -----------deal with table : yos_buddyrequest------------ */
 
 
 @end

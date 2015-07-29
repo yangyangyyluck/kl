@@ -71,3 +71,5 @@
 #define YOSNetworkErrorDefault          @"网络开小差啦,请重试~"
 
 #define YOSInt2String(num) [NSString stringWithFormat:@"%zi", (num)]
+
+#define YOSPostNotification(noti) [[NSNotificationCenter defaultCenter] postNotificationName:(noti) object:nil]

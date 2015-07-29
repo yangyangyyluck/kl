@@ -10,6 +10,7 @@
 #import "EaseMob.h"
 #import "YOSWidget.h"
 #import "YOSUserInfoModel.h"
+#import "YOSDBManager.h"
 
 @interface YOSEaseMobManager () <EMChatManagerDelegate>
 
@@ -69,13 +70,22 @@
 
 - (void)loginEaseMob {
     
-    BOOL isAutoLogin = [self.easeMob.chatManager isAutoLoginEnabled];
-    if (isAutoLogin) {
-        return;
-    }
+//    BOOL isAutoLogin = [self.easeMob.chatManager isAutoLoginEnabled];
+//    if (isAutoLogin) {
+//        return;
+//    }
     
-//    NSString *user = self.userInfoModel.hx_user;
-    NSString *user = self.userInfoModel.username;
+//    NSString *user = nil;
+//    if ([self.userInfoModel.username isEqualToString:@"18600950783"]) {
+//        user = self.userInfoModel.username;
+//    } else {
+//        user = self.userInfoModel.hx_user;
+//    }
+    
+    YOSLog(@"\r\n\r\n\r\n现在登录的用户是 %@\r\n\r\n\r\n", self.userInfoModel.hx_user);
+    
+    NSString *user = self.userInfoModel.hx_user;
+//    NSString *user = self.userInfoModel.username;
 //    NSString *pass = self.userInfoModel.hx_pwd;
     NSString *pass = @"123123";
     
@@ -127,10 +137,12 @@
 
 - (BOOL)addBuddy:(NSString *)userName message:(NSString *)message {
     EMError *error = nil;
-    BOOL status = [[EaseMob sharedInstance].chatManager addBuddy:@"18600950783" message:@"我想加您为好友" error:&error];
+    BOOL status = [[EaseMob sharedInstance].chatManager addBuddy:userName message:message error:&error];
     
     if (error) {
         YOSLog(@"\r\n\r\n添加好友出错: %@", error);
+    } else {
+        YOSLog(@"\r\n\r\n添加好友成功");
     }
     
     return status;
@@ -294,9 +306,12 @@
 
 - (void)didReceiveBuddyRequest:(NSString *)username
                        message:(NSString *)message {
+    
+    [[YOSDBManager sharedManager] updateBuddyRequestWithCurrentUser:self.userInfoModel.username buddy:username message:message];
+    
     [YOSWidget alertMessage:username title:message];
     
-    [self acceptBuddy:username];
+//    [self acceptBuddy:username];
 }
 
 /*!

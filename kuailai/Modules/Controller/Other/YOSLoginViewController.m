@@ -276,6 +276,9 @@
             
             [[NSUserDefaults standardUserDefaults] synchronize];
             
+            YOSPostNotification(YOSNotificationUpdateUserInfo);
+            YOSPostNotification(YOSNotificationUpdateTagInfo);
+            
             [self tappedCloseButton];
             
         } else {

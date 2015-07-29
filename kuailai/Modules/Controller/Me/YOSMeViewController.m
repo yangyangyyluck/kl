@@ -70,6 +70,8 @@
     [self sendNetworkRequest];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo) name:YOSNotificationUpdateUserInfo object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTagInfo) name:YOSNotificationUpdateUserInfo object:nil];
 }
 
 - (void)setupSubviews {
@@ -323,6 +325,27 @@
 
 - (void)updateUserInfo {
     self.userInfoModel = [YOSWidget getCurrentUserInfoModel];
+}
+
+- (void)updateTagInfo {
+    NSLog(@"%s", __func__);
+    
+    YOSUserGetTagListRequest *request = [[YOSUserGetTagListRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            [GVUserDefaults standardUserDefaults].currentTagDictionary = request.yos_data;
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            self.tags = [YOSTagModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+            
+            [_tapView updateTagInfo];
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 #pragma mark - getter & setter 

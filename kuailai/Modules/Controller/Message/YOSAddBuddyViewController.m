@@ -18,6 +18,10 @@
 #import "MJRefresh.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "GVUserDefaults+YOSProperties.h"
+#import "YOSEaseMobManager.h"
+#import "EaseMob.h"
+#import "YOSWidget.h"
+#import "YOSUserInfoModel.h"
 
 @interface YOSAddBuddyViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -58,6 +62,8 @@
     
     [self setupTableView];
     
+    YOSLog(@"\r\n\r\n\r\n 现在登录的事: %@\r\n\r\n\r\n", [YOSWidget getCurrentUserInfoModel].hx_user);
+    
 }
 
 - (void)setupSearchBar {
@@ -78,17 +84,6 @@
     _tableView.sectionHeaderHeight = 44.0f;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    YOSWSelf(weakSelf);
-    [_tableView addLegendHeaderWithRefreshingBlock:^{
-        [weakSelf sendNetworkRequestWithType:YOSRefreshTypeHeader isSearch:NO];
-    }];
-    
-    [_tableView addLegendFooterWithRefreshingBlock:^{
-        [weakSelf sendNetworkRequestWithType:YOSRefreshTypeFooter isSearch:NO];
-    }];
-    
-    self.tableView.footer.automaticallyRefresh = NO;
-    
     [self.view addSubview:_tableView];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,10 +103,13 @@
     self.navigationItem.titleView = segmented;
 }
 
+#pragma mark - event response
+
 - (void)segmentedValueChanged:(UISegmentedControl *)segmented {
     // 已审核
     if (segmented.selectedSegmentIndex == 0) {
         YOSLog(@"搜索好友");
+        [self removeRefresh];
         [self.userInfoModels removeAllObjects];
         [self.tableView reloadData];
         return;
@@ -120,6 +118,7 @@
     // 未审核
     if (segmented.selectedSegmentIndex == 1) {
         YOSLog(@"感兴趣的人");
+        [self addRefresh];
         [self sendNetworkRequestWithType:YOSRefreshTypeHeader isSearch:NO];
         return;
     }
@@ -196,6 +195,31 @@
                 }];
             }
             
+            [[YOSEaseMobManager sharedManager] getBuddyListSync];
+            
+            NSArray *buddyList = [YOSEaseMobManager sharedManager].buddyList;
+            
+            NSArray *usernames = [buddyList valueForKeyPath:@"username"];
+            
+            YOSLog(@"usernames %@",usernames);
+            
+            [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj1, NSUInteger idx, BOOL *stop) {
+//                if ([usernames containsObject:obj.hx_user]) {
+//                    obj.friendType = YOSFriendTypeBoth;
+//                }
+                [buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj2, NSUInteger idx, BOOL *stop) {
+                    if ([obj2.username isEqualToString:obj1.hx_user]) {
+                        
+                        if (obj2.followState == eEMBuddyFollowState_FollowedBoth) {
+                            YOSLog(@"eEMBuddyFollowState_FollowedBoth");
+                            obj1.friendType = YOSFriendTypeBoth;
+                        }
+                        
+                    }
+                }];
+                
+            }];
+            
             [_tableView reloadData];
         }
     } failure:^(YTKBaseRequest *request) {
@@ -203,6 +227,26 @@
         [self.tableView.footer endRefreshing];
         [request yos_checkResponse];
     }];
+}
+
+#pragma mark - private methods
+
+- (void)addRefresh {
+    YOSWSelf(weakSelf);
+    [_tableView addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf sendNetworkRequestWithType:YOSRefreshTypeHeader isSearch:NO];
+    }];
+    
+    [_tableView addLegendFooterWithRefreshingBlock:^{
+        [weakSelf sendNetworkRequestWithType:YOSRefreshTypeFooter isSearch:NO];
+    }];
+    
+    self.tableView.footer.automaticallyRefresh = NO;
+}
+
+- (void)removeRefresh {
+    [_tableView removeHeader];
+    [_tableView removeFooter];
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource

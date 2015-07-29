@@ -60,4 +60,7 @@
 /** 活动审核的时候使用 YOSActivityAuditIndividualView & YOSActivityAuditViewController */
 @property (nonatomic, copy) NSString *uid;
 
+/** 朋友关系 */
+@property (nonatomic, assign) YOSFriendType friendType;
+
 @end

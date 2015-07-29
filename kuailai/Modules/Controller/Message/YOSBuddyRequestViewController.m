@@ -1,61 +1,80 @@
 //
-//  YOSMessageViewController.m
+//  YOSBuddyRequestViewController.m
 //  kuailai
 //
-//  Created by yangyang on 15/7/16.
+//  Created by yangyang on 15/7/28.
 //  Copyright (c) 2015年 kuailai.inc. All rights reserved.
 //
 
-#import "YOSMessageViewController.h"
-#import "YOSAddBuddyViewController.h"
 #import "YOSBuddyRequestViewController.h"
-#import "YOSMessageCell.h"
+#import "YOSBuddyRequestCell.h"
 
+#import "YOSUserInfoModel.h"
 #import "YOSMessageModel.h"
 
+#import "YOSUserGetUserByHxRequest.h"
+
 #import "Masonry.h"
+#import "YOSDBManager.h"
+#import "YOSWidget.h"
 
-@interface YOSMessageViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface YOSBuddyRequestViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *buddyMessages;
 
 @property (nonatomic, strong) NSMutableArray *messageModels;
 
+/** 总数据量 */
+@property (nonatomic, assign) NSUInteger count;
+
+/** 总页数 */
+@property (nonatomic, assign) NSUInteger totalPage;
+
+/** 当前页数量 */
+@property (nonatomic, assign) NSUInteger currentPage;
+
+@property (nonatomic, assign) BOOL isNoMoreData;
+
+// UI
+@property (nonatomic, strong) UITableView *tableView;
+
 @end
 
-@implementation YOSMessageViewController
+@implementation YOSBuddyRequestViewController
 
 #pragma mark - life cycles
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupNavTitle:@"消息"];
+    [self setupBackArrow];
     
-    [self setupRightButtonWithTitle:@"添加好友"];
-
-    [self setupSubviews];
+    [self setupNavTitle:@"好友请求"];
+    
+    [self sendNetworkRequest];
+    
+    [self setupTableView];
 }
 
-- (void)setupSubviews {
-    _tableView = [UITableView new];
-    _tableView.delegate = self;
+- (void)setupTableView {
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) style:UITableViewStylePlain];
+    
     _tableView.dataSource = self;
-    _tableView.rowHeight = 70;
+    _tableView.delegate = self;
+    _tableView.rowHeight = 70.0f;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.view addSubview:_tableView];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
-        make.width.mas_equalTo(YOSScreenWidth);
     }];
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YOSMessageCell *cell = [YOSMessageCell cellWithTableView:tableView];
+    YOSBuddyRequestCell *cell = [YOSBuddyRequestCell cellWithTableView:tableView];
     
     cell.messageModel = self.messageModels[indexPath.row];
     
@@ -68,21 +87,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
-    
-    if (indexPath.row == 0) {
-        YOSBuddyRequestViewController *buddyVC = [YOSBuddyRequestViewController new];
-        
-        [self.navigationController pushViewController:buddyVC animated:YES];
-    }
-    
 }
 
-#pragma mark - UITableViewDataSource 
+#pragma mark - UITableViewDataSource
 
 - (NSMutableArray *)messageModels {
     if (!_messageModels) {
         _messageModels = [NSMutableArray array];
-
+        
         YOSMessageModel *model = [YOSMessageModel new];
         model.avatar = @"想认识我的人";
         model.name = @"想认识我的人";
@@ -148,18 +160,29 @@
     return _messageModels;
 }
 
-#pragma mark - event response
+#pragma mark - network
 
-- (void)clickRightItem:(UIButton *)item {
-    self.messageModels = nil;
+- (void)sendNetworkRequest {
     
-    YOSAddBuddyViewController *addVC = [YOSAddBuddyViewController new];
+    self.buddyMessages = [[YOSDBManager sharedManager] getBuddyListWithUsername:[YOSWidget getCurrentUserInfoModel].username];
     
-    [self.navigationController pushViewController:addVC animated:NO];
+    NSArray *arr = [self.buddyMessages valueForKeyPath:@"hx_user"];
     
-    [self.tableView reloadData];
+    YOSUserGetUserByHxRequest *request = [[YOSUserGetUserByHxRequest alloc] initWithHXUsers:arr];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            NSLog(@"%s", __func__);
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
+    
 }
 
-#pragma mark - getter & setter
+#pragma mark - event response
+
+
+
 
 @end
