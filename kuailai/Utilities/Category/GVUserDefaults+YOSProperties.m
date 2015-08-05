@@ -26,4 +26,13 @@
     return nil;
 }
 
+- (void)logout {
+    self.currentLoginID = nil;
+    self.currentLoginMobileNumber = nil;
+    self.currentTagDictionary = nil;
+    self.currentUserInfoDictionary = nil;
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 @end

@@ -43,18 +43,29 @@
     return mgr;
 }
 
-- (BOOL)registerNewAccount {
-    
-//    NSString *user = self.userInfoModel.hx_user;
-    NSString *user = self.userInfoModel.username;
+- (BOOL)loginCheck {
+    NSString *user = self.userInfoModel.hx_user;
     NSString *pass = self.userInfoModel.hx_pwd;
     
     if (user.length == 0 || pass.length == 0) {
 #warning TODO login out
+
         // kuailai login out
-        NSLog(@"here need kuailai login out.");
+        NSLog(@"\r\n\r\n\r\nhere need kuailai login out.\r\n\r\n\r\n");
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (BOOL)registerNewAccount {
+    
+    if (![self loginCheck]) {
         return NO;
     }
+    
+    NSString *user = self.userInfoModel.hx_user;
+    NSString *pass = self.userInfoModel.hx_pwd;
     
     EMError *error = nil;
     BOOL status = [self.easeMob.chatManager registerNewAccount:user password:pass error:&error];
@@ -70,31 +81,20 @@
 
 - (void)loginEaseMob {
     
-//    BOOL isAutoLogin = [self.easeMob.chatManager isAutoLoginEnabled];
-//    if (isAutoLogin) {
-//        return;
-//    }
+    if (![self loginCheck]) {
+        return;
+    }
     
-//    NSString *user = nil;
-//    if ([self.userInfoModel.username isEqualToString:@"18600950783"]) {
-//        user = self.userInfoModel.username;
-//    } else {
-//        user = self.userInfoModel.hx_user;
-//    }
+    BOOL isAutoLogin = [self.easeMob.chatManager isAutoLoginEnabled];
+    if (isAutoLogin) {
+        YOSLog(@"\r\n\r\n\r\n --- auto login --- \r\n\r\n\r\n");
+        return;
+    }
     
     YOSLog(@"\r\n\r\n\r\n现在登录的用户是 %@\r\n\r\n\r\n", self.userInfoModel.hx_user);
     
     NSString *user = self.userInfoModel.hx_user;
-//    NSString *user = self.userInfoModel.username;
-//    NSString *pass = self.userInfoModel.hx_pwd;
-    NSString *pass = @"123123";
-    
-    if (user.length == 0 || pass.length == 0) {
-#warning TODO login out
-        // kuailai login out
-        NSLog(@"here need kuailai login out.");
-        return;
-    }
+    NSString *pass = self.userInfoModel.hx_pwd;
     
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:user password:pass completion:^(NSDictionary *loginInfo, EMError *error) {
         
@@ -104,9 +104,6 @@
             [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
         } else {
             YOSLog(@"login failure");
-#warning TODO login out
-            // kuailai login out
-            NSLog(@"here need kuailai login out.");
         }
         
     } onQueue:nil];
@@ -136,6 +133,11 @@
 }
 
 - (BOOL)addBuddy:(NSString *)userName message:(NSString *)message {
+    
+    if ([self loginCheck]) {
+        return NO;
+    }
+    
     EMError *error = nil;
     BOOL status = [[EaseMob sharedInstance].chatManager addBuddy:userName message:message error:&error];
     
@@ -150,6 +152,11 @@
 
 /** 获取好友[异步] */
 - (void)getBuddyListAsync {
+    
+    if ([self loginCheck]) {
+        return;
+    }
+    
     [[EaseMob sharedInstance].chatManager asyncFetchBuddyListWithCompletion:^(NSArray *buddyList, EMError *error) {
         if (!error) {
             YOSLog(@"获取好友成功 -- %@",buddyList);
@@ -164,6 +171,11 @@
 
 /** 获取好友[同步] */
 - (void)getBuddyListSync {
+    
+    if ([self loginCheck]) {
+        return;
+    }
+    
     EMError *error = nil;
     NSArray *buddyList = [[EaseMob sharedInstance].chatManager fetchBuddyListWithError:&error];
     
@@ -179,6 +191,11 @@
 }
 
 - (void)getBlockedListSync {
+    
+    if ([self loginCheck]) {
+        return;
+    }
+    
     EMError *error = nil;
     NSArray *blockedList = [[EaseMob sharedInstance].chatManager fetchBlockedList:&error];
     
@@ -193,6 +210,10 @@
 
 - (void)getBlockedListAsync {
     
+    if ([self loginCheck]) {
+        return;
+    }
+    
     [[EaseMob sharedInstance].chatManager asyncFetchBlockedListWithCompletion:^(NSArray *blockedList, EMError *error) {
         if (!error) {
             NSLog(@"获取黑名单成功 -- %@",blockedList);
@@ -205,6 +226,11 @@
 }
 
 - (BOOL)acceptBuddy:(NSString *)username {
+    
+    if ([self loginCheck]) {
+        return NO;
+    }
+    
     EMError *error = nil;
     BOOL isSuccess = [[EaseMob sharedInstance].chatManager acceptBuddyRequest:username error:&error];
     
@@ -218,6 +244,11 @@
 }
 
 - (BOOL)rejuctBuddy:(NSString *)username reason:(NSString *)reason {
+    
+    if ([self loginCheck]) {
+        return NO;
+    }
+    
     EMError *error = nil;
     BOOL isSuccess = [[EaseMob sharedInstance].chatManager rejectBuddyRequest:username reason:reason error:&error];
     
@@ -231,6 +262,11 @@
 }
 
 - (BOOL)removeBuddy:(NSString *)username {
+    
+    if ([self loginCheck]) {
+        return NO;
+    }
+    
     EMError *error = nil;
     // 删除好友
     BOOL isSuccess = [[EaseMob sharedInstance].chatManager removeBuddy:username removeFromRemote:YES error:&error];
@@ -245,6 +281,11 @@
 }
 
 - (BOOL)addBuddyToBlock:(NSString *)username {
+    
+    if ([self loginCheck]) {
+        return NO;
+    }
+    
     EMError *error = [[EaseMob sharedInstance].chatManager blockBuddy:username relationship:eRelationshipBoth];
     
     if (!error) {
@@ -257,7 +298,11 @@
 }
 
 - (BOOL)removeBuddyToBlock:(NSString *)username {
-    // 将6001移除黑名单
+    
+    if ([self loginCheck]) {
+        return NO;
+    }
+    
     EMError *error = [[EaseMob sharedInstance].chatManager unblockBuddy:username];
     if (!error) {
         YOSLog(@"移除黑名单成功");
@@ -311,7 +356,6 @@
     
     [YOSWidget alertMessage:username title:message];
     
-//    [self acceptBuddy:username];
 }
 
 /*!

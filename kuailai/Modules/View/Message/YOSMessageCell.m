@@ -180,7 +180,13 @@
         self.showStatusLabel = NO;
         self.showAccessoryView = YES;
         _topLabel.text = @"想认识我的人";
-        _bottomLabel.textColor = [UIColor orangeColor];
+        
+        if ([messageModel.message isEqualToString:@"[暂无好友申请]"]) {
+            _bottomLabel.textColor = YOSColorFontGray;
+        } else {
+            _bottomLabel.textColor = [UIColor orangeColor];
+        }
+        
         _bottomLabel.text = messageModel.message;
         
         return;

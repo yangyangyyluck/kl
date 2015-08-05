@@ -276,6 +276,9 @@
             
             [[NSUserDefaults standardUserDefaults] synchronize];
             
+            // login
+            YOSPostNotification(YOSNotificationLogin);
+            // update
             YOSPostNotification(YOSNotificationUpdateUserInfo);
             YOSPostNotification(YOSNotificationUpdateTagInfo);
             

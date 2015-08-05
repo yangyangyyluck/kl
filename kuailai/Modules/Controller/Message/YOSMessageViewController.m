@@ -12,8 +12,11 @@
 #import "YOSMessageCell.h"
 
 #import "YOSMessageModel.h"
+#import "YOSUserInfoModel.h"
 
 #import "Masonry.h"
+#import "YOSDBManager.h"
+#import "YOSWidget.h"
 
 @interface YOSMessageViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -35,6 +38,12 @@
     [self setupRightButtonWithTitle:@"添加好友"];
 
     [self setupSubviews];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuddyRequest) name:YOSNotificationUpdateBuddyRequest object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setupSubviews {
@@ -86,10 +95,20 @@
         YOSMessageModel *model = [YOSMessageModel new];
         model.avatar = @"想认识我的人";
         model.name = @"想认识我的人";
-        model.message = @"[12位想认识我的人]";
+        
+        YOSUserInfoModel *userInfoModel = [YOSWidget getCurrentUserInfoModel];
+        
+        NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:userInfoModel.username];
+        
+        if (!buddyLists.count) {
+            model.message = @"[暂无好友申请]";
+        } else {
+            model.message = [NSString stringWithFormat:@"[%zi位想认识我的人]", buddyLists.count];
+        }
         
         [_messageModels addObject:model];
         
+        /*
         NSUInteger num = arc4random_uniform(20) + 5;
         
         NSUInteger i = 0;
@@ -141,8 +160,9 @@
             }
             
             [_messageModels addObject:m];
+         
         }
-        
+        */
     }
     
     return _messageModels;
@@ -156,6 +176,16 @@
     YOSAddBuddyViewController *addVC = [YOSAddBuddyViewController new];
     
     [self.navigationController pushViewController:addVC animated:NO];
+    
+    [self.tableView reloadData];
+}
+
+#pragma mark - deal notification
+
+- (void)updateBuddyRequest {
+    NSLog(@"%s", __func__);
+ 
+    _messageModels = nil;
     
     [self.tableView reloadData];
 }

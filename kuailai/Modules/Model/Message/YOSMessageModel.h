@@ -22,4 +22,6 @@
 
 @property (nonatomic, copy) NSString *count;
 
+@property (nonatomic, copy) NSString *hx_user;
+
 @end

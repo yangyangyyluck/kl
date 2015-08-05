@@ -43,4 +43,6 @@ extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
 /** 退出时清空 */
 @property (nonatomic, weak) NSDictionary *currentTagDictionary;
 
+- (void)logout;
+
 @end

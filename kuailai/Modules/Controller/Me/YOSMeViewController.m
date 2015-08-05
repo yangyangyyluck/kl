@@ -13,6 +13,7 @@
 #import "YOSTagEditViewController.h"
 #import "YOSMyReleaseActivityViewController.h"
 #import "YOSMyAttendActivityViewController.h"
+#import "YOSSettingViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSTestViewController.h"
 #import "YOSHeadDetailButton.h"
@@ -265,6 +266,12 @@
 
 - (void)clickRightItem:(UIButton *)item {
     NSLog(@"%s", __func__);
+    
+    YOSSettingViewController *settingVC = [YOSSettingViewController new];
+    
+    [self.navigationController pushViewController:settingVC animated:YES];
+    
+    return;
     
     YOSTestViewController *testVC = [YOSTestViewController new];
     

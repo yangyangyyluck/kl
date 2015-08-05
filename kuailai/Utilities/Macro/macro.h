@@ -53,6 +53,7 @@
 #define YOSFontBig                      [UIFont systemFontOfSize:15.0f]
 #define YOSFontNormal                   [UIFont systemFontOfSize:14.0f]
 #define YOSFontSmall                    [UIFont systemFontOfSize:12.0f]
+#define YOSFontBold                     [UIFont boldSystemFontOfSize:15.0f]
 
 
 #define YOSFliterNil2String(data) ((data) ? (data) : @"")

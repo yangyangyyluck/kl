@@ -9,11 +9,20 @@
 #import "YOSBuddyRequestCell.h"
 
 #import "YOSMessageModel.h"
+#import "YOSUserInfoModel.h"
 
 #import "EDColor.h"
 #import "Masonry.h"
 #import "UIView+YOSAdditions.h"
 #import "UIImageView+WebCache.h"
+#import "YOSEaseMobManager.h"
+#import "YOSDBManager.h"
+#import "YOSWidget.h"
+#import "SVProgressHUD+YOSAdditions.h"
+
+@interface YOSBuddyRequestCell ()
+
+@end
 
 @implementation YOSBuddyRequestCell {
     UIView *_topLineView;
@@ -67,6 +76,7 @@
     _bottomLabel.font = YOSFontSmall;
     _bottomLabel.textColor = YOSColorFontGray;
     _bottomLabel.text = @"你特么别到时候再看，肯定没问题.你特么别到时候再看，肯定没问题.你特么别到时候再看，肯定没问题.";
+    _bottomLabel.numberOfLines = 0;
     [self.contentView addSubview:_bottomLabel];
     
     _agreeButton = [UIButton new];
@@ -106,8 +116,10 @@
         make.top.mas_equalTo(_headImageView).offset(3);
         make.left.mas_equalTo(_headImageView.mas_right).offset(10);
         make.right.mas_equalTo(_agreeButton.mas_left).offset(-10);
+        make.height.mas_equalTo(18);
     }];
     
+    // 左边70 右边110
     [_bottomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(_headImageView).offset(-3);
         make.size.mas_equalTo(_topLabel);
@@ -133,10 +145,30 @@
 
 - (void)tappedRefuseButton {
     NSLog(@"%s", __func__);
+    
+    BOOL status = [[YOSEaseMobManager sharedManager] rejuctBuddy:self.messageModel.hx_user reason:@""];
+    
+    if (status) {
+        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].username buddy:self.messageModel.hx_user];
+        
+        [SVProgressHUD showInfoWithStatus:@"已拒绝~" maskType:SVProgressHUDMaskTypeClear];
+        
+        YOSPostNotification(YOSNotificationUpdateBuddyRequest);
+    }
 }
 
 - (void)tappedAgreeButton {
     NSLog(@"%s", __func__);
+    
+    BOOL status = [[YOSEaseMobManager sharedManager] acceptBuddy:self.messageModel.hx_user];
+    
+    if (status) {
+        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].username buddy:self.messageModel.hx_user];
+        
+        [SVProgressHUD showInfoWithStatus:@"已同意~" maskType:SVProgressHUDMaskTypeClear];
+        
+        YOSPostNotification(YOSNotificationUpdateBuddyRequest);
+    }
 }
 
 #pragma mark - getter & setter 
@@ -155,7 +187,19 @@
     _bottomLabel.text = messageModel.message;
     _bottomLabel.textColor = YOSColorFontGray;
     
+    CGSize size = [messageModel.message boundingRectWithSize:CGSizeMake(YOSScreenWidth - 70 - 120, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : YOSFontSmall} context:nil].size;
     
+    size = CGSizeMake(ceil(size.width), ceil(size.height));
+    
+    // 左边70 右边110
+    [_bottomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.removeExisting = YES;
+        
+//        make.bottom.mas_equalTo(_headImageView).offset(-3);
+        make.top.mas_equalTo(_topLabel.mas_bottom).offset(11);
+        make.size.mas_equalTo(size);
+        make.left.mas_equalTo(_topLabel);
+    }];
 }
 
 - (void)setShowTopLine:(BOOL)showTopLine {
@@ -166,6 +210,21 @@
 - (void)setShowBottomLine:(BOOL)showBottomLine {
     _showBottomLine = showBottomLine;
     _bottomLineView.hidden = !showBottomLine;
+}
+
+#pragma mark - public methods
+
++ (CGFloat)cellHeightWithMessageModel:(YOSMessageModel *)messageModel {
+    CGSize size = [messageModel.message boundingRectWithSize:CGSizeMake(YOSScreenWidth - 70 - 120, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : YOSFontSmall} context:nil].size;
+    
+    size = CGSizeMake(ceil(size.width), ceil(size.height));
+    
+    // single line font:13
+    if (size.height < 18) {
+        return 70;
+    } else {
+        return 10 + 21 + 11 + size.height + 15;
+    }
 }
 
 @end

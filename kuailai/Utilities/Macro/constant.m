@@ -34,6 +34,12 @@ NSString * const YOSNotificationUpdateTagInfo = @"YOSNotificationUpdateTagInfo";
 
 NSString * const YOSNotificationUpdateAuditInfo = @"YOSNotificationUpdateAuditInfo";
 
+NSString * const YOSNotificationUpdateBuddyRequest = @"YOSNotificationUpdateBuddyRequest";
+
+NSString * const YOSNotificationLogin = @"YOSNotificationLogin";
+
+NSString * const YOSNotificationLogout = @"YOSNotificationLogout";
+
 /**
  *  UserDefault keys
  */

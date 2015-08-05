@@ -78,7 +78,7 @@
     _rightButton = [UIButton new];
     [_rightButton addTarget:self action:@selector(tappedRightButton) forControlEvents:UIControlEventTouchUpInside];
     [_rightButton setTitle:@"添加" forState:UIControlStateNormal];
-    _rightButton.titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
+    _rightButton.titleLabel.font = YOSFontBold;
     [_rightButton setTitleColor:YOSColorGreen forState:UIControlStateNormal];
     _rightButton.layer.borderColor = YOSColorGreen.CGColor;
     _rightButton.layer.borderWidth = 0.5f;
@@ -120,7 +120,14 @@
 - (void)tappedRightButton {
     NSLog(@"%s", __func__);
     
-    [[YOSEaseMobManager sharedManager] addBuddy:self.userInfoModel.hx_user message:@"ni hao."];
+    BOOL status = [[YOSEaseMobManager sharedManager] addBuddy:self.userInfoModel.hx_user message:@"请求添加您为好友"];
+    
+    if (status) {
+        _rightButton.hidden = YES;
+        _auditLabel.hidden = NO;
+        _auditLabel.text = @"待确认";
+        _auditLabel.textColor = YOSColorFontGray;
+    }
 }
 
 #pragma mark -getter & setter

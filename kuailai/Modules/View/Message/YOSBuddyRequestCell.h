@@ -17,4 +17,8 @@
 @property (nonatomic, assign) BOOL showTopLine;
 @property (nonatomic, assign) BOOL showBottomLine;
 
+@property (nonatomic, assign, readonly) CGFloat cellHeight;
+
++ (CGFloat)cellHeightWithMessageModel:(YOSMessageModel *)messageModel;
+
 @end

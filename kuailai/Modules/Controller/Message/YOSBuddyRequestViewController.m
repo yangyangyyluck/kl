@@ -54,6 +54,12 @@
     [self sendNetworkRequest];
     
     [self setupTableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuddyRequest) name:YOSNotificationUpdateBuddyRequest object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setupTableView {
@@ -83,6 +89,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.messageModels.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 70;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    YOSMessageModel *messageModel = self.messageModels[indexPath.row];
+    return [YOSBuddyRequestCell cellHeightWithMessageModel:messageModel];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,7 +139,7 @@
             
             NSMutableString *message = [NSMutableString new];
             
-            for (int i = 0; i < (arc4random_uniform(40) + 5); ++i) {
+            for (int i = 0; i < (arc4random_uniform(40) + 25); ++i) {
                 NSString *randomMessage = [total2 substringWithRange:NSMakeRange(arc4random_uniform((int)total2.length), 1)];
                 [message appendString:randomMessage];
             }
@@ -163,16 +178,51 @@
 #pragma mark - network
 
 - (void)sendNetworkRequest {
-    
+
     self.buddyMessages = [[YOSDBManager sharedManager] getBuddyListWithUsername:[YOSWidget getCurrentUserInfoModel].username];
     
+    [self.messageModels removeAllObjects];
+    
+    [self.buddyMessages enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+        YOSMessageModel *messageModel = [YOSMessageModel new];
+        messageModel.message = obj[@"message"];
+        messageModel.hx_user = obj[@"hx_user"];
+        
+        [self.messageModels addObject:messageModel];
+    }];
+    
     NSArray *arr = [self.buddyMessages valueForKeyPath:@"hx_user"];
+    
+    // 没有新信息
+    if (!arr.count) {
+        [self.tableView reloadData];
+        return;
+    }
     
     YOSUserGetUserByHxRequest *request = [[YOSUserGetUserByHxRequest alloc] initWithHXUsers:arr];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
             NSLog(@"%s", __func__);
+            
+            NSArray *userInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data];
+            
+            [self.messageModels enumerateObjectsUsingBlock:^(YOSMessageModel *obj, NSUInteger idx, BOOL *stop) {
+                
+                [userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj2, NSUInteger idx, BOOL *stop) {
+                    
+                    if ([obj2.hx_user isEqualToString:obj.hx_user]) {
+                        obj.name = obj2.nickname;
+                        obj.avatar = obj2.avatar;
+                        
+                        *stop = YES;
+                    }
+                    
+                }];
+                
+            }];
+            
+            [self.tableView reloadData];
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
@@ -183,6 +233,10 @@
 #pragma mark - event response
 
 
+#pragma mark - deal notification
 
+- (void)updateBuddyRequest {
+    [self sendNetworkRequest];
+}
 
 @end
