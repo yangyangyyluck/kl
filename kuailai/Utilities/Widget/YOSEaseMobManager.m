@@ -11,6 +11,7 @@
 #import "YOSWidget.h"
 #import "YOSUserInfoModel.h"
 #import "YOSDBManager.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSEaseMobManager () <EMChatManagerDelegate>
 
@@ -44,18 +45,22 @@
 }
 
 - (BOOL)loginCheck {
-    NSString *user = self.userInfoModel.hx_user;
-    NSString *pass = self.userInfoModel.hx_pwd;
     
-    if (user.length == 0 || pass.length == 0) {
-#warning TODO login out
-
+    if ([YOSWidget isLogin]) {
+        return YES;
+    } else {
         // kuailai login out
         NSLog(@"\r\n\r\n\r\nhere need kuailai login out.\r\n\r\n\r\n");
+        
+        YOSPostNotification(YOSNotificationLogout);
+        self.buddyList = nil;
+        self.blockedList = nil;
+        self.buddyListInMemory = nil;
+        self.blockedListInMemory = nil;
+        
         return NO;
-    } else {
-        return YES;
     }
+
 }
 
 - (BOOL)registerNewAccount {
@@ -102,6 +107,7 @@
             YOSLog(@"login success");
             // 设置自动登录
             [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
+            [self getBuddyListAsync];
         } else {
             YOSLog(@"login failure");
         }
@@ -126,6 +132,11 @@
     [self.easeMob.chatManager asyncLogoffWithUnbindDeviceToken:status completion:^(NSDictionary *info, EMError *error) {
         if (!error) {
             NSLog(@"退出成功");
+            YOSPostNotification(YOSNotificationLogout);
+            self.buddyList = nil;
+            self.blockedList = nil;
+            self.buddyListInMemory = nil;
+            self.blockedListInMemory = nil;
         } else {
             NSLog(@"退出失败 error : %@ info : %@", error, info);
         }
@@ -134,7 +145,7 @@
 
 - (BOOL)addBuddy:(NSString *)userName message:(NSString *)message {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return NO;
     }
     
@@ -153,7 +164,7 @@
 /** 获取好友[异步] */
 - (void)getBuddyListAsync {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return;
     }
     
@@ -170,10 +181,10 @@
 }
 
 /** 获取好友[同步] */
-- (void)getBuddyListSync {
+- (NSArray *)getBuddyListSync {
     
-    if ([self loginCheck]) {
-        return;
+    if (![self loginCheck]) {
+        return nil;
     }
     
     EMError *error = nil;
@@ -188,11 +199,13 @@
     }
     
     self.buddyList = buddyList;
+    
+    return buddyList;
 }
 
 - (void)getBlockedListSync {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return;
     }
     
@@ -210,7 +223,7 @@
 
 - (void)getBlockedListAsync {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return;
     }
     
@@ -227,7 +240,7 @@
 
 - (BOOL)acceptBuddy:(NSString *)username {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return NO;
     }
     
@@ -245,7 +258,7 @@
 
 - (BOOL)rejuctBuddy:(NSString *)username reason:(NSString *)reason {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return NO;
     }
     
@@ -263,7 +276,7 @@
 
 - (BOOL)removeBuddy:(NSString *)username {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return NO;
     }
     
@@ -282,7 +295,7 @@
 
 - (BOOL)addBuddyToBlock:(NSString *)username {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return NO;
     }
     
@@ -299,7 +312,7 @@
 
 - (BOOL)removeBuddyToBlock:(NSString *)username {
     
-    if ([self loginCheck]) {
+    if (![self loginCheck]) {
         return NO;
     }
     
@@ -342,11 +355,17 @@
 - (void)didAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
     NSLog(@"%s", __func__);
     YOSLog(@"用户自动登录完成后的回调");
+    if (!error) {
+        [self getBuddyListAsync];
+    }
 }
 
 - (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
     NSLog(@"%s", __func__);
     YOSLog(@"登陆成功。");
+    if (!error) {
+        [self getBuddyListAsync];
+    }
 }
 
 - (void)didReceiveBuddyRequest:(NSString *)username
@@ -354,7 +373,7 @@
     
     [[YOSDBManager sharedManager] updateBuddyRequestWithCurrentUser:self.userInfoModel.username buddy:username message:message];
     
-    [YOSWidget alertMessage:username title:message];
+//    [YOSWidget alertMessage:username title:message];
     
 }
 
@@ -382,6 +401,28 @@
 
 /*!
  @method
+ @brief 好友请求被接受时的回调
+ @discussion
+ @param username 之前发出的好友请求被用户username接受了
+ */
+- (void)didAcceptedByBuddy:(NSString *)username {
+    [self getBuddyListAsync];
+    
+    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@已添加您为好友~", username] maskType:SVProgressHUDMaskTypeClear];
+}
+
+/*!
+ @method
+ @brief 好友请求被拒绝时的回调
+ @discussion
+ @param username 之前发出的好友请求被用户username拒绝了
+ */
+- (void)didRejectedByBuddy:(NSString *)username {
+    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@已拒绝添加您为好友~", username] maskType:SVProgressHUDMaskTypeClear];
+}
+
+/*!
+ @method
  @brief 将好友加到黑名单完成后的回调
  @discussion
  @param buddy    加入黑名单的好友
@@ -402,7 +443,7 @@
     YOSLog(@"移除黑名单完成的回调");
 }
 
-#pragma mark - private methods
+#pragma mark - config methods
 
 - (void)registerWithApplication:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
     

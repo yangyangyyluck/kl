@@ -159,4 +159,13 @@
     return nil;
 }
 
++ (BOOL)isLogin {
+    YOSUserInfoModel *userInfoModel = [self getCurrentUserInfoModel];
+    if (userInfoModel.username.length && userInfoModel.hx_user.length && userInfoModel.hx_pwd.length) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 @end

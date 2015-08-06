@@ -80,6 +80,7 @@
 		DD793D7E1B40F89900CBC54F /* YOSUserUpPhotoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD793D7D1B40F89900CBC54F /* YOSUserUpPhotoRequest.m */; };
 		DD7B0CC01B71EB0F00A5496D /* YOSSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B0CBF1B71EB0F00A5496D /* YOSSettingViewController.m */; };
 		DD7B0CC31B71EB2600A5496D /* YOSSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B0CC21B71EB2600A5496D /* YOSSettingCell.m */; };
+		DD7B0CC61B72453800A5496D /* YOSMyFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B0CC51B72453800A5496D /* YOSMyFriendsViewController.m */; };
 		DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */; };
 		DD8360B91B07955300DEAF86 /* YOSRegionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360B81B07955300DEAF86 /* YOSRegionModel.m */; };
 		DD8360BC1B07956F00DEAF86 /* YOSCityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360BB1B07956F00DEAF86 /* YOSCityModel.m */; };
@@ -316,6 +317,8 @@
 		DD7B0CBF1B71EB0F00A5496D /* YOSSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSSettingViewController.m; sourceTree = "<group>"; };
 		DD7B0CC11B71EB2600A5496D /* YOSSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSSettingCell.h; sourceTree = "<group>"; };
 		DD7B0CC21B71EB2600A5496D /* YOSSettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSSettingCell.m; sourceTree = "<group>"; };
+		DD7B0CC41B72453800A5496D /* YOSMyFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyFriendsViewController.h; sourceTree = "<group>"; };
+		DD7B0CC51B72453800A5496D /* YOSMyFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyFriendsViewController.m; sourceTree = "<group>"; };
 		DD8360B31B075C8A00DEAF86 /* YOSActiveGetCityRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveGetCityRequest.h; sourceTree = "<group>"; };
 		DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveGetCityRequest.m; sourceTree = "<group>"; };
 		DD8360B71B07955300DEAF86 /* YOSRegionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSRegionModel.h; sourceTree = "<group>"; };
@@ -562,6 +565,8 @@
 				DD735BD21B53641B002F0B0F /* YOSMyAttendActivityViewController.m */,
 				DD735BD71B53727E002F0B0F /* YOSMyAttendDetailViewController.h */,
 				DD735BD81B53727E002F0B0F /* YOSMyAttendDetailViewController.m */,
+				DD7B0CC41B72453800A5496D /* YOSMyFriendsViewController.h */,
+				DD7B0CC51B72453800A5496D /* YOSMyFriendsViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -1347,6 +1352,7 @@
 				DDFC6B371B4E1A3F008DB181 /* YOSUserAddTagRequest.m in Sources */,
 				DD64122F1B525DEB00C5BFFB /* UIImage+MDQRCode.m in Sources */,
 				DD00EDF31ADD1AAB00E811A2 /* YOSCreateActivityViewController.m in Sources */,
+				DD7B0CC61B72453800A5496D /* YOSMyFriendsViewController.m in Sources */,
 				DD177B131B3C48AD00E86F24 /* VPImageCropperViewController.m in Sources */,
 				DD735BD61B536B90002F0B0F /* YOSMyAttendCell.m in Sources */,
 				DDCF01031B116FAD00ED205F /* YOSInputView.m in Sources */,

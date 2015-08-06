@@ -31,6 +31,9 @@ extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
 
 @property (nonatomic, weak) NSString *currentRegisterID;
 
+/** 上次登录的username, 退出时不清空 */
+@property (nonatomic, weak) NSString *lastLoginUsername;
+
 /** 退出时清空 */
 @property (nonatomic, weak) NSString *currentLoginMobileNumber;
 

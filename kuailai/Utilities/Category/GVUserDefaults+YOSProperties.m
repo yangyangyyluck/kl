@@ -14,6 +14,8 @@
 
 @dynamic currentRegisterID;
 
+@dynamic lastLoginUsername;
+
 @dynamic currentLoginMobileNumber;
 
 @dynamic currentLoginID;

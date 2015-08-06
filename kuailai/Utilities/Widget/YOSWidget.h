@@ -93,4 +93,6 @@
 
 + (YOSUserInfoModel *)getCurrentUserInfoModel;
 
++ (BOOL)isLogin;
+
 @end

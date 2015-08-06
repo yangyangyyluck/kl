@@ -88,7 +88,7 @@
     
     _auditLabel = [UILabel new];
     _auditLabel.font = [UIFont boldSystemFontOfSize:15.0f];
-    _auditLabel.textColor = YOSColorMainRed;
+    _auditLabel.textColor = YOSColorGreen;
     _auditLabel.text = @"已添加";
     [self.contentView addSubview:_auditLabel];
     
@@ -125,8 +125,8 @@
     if (status) {
         _rightButton.hidden = YES;
         _auditLabel.hidden = NO;
-        _auditLabel.text = @"待确认";
-        _auditLabel.textColor = YOSColorFontGray;
+        _auditLabel.text = @"等待验证";
+        _auditLabel.textColor = YOSColorMainRed;
     }
 }
 

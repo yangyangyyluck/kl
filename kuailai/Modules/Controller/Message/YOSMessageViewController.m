@@ -108,7 +108,7 @@
         
         [_messageModels addObject:model];
         
-        /*
+        
         NSUInteger num = arc4random_uniform(20) + 5;
         
         NSUInteger i = 0;
@@ -162,7 +162,7 @@
             [_messageModels addObject:m];
          
         }
-        */
+        
     }
     
     return _messageModels;

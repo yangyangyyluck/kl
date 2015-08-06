@@ -132,9 +132,9 @@
     NSUInteger requestPage = 1;
     if (type == YOSRefreshTypeFooter) {
         requestPage = self.currentPage + 1;
+    } else {
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     }
-    
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     
     YTKRequest *request = nil;
     
@@ -195,18 +195,17 @@
                 }];
             }
             
-            [[YOSEaseMobManager sharedManager] getBuddyListSync];
-            
             NSArray *buddyList = [YOSEaseMobManager sharedManager].buddyList;
+            
+            if (!buddyList) {
+                buddyList = [[YOSEaseMobManager sharedManager] getBuddyListSync];
+            }
             
             NSArray *usernames = [buddyList valueForKeyPath:@"username"];
             
             YOSLog(@"usernames %@",usernames);
             
             [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj1, NSUInteger idx, BOOL *stop) {
-//                if ([usernames containsObject:obj.hx_user]) {
-//                    obj.friendType = YOSFriendTypeBoth;
-//                }
                 [buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj2, NSUInteger idx, BOOL *stop) {
                     if ([obj2.username isEqualToString:obj1.hx_user]) {
                         

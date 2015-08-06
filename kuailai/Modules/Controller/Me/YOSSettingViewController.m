@@ -7,12 +7,15 @@
 //
 
 #import "YOSSettingViewController.h"
+#import "YOSTestViewController.h"
 #import "YOSSettingCell.h"
 
 #import "UIView+YOSAdditions.h"
 #import "UIImage+YOSAdditions.h"
 #import "Masonry.h"
 #import "GVUserDefaults+YOSProperties.h"
+#import "SVProgressHUD+YOSAdditions.h"
+#import "YOSEaseMobManager.h"
 
 typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     kRightAccessoryTypeNone,
@@ -147,8 +150,15 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     
     kRightAccessoryType rightType = (kRightAccessoryType)([dict[@"rightType"] integerValue]);
     
-    if (rightType == kRightAccessoryTypeArrow) {
-        NSLog(@"%s", __func__);
+    if (rightType != kRightAccessoryTypeArrow) {
+        return;
+    }
+    
+    NSLog(@"%s", __func__);
+    
+    if (indexPath.row == 2) {
+        YOSTestViewController *testVC = [YOSTestViewController new];
+        [self.navigationController pushViewController:testVC animated:YES];
     }
     
 }
@@ -160,7 +170,13 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     
     [[GVUserDefaults standardUserDefaults] logout];
     
-    YOSPostNotification(YOSNotificationLogout);
+    [[YOSEaseMobManager sharedManager] logoffWithUnbindDeviceToken:YES];
+    
+    [SVProgressHUD showInfoWithStatus:@"已退出登录~" maskType:SVProgressHUDMaskTypeClear];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    });
 }
 
 #pragma mark - getter & setter 

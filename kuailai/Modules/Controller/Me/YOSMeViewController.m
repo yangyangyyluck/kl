@@ -64,15 +64,25 @@
     
     [self setupNavTitle:@"个人"];
     
-    [self setupLeftButtonWithTitle:@"sasa"];
+    [self setupLeftButtonWithTitle:@"登录"];
     
-    [self setupRightButtonWithTitle:@"create"];
+    [self setupRightButtonWithTitle:@"设置"];
     
-    [self sendNetworkRequest];
+    if ([YOSWidget isLogin]) {
+        [self sendNetworkRequest];
+    } else {    // 未登录
+        
+        [self logout];
+        
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo) name:YOSNotificationUpdateUserInfo object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTagInfo) name:YOSNotificationUpdateUserInfo object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:YOSNotificationLogout object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:YOSNotificationLogin object:nil];
 }
 
 - (void)setupSubviews {
@@ -352,6 +362,27 @@
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
+    }];
+}
+
+- (void)login {
+    _contentView.hidden = NO;
+
+    [self hideDefaultMessage];
+    [self sendNetworkRequest];
+}
+
+- (void)logout {
+    _contentView.hidden = YES;
+    
+    YOSWSelf(weakSelf);
+    [self showDefaultMessage:@"还未登录,点击登录" tappedBlock:^{
+        
+        YOSLoginViewController *loginVC = [YOSLoginViewController new];
+        YOSBaseNavigationViewController *navVC = [[YOSBaseNavigationViewController alloc] initWithRootViewController:loginVC];
+        
+        [weakSelf presentViewController:navVC animated:YES completion:nil];
+        
     }];
 }
 

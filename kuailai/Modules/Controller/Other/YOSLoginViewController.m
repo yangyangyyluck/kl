@@ -19,6 +19,7 @@
 #import "SVProgressHUD+YOSAdditions.h"
 #import "GVUserDefaults+YOSProperties.h"
 #import "UIImage+YOSAdditions.h"
+#import "YOSEaseMobManager.h"
 
 @interface YOSLoginViewController ()
 
@@ -81,6 +82,10 @@
     _userTextField.keyboardType = UIKeyboardTypeNumberPad;
     _userTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [_userTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    
+    if ([GVUserDefaults standardUserDefaults].lastLoginUsername.length) {
+        _userTextField.text = [GVUserDefaults standardUserDefaults].lastLoginUsername;
+    }
     
     [self.view addSubview:_userTextField];
     
@@ -271,6 +276,7 @@
             
             if (model.username) {
                 [GVUserDefaults standardUserDefaults].currentLoginMobileNumber = model.username;
+                [GVUserDefaults standardUserDefaults].lastLoginUsername = model.username;
                 YOSLog(@"\r\n\r\n had set LoginMobile");
             }
             
@@ -281,6 +287,7 @@
             // update
             YOSPostNotification(YOSNotificationUpdateUserInfo);
             YOSPostNotification(YOSNotificationUpdateTagInfo);
+            [[YOSEaseMobManager sharedManager] loginEaseMob];
             
             [self tappedCloseButton];
             

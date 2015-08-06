@@ -34,7 +34,7 @@
 - (void)getBuddyListAsync;
 
 /** 获取好友[同步] */
-- (void)getBuddyListSync;
+- (NSArray *)getBuddyListSync;
 
 /** 接受好友 */
 - (BOOL)acceptBuddy:(NSString *)username;

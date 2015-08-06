@@ -12,8 +12,14 @@
  *  dissmiss 会销毁SVProgressHUD
  */
 #import "SVProgressHUD+YOSAdditions.h"
+#import "EDColor.h"
+#import "Masonry.h"
 
 @interface YOSBaseViewController ()
+
+@property (nonatomic, strong) UIButton *defaultButton;
+
+@property (nonatomic, copy) voidBlock tappedBlock;
 
 @end
 
@@ -168,9 +174,39 @@
     self.navigationItem.leftBarButtonItem = item;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock {
+    self.tappedBlock = vBlock;
+    self.defaultButton.hidden = NO;
+    [self.defaultButton setTitle:message forState:UIControlStateNormal];
+    [self.view bringSubviewToFront:self.defaultButton];
+    [self.defaultButton sizeToFit];
+}
+
+- (void)hideDefaultMessage {
+    self.defaultButton.hidden = YES;
+}
+
+- (UIButton *)defaultButton {
+    if (!_defaultButton) {
+        _defaultButton = [UIButton new];
+        _defaultButton.titleLabel.font = YOSFontNormal;
+        [_defaultButton setTitleColor:YOSColorFontGray forState:UIControlStateNormal];
+        [_defaultButton addTarget:self action:@selector(tappedDefaultButton) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_defaultButton];
+        [_defaultButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(self.view);
+        }];
+    }
+    
+    return _defaultButton;
+}
+
+- (void)tappedDefaultButton {
+    NSLog(@"%s", __func__);
+    
+    if (self.tappedBlock) {
+        self.tappedBlock();
+    }
 }
 
 /*

@@ -17,7 +17,7 @@
 #import "YLLabel.h"
 #import "YOSNeedView.h"
 #import "YOSFriendCell.h"
-
+#import "YOSAddBuddyCell.h"
 
 #import "YOSActiveGetActiveRequest.h"
 #import "YOSActiveSignUpRequest.h"
@@ -35,6 +35,8 @@
 #import "GVUserDefaults+YOSProperties.h"
 #import "UIImage+YOSAdditions.h"
 #import "YOSLocalNotificationManager.h"
+#import "YOSEaseMobManager.h"
+#import "EaseMob.h"
 
 static const NSUInteger numbersOfSections = 100;
 
@@ -46,7 +48,8 @@ static const NSUInteger numbersOfSections = 100;
 
 @property (nonatomic, strong) NSMutableArray *images;
 
-@property (nonatomic, strong) NSArray *friends;
+//@property (nonatomic, strong) NSArray *friends;
+@property (nonatomic, strong) NSMutableArray *userInfoModels;
 
 @property (nonatomic, strong) NSArray *signConditions;
 
@@ -474,11 +477,11 @@ static const NSUInteger numbersOfSections = 100;
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_originatorView.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 60 * self.friends.count));
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 60 * self.userInfoModels.count));
         make.left.mas_equalTo(0);
     }];
     
-    CGFloat moreHeight = (self.friends.count ? 60 : 0);
+    CGFloat moreHeight = (self.userInfoModels.count ? 60 : 0);
     if (moreHeight == 0) {
         _moreUserButton.hidden = YES;
     }
@@ -594,19 +597,20 @@ static const NSUInteger numbersOfSections = 100;
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YOSFriendCell *cell = [YOSFriendCell cellWithTableView:tableView];
+    YOSAddBuddyCell *cell = [YOSAddBuddyCell cellWithTableView:tableView];
     
-    cell.friendModel = self.friends[indexPath.row];
+    cell.userInfoModel = self.userInfoModels[indexPath.row];
     
     if (indexPath.row == 0) {
         cell.showTopLine = YES;
     }
     
     return cell;
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.friends.count;
+    return self.userInfoModels.count;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -677,7 +681,28 @@ static const NSUInteger numbersOfSections = 100;
                 }
             }
             
-            self.friends = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"collect"]];
+//            self.friends = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"collect"]];
+            self.userInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"collect"]];
+            
+            NSArray *buddyList = [YOSEaseMobManager sharedManager].buddyList;
+            
+            if (!buddyList) {
+                buddyList = [[YOSEaseMobManager sharedManager] getBuddyListSync];
+            }
+            
+            [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj1, NSUInteger idx, BOOL *stop) {
+                [buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj2, NSUInteger idx, BOOL *stop) {
+                    if ([obj2.username isEqualToString:obj1.hx_user]) {
+                        
+                        if (obj2.followState == eEMBuddyFollowState_FollowedBoth) {
+                            YOSLog(@"eEMBuddyFollowState_FollowedBoth");
+                            obj1.friendType = YOSFriendTypeBoth;
+                        }
+                        
+                    }
+                }];
+                
+            }];
             
             [self setupSubviews];
         }
