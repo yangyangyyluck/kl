@@ -8,11 +8,12 @@
 
 #import "YOSFriendCell.h"
 
-#import "YOSFriendModel.h"
+#import "YOSUserInfoModel.h"
 
 #import "EDColor.h"
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
+#import "YOSEaseMobManager.h"
 
 
 @implementation YOSFriendCell {
@@ -20,23 +21,9 @@
     UILabel *_nameLabel;
     UILabel *_jobTitleLabel;
     UILabel *_companyLabel;
-    UILabel *_auditLabel;
     
     UIView *_topLineView;
     UIView *_bottomLineView;
-}
-
-+ (instancetype)cellWithTableView:(UITableView *)tableView {
-    
-    static NSString *reuseIdentifier = @"YOSFriendCell";
-    
-    YOSFriendCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    
-    if (!cell) {
-        cell = [[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-    }
-
-    return cell;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -47,7 +34,7 @@
     }
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
     [self setupSubviews];
     
     return self;
@@ -86,12 +73,6 @@
     
     [self.contentView addSubview:_bottomLineView];
     
-    _auditLabel = [UILabel new];
-    _auditLabel.font = YOSFontSmall;
-    _auditLabel.text = @"已通过";
-    
-    [self.contentView addSubview:_auditLabel];
-    
     [_topLineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 0.5));
         make.left.and.top.mas_equalTo(0);
@@ -104,23 +85,25 @@
     
     _topLineView.hidden = YES;
     _bottomLineView.hidden = NO;
-    _auditLabel.hidden = YES;
 }
 
-#pragma mark -getter & setter
+#pragma mark - event response
 
-- (void)setFriendModel:(YOSFriendModel *)friendModel {
-    _friendModel = friendModel;
+
+#pragma mark - getter & setter
+
+- (void)setUserInfoModel:(YOSUserInfoModel *)userInfoModel {
+    _userInfoModel = userInfoModel;
     
-    if (friendModel.avatar) {
-        [_headImageView sd_setImageWithURL:[NSURL URLWithString:friendModel.avatar] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+    if (userInfoModel.avatar) {
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:userInfoModel.avatar] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     } else {
         _headImageView.image = [UIImage imageNamed:@"默认头像"];
     }
     
-    _nameLabel.text = friendModel.nickname;
-    _jobTitleLabel.text = (friendModel.position.length ? friendModel.position : @"暂无职位信息");
-    _companyLabel.text = (friendModel.company.length ? friendModel.company : @"暂无公司信息");
+    _nameLabel.text = userInfoModel.nickname;
+    _jobTitleLabel.text = (userInfoModel.position.length ? userInfoModel.position : @"暂无职位信息");
+    _companyLabel.text = (userInfoModel.company.length ? userInfoModel.company : @"暂无公司信息");
     
     [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.removeExisting = YES;
@@ -136,7 +119,7 @@
         
         make.left.mas_equalTo(_headImageView.mas_right).offset(8);
         make.top.mas_equalTo(_headImageView).offset(0);
-        make.size.mas_equalTo(CGSizeMake(150, 19));
+        make.size.mas_equalTo(CGSizeMake(120, 19));
     }];
     
     [_jobTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -154,36 +137,6 @@
         make.left.mas_equalTo(_nameLabel);
         make.size.mas_equalTo(CGSizeMake(150, 18));
     }];
-    
-    [_auditLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.removeExisting = YES;
-        
-        make.centerY.mas_equalTo(_companyLabel);
-        make.left.mas_equalTo(_jobTitleLabel);
-    }];
-    
-    // magic number 0 未审核
-    //              1 通过
-    //              2 拒绝
-    _auditLabel.hidden = YES;
-    
-    if (friendModel.status && [friendModel.status integerValue] == 0) {
-        _auditLabel.text = @"未审核";
-        _auditLabel.textColor = YOSColorFontBlack;
-        _auditLabel.hidden = NO;
-    }
-    
-    if ([friendModel.status integerValue] == 1) {
-        _auditLabel.text = @"已通过";
-        _auditLabel.textColor = YOSColorGreen;
-        _auditLabel.hidden = NO;
-    }
-    
-    if ([friendModel.status integerValue] == 2) {
-        _auditLabel.text = @"已拒绝";
-        _auditLabel.textColor = YOSColorMainRed;
-        _auditLabel.hidden = NO;
-    }
     
 }
 

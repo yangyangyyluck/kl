@@ -40,6 +40,7 @@
     [self setupSubviews];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuddyRequest) name:YOSNotificationUpdateBuddyRequest object:nil];
+    
 }
 
 - (void)dealloc {

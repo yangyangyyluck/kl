@@ -51,9 +51,9 @@
     
     [self setupNavTitle:@"好友请求"];
     
-    [self sendNetworkRequest];
-    
     [self setupTableView];
+    
+    [self sendNetworkRequest];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuddyRequest) name:YOSNotificationUpdateBuddyRequest object:nil];
 }
@@ -196,7 +196,10 @@
     // 没有新信息
     if (!arr.count) {
         [self.tableView reloadData];
+        [self showDefaultMessage:@"目前没有好友请求哦~" tappedBlock:nil];
         return;
+    } else {
+        [self hideDefaultMessage];
     }
     
     YOSUserGetUserByHxRequest *request = [[YOSUserGetUserByHxRequest alloc] initWithHXUsers:arr];

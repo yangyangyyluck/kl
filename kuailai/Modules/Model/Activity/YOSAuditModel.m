@@ -6,15 +6,15 @@
 //  Copyright (c) 2015年 kuailai.inc. All rights reserved.
 //
 
-#import "YOSFriendModel.h"
+#import "YOSAuditModel.h"
 
-@implementation YOSFriendModel
+@implementation YOSAuditModel
 
 + (BOOL)propertyIsOptional:(NSString *)propertyName {
     return YES;
 }
 
-- (BOOL)isEqual:(YOSFriendModel *)object {
+- (BOOL)isEqual:(YOSAuditModel *)object {
     BOOL status0 = ([self.nickname isEqualToString:object.nickname]);
     BOOL status1 = ([self.company isEqualToString:object.company]);
     BOOL status2 = ([self.position isEqualToString:object.position]);

@@ -16,7 +16,6 @@
 #import "YOSDetailLabel.h"
 #import "YLLabel.h"
 #import "YOSNeedView.h"
-#import "YOSFriendCell.h"
 #import "YOSAddBuddyCell.h"
 
 #import "YOSActiveGetActiveRequest.h"
@@ -25,7 +24,6 @@
 
 #import "YOSActivityDetailModel.h"
 #import "YOSUserInfoModel.h"
-#import "YOSFriendModel.h"
 
 #import "Masonry.h"
 #import "EDColor.h"
@@ -681,14 +679,9 @@ static const NSUInteger numbersOfSections = 100;
                 }
             }
             
-//            self.friends = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"collect"]];
             self.userInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"collect"]];
             
-            NSArray *buddyList = [YOSEaseMobManager sharedManager].buddyList;
-            
-            if (!buddyList) {
-                buddyList = [[YOSEaseMobManager sharedManager] getBuddyListSync];
-            }
+            NSArray *buddyList = [[YOSEaseMobManager sharedManager] getNewestBuddyList];
             
             [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj1, NSUInteger idx, BOOL *stop) {
                 [buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj2, NSUInteger idx, BOOL *stop) {

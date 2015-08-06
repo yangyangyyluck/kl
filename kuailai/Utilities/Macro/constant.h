@@ -12,17 +12,24 @@
 extern NSString * const YOSURLBase;
 
 // notification
+/** 更新用户信息 */
 extern NSString * const YOSNotificationUpdateUserInfo;
 
+/** 更新用户标签信息 */
 extern NSString * const YOSNotificationUpdateTagInfo;
 
+/** 拒绝或者同意参加活动请求 */
 extern NSString * const YOSNotificationUpdateAuditInfo;
 
+/** 拒绝或者同意添加好友 */
 extern NSString * const YOSNotificationUpdateBuddyRequest;
 
 extern NSString * const YOSNotificationLogin;
 
 extern NSString * const YOSNotificationLogout;
+
+/** 好友列表变更 */
+extern NSString * const YOSNotificationUpdateBuddyList;
 
 typedef NS_ENUM(NSUInteger, BusinessRequestStatus) {
     BusinessRequestStatusSuccess                = 200,      // 请求成功

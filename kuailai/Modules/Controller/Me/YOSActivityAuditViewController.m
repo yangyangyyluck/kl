@@ -8,10 +8,10 @@
 
 #import "YOSActivityAuditViewController.h"
 #import "YOSActivityAuditIndividualViewController.h"
-#import "YOSFriendCell.h"
+#import "YOSAuditCell.h"
 
 #import "YOSActivityListModel.h"
-#import "YOSFriendModel.h"
+#import "YOSAuditModel.h"
 #import "YOSUserInfoModel.h"
 
 #import "YOSActiveGetSignUpRequest.h"
@@ -33,7 +33,7 @@
 @property (nonatomic, strong) NSIndexPath *currentIndexPath;
 
 /** 报名活动的用户 */
-@property (nonatomic, strong) NSMutableArray *friends;
+@property (nonatomic, strong) NSMutableArray *auditModels;
 
 /** 总数据量 */
 @property (nonatomic, assign) NSUInteger count;
@@ -179,13 +179,13 @@
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.friends.count;
+    return self.auditModels.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    YOSFriendCell *cell = [YOSFriendCell cellWithTableView:tableView];
-    cell.friendModel = self.friends[indexPath.row];
+    YOSAuditCell *cell = [YOSAuditCell cellWithTableView:tableView];
+    cell.auditModel = self.auditModels[indexPath.row];
     
     return cell;
 }
@@ -247,14 +247,14 @@
             }
             
             if (type == YOSRefreshTypeHeader) {
-                self.friends = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                self.auditModels = [YOSAuditModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
             } else {
-                NSArray *array = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                NSArray *array = [YOSAuditModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
                 
-                [array enumerateObjectsUsingBlock:^(YOSFriendModel *obj, NSUInteger idx, BOOL *stop) {
+                [array enumerateObjectsUsingBlock:^(YOSAuditModel *obj, NSUInteger idx, BOOL *stop) {
                     
-                    if (![self.friends containsObject:obj]) {
-                        [self.friends addObject:obj];
+                    if (![self.auditModels containsObject:obj]) {
+                        [self.auditModels addObject:obj];
                     }
                     
                 }];
@@ -311,7 +311,7 @@
                 
             }];
             
-            [self.friends enumerateObjectsUsingBlock:^(YOSFriendModel *obj, NSUInteger idx, BOOL *stop) {
+            [self.auditModels enumerateObjectsUsingBlock:^(YOSAuditModel *obj, NSUInteger idx, BOOL *stop) {
                     obj.status = @"1";
             }];
             
@@ -356,7 +356,7 @@
         
     }];
     
-    [self.friends enumerateObjectsUsingBlock:^(YOSFriendModel *obj, NSUInteger idx, BOOL *stop) {
+    [self.auditModels enumerateObjectsUsingBlock:^(YOSAuditModel *obj, NSUInteger idx, BOOL *stop) {
         
         if ([obj.uid isEqualToString:uid]) {
             obj.status = status;
@@ -383,12 +383,12 @@
     return _userInfoModels;
 }
 
-- (NSMutableArray *)friends {
-    if (!_friends) {
-        _friends = [NSMutableArray array];
+- (NSMutableArray *)auditModels {
+    if (!_auditModels) {
+        _auditModels = [NSMutableArray array];
     }
     
-    return _friends;
+    return _auditModels;
 }
 
 @end

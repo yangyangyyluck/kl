@@ -9,6 +9,7 @@
 #import "YOSMeButtonView.h"
 #import "YOSHeadButton.h"
 #import "YOSCreateActivityViewController.h"
+#import "YOSMyFriendsViewController.h"
 
 #import "Masonry.h"
 #import "UIView+YOSAdditions.h"
@@ -101,6 +102,10 @@
 }
 - (IBAction)tappedButton2:(id)sender {
     NSLog(@"%s", __func__);
+    
+    YOSMyFriendsViewController *friendsVC = [YOSMyFriendsViewController new];
+    
+    [self.yos_viewController.navigationController pushViewController:friendsVC animated:YES];
 }
 
 

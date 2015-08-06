@@ -195,11 +195,7 @@
                 }];
             }
             
-            NSArray *buddyList = [YOSEaseMobManager sharedManager].buddyList;
-            
-            if (!buddyList) {
-                buddyList = [[YOSEaseMobManager sharedManager] getBuddyListSync];
-            }
+            NSArray *buddyList = [[YOSEaseMobManager sharedManager] getNewestBuddyList];
             
             NSArray *usernames = [buddyList valueForKeyPath:@"username"];
             

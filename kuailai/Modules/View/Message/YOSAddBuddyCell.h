@@ -1,5 +1,5 @@
 //
-//  YOSFriendCell.h
+//  YOSAddBuddyCell.h
 //  kuailai
 //
 //  Created by yangyang on 15/6/18.

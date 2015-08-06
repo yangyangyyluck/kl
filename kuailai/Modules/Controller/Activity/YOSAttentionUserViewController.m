@@ -7,19 +7,21 @@
 //
 
 #import "YOSAttentionUserViewController.h"
-#import "YOSFriendCell.h"
+#import "YOSAddBuddyCell.h"
 
-#import "YOSFriendModel.h"
+#import "YOSUserInfoModel.h"
 
 #import "YOSActiveGetCollectRequest.h"
 
 #import "Masonry.h"
 #import "MJRefresh.h"
 #import "SVProgressHUD+YOSAdditions.h"
+#import "YOSEaseMobManager.h"
+#import "EMBuddy.h"
 
 @interface YOSAttentionUserViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *friends;
+@property (nonatomic, strong) NSMutableArray *userInfoModels;
 
 /** 总数据量 */
 @property (nonatomic, assign) NSUInteger count;
@@ -133,20 +135,37 @@
             }
             
             if (type == YOSRefreshTypeHeader) {
-                self.friends = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                self.userInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
             } else {
-                NSArray *array = [YOSFriendModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                NSArray *array = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
                 
-                [array enumerateObjectsUsingBlock:^(YOSFriendModel *obj, NSUInteger idx, BOOL *stop) {
+                [array enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj, NSUInteger idx, BOOL *stop) {
                     
-                    if (![self.friends containsObject:obj]) {
-                        [self.friends addObject:obj];
+                    if (![self.userInfoModels containsObject:obj]) {
+                        [self.userInfoModels addObject:obj];
                     }
                     
                 }];
+                
+                NSArray *buddyList = [[YOSEaseMobManager sharedManager] getNewestBuddyList];
+                
+                [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj1, NSUInteger idx, BOOL *stop) {
+                    [buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj2, NSUInteger idx, BOOL *stop) {
+                        if ([obj2.username isEqualToString:obj1.hx_user]) {
+                            
+                            if (obj2.followState == eEMBuddyFollowState_FollowedBoth) {
+                                YOSLog(@"eEMBuddyFollowState_FollowedBoth");
+                                obj1.friendType = YOSFriendTypeBoth;
+                            }
+                            
+                        }
+                    }];
+                    
+                }];
+                
             }
             
-            NSLog(@"activity list : %@", self.friends);
+            NSLog(@"activity list : %@", self.userInfoModels);
             
             [_tableView reloadData];
         }
@@ -166,16 +185,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.friends.count;
+    return self.userInfoModels.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YOSFriendCell *cell = [YOSFriendCell cellWithTableView:tableView];
+    YOSAddBuddyCell *cell = [YOSAddBuddyCell cellWithTableView:tableView];
     
-    cell.friendModel = self.friends[indexPath.row];
+    cell.userInfoModel = self.userInfoModels[indexPath.row];
     
     if (indexPath.row == 0) {
         cell.showTopLine = YES;
+    } else {
+        cell.showTopLine = NO;
     }
     
     return cell;
@@ -188,12 +209,12 @@
 
 #pragma mark - getter & setter
 
-- (NSMutableArray *)friends {
-    if (!_friends) {
-        _friends = [NSMutableArray array];
+- (NSMutableArray *)userInfoModels {
+    if (!_userInfoModels) {
+        _userInfoModels = [NSMutableArray array];
     }
     
-    return _friends;
+    return _userInfoModels;
 }
 
 /*

@@ -42,4 +42,6 @@
 /** 拒绝好友 */
 - (BOOL)rejuctBuddy:(NSString *)username reason:(NSString *)reason;
 
+- (NSArray *)getNewestBuddyList;
+
 @end

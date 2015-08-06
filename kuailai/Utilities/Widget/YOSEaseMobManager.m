@@ -274,6 +274,20 @@
     return isSuccess;
 }
 
+- (NSArray *)getNewestBuddyList {
+    NSArray *buddyList = self.buddyList;
+    
+    if (!buddyList) {
+        buddyList = [self getBuddyListSync];
+    }
+    
+    if (!buddyList) {
+        buddyList = [NSMutableArray array];
+    }
+    
+    return buddyList;
+}
+
 - (BOOL)removeBuddy:(NSString *)username {
     
     if (![self loginCheck]) {
@@ -345,6 +359,12 @@
     return [self.easeMob.chatManager blockedList];
 }
 
+- (void)setBuddyList:(NSArray *)buddyList {
+    _buddyList = buddyList;
+    
+    YOSPostNotification(YOSNotificationUpdateBuddyList);
+}
+
 #pragma mark - EMChatManagerDelegate
 
 - (void)willAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
@@ -373,8 +393,7 @@
     
     [[YOSDBManager sharedManager] updateBuddyRequestWithCurrentUser:self.userInfoModel.username buddy:username message:message];
     
-//    [YOSWidget alertMessage:username title:message];
-    
+    YOSPostNotification(YOSNotificationUpdateBuddyRequest);
 }
 
 /*!
@@ -407,6 +426,8 @@
  */
 - (void)didAcceptedByBuddy:(NSString *)username {
     [self getBuddyListAsync];
+    
+    [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:self.userInfoModel.username buddy:username];
     
     [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@已添加您为好友~", username] maskType:SVProgressHUDMaskTypeClear];
 }

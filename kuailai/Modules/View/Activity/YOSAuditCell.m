@@ -1,27 +1,25 @@
 //
-//  YOSAddBuddyCell.m
+//  YOSAuditCell.m
 //  kuailai
 //
-//  Created by yangyang on 15/6/18.
+//  Created by yangyang on 15/8/6.
 //  Copyright (c) 2015年 kuailai.inc. All rights reserved.
 //
 
-#import "YOSAddBuddyCell.h"
+#import "YOSAuditCell.h"
 
-#import "YOSUserInfoModel.h"
+#import "YOSAuditModel.h"
 
 #import "EDColor.h"
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
-#import "YOSEaseMobManager.h"
 
 
-@implementation YOSAddBuddyCell {
+@implementation YOSAuditCell {
     UIImageView *_headImageView;
     UILabel *_nameLabel;
     UILabel *_jobTitleLabel;
     UILabel *_companyLabel;
-    UIButton *_rightButton;
     UILabel *_auditLabel;
     
     UIView *_topLineView;
@@ -36,7 +34,7 @@
     }
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
     [self setupSubviews];
     
     return self;
@@ -75,31 +73,11 @@
     
     [self.contentView addSubview:_bottomLineView];
     
-    _rightButton = [UIButton new];
-    [_rightButton addTarget:self action:@selector(tappedRightButton) forControlEvents:UIControlEventTouchUpInside];
-    [_rightButton setTitle:@"添加" forState:UIControlStateNormal];
-    _rightButton.titleLabel.font = YOSFontBold;
-    [_rightButton setTitleColor:YOSColorGreen forState:UIControlStateNormal];
-    _rightButton.layer.borderColor = YOSColorGreen.CGColor;
-    _rightButton.layer.borderWidth = 0.5f;
-    _rightButton.layer.masksToBounds = YES;
-    _rightButton.adjustsImageWhenHighlighted = YES;
-    [self.contentView addSubview:_rightButton];
-    
     _auditLabel = [UILabel new];
-    _auditLabel.font = [UIFont boldSystemFontOfSize:15.0f];
-    _auditLabel.textColor = YOSColorGreen;
-    _auditLabel.text = @"已添加";
+    _auditLabel.font = YOSFontSmall;
+    _auditLabel.text = @"已通过";
+    
     [self.contentView addSubview:_auditLabel];
-    
-//    _nameLabel.backgroundColor = YOSColorRandom;
-//    _jobTitleLabel.backgroundColor = YOSColorRandom;
-    
-    [_rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(50, 30));
-        make.centerY.mas_equalTo(self);
-        make.right.mas_equalTo(-12);
-    }];
     
     [_topLineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 0.5));
@@ -113,37 +91,24 @@
     
     _topLineView.hidden = YES;
     _bottomLineView.hidden = NO;
-}
-
-#pragma mark - event response
-
-- (void)tappedRightButton {
-    NSLog(@"%s", __func__);
-    
-    BOOL status = [[YOSEaseMobManager sharedManager] addBuddy:self.userInfoModel.hx_user message:@"请求添加您为好友"];
-    
-    if (status) {
-        _rightButton.hidden = YES;
-        _auditLabel.hidden = NO;
-        _auditLabel.text = @"等待验证";
-        _auditLabel.textColor = YOSColorMainRed;
-    }
+    _auditLabel.hidden = YES;
 }
 
 #pragma mark -getter & setter
 
-- (void)setUserInfoModel:(YOSUserInfoModel *)userInfoModel {
-    _userInfoModel = userInfoModel;
+
+- (void)setAuditModel:(YOSAuditModel *)auditModel {
+    _auditModel = auditModel;
     
-    if (userInfoModel.avatar) {
-        [_headImageView sd_setImageWithURL:[NSURL URLWithString:userInfoModel.avatar] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+    if (auditModel.avatar) {
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:auditModel.avatar] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     } else {
         _headImageView.image = [UIImage imageNamed:@"默认头像"];
     }
     
-    _nameLabel.text = userInfoModel.nickname;
-    _jobTitleLabel.text = (userInfoModel.position.length ? userInfoModel.position : @"暂无职位信息");
-    _companyLabel.text = (userInfoModel.company.length ? userInfoModel.company : @"暂无公司信息");
+    _nameLabel.text = auditModel.nickname;
+    _jobTitleLabel.text = (auditModel.position.length ? auditModel.position : @"暂无职位信息");
+    _companyLabel.text = (auditModel.company.length ? auditModel.company : @"暂无公司信息");
     
     [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.removeExisting = YES;
@@ -159,7 +124,7 @@
         
         make.left.mas_equalTo(_headImageView.mas_right).offset(8);
         make.top.mas_equalTo(_headImageView).offset(0);
-        make.size.mas_equalTo(CGSizeMake(100, 19));
+        make.size.mas_equalTo(CGSizeMake(150, 19));
     }];
     
     [_jobTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -167,7 +132,7 @@
         
         make.centerY.mas_equalTo(_nameLabel);
         make.left.mas_equalTo(_nameLabel.mas_right).offset(8);
-        make.size.mas_equalTo(CGSizeMake(75, 16));
+        make.size.mas_equalTo(CGSizeMake(120, 16));
     }];
     
     [_companyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -181,19 +146,33 @@
     [_auditLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.removeExisting = YES;
         
-        make.center.mas_equalTo(_rightButton);
+        make.centerY.mas_equalTo(_companyLabel);
+        make.left.mas_equalTo(_jobTitleLabel);
     }];
     
-
+    // magic number 0 未审核
+    //              1 通过
+    //              2 拒绝
     _auditLabel.hidden = YES;
     
-    if (userInfoModel.friendType == YOSFriendTypeBoth) {
+    if (auditModel.status && [auditModel.status integerValue] == 0) {
+        _auditLabel.text = @"未审核";
+        _auditLabel.textColor = YOSColorFontBlack;
         _auditLabel.hidden = NO;
-        _rightButton.hidden = YES;
-    } else {
-        _auditLabel.hidden = YES;
-        _rightButton.hidden = NO;
     }
+    
+    if ([auditModel.status integerValue] == 1) {
+        _auditLabel.text = @"已通过";
+        _auditLabel.textColor = YOSColorGreen;
+        _auditLabel.hidden = NO;
+    }
+    
+    if ([auditModel.status integerValue] == 2) {
+        _auditLabel.text = @"已拒绝";
+        _auditLabel.textColor = YOSColorMainRed;
+        _auditLabel.hidden = NO;
+    }
+    
 }
 
 - (void)setShowTopLine:(BOOL)showTopLine {

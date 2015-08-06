@@ -40,6 +40,9 @@ NSString * const YOSNotificationLogin = @"YOSNotificationLogin";
 
 NSString * const YOSNotificationLogout = @"YOSNotificationLogout";
 
+/** 好友列表变更 */
+NSString * const YOSNotificationUpdateBuddyList = @"YOSNotificationUpdateBuddyList";
+
 /**
  *  UserDefault keys
  */

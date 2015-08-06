@@ -8,7 +8,7 @@
 
 #import "JSONModel.h"
 
-@interface YOSFriendModel : JSONModel
+@interface YOSAuditModel : JSONModel
 
 @property (nonatomic, copy) NSString *nickname;
 
