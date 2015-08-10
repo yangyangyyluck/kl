@@ -263,8 +263,12 @@
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         
+        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
+            NSLog(@"do nothing.");
+        }];
+        
         if ([request yos_checkResponse]) {
-            [SVProgressHUD dismiss];
+            
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = request.yos_data;
             
             YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
@@ -282,12 +286,21 @@
             
             [[NSUserDefaults standardUserDefaults] synchronize];
             
+            BOOL status = [[YOSEaseMobManager sharedManager] loginEaseMobSync];
+            
+            if (!status) {
+                [[GVUserDefaults standardUserDefaults] logout];
+                [SVProgressHUD showErrorWithStatus:@"服务器繁忙,请重新登录~" maskType:SVProgressHUDMaskTypeClear];
+                return;
+            }
+            
+            [SVProgressHUD dismiss];
+            
             // login
             YOSPostNotification(YOSNotificationLogin);
             // update
             YOSPostNotification(YOSNotificationUpdateUserInfo);
             YOSPostNotification(YOSNotificationUpdateTagInfo);
-            [[YOSEaseMobManager sharedManager] loginEaseMob];
             
             [self tappedCloseButton];
             

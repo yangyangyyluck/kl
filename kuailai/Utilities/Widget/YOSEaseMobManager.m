@@ -7,11 +7,11 @@
 //
 
 #import "YOSEaseMobManager.h"
-#import "EaseMob.h"
 #import "YOSWidget.h"
 #import "YOSUserInfoModel.h"
 #import "YOSDBManager.h"
 #import "SVProgressHUD+YOSAdditions.h"
+#import "ChatSendHelper.h"
 
 @interface YOSEaseMobManager () <EMChatManagerDelegate>
 
@@ -28,6 +28,9 @@
 
 @property (nonatomic, strong) NSArray *blockedListInMemory;
 
+/** 所有创建的绘画 */
+@property (nonatomic, strong) NSMutableDictionary *conversations;
+
 @end
 
 @implementation YOSEaseMobManager
@@ -42,6 +45,10 @@
     });
     
     return mgr;
+}
+
+- (BOOL)isHxLogin {
+    return self.easeMob.chatManager.isLoggedIn;
 }
 
 - (BOOL)loginCheck {
@@ -84,7 +91,9 @@
     return status;
 }
 
-- (void)loginEaseMob {
+#pragma mark - 好友关系
+
+- (void)loginEaseMobAsync {
     
     if (![self loginCheck]) {
         return;
@@ -113,6 +122,34 @@
         }
         
     } onQueue:nil];
+}
+
+- (BOOL)loginEaseMobSync {
+    
+    if (![self loginCheck]) {
+        return NO;
+    }
+    
+    YOSLog(@"\r\n\r\n\r\n现在登录的用户是 %@\r\n\r\n\r\n", self.userInfoModel.hx_user);
+    
+    NSString *user = self.userInfoModel.hx_user;
+    NSString *pass = self.userInfoModel.hx_pwd;
+    
+    EMError *error = nil;
+    NSDictionary *loginInfo = [[EaseMob sharedInstance].chatManager loginWithUsername:user password:pass error:&error];
+    if (!error && loginInfo) {
+        YOSLog(@"login success");
+        // 设置自动登录
+        [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
+        [self getBuddyListAsync];
+        
+        return YES;
+    } else {
+        YOSLog(@"login failure");
+        
+        return NO;
+    }
+    
 }
 
 /**
@@ -340,6 +377,57 @@
     return (BOOL)(!error);
 }
 
+#pragma mark - 创建/销毁回话
+
+- (__weak EMConversation *)conversationForChatter:(NSString *)username {
+    
+    if (![self loginCheck]) {
+        return nil;
+    }
+    
+    EMConversation *conversation = self.conversations[username];
+    
+    if (![conversation isKindOfClass:[EMConversation class]]) {
+        conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:username conversationType:eConversationTypeChat];
+    }
+    
+    self.conversations[username] = conversation;
+    
+    __weak EMConversation *con = conversation;
+    
+    return con;
+}
+
+- (void)removeConversationByChatter:(NSString *)username {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        BOOL status = [[EaseMob sharedInstance].chatManager removeConversationByChatter:username deleteMessages:YES append2Chat:YES];
+        
+        if (status) {
+            [self.conversations removeObjectForKey:username];
+        }
+    });
+    
+}
+
+- (void)removeAllConversations {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        BOOL status = [[EaseMob sharedInstance].chatManager removeAllConversationsWithDeleteMessages:YES append2Chat:YES];
+        
+        if (status) {
+            [self.conversations removeAllObjects];
+        }
+    });
+    
+}
+
+#pragma mark - 发送消息
+
+- (void)sendMessageToUser:(NSString *)username message:(NSString *)message {
+    [ChatSendHelper sendTextMessageWithString:message toUsername:username isChatGroup:NO requireEncryption:NO ext:nil];
+}
+
 #pragma mark - getter & setter
 
 - (EaseMob *)easeMob {
@@ -365,6 +453,14 @@
     YOSPostNotification(YOSNotificationUpdateBuddyList);
 }
 
+- (NSMutableDictionary *)conversations {
+    if (!_conversations) {
+        _conversations = [NSMutableDictionary dictionary];
+    }
+    
+    return _conversations;
+}
+
 #pragma mark - EMChatManagerDelegate
 
 - (void)willAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
@@ -377,6 +473,11 @@
     YOSLog(@"用户自动登录完成后的回调");
     if (!error) {
         [self getBuddyListAsync];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            YOSPostNotification(YOSNotificationLogin);
+        });
+        
     }
 }
 
@@ -462,6 +563,21 @@
  */
 - (void)didUnblockBuddy:(EMBuddy *)buddy error:(EMError *)pError {
     YOSLog(@"移除黑名单完成的回调");
+}
+
+/*!
+ @method
+ @brief 收到消息时的回调
+ @param message      消息对象
+ @discussion 当EMConversation对象的enableReceiveMessage属性为YES时, 会触发此回调
+ 针对有附件的消息, 此时附件还未被下载.
+ 附件下载过程中的进度回调请参考didFetchingMessageAttachments:progress:,
+ 下载完所有附件后, 回调didMessageAttachmentsStatusChanged:error:会被触发
+ */
+- (void)didReceiveMessage:(EMMessage *)message {
+    NSLog(@"%s", __func__);
+    YOSLog(@"\r\n\r\n\r\nreceive message : %@\r\n\r\n\r\n", message);
+    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:nil userInfo:@{@"message":message}];
 }
 
 #pragma mark - config methods

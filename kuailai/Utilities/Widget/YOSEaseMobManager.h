@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EaseMob.h"
 
 @interface YOSEaseMobManager : NSObject
 
@@ -16,16 +17,23 @@
 
 + (instancetype)sharedManager;
 
+- (BOOL)isHxLogin;
+
 - (void)registerWithApplication:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions;
 
 /** 注册 */
 - (BOOL)registerNewAccount;
 
-/** 登录 */
-- (void)loginEaseMob;
+/** 登录[异步] */
+- (void)loginEaseMobAsync;
+
+/** 登录[同步] */
+- (BOOL)loginEaseMobSync;
 
 /** 退出 */
 - (void)logoffWithUnbindDeviceToken:(BOOL)status;
+
+/*------------ 好友关系 ------------*/
 
 /** 添加好友 */
 - (BOOL)addBuddy:(NSString *)userName message:(NSString *)message;
@@ -42,6 +50,26 @@
 /** 拒绝好友 */
 - (BOOL)rejuctBuddy:(NSString *)username reason:(NSString *)reason;
 
+/** 获取当前最新的好友列表 */
 - (NSArray *)getNewestBuddyList;
+
+/*------------ 好友关系 ------------*/
+
+
+/*------------ 创建/销毁会话 ------------*/
+
+- (__weak EMConversation *)conversationForChatter:(NSString *)username;
+
+- (void)removeConversationByChatter:(NSString *)username;
+
+- (void)removeAllConversations;
+
+/*------------ 创建/销毁会话 ------------*/
+
+/*------------ 发送消息 ------------*/
+
+- (void)sendMessageToUser:(NSString *)username message:(NSString *)message;
+
+/*------------ 发送消息 ------------*/
 
 @end

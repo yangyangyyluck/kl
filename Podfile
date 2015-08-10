@@ -15,5 +15,7 @@ pod 'UIActivityIndicator-for-SDWebImage'
 pod 'MJRefresh', '1.4.7'
 pod 'GVUserDefaults'
 pod 'EaseMobSDK'
+pod 'JSQMessagesViewController', '7.1.0'
+pod "AGEmojiKeyboard", "0.2.0"
 
 #pod 'MWPhotoBrowser', '1.4.1'

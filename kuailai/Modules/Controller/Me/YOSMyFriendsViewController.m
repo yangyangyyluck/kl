@@ -7,6 +7,7 @@
 //
 
 #import "YOSMyFriendsViewController.h"
+#import "YOSSendMessagesViewController.h"
 #import "YOSFriendCell.h"
 
 #import "YOSUserInfoModel.h"
@@ -16,6 +17,7 @@
 #import "Masonry.h"
 #import "YOSEaseMobManager.h"
 #import "EMBuddy.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSMyFriendsViewController() <UITableViewDataSource, UITableViewDelegate>
 
@@ -84,11 +86,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
+    YOSSendMessagesViewController *sendVC = [YOSSendMessagesViewController messagesViewController];
+    
+    sendVC.userInfoModel = self.userInfoModels[indexPath.row];
+    
+    [self.navigationController pushViewController:sendVC animated:YES];
 }
 
 #pragma mark - network
 
 - (void)sendNetworkRequest {
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     NSArray *buddyList = [[YOSEaseMobManager sharedManager] getNewestBuddyList];
     
     NSMutableArray *hx_users = [NSMutableArray array];
@@ -98,6 +106,7 @@
     
     // 没有新信息
     if (!hx_users.count) {
+        [SVProgressHUD dismiss];
         [self.tableView reloadData];
         self.tableView.hidden = YES;
         [self showDefaultMessage:@"目前还没有好友哦~" tappedBlock:nil];

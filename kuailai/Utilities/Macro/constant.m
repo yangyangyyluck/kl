@@ -43,6 +43,9 @@ NSString * const YOSNotificationLogout = @"YOSNotificationLogout";
 /** 好友列表变更 */
 NSString * const YOSNotificationUpdateBuddyList = @"YOSNotificationUpdateBuddyList";
 
+/** 接受到别人发来的消息 */
+NSString * const YOSNotificationReceiveMessage = @"YOSNotificationReceiveMessage";
+
 /**
  *  UserDefault keys
  */

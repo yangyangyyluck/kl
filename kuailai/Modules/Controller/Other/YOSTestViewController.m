@@ -82,7 +82,7 @@
     }
     
     if (row == 1) {
-        [[YOSEaseMobManager sharedManager] loginEaseMob];
+        [[YOSEaseMobManager sharedManager] loginEaseMobAsync];
     }
     
     if (row == 2) {

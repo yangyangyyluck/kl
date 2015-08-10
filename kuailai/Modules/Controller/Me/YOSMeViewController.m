@@ -32,6 +32,7 @@
 #import "YOSWidget.h"
 #import "GVUserDefaults+YOSProperties.h"
 #import "SVProgressHUD+YOSAdditions.h"
+#import "YOSEaseMobManager.h"
 
 @interface YOSMeViewController ()
 
@@ -68,8 +69,10 @@
     
     [self setupRightButtonWithTitle:@"设置"];
     
-    if ([YOSWidget isLogin]) {
+    if ([YOSWidget isLogin] && [YOSEaseMobManager sharedManager].isHxLogin) {
+       
         [self sendNetworkRequest];
+       
     } else {    // 未登录
         
         [self logout];
@@ -83,6 +86,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:YOSNotificationLogout object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:YOSNotificationLogin object:nil];
+    
 }
 
 - (void)setupSubviews {
