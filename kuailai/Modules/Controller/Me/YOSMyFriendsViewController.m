@@ -88,7 +88,7 @@
     NSLog(@"%s", __func__);
     YOSSendMessagesViewController *sendVC = [YOSSendMessagesViewController messagesViewController];
     
-    sendVC.userInfoModel = self.userInfoModels[indexPath.row];
+    sendVC.otherUserInfoModel = self.userInfoModels[indexPath.row];
     
     [self.navigationController pushViewController:sendVC animated:YES];
 }

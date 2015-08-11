@@ -19,6 +19,15 @@
 #import "YOSModelData.h"
 
 #import "NSUserDefaults+DemoSettings.h"
+#import "SDImageCache.h"
+#import "EMMessage+YOSAdditions.h"
+#import "EMTextMessageBody.h"
+
+@interface YOSModelData ()
+
+@property (nonatomic, strong) NSMutableArray *emmessages;
+
+@end
 
 
 /**
@@ -29,66 +38,46 @@
 
 @implementation YOSModelData
 
-- (instancetype)init
-{
+- (instancetype)initWithMeUserInfoModel:(YOSUserInfoModel *)me otherUserInfoModel:(YOSUserInfoModel *)other messages:(NSArray *)messages {
+    
     self = [super init];
-    if (self) {
-        
-        if ([NSUserDefaults emptyMessagesSetting]) {
-            self.messages = [NSMutableArray new];
-        }
-        else {
-            [self loadFakeMessages];
-        }
-        
-        
-        /**
-         *  Create avatar images once.
-         *
-         *  Be sure to create your avatars one time and reuse them for good performance.
-         *
-         *  If you are not using avatars, ignore this.
-         */
-        JSQMessagesAvatarImage *jsqImage = [JSQMessagesAvatarImageFactory avatarImageWithUserInitials:@"JSQ"
-                                                                                      backgroundColor:[UIColor colorWithWhite:0.85f alpha:1.0f]
-                                                                                            textColor:[UIColor colorWithWhite:0.60f alpha:1.0f]
-                                                                                                 font:[UIFont systemFontOfSize:14.0f]
-                                                                                             diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
-        
-        JSQMessagesAvatarImage *cookImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"demo_avatar_cook"]
-                                                                                       diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
-        
-        JSQMessagesAvatarImage *jobsImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"demo_avatar_jobs"]
-                                                                                       diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
-        
-        JSQMessagesAvatarImage *wozImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageNamed:@"demo_avatar_woz"]
-                                                                                      diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
-        
-        self.avatars = @{ kJSQDemoAvatarIdSquires : jsqImage,
-                          kJSQDemoAvatarIdCook : cookImage,
-                          kJSQDemoAvatarIdJobs : jobsImage,
-                          kJSQDemoAvatarIdWoz : wozImage };
-        
-        
-        self.users = @{ kJSQDemoAvatarIdJobs : kJSQDemoAvatarDisplayNameJobs,
-                        kJSQDemoAvatarIdCook : kJSQDemoAvatarDisplayNameCook,
-                        kJSQDemoAvatarIdWoz : kJSQDemoAvatarDisplayNameWoz,
-                        kJSQDemoAvatarIdSquires : kJSQDemoAvatarDisplayNameSquires };
-        
-        
-        /**
-         *  Create message bubble images objects.
-         *
-         *  Be sure to create your bubble images one time and reuse them for good performance.
-         *
-         */
-        JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-        
-        self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
-        self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleGreenColor]];
+    if (!self) {
+        return nil;
     }
     
+    _meUserInfoModel = me;
+    _otherUserInfoModel = other;
+    
+    // setter setup history messages
+    self.emmessages = [messages mutableCopy];
+    
+    [self setupData];
+    
     return self;
+}
+
+- (void)setupData {
+    JSQMessagesAvatarImage *meImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[self imageWithURLString:self.meUserInfoModel.avatar]
+                                                                                   diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+    
+    JSQMessagesAvatarImage *otherImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:[self imageWithURLString:self.otherUserInfoModel.avatar]
+                                                                                 diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+    
+    self.avatars = @{
+                     self.meUserInfoModel.hx_user : meImage,
+                     self.otherUserInfoModel.hx_user : otherImage,
+                     };
+    
+    
+    self.users = @{
+                   self.meUserInfoModel.hx_user : self.meUserInfoModel.nickname,
+                   self.otherUserInfoModel.hx_user : self.otherUserInfoModel.nickname,
+                   };
+    
+    JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
+    
+    self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
+    self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleGreenColor]];
 }
 
 - (void)loadFakeMessages
@@ -98,6 +87,7 @@
      *
      *  You should have a mutable array or orderedSet, or something.
      */
+    
     self.messages = [[NSMutableArray alloc] initWithObjects:
                      [[JSQMessage alloc] initWithSenderId:kJSQDemoAvatarIdSquires
                                         senderDisplayName:kJSQDemoAvatarDisplayNameSquires
@@ -188,6 +178,57 @@
                                                    displayName:kJSQDemoAvatarDisplayNameSquires
                                                          media:videoItem];
     [self.messages addObject:videoMessage];
+}
+
+- (UIImage *)imageWithURLString:(NSString *)urlString {
+    UIImage *img = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:urlString];
+    
+    if (!img) {
+        img = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:urlString];
+    }
+    
+    if (!img) {
+        img = [UIImage imageNamed:@"默认头像"];
+    }
+    
+    return img;
+}
+
+#pragma mark - getter & setter 
+
+- (void)setEmmessages:(NSMutableArray *)emmessages {
+    _emmessages = emmessages;
+    
+    [emmessages enumerateObjectsUsingBlock:^(EMMessage *obj, NSUInteger idx, BOOL *stop) {
+        [self.messages addObject:[obj transferToJSQMessageWithMeUserInfo:self.meUserInfoModel otherUserInfo:self.otherUserInfoModel]];
+    }];
+    
+    /*
+    [emmessages enumerateObjectsUsingBlock:^(EMMessage *obj, NSUInteger idx, BOOL *stop) {
+        
+        NSLog(@"from : %@, to : %@, message : %@", obj.from, obj.to, ((EMTextMessageBody *)obj.messageBodies[0]).text);
+        
+        // other -> me
+        if ([obj.from isEqualToString:self.otherUserInfoModel.hx_user] && [obj.to isEqualToString:self.meUserInfoModel.hx_user]) {
+            [self.messages addObject:[obj transferToJSQMessageWithUserInfo:self.otherUserInfoModel]];
+        }
+        
+        // me -> other
+        if ([obj.from isEqualToString:self.meUserInfoModel.hx_user] && [obj.to isEqualToString:self.otherUserInfoModel.hx_user]) {
+            [self.messages addObject:[obj transferToJSQMessageWithUserInfo:self.meUserInfoModel]];
+        }
+     
+    }];
+     */
+    
+}
+
+- (NSMutableArray *)messages {
+    if (!_messages) {
+        _messages = [NSMutableArray array];
+    }
+    
+    return _messages;
 }
 
 @end

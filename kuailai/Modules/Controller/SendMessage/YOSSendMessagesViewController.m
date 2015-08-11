@@ -28,10 +28,17 @@
 #import "YOSWidget.h"
 #import "EMMessage+YOSAdditions.h"
 
+const static NSUInteger kCountOfLoadMessages = 20;
+
 @interface YOSSendMessagesViewController()<AGEmojiKeyboardViewDelegate, AGEmojiKeyboardViewDataSource>
+
+/** 最近的messageId，用于加载更多 */
+@property (nonatomic, copy) NSString *lastMessageId;
 
 /** 用weak是因为存在YOSEaseMobManager里 */
 @property (nonatomic, weak) EMConversation *conversation;
+
+@property (nonatomic, strong) YOSUserInfoModel *meUserInfoModel;
 
 /** 隐藏在VC视图后面，专门用来带出emoji键盘 */
 @property (nonatomic, strong) UITextView *emojiTextView;
@@ -65,30 +72,40 @@
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
     [[IQKeyboardManager sharedManager] setEnable:NO];
     
+    self.meUserInfoModel = [YOSWidget getCurrentUserInfoModel];
+    
     // 创建一个会话
     
-    self.title = self.userInfoModel.nickname;
+    self.title = self.otherUserInfoModel.nickname;
     
-    self.conversation = [[YOSEaseMobManager sharedManager] conversationForChatter:self.userInfoModel.hx_user];
-    
-    NSArray *arr = [self.conversation loadAllMessages];
-    
-    NSLog(@"arr is %@", arr);
+    self.conversation = [[YOSEaseMobManager sharedManager] conversationForChatter:self.otherUserInfoModel.hx_user];
     
     /**
      *  You MUST set your senderId and display name
      */
-//    self.senderId = kJSQDemoAvatarIdSquires;
-//    self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
     
-    self.senderId = self.userInfoModel.username;
-    self.senderDisplayName = self.userInfoModel.nickname;
-    
+    self.senderId = self.meUserInfoModel.hx_user;
+    self.senderDisplayName = self.meUserInfoModel.nickname;
     
     /**
      *  Load up our fake data for the demo
      */
-    self.demoData = [[YOSModelData alloc] init];
+    
+    // 默认加载20条聊天信息
+    
+    NSArray *messages = [self.conversation loadNumbersOfMessages:kCountOfLoadMessages before:[NSDate date].timeIntervalSince1970 * 1000];
+    
+    NSLog(@"messages is %@", messages);
+    
+    if (!messages) {
+        messages = [NSArray new];
+    }
+    
+    if (messages.count) {
+        self.lastMessageId = ((EMMessage *)messages[0]).messageId;
+    }
+    
+    self.demoData = [[YOSModelData alloc] initWithMeUserInfoModel:self.meUserInfoModel otherUserInfoModel:self.otherUserInfoModel messages:messages];
     
     
     /**
@@ -134,6 +151,10 @@
     emojiKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     emojiKeyboardView.delegate = self;
     self.emojiTextView.inputView = emojiKeyboardView;
+    emojiKeyboardView.segmentsBar.hidden = YES;
+    emojiKeyboardView.backgroundColor = YOSRGB(248, 248, 248);
+    emojiKeyboardView.pageControl.pageIndicatorTintColor = YOSRGB(210, 210, 210);
+    emojiKeyboardView.pageControl.currentPageIndicatorTintColor = YOSColorMainRed;
     
     self.inputToolbar.contentView.textView.returnKeyType = UIReturnKeySend;
     self.inputToolbar.contentView.textView.enablesReturnKeyAutomatically = YES;
@@ -379,7 +400,7 @@
      *  3. Call `finishSendingMessage`
      */
     
-    [[YOSEaseMobManager sharedManager] sendMessageToUser:self.userInfoModel.hx_user message:text];
+    [[YOSEaseMobManager sharedManager] sendMessageToUser:self.otherUserInfoModel.hx_user message:text];
     
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
@@ -709,6 +730,38 @@
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
     NSLog(@"Load earlier messages!");
+    NSArray *moreMessages = [self.conversation loadNumbersOfMessages:kCountOfLoadMessages withMessageId:self.lastMessageId];
+    
+    if (!moreMessages || !moreMessages.count) {
+        return;
+    }
+    
+    NSMutableArray *jsqMessages = [NSMutableArray array];
+    [moreMessages enumerateObjectsUsingBlock:^(EMMessage *obj, NSUInteger idx, BOOL *stop) {
+        [jsqMessages addObject:[obj transferToJSQMessageWithMeUserInfo:self.meUserInfoModel otherUserInfo:self.otherUserInfoModel]];
+    }];
+    
+    self.lastMessageId = ((EMMessage *)moreMessages[0]).messageId;
+    
+    NSUInteger newMessageCount = jsqMessages.count;
+    
+    [jsqMessages enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [self.demoData.messages insertObject:obj atIndex:0];
+    }];
+    
+    [self.collectionView reloadData];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:newMessageCount inSection:0];
+    
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+    
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:newMessageCount inSection:0];
+//        
+//        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+//    });
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView atIndexPath:(NSIndexPath *)indexPath
@@ -719,6 +772,8 @@
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Tapped message bubble!");
+    
+    NSLog(@"row: %zi len: %zi", indexPath.row, indexPath.section);
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapCellAtIndexPath:(NSIndexPath *)indexPath touchLocation:(CGPoint)touchLocation
@@ -731,12 +786,11 @@
 #pragma mark - AGEmojiKeyboardViewDataSource
 
 - (UIImage *)emojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView imageForSelectedCategory:(AGEmojiKeyboardViewCategoryImage)category {
-  
+    
     return [UIImage imageNamed:@"chatBar_face"];
 }
 
 - (UIImage *)emojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView imageForNonSelectedCategory:(AGEmojiKeyboardViewCategoryImage)category {
- 
 
     return [UIImage imageNamed:@"chatBar_more"];
 }
@@ -744,6 +798,10 @@
 - (UIImage *)backSpaceButtonImageForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {
   
     return [UIImage imageNamed:@"faceDelete"];
+}
+
+- (AGEmojiKeyboardViewCategoryImage)defaultCategoryForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {
+    return AGEmojiKeyboardViewCategoryImageFace;
 }
 
 #pragma mark - AGEmojiKeyboardViewDelegate
@@ -825,12 +883,12 @@
     
     YOSLog(@"\r\n\r\n\r\n message from %@ to %@", receiveMessage.from, receiveMessage.to);
     
-    BOOL status0 = [receiveMessage.from isEqualToString:self.userInfoModel.hx_user];
+    BOOL status0 = [receiveMessage.from isEqualToString:self.otherUserInfoModel.hx_user];
     BOOL status1 = [receiveMessage.to isEqualToString:currentUserInfo.hx_user];
     if (status0 && status1) {
         [JSQSystemSoundPlayer jsq_playMessageSentSound];
         
-        JSQMessage *message = [receiveMessage transferToJSQMessageWithUserInfo:self.userInfoModel];
+        JSQMessage *message = [receiveMessage transferToJSQMessageWithUserInfo:self.otherUserInfoModel];
         
         [self.demoData.messages addObject:message];
         

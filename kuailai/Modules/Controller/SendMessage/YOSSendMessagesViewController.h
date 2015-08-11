@@ -37,7 +37,7 @@
 
 @interface YOSSendMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate>
 
-@property (nonatomic, strong) YOSUserInfoModel *userInfoModel;
+@property (nonatomic, strong) YOSUserInfoModel *otherUserInfoModel;
 
 @property (weak, nonatomic) id<YOSSendMessagesViewControllerDelegate> delegateModal;
 

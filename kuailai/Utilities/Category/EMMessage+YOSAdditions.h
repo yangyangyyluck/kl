@@ -12,4 +12,6 @@
 
 - (JSQMessage *)transferToJSQMessageWithUserInfo:(YOSUserInfoModel *)userInfoModel;
 
+- (JSQMessage *)transferToJSQMessageWithMeUserInfo:(YOSUserInfoModel *)meUserInfoModel otherUserInfo:(YOSUserInfoModel *)otherUserInfoModel;
+
 @end

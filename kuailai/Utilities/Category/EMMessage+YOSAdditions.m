@@ -10,6 +10,7 @@
 #import "JSQMessage.h"
 #import "EMTextMessageBody.h"
 #import "YOSUserInfoModel.h"
+#import "ZWEmoji.h"
 
 @implementation EMMessage (YOSAdditions)
 
@@ -20,12 +21,32 @@
     
     NSString *text = ((EMTextMessageBody *)body[0]).text;
     
-    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:self.messageId
+    text = [text zw_emojify];
+    
+    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:userInfoModel.hx_user
                                              senderDisplayName:userInfoModel.nickname
                                                           date:date
                                                           text:text];
     
     return message;
+}
+
+- (JSQMessage *)transferToJSQMessageWithMeUserInfo:(YOSUserInfoModel *)meUserInfoModel otherUserInfo:(YOSUserInfoModel *)otherUserInfoModel {
+ 
+    NSLog(@"from : %@, to : %@, message : %@", self.from, self.to, ((EMTextMessageBody *)self.messageBodies[0]).text);
+    
+    // other -> me
+    if ([self.from isEqualToString:otherUserInfoModel.hx_user] && [self.to isEqualToString:meUserInfoModel.hx_user]) {
+        return [self transferToJSQMessageWithUserInfo:otherUserInfoModel];
+    }
+    
+    // me -> other
+    if ([self.from isEqualToString:meUserInfoModel.hx_user] && [self.to isEqualToString:otherUserInfoModel.hx_user]) {
+        return [self transferToJSQMessageWithUserInfo:meUserInfoModel];
+    }
+        
+        
+    return nil;
 }
 
 @end
