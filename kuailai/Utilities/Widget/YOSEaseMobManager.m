@@ -180,6 +180,20 @@
     } onQueue:nil];
 }
 
+- (BOOL)isFriendWithUser:(NSString *)user {
+    __block BOOL status = NO;
+    [self.buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj, NSUInteger idx, BOOL *stop) {
+        
+        if ([obj.username isEqualToString:user]) {
+            status = YES;
+            *stop = YES;
+        }
+        
+    }];
+    
+    return status;
+}
+
 - (BOOL)addBuddy:(NSString *)userName message:(NSString *)message {
     
     if (![self loginCheck]) {

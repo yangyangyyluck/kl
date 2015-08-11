@@ -46,6 +46,8 @@ NSString * const YOSNotificationUpdateBuddyList = @"YOSNotificationUpdateBuddyLi
 /** 接受到别人发来的消息 */
 NSString * const YOSNotificationReceiveMessage = @"YOSNotificationReceiveMessage";
 
+NSString * const YOSNotificationShowRedDot = @"YOSNotificationShowRedDot";
+
 /**
  *  UserDefault keys
  */

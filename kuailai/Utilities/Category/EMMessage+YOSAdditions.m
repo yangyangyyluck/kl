@@ -17,11 +17,7 @@
 - (JSQMessage *)transferToJSQMessageWithUserInfo:(YOSUserInfoModel *)userInfoModel {
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:(self.timestamp / 1000)];
     
-    NSArray *body = self.messageBodies;
-    
-    NSString *text = ((EMTextMessageBody *)body[0]).text;
-    
-    text = [text zw_emojify];
+    NSString *text = [self yos_message];
     
     JSQMessage *message = [[JSQMessage alloc] initWithSenderId:userInfoModel.hx_user
                                              senderDisplayName:userInfoModel.nickname
@@ -47,6 +43,16 @@
         
         
     return nil;
+}
+
+- (NSString *)yos_message {
+    NSArray *body = self.messageBodies;
+    
+    NSString *text = ((EMTextMessageBody *)body[0]).text;
+    
+    text = [text zw_emojify];
+    
+    return text;
 }
 
 @end

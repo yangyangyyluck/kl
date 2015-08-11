@@ -95,4 +95,6 @@
 
 + (BOOL)isLogin;
 
++ (BOOL)isTodayWithTimeStamp:(NSString *)timeStamp;
+
 @end

@@ -34,6 +34,8 @@ extern NSString * const YOSNotificationUpdateBuddyList;
 /** 接受到别人发来的消息 */
 extern NSString * const YOSNotificationReceiveMessage;
 
+extern NSString * const YOSNotificationShowRedDot;
+
 typedef NS_ENUM(NSUInteger, BusinessRequestStatus) {
     BusinessRequestStatusSuccess                = 200,      // 请求成功
     BusinessRequestStatusBadRequest             = 400,      // 坏请求

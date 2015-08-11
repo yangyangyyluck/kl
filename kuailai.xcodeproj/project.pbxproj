@@ -51,6 +51,7 @@
 		DD4A173F1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4A173E1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m */; };
 		DD4A17421B3AB4FA00B10D4F /* YOSSetHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4A17411B3AB4FA00B10D4F /* YOSSetHeadView.m */; };
 		DD4A17441B3AB50B00B10D4F /* YOSSetHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD4A17431B3AB50B00B10D4F /* YOSSetHeadView.xib */; };
+		DD5367B81B79E6F000793282 /* UITabBarController+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5367B71B79E6F000793282 /* UITabBarController+YOSAdditions.m */; };
 		DD5EBD101B67742100BB1033 /* YOSBuddyRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5EBD0F1B67742100BB1033 /* YOSBuddyRequestViewController.m */; };
 		DD5EBD191B6903FF00BB1033 /* YOSBuddyRequestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5EBD181B6903FF00BB1033 /* YOSBuddyRequestCell.m */; };
 		DD5EBD1C1B690DB600BB1033 /* YOSUserGetUserByHxRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5EBD1B1B690DB600BB1033 /* YOSUserGetUserByHxRequest.m */; };
@@ -262,6 +263,8 @@
 		DD4A17401B3AB4FA00B10D4F /* YOSSetHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSSetHeadView.h; sourceTree = "<group>"; };
 		DD4A17411B3AB4FA00B10D4F /* YOSSetHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSSetHeadView.m; sourceTree = "<group>"; };
 		DD4A17431B3AB50B00B10D4F /* YOSSetHeadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YOSSetHeadView.xib; sourceTree = "<group>"; };
+		DD5367B61B79E6F000793282 /* UITabBarController+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+YOSAdditions.h"; sourceTree = "<group>"; };
+		DD5367B71B79E6F000793282 /* UITabBarController+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD5EBD0E1B67742100BB1033 /* YOSBuddyRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSBuddyRequestViewController.h; sourceTree = "<group>"; };
 		DD5EBD0F1B67742100BB1033 /* YOSBuddyRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSBuddyRequestViewController.m; sourceTree = "<group>"; };
 		DD5EBD171B6903FF00BB1033 /* YOSBuddyRequestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSBuddyRequestCell.h; sourceTree = "<group>"; };
@@ -1081,6 +1084,8 @@
 				DD89D6B21B44EFE000D542BB /* UITableViewCell+YOSAdditions.m */,
 				DD2503B21B787E87008D4ACE /* EMMessage+YOSAdditions.h */,
 				DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */,
+				DD5367B61B79E6F000793282 /* UITabBarController+YOSAdditions.h */,
+				DD5367B71B79E6F000793282 /* UITabBarController+YOSAdditions.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1431,6 +1436,7 @@
 				DD6412151B522CCB00C5BFFB /* YOSUserAllAuditRegisterRequest.m in Sources */,
 				DD97C9E81B1B1B95003D6C10 /* YOSSubmitInsetActiveModel.m in Sources */,
 				DD16903C1B254A200060B3EB /* YOSUserInfoModel.m in Sources */,
+				DD5367B81B79E6F000793282 /* UITabBarController+YOSAdditions.m in Sources */,
 				DD8360BC1B07956F00DEAF86 /* YOSCityModel.m in Sources */,
 				DDE28F6C1B38145F005BD036 /* YOSMeButtonView.m in Sources */,
 				DD89D68A1B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m in Sources */,

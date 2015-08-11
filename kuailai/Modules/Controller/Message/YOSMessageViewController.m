@@ -14,15 +14,22 @@
 #import "YOSMessageModel.h"
 #import "YOSUserInfoModel.h"
 
+#import "YOSUserGetUserByHxRequest.h"
+
 #import "Masonry.h"
 #import "YOSDBManager.h"
 #import "YOSWidget.h"
+#import "EaseMob.h"
+#import "EMMessage+YOSAdditions.h"
+#import "YOSEaseMobManager.h"
 
 @interface YOSMessageViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *messageModels;
+
+@property (nonatomic, strong) NSMutableDictionary *hx_users;
 
 @end
 
@@ -40,6 +47,8 @@
     [self setupSubviews];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuddyRequest) name:YOSNotificationUpdateBuddyRequest object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessage:) name:YOSNotificationReceiveMessage object:nil];
     
 }
 
@@ -110,6 +119,7 @@
         [_messageModels addObject:model];
         
         
+        /*
         NSUInteger num = arc4random_uniform(20) + 5;
         
         NSUInteger i = 0;
@@ -163,6 +173,7 @@
             [_messageModels addObject:m];
          
         }
+         */
         
     }
     
@@ -186,11 +197,94 @@
 - (void)updateBuddyRequest {
     NSLog(@"%s", __func__);
  
-    _messageModels = nil;
+    [self.messageModels removeObjectAtIndex:0];
+    
+    YOSMessageModel *model = [YOSMessageModel new];
+    model.avatar = @"想认识我的人";
+    model.name = @"想认识我的人";
+    
+    YOSUserInfoModel *userInfoModel = [YOSWidget getCurrentUserInfoModel];
+    
+    NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:userInfoModel.username];
+    
+    if (!buddyLists.count) {
+        model.message = @"[暂无好友申请]";
+    } else {
+        model.message = [NSString stringWithFormat:@"[%zi位想认识我的人]", buddyLists.count];
+    }
+    
+    [self.messageModels insertObject:model atIndex:0];
     
     [self.tableView reloadData];
 }
 
+- (void)receiveMessage:(EMMessage *)message {
+    
+    NSString *from = message.from;
+    
+    YOSUserInfoModel *userInfoModel = self.hx_users[from];
+    
+    EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:message.from];
+    
+    if (!userInfoModel) {
+        YOSUserGetUserByHxRequest *request = [[YOSUserGetUserByHxRequest alloc] initWithHXUsers:@[from]];
+        
+        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            if ([request yos_checkResponse]) {
+                NSLog(@"%s", __func__);
+                
+                YOSUserInfoModel *userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data[0] error:nil];
+                
+                YOSMessageModel *model = [self messageModelWithUserInfoModel:userInfoModel message:message];
+                
+                [self.messageModels addObject:model];
+                
+                [self.tableView reloadData];
+            }
+        } failure:^(YTKBaseRequest *request) {
+            [request yos_checkResponse];
+        }];
+    }
+}
+
+#pragma mark - private methods 
+
+- (YOSMessageModel *)messageModelWithUserInfoModel:(YOSUserInfoModel *)userInfoModel message:(EMMessage *)message {
+    
+    EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:message.from];
+    
+    YOSMessageModel *model = [YOSMessageModel new];
+    
+    model.avatar = userInfoModel.avatar;
+    model.name = userInfoModel.nickname;
+    model.count = YOSInt2String([con unreadMessagesCount]);
+    model.message = [message yos_message];
+    
+    if (![YOSWidget isTodayWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp]]) {
+        model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp] Format:@"MM-dd"];
+    } else {
+        model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp] Format:@"HH:mm:ss"];
+    }
+    
+    BOOL status = [[YOSEaseMobManager sharedManager] isFriendWithUser:userInfoModel.hx_user];
+    
+    if (status) {
+        model.status = @"";
+    } else {
+        model.status = @"未添加";
+    }
+    
+    return model;
+}
+
 #pragma mark - getter & setter
+
+- (NSMutableDictionary *)hx_users {
+    if (!_hx_users) {
+        _hx_users = [NSMutableDictionary dictionary];
+    }
+    
+    return _hx_users;
+}
 
 @end

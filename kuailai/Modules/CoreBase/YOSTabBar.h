@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+/** 
+ *  [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @0}];
+ */
+
 @interface YOSTabBar : UITabBar
+
+// red dot
+- (void)showRedDotWithButtonAtIndex:(NSUInteger)index;
 
 @end

@@ -168,4 +168,21 @@
     }
 }
 
++ (BOOL)isTodayWithTimeStamp:(NSString *)timeStamp {
+    NSTimeInterval timeInterval = [timeStamp doubleValue];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMdd"];
+    NSString *strDate = [formatter stringFromDate:[NSDate date]];
+    NSDate *dateToday = [formatter dateFromString:strDate];
+    NSTimeInterval timeTodayInterval = [dateToday timeIntervalSince1970]; // 这个就是今天0点的那个秒点整数了
+
+    if (timeInterval > timeTodayInterval && timeInterval < (timeTodayInterval + 24 * 3600)) {
+        return YES;
+    } else {
+        return NO;
+    }
+
+}
+
 @end

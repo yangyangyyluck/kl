@@ -14,4 +14,6 @@
 
 - (JSQMessage *)transferToJSQMessageWithMeUserInfo:(YOSUserInfoModel *)meUserInfoModel otherUserInfo:(YOSUserInfoModel *)otherUserInfoModel;
 
+- (NSString *)yos_message;
+
 @end

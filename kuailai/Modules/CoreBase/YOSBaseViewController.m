@@ -17,7 +17,11 @@
 
 @interface YOSBaseViewController ()
 
+// 提示按钮
 @property (nonatomic, strong) UIButton *defaultButton;
+
+// red dot
+@property (nonatomic, strong) UIImageView *redDotImageView;
 
 @property (nonatomic, copy) voidBlock tappedBlock;
 
@@ -186,6 +190,16 @@
     self.defaultButton.hidden = YES;
 }
 
+- (void)tappedDefaultButton {
+    NSLog(@"%s", __func__);
+    
+    if (self.tappedBlock) {
+        self.tappedBlock();
+    }
+}
+
+#pragma mark - getter & setter 
+
 - (UIButton *)defaultButton {
     if (!_defaultButton) {
         _defaultButton = [UIButton new];
@@ -199,14 +213,6 @@
     }
     
     return _defaultButton;
-}
-
-- (void)tappedDefaultButton {
-    NSLog(@"%s", __func__);
-    
-    if (self.tappedBlock) {
-        self.tappedBlock();
-    }
 }
 
 /*

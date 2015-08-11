@@ -33,6 +33,8 @@
 /** 退出 */
 - (void)logoffWithUnbindDeviceToken:(BOOL)status;
 
+- (BOOL)isFriendWithUser:(NSString *)user;
+
 /*------------ 好友关系 ------------*/
 
 /** 添加好友 */
