@@ -185,4 +185,16 @@
 
 }
 
++ (NSString *)jsonStringWithJSONObject:(id)object {
+    if (![object isKindOfClass:[NSArray class]] && ![object isKindOfClass:[NSDictionary class]]) {
+        return nil;
+    }
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:nil];
+    
+    NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    return jsonStr;
+}
+
 @end

@@ -36,6 +36,7 @@ PODS:
   - JSQMessagesViewController (7.1.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - KYCuteView (1.3.0)
   - Masonry (0.6.2)
   - MJRefresh (1.4.7)
   - QBImagePickerController (2.5.0)
@@ -60,7 +61,8 @@ DEPENDENCIES:
   - GVUserDefaults
   - IQKeyboardManager (= 3.2.2)
   - JSONModel
-  - JSQMessagesViewController
+  - JSQMessagesViewController (= 7.1.0)
+  - KYCuteView (~> 1.3.0)
   - Masonry
   - MJRefresh (= 1.4.7)
   - QBImagePickerController (= 2.5.0)
@@ -82,6 +84,7 @@ SPEC CHECKSUMS:
   JSONModel: ec77e9865236a7a09d9cf7668df6b4b328d9ec1d
   JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  KYCuteView: ad61c0ef95a2595e6bade134189d5a4dbe3ed3f2
   Masonry: 362e8a1cc0beada4a4c4832d5e863da2a51533be
   MJRefresh: 6b140993028fa30f1fcb88e82925a7c7911415cf
   QBImagePickerController: dc7598c883cd4061f33e522ff431815bb6582c93

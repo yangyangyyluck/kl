@@ -95,6 +95,22 @@
 
 + (BOOL)isLogin;
 
+/**
+ *  判断时间戳是不是今天
+ *
+ *  @param timeStamp
+ *
+ *  @return
+ */
 + (BOOL)isTodayWithTimeStamp:(NSString *)timeStamp;
+
+/**
+ *  转 NSArray NSDictionary 为 json 字符串
+ *
+ *  @param object
+ *
+ *  @return 
+ */
++ (NSString *)jsonStringWithJSONObject:(id)object;
 
 @end

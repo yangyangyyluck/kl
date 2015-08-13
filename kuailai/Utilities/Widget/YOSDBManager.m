@@ -9,16 +9,17 @@
 #import "YOSDBManager.h"
 #import "FMDB.h"
 
-NSString * const YOSDBTableCargoDataKey = @"YOSDBTableCargoDataKey";
-NSString * const YOSDBTableCargoDataValue = @"YOSDBTableCargoDataValue";
-
 static const NSString *kDBName = @"kawayiSASA.db";
 static const NSString *kYOSTableCagro = @"yos_cargo";
 static const NSString *kYOSTableBuddyRequest = @"yos_buddyrequest";
+static const NSString *kYOSTableUserInfo = @"yos_userinfo";
+static const NSUInteger kUserInfoExpireDays = 3;
 
 static const NSString *kSQLCreateTableCagro = @"CREATE TABLE IF NOT EXISTS yos_cargo (id integer PRIMARY KEY AUTOINCREMENT, cargo_data blob NOT NULL);";
 
 static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXISTS yos_buddyrequest (id integer PRIMARY KEY AUTOINCREMENT, current_username text NOT NULL, buddy_username text NOT NULL, buddy_message text)";
+
+static const NSString *kSQLCreateTableUserInfo = @"CREATE TABLE IF NOT EXISTS yos_userinfo (id integer PRIMARY KEY AUTOINCREMENT, username text NOT NULL, json text NOT NULL, update_time text NOT NULL)";
 
 #pragma mark - single
 
@@ -60,6 +61,7 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
         if ([[NSFileManager defaultManager] fileExistsAtPath:path] && [_db open]) {
             [_db executeUpdate:[kSQLCreateTableCagro copy]];
             [_db executeUpdate:[kSQLCreateTableBuddyRequest copy]];
+            [_db executeUpdate:[kSQLCreateTableUserInfo copy]];
         }
         
         if (!_db || !_dbQueue) {
@@ -72,45 +74,6 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
     });
     
     return self;
-}
-
-- (void)chooseTable:(YOSDBManagerTableType)tableType isUseQueue:(BOOL)status {
-    
-    if (!_isDBInitSuccess) {
-        return;
-    }
-    
-    NSString *tableName = nil;
-    NSString *sql = nil;
-    
-    switch (tableType) {
-        case YOSDBManagerTableTypeCargoData: {
-            tableName = [kYOSTableCagro copy];
-            sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (id integer PRIMARY KEY AUTOINCREMENT, cargo_data blob NOT NULL);", tableName];
-            break;
-        }
-            
-        case YOSDBManagerTableTypeBuddyRequest: {
-            tableName = [kYOSTableBuddyRequest copy];
-            sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (id integer PRIMARY KEY AUTOINCREMENT, current_username text NOT NULL, buddy_username text NOT NULL, buddy_message text);", tableName];
-            break;
-        }
-
-        default: {
-            break;
-        }
-    }
-    
-    if (status) {
-        [_dbQueue inDatabase:^(FMDatabase *db) {
-            [db executeUpdate:sql];
-        }];
-    } else {
-        if ([_db open]) {
-            [_db executeUpdate:sql];
-        }
-    }
-    
 }
 
 #pragma mark - CargoData
@@ -126,10 +89,17 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
         return;
     }
     
-    NSString *key = dict[YOSDBTableCargoDataKey];
-    NSString *value = dict[YOSDBTableCargoDataValue];
+    __block NSString *key = nil;
+    __block NSData *value = nil;
     
-    if (!value || ![value isKindOfClass:[NSData class]]) {
+    [dict enumerateKeysAndObjectsUsingBlock:^(NSString *k, NSData *o, BOOL *stop) {
+       
+        key = k;
+        value = o;
+        
+    }];
+    
+    if (!key.length || ![value isKindOfClass:[NSData class]]) {
         NSAssert(NO, @"value's class type must be NSData, and not be nil.");
     }
     
@@ -193,12 +163,12 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
             }
         }
         
+        [set close];
+        
     }
 }
 
 - (id)getCargoDataWithKey:(YOSDBTableCargoKeyType)key {
-    
-    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
     
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE id = ?;", [kYOSTableCagro copy]];
     
@@ -207,8 +177,6 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
     }
     
     id result = nil;
-    
-    [_db open];
 
     FMResultSet *set = [_db executeQuery:sql, @(key)];
     
@@ -218,20 +186,14 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
         result = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     }
     
-    [_db close];
-    
     return result;
 }
 
-+ (void)setDataWithTable:(YOSDBManagerTableType)tableType cargoDataKey:(YOSDBTableCargoKeyType)key cargoDataValue:(id)value {
-    
-    [[YOSDBManager sharedManager] chooseTable:YOSDBManagerTableTypeCargoData isUseQueue:NO];
+- (void)setCargoKey:(YOSDBTableCargoKeyType)key cargoValue:(id)value {
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:value];
     
-    NSDictionary *dict = @{YOSDBTableCargoDataKey : @(key),
-                           YOSDBTableCargoDataValue : data,
-                           };
+    NSDictionary *dict = @{YOSInt2String(key) : data};
     
     [[YOSDBManager sharedManager] updateCargoDataWithDictionary:dict isUseQueue:NO];
 }
@@ -278,6 +240,8 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
         }
     }
     
+    [set close];
+    
 }
 
 - (void)deleteBuddyRequestWithCurrentUser:(NSString *)current buddy:(NSString *)buddy {
@@ -317,7 +281,110 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
         [array addObject:@{@"hx_user" : hx_user, @"message" : YOSFliterNil2String(message)}];
     }
     
+    [set close];
+    
     return array;
 }
+
+#pragma mark - UserInfo
+
+- (void)updateUserInfoWithUsername:(NSString *)username json:(NSString *)json {
+    if (!_isDBInitSuccess) {
+        return;
+    }
+    
+    if (!username.length || !json.length) {
+        return;
+    }
+    
+//    @"CREATE TABLE IF NOT EXISTS yos_userinfo (id integer PRIMARY KEY AUTOINCREMENT, username text NOT NULL, userinfo_json text NOT NULL, update_time text NOT NULL)";
+    
+    NSString *update_time = [NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970]];
+    
+    NSString *getCountSql = [NSString stringWithFormat:@"SELECT COUNT(*) AS count FROM %@ WHERE username = ?", [kYOSTableUserInfo copy]];
+    
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (username, json, update_time)VALUES(?, ?, ?)", [kYOSTableUserInfo copy]];
+    
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET json = ?, update_time = ? WHERE username = ?", [kYOSTableUserInfo copy]];
+    
+    FMResultSet *set = [_db executeQuery:getCountSql, username];
+    
+    if ([set next]) {
+        NSUInteger count = [set intForColumn:@"count"];
+        
+        BOOL status = NO;
+        
+        if (count) {
+            status = [_db executeUpdate:updateSql, json, update_time, username];
+        } else {
+            status = [_db executeUpdate:insertSql, username, json, update_time];
+        }
+        
+        if (!status) {
+            YOSLog(@"\r\n\r\n error : %@", [_db lastErrorMessage]);
+        } else {
+            YOSLog(@"\r\n\r\n success : update %@ --- %@", username, update_time);
+        }
+    }
+    
+    [set close];
+}
+
+- (NSString *)getUserInfoJsonWithUsername:(NSString *)username {
+    if (!_isDBInitSuccess) {
+        return nil;
+    }
+    
+    if (!username.length) {
+        return nil;
+    }
+    
+    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE username = ?", [kYOSTableUserInfo copy]];
+    
+    FMResultSet *set = [_db executeQuery:selectSql, username];
+    
+    if ([set next]) {
+        NSString *update_time = [set stringForColumn:@"update_time"];
+        NSString *json = [set stringForColumn:@"json"];
+        
+//        kUserInfoExpireDays * (24 * 3600)
+        long long updateTimeInterval = [update_time longLongValue] + 2;
+        
+        NSTimeInterval nowTimeInterval = [[NSDate date] timeIntervalSince1970];
+        
+        if (updateTimeInterval >= nowTimeInterval) {
+            return json;
+        } else {
+            [self deleteUserInfoWithUsername:username];
+            return nil;
+        }
+    }
+    
+    [set close];
+    
+    return nil;
+}
+
+- (void)deleteUserInfoWithUsername:(NSString *)username {
+    if (!_isDBInitSuccess) {
+        return;
+    }
+    
+    if (!username.length) {
+        return;
+    }
+    
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE username = ?", [kYOSTableUserInfo copy]];
+    
+    BOOL status = [_db executeQuery:deleteSql, username];
+    
+    if (status) {
+        NSLog(@"delete UserInfo with %@ --- success", username);
+    } else {
+        NSLog(@"delete UserInfo with %@ --- failure", username);
+    }
+}
+
+
 
 @end

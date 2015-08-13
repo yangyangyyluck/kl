@@ -12,4 +12,6 @@
 
 - (NSString *)yos_md5;
 
+- (id)yos_toJSONObject;
+
 @end

@@ -8,30 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, YOSDBManagerTableType) {
-    YOSDBManagerTableTypeCargoData,     // 存杂货
-    YOSDBManagerTableTypeBuddyRequest,  // 添加好友请求
-};
-
 /**
  *  yos_cargo  id => blob [id 对应 blob数据], id值
+ *
+ *  sqlite 存各种零散数据
  */
+
 typedef NS_ENUM(NSUInteger, YOSDBTableCargoKeyType){
     YOSDBTableCargoKeyTypeChooseCity = 1,   // 活动中选择城市数据
     YOSDBTableCargoKeyTypeActivityType = 2, // 活动类型
 };
 
-/**
- *  sqlite 存各种零散数据
- */
-extern NSString * const YOSDBTableCargoDataKey;
-extern NSString * const YOSDBTableCargoDataValue;
-
 @interface YOSDBManager : NSObject
 
 + (instancetype)sharedManager;
-
-- (void)chooseTable:(YOSDBManagerTableType)tableType isUseQueue:(BOOL)status;
 
 /** -----------deal with table : yos_cagro------------ */
 
@@ -39,10 +29,13 @@ extern NSString * const YOSDBTableCargoDataValue;
 
 - (id)getCargoDataWithKey:(YOSDBTableCargoKeyType)key;
 
-+ (void)setDataWithTable:(YOSDBManagerTableType)tableType cargoDataKey:(YOSDBTableCargoKeyType)key cargoDataValue:(id)value;
+- (void)setCargoKey:(YOSDBTableCargoKeyType)key cargoValue:(id)value;
 
 /** -----------deal with table : yos_cagro------------ */
 
+/**
+ *  user是自己服务器usernam字段, buddy是[环信注册账号]
+ */
 /** -----------deal with table : yos_buddyrequest------------ */
 - (void)updateBuddyRequestWithCurrentUser:(NSString *)current buddy:(NSString *)buddy message:(NSString *)message;
 
@@ -50,6 +43,15 @@ extern NSString * const YOSDBTableCargoDataValue;
 
 - (NSArray *)getBuddyListWithUsername:(NSString *)username;
 /** -----------deal with table : yos_buddyrequest------------ */
+
+/**
+ *  username是hx_user字段[环信注册账号]
+ */
+/** -----------deal with table : yos_userinfo------------ */
+- (void)updateUserInfoWithUsername:(NSString *)username json:(NSString *)json;
+
+- (NSString *)getUserInfoJsonWithUsername:(NSString *)username;
+/** -----------deal with table : yos_userinfo------------ */
 
 
 @end

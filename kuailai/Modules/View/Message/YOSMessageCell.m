@@ -14,8 +14,12 @@
 #import "Masonry.h"
 #import "UIView+YOSAdditions.h"
 #import "UIImageView+WebCache.h"
+#import "KYCuteView.h"
+#import "YOSEaseMobManager.h"
+#import "EaseMob.h"
 
 @implementation YOSMessageCell {
+    
     UIView *_topLineView;
     UIView *_bottomLineView;
     
@@ -29,6 +33,8 @@
     UILabel *_statusLabel;
     
     UIImageView *_accessoryImageView;
+    
+    KYCuteView *_cuteView;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -46,11 +52,13 @@
 }
 
 - (void)setupSubviews {
+    
     _topLineView = [UIView new];
     _topLineView.backgroundColor = YOSColorLineGray;
     [self.contentView addSubview:_topLineView];
-    
-    _bottomLineView = [_topLineView yos_copySelf];
+
+    _bottomLineView = [UIView new];
+    _bottomLineView.backgroundColor = YOSColorLineGray;
     [self.contentView addSubview:_bottomLineView];
     
     _headImageView = [UIImageView new];
@@ -59,10 +67,10 @@
     _headImageView.layer.masksToBounds = YES;
     _headImageView.clipsToBounds = NO;
     [self.contentView addSubview:_headImageView];
-    
+
     _countLabel = [UILabel new];
     _countLabel.text = @" 99+ ";
-    
+
     _countLabel.font = [UIFont systemFontOfSize:11.0f];
     _countLabel.textAlignment = NSTextAlignmentCenter;
     _countLabel.textColor = [UIColor whiteColor];
@@ -164,6 +172,25 @@
     _topLineView.hidden = YES;
     _accessoryImageView.hidden = YES;
     _statusLabel.hidden = YES;
+    
+}
+
+- (void)setupCuteView {
+    _cuteView = [[KYCuteView alloc]initWithPoint:CGPointMake(43, 6) superView:self];
+    _cuteView.viscosity  = 10;
+    _cuteView.bubbleWidth = 20;
+    _cuteView.bubbleColor = [UIColor redColor];
+    [_cuteView setUp];
+    
+    //注意：设置 'bubbleLabel.text' 一定要放在 '-setUp' 方法之后
+    //Tips:When you set the 'bubbleLabel.text',you must set it after '-setUp'
+    _cuteView.bubbleLabel.text = @"12";
+    _cuteView.bubbleLabel.font = [UIFont systemFontOfSize:11.0f];
+    [_cuteView addGesture];
+    _cuteView.frontView.hidden = YES;
+    
+    _cuteView.yos_superView = self.fatherVC;
+    
 }
 
 #pragma mark - getter & setter 
@@ -215,9 +242,47 @@
         self.showStatusLabel = NO;
     }
     
-    if ([messageModel.count integerValue]) {
+    NSUInteger count = [messageModel.count integerValue];
+    _countLabel.hidden = YES;
+    
+    if (!_cuteView) {
+        [self setupCuteView];
+    }
+    
+    if (count) {
+        NSString *str = nil;
+        if (count >= 99) {
+            str = @"99+";
+        } else {
+            str = messageModel.count;
+        }
+        
+        EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:self.messageModel.hx_user];
+        
+        YOSWObject(con, weakCon);
+        
+        _cuteView.vBlock = ^{
+            [weakCon markAllMessagesAsRead:YES];
+        };
+        
+        _cuteView.bubbleLabel.text = str;
+        [_cuteView resetBubble];
+        
+    } else {
+        _cuteView.frontView.hidden = YES;
+    }
+    
+    /*
+    if (count) {
+        NSString *str = nil;
+        if (count >= 99) {
+            str = @" 99+ ";
+        } else {
+            str = messageModel.count;
+        }
+        
         _countLabel.hidden = NO;
-        _countLabel.text = messageModel.count;
+        _countLabel.text = str;
     } else {
         _countLabel.hidden = YES;
     }
@@ -240,6 +305,7 @@
         make.right.mas_equalTo(3);
         make.size.mas_equalTo(size);
     }];
+     */
     
 }
 
@@ -250,7 +316,7 @@
 
 - (void)setShowBottomLine:(BOOL)showBottomLine {
     _showBottomLine = showBottomLine;
-    _bottomLineView.hidden = !showBottomLine;
+//    _bottomLineView.hidden = !showBottomLine;
 }
 
 - (void)setShowCountLabel:(BOOL)showCountLabel {

@@ -73,7 +73,6 @@
     
     self.currentPage = 0;
     self.isNoMoreData = NO;
-    self.hidesBottomBarWhenPushed = NO;
     
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
 }

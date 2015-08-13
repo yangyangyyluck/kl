@@ -9,7 +9,9 @@
 #import "YOSMessageViewController.h"
 #import "YOSAddBuddyViewController.h"
 #import "YOSBuddyRequestViewController.h"
+#import "YOSSendMessagesViewController.h"
 #import "YOSMessageCell.h"
+#import "YOSAddBuddyCell.h"
 
 #import "YOSMessageModel.h"
 #import "YOSUserInfoModel.h"
@@ -22,6 +24,7 @@
 #import "EaseMob.h"
 #import "EMMessage+YOSAdditions.h"
 #import "YOSEaseMobManager.h"
+#import "NSString+YOSAdditions.h"
 
 @interface YOSMessageViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -29,11 +32,15 @@
 
 @property (nonatomic, strong) NSMutableArray *messageModels;
 
+@property (nonatomic, strong) NSMutableArray *userInfoModels;
+
 @property (nonatomic, strong) NSMutableDictionary *hx_users;
 
 @end
 
-@implementation YOSMessageViewController
+@implementation YOSMessageViewController {
+
+}
 
 #pragma mark - life cycles
 
@@ -50,6 +57,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessage:) name:YOSNotificationReceiveMessage object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetUnReadMessage:) name:YOSNotificationResetUnReadMessage object:nil];
+
 }
 
 - (void)dealloc {
@@ -57,26 +66,31 @@
 }
 
 - (void)setupSubviews {
-    _tableView = [UITableView new];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.rowHeight = 70;
+    _tableView.rowHeight = 70.0f;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.view addSubview:_tableView];
     
+    _tableView.frame = CGRectMake(0, 64, 320, 400);
+    
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
-        make.width.mas_equalTo(YOSScreenWidth);
     }];
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     YOSMessageCell *cell = [YOSMessageCell cellWithTableView:tableView];
     
+    // 这里代码有时间再重构， 设置fatherVC 一定要在 设置model前
+    cell.fatherVC = self.view;
     cell.messageModel = self.messageModels[indexPath.row];
+    
     
     return cell;
 }
@@ -88,10 +102,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
     
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    UIView *father = cell.superview;
+    
+    NSLog(@"father : %@", father);
+    
+    [self.tableView reloadData];
+    
+    return;
+    
     if (indexPath.row == 0) {
         YOSBuddyRequestViewController *buddyVC = [YOSBuddyRequestViewController new];
         
         [self.navigationController pushViewController:buddyVC animated:YES];
+    } else {
+        YOSSendMessagesViewController *sendVC = [YOSSendMessagesViewController new];
+        sendVC.otherUserInfoModel = self.userInfoModels[indexPath.row];
+        
+        [self.navigationController pushViewController:sendVC animated:YES];
     }
     
 }
@@ -175,6 +204,7 @@
         }
          */
         
+        
     }
     
     return _messageModels;
@@ -183,6 +213,7 @@
 #pragma mark - event response
 
 - (void)clickRightItem:(UIButton *)item {
+    
     self.messageModels = nil;
     
     YOSAddBuddyViewController *addVC = [YOSAddBuddyViewController new];
@@ -218,13 +249,19 @@
     [self.tableView reloadData];
 }
 
-- (void)receiveMessage:(EMMessage *)message {
+- (void)receiveMessage:(NSNotification *)noti {
+    
+    EMMessage *message = noti.userInfo[@"message"];
     
     NSString *from = message.from;
     
     YOSUserInfoModel *userInfoModel = self.hx_users[from];
     
-    EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:message.from];
+    if (!userInfoModel) {
+        NSString *jsonStr = [[YOSDBManager sharedManager] getUserInfoJsonWithUsername:from];
+        NSDictionary *userInfoDict = [jsonStr yos_toJSONObject];
+        userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:userInfoDict error:nil];
+    }
     
     if (!userInfoModel) {
         YOSUserGetUserByHxRequest *request = [[YOSUserGetUserByHxRequest alloc] initWithHXUsers:@[from]];
@@ -235,19 +272,97 @@
                 
                 YOSUserInfoModel *userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data[0] error:nil];
                 
+                NSString *jsonStr = [YOSWidget jsonStringWithJSONObject:request.yos_data[0]];
+                
+                [[YOSDBManager sharedManager] updateUserInfoWithUsername:userInfoModel.hx_user json:jsonStr];
+                
                 YOSMessageModel *model = [self messageModelWithUserInfoModel:userInfoModel message:message];
                 
-                [self.messageModels addObject:model];
+                self.hx_users[from] = userInfoModel;
                 
-                [self.tableView reloadData];
+                [self refreshTableViewCellWithMessageModel:model userInfoModel:userInfoModel];
+                
             }
         } failure:^(YTKBaseRequest *request) {
             [request yos_checkResponse];
         }];
+    } else {
+        
+        self.hx_users[from] = userInfoModel;
+        
+        YOSMessageModel *model = [self messageModelWithUserInfoModel:userInfoModel message:message];
+        
+        [self refreshTableViewCellWithMessageModel:model userInfoModel:userInfoModel];
+    }
+}
+
+- (void)resetUnReadMessage:(NSNotification *)noti {
+    YOSUserInfoModel *userInfoModel = noti.userInfo[@"userInfoModel"];
+    
+    // 是否已经存在该好友消息的cell
+    
+    __block BOOL hasCell = NO;
+    __block NSUInteger index = 0;
+    
+    [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj, NSUInteger idx, BOOL *stop) {
+        
+        // idx = 0 是 @"", 所以从idx >= 1 才是正确的YOSUserInfoModel
+        if (idx >= 1) {
+            
+            if ([obj isEqual:userInfoModel]) {
+                hasCell = YES;
+                index = idx;
+                *stop = YES;
+            }
+            
+        }
+        
+    }];
+    
+    if (hasCell) {
+        YOSMessageModel *model = self.messageModels[index];
+        model.count = 0;
+        [self.messageModels replaceObjectAtIndex:index withObject:model];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
 #pragma mark - private methods 
+
+- (void)refreshTableViewCellWithMessageModel:(YOSMessageModel *)model userInfoModel:(YOSUserInfoModel *)userInfoModel {
+    
+    // 是否已经存在该好友消息的cell
+    
+    __block BOOL hasCell = NO;
+    __block NSUInteger index = 0;
+    
+    [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj, NSUInteger idx, BOOL *stop) {
+        
+        // idx = 0 是 @"", 所以从idx >= 1 才是正确的YOSUserInfoModel
+        if (idx >= 1) {
+            
+            if ([obj isEqual:userInfoModel]) {
+                hasCell = YES;
+                index = idx;
+                *stop = YES;
+            }
+            
+        }
+        
+    }];
+    
+    if (hasCell) {
+        [self.messageModels replaceObjectAtIndex:index withObject:model];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        [self.messageModels addObject:model];
+        [self.userInfoModels addObject:userInfoModel];
+        [self.tableView reloadData];
+    }
+
+}
 
 - (YOSMessageModel *)messageModelWithUserInfoModel:(YOSUserInfoModel *)userInfoModel message:(EMMessage *)message {
     
@@ -259,6 +374,7 @@
     model.name = userInfoModel.nickname;
     model.count = YOSInt2String([con unreadMessagesCount]);
     model.message = [message yos_message];
+    model.hx_user = userInfoModel.hx_user;
     
     if (![YOSWidget isTodayWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp]]) {
         model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp] Format:@"MM-dd"];
@@ -285,6 +401,15 @@
     }
     
     return _hx_users;
+}
+
+- (NSMutableArray *)userInfoModels {
+    if (!_userInfoModels) {
+        _userInfoModels = [NSMutableArray array];
+        [_userInfoModels addObject:@""];
+    }
+    
+    return _userInfoModels;
 }
 
 @end

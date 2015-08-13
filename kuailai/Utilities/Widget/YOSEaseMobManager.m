@@ -399,6 +399,10 @@
         return nil;
     }
     
+    if (!username.length) {
+        return nil;
+    }
+    
     EMConversation *conversation = self.conversations[username];
     
     if (![conversation isKindOfClass:[EMConversation class]]) {

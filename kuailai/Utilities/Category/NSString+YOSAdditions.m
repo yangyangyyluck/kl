@@ -24,4 +24,13 @@
             ];
 }
 
+- (id)yos_toJSONObject {
+    
+    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+    
+    id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    
+    return result;
+}
+
 @end

@@ -473,7 +473,7 @@
             
             NSArray *arr = [YOSCityModel arrayOfModelsFromDictionaries:request.yos_data];
             
-            [YOSDBManager setDataWithTable:YOSDBManagerTableTypeCargoData cargoDataKey:YOSDBTableCargoKeyTypeChooseCity cargoDataValue:request.yos_data];
+            [[YOSDBManager sharedManager] setCargoKey:YOSDBTableCargoKeyTypeChooseCity cargoValue:request.yos_data];
             
             self.citys = arr;
             
@@ -491,9 +491,10 @@
     
     [request2 startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         if ([request yos_checkResponse]) {
-            [YOSDBManager setDataWithTable:YOSDBManagerTableTypeCargoData cargoDataKey:YOSDBTableCargoKeyTypeActivityType cargoDataValue:request.yos_data];
             
             NSArray *fatherModels = [YOSActivityFatherTypeModel arrayOfModelsFromDictionaries:request.yos_data];
+            
+            [[YOSDBManager sharedManager] setCargoKey:YOSDBTableCargoKeyTypeActivityType cargoValue:request.yos_data];
             
             self.types = fatherModels;
         }

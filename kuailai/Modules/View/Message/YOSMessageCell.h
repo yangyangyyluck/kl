@@ -21,4 +21,6 @@
 @property (nonatomic, assign) BOOL showStatusLabel;
 @property (nonatomic, assign) BOOL showCountLabel;
 
+@property (nonatomic, weak) UIView *fatherVC;
+
 @end

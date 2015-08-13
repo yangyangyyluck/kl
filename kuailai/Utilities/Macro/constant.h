@@ -34,6 +34,10 @@ extern NSString * const YOSNotificationUpdateBuddyList;
 /** 接受到别人发来的消息 */
 extern NSString * const YOSNotificationReceiveMessage;
 
+/** 重置未读消息 */
+extern NSString * const YOSNotificationResetUnReadMessage;
+
+/** UITabBar 显示小红点 */
 extern NSString * const YOSNotificationShowRedDot;
 
 typedef NS_ENUM(NSUInteger, BusinessRequestStatus) {

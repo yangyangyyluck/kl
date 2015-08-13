@@ -80,6 +80,9 @@ const static NSUInteger kCountOfLoadMessages = 20;
     
     self.conversation = [[YOSEaseMobManager sharedManager] conversationForChatter:self.otherUserInfoModel.hx_user];
     
+    [self.conversation markAllMessagesAsRead:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationResetUnReadMessage object:nil userInfo:@{@"userInfoModel":self.otherUserInfoModel}];
+    
     /**
      *  You MUST set your senderId and display name
      */
@@ -893,6 +896,10 @@ const static NSUInteger kCountOfLoadMessages = 20;
         [self.demoData.messages addObject:message];
         
         [self finishSendingMessageAnimated:YES];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationResetUnReadMessage object:nil userInfo:@{@"userInfoModel":self.otherUserInfoModel}];
+        });
     }
     
 }
