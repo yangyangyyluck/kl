@@ -8,6 +8,7 @@
 
 #import "YOSSettingViewController.h"
 #import "YOSTestViewController.h"
+#import "YOSFeedbackViewController.h"
 #import "YOSSettingCell.h"
 
 #import "UIView+YOSAdditions.h"
@@ -155,6 +156,11 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     }
     
     NSLog(@"%s", __func__);
+    
+    if (indexPath.row == 1) {
+        YOSFeedbackViewController *feedbackVC = [YOSFeedbackViewController new];
+        [self.navigationController pushViewController:feedbackVC animated:YES];
+    }
     
     if (indexPath.row == 2) {
         YOSTestViewController *testVC = [YOSTestViewController new];

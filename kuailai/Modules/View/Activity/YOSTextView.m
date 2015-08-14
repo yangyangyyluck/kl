@@ -43,7 +43,7 @@
     if (!self.text.length) {
         [_placeholder drawInRect:CGRectMake(14, 10, 250, 14.5) withAttributes:@{
                                                                                 NSFontAttributeName : self.font,
-                                                                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"#dbdbdb"],
+                                                                                NSForegroundColorAttributeName : YOSColorFontGray
                                                                                 }];
     }
     
