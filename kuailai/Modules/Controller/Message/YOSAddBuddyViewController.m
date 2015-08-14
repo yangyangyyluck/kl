@@ -22,6 +22,7 @@
 #import "EaseMob.h"
 #import "YOSWidget.h"
 #import "YOSUserInfoModel.h"
+#import "EDColor.h"
 
 @interface YOSAddBuddyViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -70,6 +71,7 @@
     _searchBar = [UISearchBar new];
     _searchBar.frame = CGRectMake(0, 0, YOSScreenWidth, 44);
     _searchBar.placeholder = @"搜索你感兴趣的人/职位/公司";
+    _searchBar.barTintColor = YOSColorLineGray;
     
     _searchBar.returnKeyType = UIReturnKeySearch;
     _searchBar.delegate = self;
