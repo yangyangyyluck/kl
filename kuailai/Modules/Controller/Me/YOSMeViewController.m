@@ -73,10 +73,12 @@
        
         [self sendNetworkRequest];
        
-    } else {    // 未登录
+    } else if([YOSWidget isLogin] && ![YOSEaseMobManager sharedManager].isHxLogin) {    
         
+        [self waitHXLogin];
+        
+    } else {
         [self logout];
-        
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo) name:YOSNotificationUpdateUserInfo object:nil];
@@ -284,28 +286,6 @@
     YOSSettingViewController *settingVC = [YOSSettingViewController new];
     
     [self.navigationController pushViewController:settingVC animated:YES];
-    
-    return;
-    
-    YOSTestViewController *testVC = [YOSTestViewController new];
-    
-    [self.navigationController pushViewController:testVC animated:YES];
-    
-    return;
-    
-    NSString *loginID = [GVUserDefaults standardUserDefaults].currentLoginID;
-    
-    NSString *username = [GVUserDefaults standardUserDefaults].currentLoginMobileNumber;
-    
-    NSString *loginID2 = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentLoginID"];
-    
-    NSLog(@"\r\n\r\n id is : %@, id2 is : %@, username is %@", loginID, loginID2, username);
-    
-    return;
-    
-    YOSCreateActivityViewController *vc = [YOSCreateActivityViewController new];
-    
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - network
@@ -345,11 +325,20 @@
 #pragma mark - private method list
 
 - (void)updateUserInfo {
+    
+    if ([YOSWidget isLogin]) {
+        return;
+    }
+    
     self.userInfoModel = [YOSWidget getCurrentUserInfoModel];
 }
 
 - (void)updateTagInfo {
     NSLog(@"%s", __func__);
+    
+    if ([YOSWidget isLogin]) {
+        return;
+    }
     
     YOSUserGetTagListRequest *request = [[YOSUserGetTagListRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID];
     
@@ -376,6 +365,17 @@
     [self sendNetworkRequest];
 }
 
+- (void)waitHXLogin {
+    _contentView.hidden = YES;
+    
+    [self showDefaultMessage:@"正在登录中.." tappedBlock:nil isShowHUD:YES];
+    
+    NSTimer *timer = [NSTimer timerWithTimeInterval:20 target:self selector:@selector(logout) userInfo:nil repeats:NO];
+    
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+
+}
+
 - (void)logout {
     _contentView.hidden = YES;
     
@@ -387,7 +387,7 @@
         
         [weakSelf presentViewController:navVC animated:YES completion:nil];
         
-    }];
+    } isShowHUD:NO];
 }
 
 #pragma mark - getter & setter 

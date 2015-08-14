@@ -196,7 +196,7 @@
     // 没有新信息
     if (!arr.count) {
         [self.tableView reloadData];
-        [self showDefaultMessage:@"目前没有好友请求哦~" tappedBlock:nil];
+        [self showDefaultMessage:@"目前没有好友请求哦~" tappedBlock:nil isShowHUD:NO];
         return;
     } else {
         [self hideDefaultMessage];

@@ -20,6 +20,8 @@
 // 提示按钮
 @property (nonatomic, strong) UIButton *defaultButton;
 
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+
 // red dot
 @property (nonatomic, strong) UIImageView *redDotImageView;
 
@@ -178,12 +180,28 @@
     self.navigationItem.leftBarButtonItem = item;
 }
 
-- (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock {
+- (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock isShowHUD:(BOOL)status {
+    
     self.tappedBlock = vBlock;
     self.defaultButton.hidden = NO;
     [self.defaultButton setTitle:message forState:UIControlStateNormal];
     [self.view bringSubviewToFront:self.defaultButton];
     [self.defaultButton sizeToFit];
+    
+    if (status) {
+        [self.activityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.removeExisting = YES;
+            
+            make.right.mas_equalTo(self.defaultButton.mas_left);
+            make.centerY.mas_equalTo(self.defaultButton);
+            
+        }];
+        
+        [self.view bringSubviewToFront:self.activityIndicatorView];
+        [self.activityIndicatorView startAnimating];
+    } else {
+        [self.activityIndicatorView stopAnimating];
+    }
 }
 
 - (void)hideDefaultMessage {
@@ -213,6 +231,17 @@
     }
     
     return _defaultButton;
+}
+
+- (UIActivityIndicatorView *)activityIndicatorView {
+    if (!_activityIndicatorView) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _activityIndicatorView.hidden = YES;
+        _activityIndicatorView.hidesWhenStopped = YES;
+        [self.view addSubview:_activityIndicatorView];
+    }
+    
+    return _activityIndicatorView;
 }
 
 /*

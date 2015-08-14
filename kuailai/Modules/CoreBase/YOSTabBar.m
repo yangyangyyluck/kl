@@ -52,7 +52,18 @@
 
 - (void)setSelectedItem:(UITabBarItem *)selectedItem {
     
-    [self hideRedDot];
+    __block NSUInteger currentSelectedIndex = 0;
+    
+    [self.items enumerateObjectsUsingBlock:^(UIBarButtonItem *obj, NSUInteger idx, BOOL *stop) {
+        if ([self.selectedItem isEqual:obj]) {
+            currentSelectedIndex = idx;
+        }
+    }];
+    
+    NSUInteger index = 1;
+    if (currentSelectedIndex == index) {
+        [self hideRedDot];
+    }
     
     [super setSelectedItem:selectedItem];
     

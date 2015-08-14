@@ -22,7 +22,7 @@
 // custom methods for kuai lai
 - (void)setupKuaiLai;
 
-- (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock;
+- (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock isShowHUD:(BOOL)status;
 - (void)hideDefaultMessage;
 
 @end

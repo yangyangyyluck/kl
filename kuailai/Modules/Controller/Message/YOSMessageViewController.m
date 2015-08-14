@@ -10,6 +10,8 @@
 #import "YOSAddBuddyViewController.h"
 #import "YOSBuddyRequestViewController.h"
 #import "YOSSendMessagesViewController.h"
+#import "YOSLoginViewController.h"
+#import "YOSBaseNavigationViewController.h"
 #import "YOSMessageCell.h"
 #import "YOSAddBuddyCell.h"
 
@@ -25,6 +27,7 @@
 #import "EMMessage+YOSAdditions.h"
 #import "YOSEaseMobManager.h"
 #import "NSString+YOSAdditions.h"
+#import "SVProgressHUD+YOSAdditions.h"
 
 @interface YOSMessageViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -50,14 +53,28 @@
     [self setupNavTitle:@"消息"];
     
     [self setupRightButtonWithTitle:@"添加好友"];
-
-    [self setupSubviews];
+    
+    if ([YOSWidget isLogin] && [YOSEaseMobManager sharedManager].isHxLogin) {
+        
+        [self login];
+        
+    } else if([YOSWidget isLogin] && ![YOSEaseMobManager sharedManager].isHxLogin) {
+        
+        [self waitHXLogin];
+        
+    } else {
+        [self logout];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuddyRequest) name:YOSNotificationUpdateBuddyRequest object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessage:) name:YOSNotificationReceiveMessage object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetUnReadMessage:) name:YOSNotificationResetUnReadMessage object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:YOSNotificationLogin object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:YOSNotificationLogout object:nil];
 
 }
 
@@ -101,16 +118,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
-    
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    UIView *father = cell.superview;
-    
-    NSLog(@"father : %@", father);
-    
-    [self.tableView reloadData];
-    
-    return;
     
     if (indexPath.row == 0) {
         YOSBuddyRequestViewController *buddyVC = [YOSBuddyRequestViewController new];
@@ -223,6 +230,90 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - network
+
+- (void)loadNewestChat {
+    
+    NSArray *usernames = [[YOSDBManager sharedManager] getNewestChatUsernames];
+    
+    if (!usernames.count) {
+        return;
+    }
+    
+    NSMutableArray *noCachedUsernames = [NSMutableArray array];
+    [usernames enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
+        
+        NSString *jsonStr = [[YOSDBManager sharedManager] getUserInfoJsonWithUsername:obj];
+        NSDictionary *userInfoDict = [jsonStr yos_toJSONObject];
+        YOSUserInfoModel *userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:userInfoDict error:nil];
+        
+        if (!userInfoModel) {
+            [noCachedUsernames addObject:obj];
+        }
+        
+    }];
+    
+    if (noCachedUsernames.count) {
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+        YOSUserGetUserByHxRequest *request = [[YOSUserGetUserByHxRequest alloc] initWithHXUsers:noCachedUsernames];
+        
+        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            if ([request yos_checkResponse]) {
+                NSLog(@"%s", __func__);
+                
+                NSArray *data = request.yos_data;
+                
+                [data enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+                    
+                    NSString *jsonStr = [YOSWidget jsonStringWithJSONObject:obj];
+                    
+                    [[YOSDBManager sharedManager] updateUserInfoWithUsername:obj[@"hx_user"] json:jsonStr];
+                    
+                }];
+                
+                [self setupOriginMessagesWithUsernames:usernames];
+                
+            }
+        } failure:^(YTKBaseRequest *request) {
+            [request yos_checkResponse];
+        }];
+    } else {
+        
+        [self setupOriginMessagesWithUsernames:usernames];
+    }
+
+}
+
+- (void)setupOriginMessagesWithUsernames:(NSArray *)usernames {
+    
+    [usernames enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
+        
+        NSString *jsonStr = [[YOSDBManager sharedManager] getUserInfoJsonWithUsername:obj];
+        NSDictionary *userInfoDict = [jsonStr yos_toJSONObject];
+        YOSUserInfoModel *userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:userInfoDict error:nil];
+        
+        if (userInfoModel) {
+            EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:obj];
+            EMMessage *message = [con latestMessage];
+            
+            YOSMessageModel *model = [self messageModelWithUserInfoModel:userInfoModel message:message];
+            
+            if (con && model) {
+                [self.userInfoModels addObject:userInfoModel];
+                self.hx_users[obj] = userInfoModel;
+                [self.messageModels addObject:model];
+                
+                [[YOSEaseMobManager sharedManager] removeConversationByChatter:obj];
+            }
+        
+        }
+        
+        [self.tableView reloadData];
+        
+    }];
+    
+}
+
 #pragma mark - deal notification
 
 - (void)updateBuddyRequest {
@@ -328,7 +419,9 @@
     }
 }
 
-#pragma mark - private methods 
+#pragma mark - private methods
+
+
 
 - (void)refreshTableViewCellWithMessageModel:(YOSMessageModel *)model userInfoModel:(YOSUserInfoModel *)userInfoModel {
     
@@ -391,6 +484,40 @@
     }
     
     return model;
+}
+
+- (void)login {
+    
+    [self setupSubviews];
+    
+    _tableView.hidden = NO;
+    
+    [self loadNewestChat];
+}
+
+- (void)waitHXLogin {
+    _tableView.hidden = YES;
+    
+    [self showDefaultMessage:@"正在登录中.." tappedBlock:nil isShowHUD:YES];
+    
+    NSTimer *timer = [NSTimer timerWithTimeInterval:20 target:self selector:@selector(logout) userInfo:nil repeats:NO];
+    
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    
+}
+
+- (void)logout {
+    _tableView.hidden = YES;
+    
+    YOSWSelf(weakSelf);
+    [self showDefaultMessage:@"还未登录,点击登录" tappedBlock:^{
+        
+        YOSLoginViewController *loginVC = [YOSLoginViewController new];
+        YOSBaseNavigationViewController *navVC = [[YOSBaseNavigationViewController alloc] initWithRootViewController:loginVC];
+        
+        [weakSelf presentViewController:navVC animated:YES completion:nil];
+        
+    } isShowHUD:NO];
 }
 
 #pragma mark - getter & setter

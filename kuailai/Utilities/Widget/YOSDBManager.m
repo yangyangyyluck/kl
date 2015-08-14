@@ -13,13 +13,18 @@ static const NSString *kDBName = @"kawayiSASA.db";
 static const NSString *kYOSTableCagro = @"yos_cargo";
 static const NSString *kYOSTableBuddyRequest = @"yos_buddyrequest";
 static const NSString *kYOSTableUserInfo = @"yos_userinfo";
+static const NSString *kYOSTableNewestChat = @"yos_newestchat";
+
 static const NSUInteger kUserInfoExpireDays = 3;
+static const NSUInteger kNewestChatMaxCounts = 3;
 
 static const NSString *kSQLCreateTableCagro = @"CREATE TABLE IF NOT EXISTS yos_cargo (id integer PRIMARY KEY AUTOINCREMENT, cargo_data blob NOT NULL);";
 
 static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXISTS yos_buddyrequest (id integer PRIMARY KEY AUTOINCREMENT, current_username text NOT NULL, buddy_username text NOT NULL, buddy_message text)";
 
 static const NSString *kSQLCreateTableUserInfo = @"CREATE TABLE IF NOT EXISTS yos_userinfo (id integer PRIMARY KEY AUTOINCREMENT, username text NOT NULL, json text NOT NULL, update_time text NOT NULL)";
+
+static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS yos_newestchat (id integer PRIMARY KEY AUTOINCREMENT, username text NOT NULL, update_time text NOT NULL)";
 
 #pragma mark - single
 
@@ -62,6 +67,7 @@ static const NSString *kSQLCreateTableUserInfo = @"CREATE TABLE IF NOT EXISTS yo
             [_db executeUpdate:[kSQLCreateTableCagro copy]];
             [_db executeUpdate:[kSQLCreateTableBuddyRequest copy]];
             [_db executeUpdate:[kSQLCreateTableUserInfo copy]];
+            [_db executeUpdate:[kSQLCreateTableNewestChat copy]];
         }
         
         if (!_db || !_dbQueue) {
@@ -347,8 +353,8 @@ static const NSString *kSQLCreateTableUserInfo = @"CREATE TABLE IF NOT EXISTS yo
         NSString *update_time = [set stringForColumn:@"update_time"];
         NSString *json = [set stringForColumn:@"json"];
         
-//        kUserInfoExpireDays * (24 * 3600)
-        long long updateTimeInterval = [update_time longLongValue] + 2;
+//        long long updateTimeInterval = [update_time longLongValue] + 2;
+        long long updateTimeInterval = [update_time longLongValue] + kUserInfoExpireDays * (24 * 3600);
         
         NSTimeInterval nowTimeInterval = [[NSDate date] timeIntervalSince1970];
         
@@ -383,6 +389,69 @@ static const NSString *kSQLCreateTableUserInfo = @"CREATE TABLE IF NOT EXISTS yo
     } else {
         NSLog(@"delete UserInfo with %@ --- failure", username);
     }
+}
+
+#pragma mark - NewestRequest
+
+- (void)updateNewestRequestWithUsername:(NSString *)username update_time:(NSString *)update_time {
+    if (!_isDBInitSuccess) {
+        return;
+    }
+    
+    if (!username.length) {
+        return;
+    }
+    
+    NSString *getCountSql = [NSString stringWithFormat:@"SELECT COUNT(*) AS count FROM %@ WHERE username = ?", [kYOSTableNewestChat copy]];
+    
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (username, update_time)VALUES(?, ?)", [kYOSTableNewestChat copy]];
+    
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET  update_time = ? WHERE username = ?", [kYOSTableNewestChat copy]];
+    
+    FMResultSet *set = [_db executeQuery:getCountSql, username];
+    
+    if ([set next]) {
+        NSUInteger count = [set intForColumn:@"count"];
+        
+        BOOL status = NO;
+        
+        if (count) {
+            status = [_db executeUpdate:updateSql, update_time, username];
+        } else {
+            status = [_db executeUpdate:insertSql, username, update_time];
+        }
+        
+        if (!status) {
+            YOSLog(@"\r\n\r\n error : %@", [_db lastErrorMessage]);
+        } else {
+            YOSLog(@"\r\n\r\n success : update %@ --- %@", username, update_time);
+        }
+    }
+    
+    [set close];
+}
+
+- (NSArray *)getNewestChatUsernames {
+    if (!_isDBInitSuccess) {
+        return nil;
+    }
+    
+    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ ORDER BY update_time LIMIT %zi", [kYOSTableNewestChat copy], kNewestChatMaxCounts];
+    
+    FMResultSet *set = [_db executeQuery:selectSql];
+    
+    NSMutableArray *result = [NSMutableArray array];
+    
+    if ([set next]) {
+        NSString *username = [set stringForColumn:@"username"];
+        
+        [result addObject:username];
+        
+    }
+    
+    [set close];
+    
+    return [result copy];
 }
 
 

@@ -109,7 +109,7 @@
         [SVProgressHUD dismiss];
         [self.tableView reloadData];
         self.tableView.hidden = YES;
-        [self showDefaultMessage:@"目前还没有好友哦~" tappedBlock:nil];
+        [self showDefaultMessage:@"目前还没有好友哦~" tappedBlock:nil isShowHUD:NO];
         return;
     } else {
         [self hideDefaultMessage];

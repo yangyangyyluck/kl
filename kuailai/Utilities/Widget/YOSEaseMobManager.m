@@ -419,7 +419,7 @@
 - (void)removeConversationByChatter:(NSString *)username {
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        BOOL status = [[EaseMob sharedInstance].chatManager removeConversationByChatter:username deleteMessages:YES append2Chat:YES];
+        BOOL status = [[EaseMob sharedInstance].chatManager removeConversationByChatter:username deleteMessages:NO append2Chat:YES];
         
         if (status) {
             [self.conversations removeObjectForKey:username];
@@ -431,7 +431,7 @@
 - (void)removeAllConversations {
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        BOOL status = [[EaseMob sharedInstance].chatManager removeAllConversationsWithDeleteMessages:YES append2Chat:YES];
+        BOOL status = [[EaseMob sharedInstance].chatManager removeAllConversationsWithDeleteMessages:NO append2Chat:YES];
         
         if (status) {
             [self.conversations removeAllObjects];
@@ -492,10 +492,7 @@
     if (!error) {
         [self getBuddyListAsync];
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            YOSPostNotification(YOSNotificationLogin);
-        });
-        
+        YOSPostNotification(YOSNotificationLogin);
     }
 }
 
@@ -595,7 +592,64 @@
 - (void)didReceiveMessage:(EMMessage *)message {
     NSLog(@"%s", __func__);
     YOSLog(@"\r\n\r\n\r\nreceive message : %@\r\n\r\n\r\n", message);
+    
+    NSString *update_time = [NSString stringWithFormat:@"%lli", message.timestamp / 1000];
+    [[YOSDBManager sharedManager] updateNewestRequestWithUsername:message.from update_time:update_time];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:nil userInfo:@{@"message":message}];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
+}
+
+/*!
+ @method
+ @brief 接收到离线非透传消息的回调
+ @discussion
+ @param offlineMessages 接收到的离线列表
+ @result
+ */
+- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages {
+    NSLog(@"%s", __func__);
+    
+    NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
+    [offlineMessages enumerateObjectsUsingBlock:^(EMMessage *obj, NSUInteger idx, BOOL *stop) {
+        
+        NSString *username = obj.from;
+        
+        NSMutableArray *temp = mDict[username];
+        if (!temp) {
+            temp = [NSMutableArray array];
+        }
+        
+        [temp addObject:obj];
+        
+    }];
+    
+    [mDict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSMutableArray *obj, BOOL *stop) {
+        
+        [obj sortUsingComparator:^NSComparisonResult(EMMessage *obj1, EMMessage *obj2) {
+            
+            long long num1 = obj1.timestamp;
+            long long num2 = obj2.timestamp;
+            
+            if (num1 > num2) {
+                return NSOrderedDescending;
+            } else {
+                return NSOrderedAscending;
+            }
+            
+        }];
+        
+        EMMessage *lastMessage = [obj firstObject];
+        
+        NSString *update_time = [NSString stringWithFormat:@"%llx", lastMessage.timestamp / 1000];
+        
+        [[YOSDBManager sharedManager] updateNewestRequestWithUsername:lastMessage.from update_time:update_time];
+        
+    }];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
+    
 }
 
 #pragma mark - config methods
