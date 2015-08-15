@@ -18,7 +18,7 @@
 #import "Masonry.h"
 #import "YOSWidget.h"
 
-NSString * const kHomeCellDefaultImage = @"首页默认图";
+NSString static * const kHomeCellDefaultImage = @"首页默认图";
 
 @interface YOSHomeCell ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerViewWidthConstraint;

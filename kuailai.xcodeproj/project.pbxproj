@@ -39,6 +39,10 @@
 		DD24E9BA1B7DD7A7008CAE12 /* YOSUserFeedbackRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9B91B7DD7A7008CAE12 /* YOSUserFeedbackRequest.m */; };
 		DD24E9BD1B7DDCB6008CAE12 /* YOSHobbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9BC1B7DDCB6008CAE12 /* YOSHobbyViewController.m */; };
 		DD24E9C01B7DE009008CAE12 /* YOSHobbyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9BF1B7DE009008CAE12 /* YOSHobbyButton.m */; };
+		DD24E9C41B7ED41C008CAE12 /* YOSInterestGetActiveListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9C31B7ED41C008CAE12 /* YOSInterestGetActiveListRequest.m */; };
+		DD24E9C71B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9C61B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m */; };
+		DD24E9CA1B7ED797008CAE12 /* YOSInterestActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9C91B7ED797008CAE12 /* YOSInterestActivityCell.m */; };
+		DD24E9CD1B7EE592008CAE12 /* YOSInterestCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9CC1B7EE592008CAE12 /* YOSInterestCategoryViewController.m */; };
 		DD2503B41B787E87008D4ACE /* EMMessage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */; };
 		DD311F121B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */; };
 		DD311F151B5756170094A91C /* YOSMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F141B5756170094A91C /* YOSMessageViewController.m */; };
@@ -244,6 +248,14 @@
 		DD24E9BC1B7DDCB6008CAE12 /* YOSHobbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHobbyViewController.m; sourceTree = "<group>"; };
 		DD24E9BE1B7DE009008CAE12 /* YOSHobbyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHobbyButton.h; sourceTree = "<group>"; };
 		DD24E9BF1B7DE009008CAE12 /* YOSHobbyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHobbyButton.m; sourceTree = "<group>"; };
+		DD24E9C21B7ED41C008CAE12 /* YOSInterestGetActiveListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSInterestGetActiveListRequest.h; sourceTree = "<group>"; };
+		DD24E9C31B7ED41C008CAE12 /* YOSInterestGetActiveListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInterestGetActiveListRequest.m; sourceTree = "<group>"; };
+		DD24E9C51B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyInterestActivityViewController.h; sourceTree = "<group>"; };
+		DD24E9C61B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyInterestActivityViewController.m; sourceTree = "<group>"; };
+		DD24E9C81B7ED797008CAE12 /* YOSInterestActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSInterestActivityCell.h; sourceTree = "<group>"; };
+		DD24E9C91B7ED797008CAE12 /* YOSInterestActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInterestActivityCell.m; sourceTree = "<group>"; };
+		DD24E9CB1B7EE592008CAE12 /* YOSInterestCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSInterestCategoryViewController.h; sourceTree = "<group>"; };
+		DD24E9CC1B7EE592008CAE12 /* YOSInterestCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInterestCategoryViewController.m; sourceTree = "<group>"; };
 		DD2503B21B787E87008D4ACE /* EMMessage+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMMessage+YOSAdditions.h"; sourceTree = "<group>"; };
 		DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMMessage+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD311F101B55F79A0094A91C /* YOSUserConfirmRegisterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserConfirmRegisterRequest.h; sourceTree = "<group>"; };
@@ -570,6 +582,8 @@
 			children = (
 				DD24E9BB1B7DDCB6008CAE12 /* YOSHobbyViewController.h */,
 				DD24E9BC1B7DDCB6008CAE12 /* YOSHobbyViewController.m */,
+				DD24E9CB1B7EE592008CAE12 /* YOSInterestCategoryViewController.h */,
+				DD24E9CC1B7EE592008CAE12 /* YOSInterestCategoryViewController.m */,
 			);
 			path = Hobby;
 			sourceTree = "<group>";
@@ -608,6 +622,8 @@
 				DD7B0CC51B72453800A5496D /* YOSMyFriendsViewController.m */,
 				DD05B58A1B7DCF620095708A /* YOSFeedbackViewController.h */,
 				DD05B58B1B7DCF620095708A /* YOSFeedbackViewController.m */,
+				DD24E9C51B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.h */,
+				DD24E9C61B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -745,6 +761,8 @@
 			children = (
 				DD24E9BE1B7DE009008CAE12 /* YOSHobbyButton.h */,
 				DD24E9BF1B7DE009008CAE12 /* YOSHobbyButton.m */,
+				DD24E9C81B7ED797008CAE12 /* YOSInterestActivityCell.h */,
+				DD24E9C91B7ED797008CAE12 /* YOSInterestActivityCell.m */,
 			);
 			path = Hobby;
 			sourceTree = "<group>";
@@ -890,6 +908,15 @@
 				DD177B121B3C48AD00E86F24 /* VPImageCropperViewController.m */,
 			);
 			path = VPImageCropper;
+			sourceTree = "<group>";
+		};
+		DD24E9C11B7ED407008CAE12 /* Hobby */ = {
+			isa = PBXGroup;
+			children = (
+				DD24E9C21B7ED41C008CAE12 /* YOSInterestGetActiveListRequest.h */,
+				DD24E9C31B7ED41C008CAE12 /* YOSInterestGetActiveListRequest.m */,
+			);
+			path = Hobby;
 			sourceTree = "<group>";
 		};
 		DD3B1C101AD7C16A00A91838 /* Library */ = {
@@ -1200,6 +1227,7 @@
 		DDF840AA1AD61657006939DF /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				DD24E9C11B7ED407008CAE12 /* Hobby */,
 				DDE16B9D1B6609AE00989BE8 /* Message */,
 				DDC9DE6D1B1DECD400629C84 /* Home */,
 				DD8360B21B075C6E00DEAF86 /* Activity */,
@@ -1479,6 +1507,7 @@
 				DDE16BA91B66280100989BE8 /* YOSUserGetUserListRequest.m in Sources */,
 				DDD799C71B2D2E1F00AF8A59 /* YOSDetailLabel.m in Sources */,
 				DDE28F691B380001005BD036 /* YOSHeadDetailButton.m in Sources */,
+				DD24E9CD1B7EE592008CAE12 /* YOSInterestCategoryViewController.m in Sources */,
 				DD311F181B5759330094A91C /* YOSMessageCell.m in Sources */,
 				DD1690481B2599500060B3EB /* YOSHomeCell.m in Sources */,
 				DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */,
@@ -1498,11 +1527,13 @@
 				DDB656711B196F1E00531C71 /* YOSActivityCheckView.m in Sources */,
 				DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */,
 				DDCCF58B1B74853600EF1ECD /* NSUserDefaults+DemoSettings.m in Sources */,
+				DD24E9C71B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m in Sources */,
 				DD89D6B61B452E3600D542BB /* YOSAuditCollectionViewCell.m in Sources */,
 				DDF5993C1B330FA900BF2C42 /* YOSAuditModel.m in Sources */,
 				DD89D6871B4235CF00D542BB /* YOSActiveSignUpRequest.m in Sources */,
 				DDCCF58E1B749A9000EF1ECD /* ChatSendHelper.m in Sources */,
 				DD89D6B31B44EFE000D542BB /* UITableViewCell+YOSAdditions.m in Sources */,
+				DD24E9C41B7ED41C008CAE12 /* YOSInterestGetActiveListRequest.m in Sources */,
 				DDC9DE701B1DED0200629C84 /* YOSGetActiveListRequest.m in Sources */,
 				DD311F1B1B5766620094A91C /* YOSMessageModel.m in Sources */,
 				DD177AFF1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m in Sources */,
@@ -1527,6 +1558,7 @@
 				DD311F121B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m in Sources */,
 				DD735BD31B53641B002F0B0F /* YOSMyAttendActivityViewController.m in Sources */,
 				DDCCF5921B74A0FE00EF1ECD /* ZWEmoji.m in Sources */,
+				DD24E9CA1B7ED797008CAE12 /* YOSInterestActivityCell.m in Sources */,
 				DD5EBD101B67742100BB1033 /* YOSBuddyRequestViewController.m in Sources */,
 				DD4A17391B3AAC1500B10D4F /* YOSUserUpdateUserRequest.m in Sources */,
 				DD0DF3381B08D6D100CCE202 /* YOSIQContentView.m in Sources */,

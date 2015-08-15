@@ -13,6 +13,7 @@
 #import "YOSTagEditViewController.h"
 #import "YOSMyReleaseActivityViewController.h"
 #import "YOSMyAttendActivityViewController.h"
+#import "YOSMyInterestActivityViewController.h"
 #import "YOSSettingViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSTestViewController.h"
@@ -250,7 +251,8 @@
     
     // 你感兴趣的
     if (button.tag == 2) {
-        
+        YOSMyInterestActivityViewController *interestVC = [YOSMyInterestActivityViewController new];
+        [self.navigationController pushViewController:interestVC animated:YES];
         return;
     }
 }

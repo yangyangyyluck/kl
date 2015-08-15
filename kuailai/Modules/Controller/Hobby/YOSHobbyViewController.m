@@ -7,6 +7,7 @@
 //
 
 #import "YOSHobbyViewController.h"
+#import "YOSInterestCategoryViewController.h"
 #import "YOSHobbyButton.h"
 
 #import "Masonry.h"
@@ -37,6 +38,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setupNavTitle:@"兴趣"];
     
     [self setupSearchBar];
     
@@ -90,7 +93,8 @@
     
     [_btns enumerateObjectsUsingBlock:^(YOSHobbyButton *obj, NSUInteger idx, BOOL *stop) {
         
-        
+        obj.tag = idx + 1;
+        [obj addTarget:self action:@selector(tappedHobbyButton:) forControlEvents:UIControlEventTouchUpInside];
         
         // left
         if (idx % 2 == 0) {
@@ -189,6 +193,51 @@
     }
     
 //    [self sendNetworkRequestWithType:YOSRefreshTypeHeader isSearch:YES];
+}
+
+#pragma mark - event response 
+
+- (void)tappedHobbyButton:(UIButton *)button {
+    NSLog(@"%s", __func__);
+    
+    YOSActivityType type = button.tag;
+
+    NSString *title = nil;
+    switch (type) {
+        case YOSActivityTypeSWJL: {
+            title = @"商务交流";
+            break;
+        }
+        case YOSActivityTypeHMCY: {
+            title = @"黑马创业";
+            break;
+        }
+        case YOSActivityTypeCPFX: {
+            title = @"产品分享";
+            break;
+        }
+        case YOSActivityTypeJSJL: {
+            title = @"技术交流";
+            break;
+        }
+        case YOSActivityTypeSLXJ: {
+            title = @"沙龙小聚";
+            break;
+        }
+        case YOSActivityTypeHWXX: {
+            title = @"户外休闲";
+            break;
+        }
+        default: {
+            title = @"";
+            break;
+        }
+    }
+    
+    YOSInterestCategoryViewController *categoryVC = [[YOSInterestCategoryViewController alloc] initWithTitle:title category:type];
+    
+    [self.navigationController pushViewController:categoryVC animated:YES];
+
 }
 
 @end

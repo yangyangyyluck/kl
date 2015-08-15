@@ -59,6 +59,15 @@ typedef NS_ENUM(NSUInteger, YOSCityType) {
     YOSCityTypeJN,                                          // 济南
 };
 
+typedef NS_ENUM(NSUInteger, YOSActivityType) {
+    YOSActivityTypeSWJL = 1,                                // 商务交流
+    YOSActivityTypeHMCY,                                    // 黑马创业
+    YOSActivityTypeCPFX,                                    // 产品分享
+    YOSActivityTypeJSJL,                                    // 技术交流
+    YOSActivityTypeSLXJ,                                    // 沙龙小聚
+    YOSActivityTypeHWXX,                                    // 户外休闲
+};
+
 // 1姓名 2手机号码 3公司 4职位 5工作年限 6学历
 typedef NS_ENUM(NSUInteger, YOSAuditType) {
     YOSAuditTypeName = 1,
@@ -97,25 +106,6 @@ extern NSString * const YOSAESKey;
 extern NSString * const YOSEaseMobAppKey;
 
 extern NSString * const YOSEaseMobCertName;
-
-/**
- *  UserDefault keys
- */
-
-///** 注册页：当前注册的手机号 */
-//extern NSString * const YOSUserDefaultKeyCurrentRegisterMobileNumber;
-//
-///** 注册页：当前注册手机号的ID */
-//extern NSString * const YOSUserDefaultKeyCurrentRegisterID;
-//
-///** 当前登录用户的手机号 */
-//extern NSString * const YOSUserDefaultKeyCurrentLoginMobileNumber;
-//
-///** 当前登录用户的手机号 */
-//extern NSString * const YOSUserDefaultKeyCurrentLoginID;
-//
-///** 当前登录用户的用户信息 */
-//extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
 
 /**
  *  API权限验证用的签名
