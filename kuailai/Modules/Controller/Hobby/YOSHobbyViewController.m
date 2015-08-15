@@ -8,12 +8,41 @@
 
 #import "YOSHobbyViewController.h"
 #import "YOSInterestCategoryViewController.h"
+#import "YOSActivityDetailViewController.h"
 #import "YOSHobbyButton.h"
+#import "YOSInterestActivityCell.h"
+
+#import "YOSActivityListModel.h"
+
+#import "YOSGetActiveListRequest.h"
 
 #import "Masonry.h"
 #import "EDColor.h"
+#import "MJRefresh.h"
+#import "SVProgressHUD+YOSAdditions.h"
+#import "GVUserDefaults+YOSProperties.h"
 
-@interface YOSHobbyViewController() <UISearchBarDelegate>
+@interface YOSHobbyViewController() <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) NSMutableArray *activityListModels;
+
+/** 总数据量 */
+@property (nonatomic, assign) NSUInteger count;
+
+/** 总页数 */
+@property (nonatomic, assign) NSUInteger totalPage;
+
+/** 当前页数量 */
+@property (nonatomic, assign) NSUInteger currentPage;
+
+@property (nonatomic, assign) BOOL isNoMoreData;
+
+// UI
+@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) UIView *hudView;
+
+@property (nonatomic, strong) MASConstraint *heightConstraint;
 
 @end
 
@@ -44,6 +73,14 @@
     [self setupSearchBar];
     
     [self setupSubviews];
+    
+    [self setupTableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setupSearchBar {
@@ -161,10 +198,143 @@
     }];
 }
 
+- (void)setupTableView {
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    _tableView = [UITableView new];
+    
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    _tableView.rowHeight = 85.0f;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    YOSWSelf(weakSelf);
+    [_tableView addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf sendNetworkRequestWithType:YOSRefreshTypeHeader];
+    }];
+    
+    [_tableView addLegendFooterWithRefreshingBlock:^{
+        [weakSelf sendNetworkRequestWithType:YOSRefreshTypeFooter];
+    }];
+    
+    self.tableView.footer.automaticallyRefresh = NO;
+    
+    [self.view addSubview:_tableView];
+    [self.view bringSubviewToFront:_tableView];
+    
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(44);
+        self.heightConstraint = make.height.mas_equalTo(YOSScreenHeight - 64 - 44 - 216);
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+    }];
+    
+    _tableView.hidden = YES;
+}
+
+#pragma mark - network
+
+- (void)sendNetworkRequestWithType:(YOSRefreshType)type {
+    
+    NSUInteger requestPage = 1;
+    if (type == YOSRefreshTypeFooter) {
+        requestPage = self.currentPage + 1;
+    }
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:0 page:requestPage start_time:0 type:1];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        
+        [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
+        
+        if ([request yos_checkResponse]) {
+            
+            if (type == YOSRefreshTypeHeader) {
+                self.isNoMoreData = NO;
+            }
+            self.currentPage = requestPage;
+            
+            self.totalPage = ((NSString *)request.yos_data[@"total_page"]).integerValue;
+            
+            self.count = ((NSString *)request.yos_data[@"count"]).integerValue;
+            
+            NSArray *array = request.yos_data[@"data"];
+            
+            if (self.totalPage == self.currentPage) {
+                [self.tableView.footer noticeNoMoreData];
+            }
+            
+            if (!array.count) {
+                self.isNoMoreData = YES;
+                [self.tableView.footer noticeNoMoreData];
+                return;
+            }
+            
+            if (type == YOSRefreshTypeHeader) {
+                self.activityListModels = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+            } else {
+                NSArray *array = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                
+                [array enumerateObjectsUsingBlock:^(YOSActivityListModel *obj, NSUInteger idx, BOOL *stop) {
+                    
+                    if (![self.activityListModels containsObject:obj]) {
+                        [self.activityListModels addObject:obj];
+                    }
+                    
+                }];
+            }
+            
+            [_tableView reloadData];
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
+        [request yos_checkResponse];
+    }];
+}
+
+
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.activityListModels.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    YOSInterestActivityCell *cell = [YOSInterestActivityCell cellWithTableView:tableView];
+    
+    cell.activityListModel = self.activityListModels[indexPath.row];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    YOSActivityListModel *model = self.activityListModels[indexPath.section];
+    
+    YOSActivityDetailViewController *activityDetailVC = [[YOSActivityDetailViewController alloc] initWithActivityId:model.ID];
+    
+    [self.navigationController pushViewController:activityDetailVC animated:YES];
+}
+
+
+#pragma mark - getter & setter
+
+- (NSMutableArray *)activityListModels {
+    if (!_activityListModels) {
+        _activityListModels = [NSMutableArray array];
+    }
+    
+    return _activityListModels;
+}
+
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     NSLog(@"%s", __func__);
+    
+    self.hudView.hidden = NO;
     
     [searchBar setShowsCancelButton:YES animated:YES];
     
@@ -172,6 +342,9 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     NSLog(@"%s", __func__);
+    
+    self.hudView.hidden = YES;
+    self.tableView.hidden = YES;
     
     [searchBar setShowsCancelButton:NO animated:YES];
     
@@ -181,9 +354,8 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSLog(@"%s", __func__);
     
-    [searchBar setShowsCancelButton:NO animated:YES];
-    
-    [searchBar resignFirstResponder];
+    self.hudView.hidden = YES;
+    self.tableView.hidden = NO;
     
     NSString *name = searchBar.text;
     name = [name stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -192,7 +364,7 @@
         return;
     }
     
-//    [self sendNetworkRequestWithType:YOSRefreshTypeHeader isSearch:YES];
+    [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
 }
 
 #pragma mark - event response 
@@ -238,6 +410,47 @@
     
     [self.navigationController pushViewController:categoryVC animated:YES];
 
+}
+
+- (void)tappedHUDView {
+    self.hudView.hidden = YES;
+    [_searchBar setShowsCancelButton:NO animated:YES];
+    [_searchBar resignFirstResponder];
+}
+
+- (void)keyboardWillChangeFrame:(NSNotification *)noti {
+    NSDictionary *dict = noti.userInfo;
+    
+    NSValue *value = ((NSValue *)dict[UIKeyboardFrameEndUserInfoKey]);
+    
+    CGRect rect = [value CGRectValue];
+    
+    NSLog(@"frame : %@", dict);
+    
+    CGFloat height = YOSScreenHeight - 44 - 64 - rect.size.height;
+    
+    [self.heightConstraint setOffset:height];
+}
+
+#pragma mark - getter & setter 
+
+- (UIView *)hudView {
+    if (!_hudView) {
+        _hudView = [UIView new];
+        _hudView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedHUDView)];
+        
+        [_hudView addGestureRecognizer:tap];
+        
+        [_contentView addSubview:_hudView];
+        
+        [_hudView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        }];
+    }
+    
+    return _hudView;
 }
 
 @end
