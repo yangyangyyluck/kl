@@ -12,6 +12,7 @@
 #import "YOSDBManager.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "ChatSendHelper.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSEaseMobManager () <EMChatManagerDelegate>
 
@@ -60,6 +61,7 @@
         NSLog(@"\r\n\r\n\r\nhere need kuailai login out.\r\n\r\n\r\n");
         
         YOSPostNotification(YOSNotificationLogout);
+        [[GVUserDefaults standardUserDefaults] logout];
         self.buddyList = nil;
         self.blockedList = nil;
         self.buddyListInMemory = nil;
@@ -166,10 +168,10 @@
  *  @param status
  */
 - (void)logoffWithUnbindDeviceToken:(BOOL)status {
+    
     [self.easeMob.chatManager asyncLogoffWithUnbindDeviceToken:status completion:^(NSDictionary *info, EMError *error) {
         if (!error) {
             NSLog(@"退出成功");
-            YOSPostNotification(YOSNotificationLogout);
             self.buddyList = nil;
             self.blockedList = nil;
             self.buddyListInMemory = nil;
@@ -178,6 +180,23 @@
             NSLog(@"退出失败 error : %@ info : %@", error, info);
         }
     } onQueue:nil];
+    
+}
+
+- (BOOL)logoffSyncWithUnbindDeviceToken:(BOOL)status {
+    EMError *error = nil;
+    NSDictionary *info = [[EaseMob sharedInstance].chatManager logoffWithUnbindDeviceToken:status error:&error];
+    if (!error) {
+        NSLog(@"退出成功");
+        self.buddyList = nil;
+        self.blockedList = nil;
+        self.buddyListInMemory = nil;
+        self.blockedListInMemory = nil;
+    } else {
+        NSLog(@"退出失败 error : %@ info : %@", error, info);
+    }
+    
+    return (BOOL)(!error);
 }
 
 - (BOOL)isFriendWithUser:(NSString *)user {
@@ -649,6 +668,25 @@
     }];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
+    
+}
+
+/*!
+ @method
+ @brief 当前登录账号在其它设备登录时的通知回调
+ @discussion
+ @result
+ */
+- (void)didLoginFromOtherDevice {
+    
+    [SVProgressHUD showInfoWithStatus:@"账户在其他手机登录~" maskType:SVProgressHUDMaskTypeClear];
+    
+    [self logoffWithUnbindDeviceToken:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        YOSPostNotification(YOSNotificationLogout);
+        [[GVUserDefaults standardUserDefaults] logout];
+    });
     
 }
 

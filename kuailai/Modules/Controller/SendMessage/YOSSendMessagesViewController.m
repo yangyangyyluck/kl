@@ -80,7 +80,10 @@ const static NSUInteger kCountOfLoadMessages = 20;
     
     self.conversation = [[YOSEaseMobManager sharedManager] conversationForChatter:self.otherUserInfoModel.hx_user];
     
-    [self.conversation markAllMessagesAsRead:YES];
+    BOOL st = [self.conversation markAllMessagesAsRead:YES];
+    
+    NSLog(@"sttt is %zi",st);
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationResetUnReadMessage object:nil userInfo:@{@"userInfoModel":self.otherUserInfoModel}];
     
     /**
@@ -890,6 +893,10 @@ const static NSUInteger kCountOfLoadMessages = 20;
     BOOL status1 = [receiveMessage.to isEqualToString:currentUserInfo.hx_user];
     if (status0 && status1) {
         [JSQSystemSoundPlayer jsq_playMessageSentSound];
+        
+        BOOL st = [self.conversation markAllMessagesAsRead:YES];
+        
+        NSLog(@"sttt is %zi",st);
         
         JSQMessage *message = [receiveMessage transferToJSQMessageWithUserInfo:self.otherUserInfoModel];
         

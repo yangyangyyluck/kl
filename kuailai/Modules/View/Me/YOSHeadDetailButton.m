@@ -13,6 +13,7 @@
 #import "Masonry.h"
 #import "UIImageView+WebCache.h"
 #import "YOSWidget.h"
+#import "UIImage+Blur.h"
 
 @implementation YOSHeadDetailButton {
     // UI
@@ -91,7 +92,7 @@
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_imageView.mas_right).offset(17);
         make.top.mas_equalTo(_imageView.mas_top).offset(6);
-        make.size.mas_equalTo(CGSizeMake(180, 16));
+        make.size.mas_equalTo(CGSizeMake(180, 18));
     }];
     
     [_jobTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -122,10 +123,23 @@
 }
 
 - (void)setupUserInfo {
+    
+    _headBackgroundImageView.image = [UIImage imageNamed:@"首页默认图"];
+    _headBackgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+    
     if (_userInfoModel.avatar && ![_userInfoModel.avatar isEqualToString:@""]) {
         NSURL *url = [NSURL URLWithString:_userInfoModel.avatar];
         
-        [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"默认头像"]];
+        [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"默认头像"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (image) {
+                CGFloat quality = 0.001f;
+                CGFloat blurred = 0.9f;
+                NSData *imageData = UIImageJPEGRepresentation(image, quality);
+                UIImage *blurredImage = [[UIImage imageWithData:imageData] blurredImage:blurred];
+                
+                _headBackgroundImageView.image = blurredImage;
+            }
+        }];
         
     } else {
         _imageView.image = [UIImage imageNamed:@"默认头像"];
@@ -137,8 +151,6 @@
     
     _rightAccessaryImageView.image = [UIImage imageNamed:@"小箭头"];
     
-    _headBackgroundImageView.image = [UIImage imageNamed:@"首页默认图"];
-    _headBackgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)dealloc {
@@ -146,6 +158,7 @@
 }
 
 - (void)updateUserInfo {
+    
     _userInfoModel = [YOSWidget getCurrentUserInfoModel];
 
     [self setupUserInfo];

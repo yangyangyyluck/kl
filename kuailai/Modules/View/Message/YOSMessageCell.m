@@ -143,7 +143,7 @@
     
     [_topLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_headImageView).offset(3);
-        make.left.mas_equalTo(_headImageView.mas_right).offset(10);
+        make.left.mas_equalTo(_headImageView.mas_right).offset(10).priorityHigh();
         make.right.mas_equalTo(_timeLabel.mas_left).offset(-10);
     }];
     
@@ -164,6 +164,11 @@
         make.right.mas_equalTo(-10);
     }];
     
+    [_timeLabel sizeToFit];
+    [_topLabel sizeToFit];
+    [_bottomLabel sizeToFit];
+    [_statusLabel sizeToFit];
+    
     [_accessoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self);
         make.right.mas_equalTo(-10);
@@ -172,6 +177,18 @@
     _topLineView.hidden = YES;
     _accessoryImageView.hidden = YES;
     _statusLabel.hidden = YES;
+    
+    MASAttachKeys(_topLineView,
+                _bottomLineView,
+                  
+                _headImageView,
+                _countLabel,
+                  
+                _topLabel,
+                _bottomLabel,
+                  
+                _timeLabel,
+                _statusLabel,_accessoryImageView);
     
 }
 
@@ -262,7 +279,9 @@
         YOSWObject(con, weakCon);
         
         _cuteView.vBlock = ^{
-            [weakCon markAllMessagesAsRead:YES];
+            BOOL st = [weakCon markAllMessagesAsRead:YES];
+            
+            NSLog(@"sttt is %zi",st);
         };
         
         _cuteView.bubbleLabel.text = str;

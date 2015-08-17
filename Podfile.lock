@@ -62,7 +62,7 @@ DEPENDENCIES:
   - IQKeyboardManager (= 3.2.2)
   - JSONModel
   - JSQMessagesViewController (= 7.1.0)
-  - KYCuteView (~> 1.3.0)
+  - KYCuteView (= 1.3.0)
   - Masonry
   - MJRefresh (= 1.4.7)
   - QBImagePickerController (= 2.5.0)

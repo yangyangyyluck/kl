@@ -69,6 +69,10 @@
         cell.textLabel.text = @"插入message";
     }
     
+    if (row == 7) {
+        cell.textLabel.text = @"send message";
+    }
+    
     return cell;
 }
 
@@ -128,6 +132,11 @@
         EMBuddyFollowState followS = buddy.followState;
         
         NSLog(@"%zi", followS);
+    }
+    
+    if (row == 7) {
+        NSUInteger random = arc4random_uniform(1000) + 5;
+        [[YOSEaseMobManager sharedManager] sendMessageToUser:@"186009507831438757629" message:YOSInt2String(random)];
     }
     
 }

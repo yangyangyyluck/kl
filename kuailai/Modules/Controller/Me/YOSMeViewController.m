@@ -84,7 +84,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInfo) name:YOSNotificationUpdateUserInfo object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTagInfo) name:YOSNotificationUpdateUserInfo object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTagInfo) name:YOSNotificationUpdateTagInfo object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:YOSNotificationLogout object:nil];
     
@@ -328,7 +328,7 @@
 
 - (void)updateUserInfo {
     
-    if ([YOSWidget isLogin]) {
+    if (![YOSWidget isLogin]) {
         return;
     }
     

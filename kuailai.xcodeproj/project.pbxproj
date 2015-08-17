@@ -43,6 +43,7 @@
 		DD24E9C71B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9C61B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m */; };
 		DD24E9CA1B7ED797008CAE12 /* YOSInterestActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9C91B7ED797008CAE12 /* YOSInterestActivityCell.m */; };
 		DD24E9CD1B7EE592008CAE12 /* YOSInterestCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9CC1B7EE592008CAE12 /* YOSInterestCategoryViewController.m */; };
+		DD24E9D01B7F4449008CAE12 /* YOSUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9CF1B7F4449008CAE12 /* YOSUserInfoViewController.m */; };
 		DD2503B41B787E87008D4ACE /* EMMessage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */; };
 		DD311F121B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */; };
 		DD311F151B5756170094A91C /* YOSMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F141B5756170094A91C /* YOSMessageViewController.m */; };
@@ -256,6 +257,8 @@
 		DD24E9C91B7ED797008CAE12 /* YOSInterestActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInterestActivityCell.m; sourceTree = "<group>"; };
 		DD24E9CB1B7EE592008CAE12 /* YOSInterestCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSInterestCategoryViewController.h; sourceTree = "<group>"; };
 		DD24E9CC1B7EE592008CAE12 /* YOSInterestCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInterestCategoryViewController.m; sourceTree = "<group>"; };
+		DD24E9CE1B7F4449008CAE12 /* YOSUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserInfoViewController.h; sourceTree = "<group>"; };
+		DD24E9CF1B7F4449008CAE12 /* YOSUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserInfoViewController.m; sourceTree = "<group>"; };
 		DD2503B21B787E87008D4ACE /* EMMessage+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMMessage+YOSAdditions.h"; sourceTree = "<group>"; };
 		DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMMessage+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD311F101B55F79A0094A91C /* YOSUserConfirmRegisterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserConfirmRegisterRequest.h; sourceTree = "<group>"; };
@@ -624,6 +627,8 @@
 				DD05B58B1B7DCF620095708A /* YOSFeedbackViewController.m */,
 				DD24E9C51B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.h */,
 				DD24E9C61B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m */,
+				DD24E9CE1B7F4449008CAE12 /* YOSUserInfoViewController.h */,
+				DD24E9CF1B7F4449008CAE12 /* YOSUserInfoViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -1432,6 +1437,7 @@
 				DD7B0CC91B73217F00A5496D /* YOSAuditCell.m in Sources */,
 				DD6412441B5267C500C5BFFB /* AES128.m in Sources */,
 				DD311F151B5756170094A91C /* YOSMessageViewController.m in Sources */,
+				DD24E9D01B7F4449008CAE12 /* YOSUserInfoViewController.m in Sources */,
 				DD89D6A41B43E74300D542BB /* YOSAuditFriendCell.m in Sources */,
 				DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */,
 				DD3EE78E1B4F9F3A0087A475 /* YOSUserDelTagRequest.m in Sources */,

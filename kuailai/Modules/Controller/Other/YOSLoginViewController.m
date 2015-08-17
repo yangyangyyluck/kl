@@ -286,6 +286,8 @@
             
             [[NSUserDefaults standardUserDefaults] synchronize];
             
+            [[YOSEaseMobManager sharedManager] logoffSyncWithUnbindDeviceToken:YES];
+            
             BOOL status = [[YOSEaseMobManager sharedManager] loginEaseMobSync];
             
             if (!status) {

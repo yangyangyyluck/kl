@@ -33,6 +33,9 @@
 /** 退出 */
 - (void)logoffWithUnbindDeviceToken:(BOOL)status;
 
+/** 同步退出 */
+- (BOOL)logoffSyncWithUnbindDeviceToken:(BOOL)status;
+
 - (BOOL)isFriendWithUser:(NSString *)user;
 
 /*------------ 好友关系 ------------*/
