@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) YOSUserInfoModel *userInfoModel;
 
+@property (nonatomic, assign) BOOL hideButtons;
+
 @end

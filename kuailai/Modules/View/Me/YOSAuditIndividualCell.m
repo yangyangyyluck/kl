@@ -38,7 +38,7 @@
     [self.contentView addSubview:_bottomLineView];
     
     _titleLabel = [UILabel new];
-    _titleLabel.textColor = YOSColorFontBlack;
+    _titleLabel.textColor = YOSColorFontGray;
     _titleLabel.font = YOSFontNormal;
     _titleLabel.numberOfLines = 0;
     [self.contentView addSubview:_titleLabel];

@@ -9,6 +9,7 @@
 #import "YOSTestViewController.h"
 #import "YOSQRScanViewController.h"
 #import "YOSEaseMobManager.h"
+#import "YOSUserInfoViewController.h"
 
 #import "UIImage+MDQRCode.h"
 #import "Masonry.h"
@@ -71,6 +72,10 @@
     
     if (row == 7) {
         cell.textLabel.text = @"send message";
+    }
+    
+    if (row == 8) {
+        cell.textLabel.text = @"userInfoModelVC";
     }
     
     return cell;
@@ -137,6 +142,14 @@
     if (row == 7) {
         NSUInteger random = arc4random_uniform(1000) + 5;
         [[YOSEaseMobManager sharedManager] sendMessageToUser:@"186009507831438757629" message:YOSInt2String(random)];
+    }
+    
+    if (row == 8) {
+        
+        YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
+        userVC.userInfoModel = [YOSWidget getCurrentUserInfoModel];
+        
+        [self.navigationController pushViewController:userVC animated:YES];
     }
     
 }

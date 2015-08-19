@@ -113,4 +113,13 @@
  */
 + (NSString *)jsonStringWithJSONObject:(id)object;
 
+/**
+ *  中文转拼音
+ *
+ *  @param chinese
+ *
+ *  @return
+ */
++ (NSString *)pinyinTransformWithChinese:(NSString *)chinese;
+
 @end

@@ -52,6 +52,9 @@
 
 @property (nonatomic, copy) NSString *tel;
 
+/** 是否接受陌生人消息 defalut 0 = 接受 */
+@property (nonatomic, copy) NSString *is_public;
+
 /** 环信 */
 @property (nonatomic, copy) NSString *hx_user;
 
@@ -62,5 +65,8 @@
 
 /** 朋友关系 */
 @property (nonatomic, assign) YOSFriendType friendType;
+
+/** YOSAddBuddyCell 是否点击过添加按钮 */
+@property (nonatomic, assign) BOOL isTappedAddButton;
 
 @end

@@ -391,9 +391,9 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
     }
 }
 
-#pragma mark - NewestRequest
+#pragma mark - NewestChat
 
-- (void)updateNewestRequestWithUsername:(NSString *)username update_time:(NSString *)update_time {
+- (void)updateNewestChatWithUsername:(NSString *)username update_time:(NSString *)update_time {
     if (!_isDBInitSuccess) {
         return;
     }
@@ -436,17 +436,16 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
         return nil;
     }
     
-    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ ORDER BY update_time LIMIT %zi", [kYOSTableNewestChat copy], kNewestChatMaxCounts];
+    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ ORDER BY update_time DESC LIMIT %zi", [kYOSTableNewestChat copy], kNewestChatMaxCounts];
     
     FMResultSet *set = [_db executeQuery:selectSql];
     
     NSMutableArray *result = [NSMutableArray array];
     
-    if ([set next]) {
+    while ([set next]) {
         NSString *username = [set stringForColumn:@"username"];
         
         [result addObject:username];
-        
     }
     
     [set close];

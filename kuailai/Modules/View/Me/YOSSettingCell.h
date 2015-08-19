@@ -25,4 +25,6 @@
 
 - (void)showSwitchWithSelectedBlock:(voidBlock)selectedBlock unSelectedBlock:(voidBlock)unSelectedBlock;
 
+- (void)setSwitchOn:(BOOL)on;
+
 @end

@@ -73,7 +73,7 @@
 
 /*------------ 发送消息 ------------*/
 
-- (void)sendMessageToUser:(NSString *)username message:(NSString *)message;
+- (EMMessage *)sendMessageToUser:(NSString *)username message:(NSString *)message;
 
 /*------------ 发送消息 ------------*/
 

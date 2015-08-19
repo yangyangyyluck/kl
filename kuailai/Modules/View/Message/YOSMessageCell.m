@@ -7,13 +7,16 @@
 //
 
 #import "YOSMessageCell.h"
+#import "YOSUserInfoViewController.h"
 
 #import "YOSMessageModel.h"
+#import "YOSUserInfoModel.h"
 
 #import "EDColor.h"
 #import "Masonry.h"
 #import "UIView+YOSAdditions.h"
 #import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
 #import "KYCuteView.h"
 #import "YOSEaseMobManager.h"
 #import "EaseMob.h"
@@ -23,7 +26,7 @@
     UIView *_topLineView;
     UIView *_bottomLineView;
     
-    UIImageView *_headImageView;
+    UIButton *_headImageButton;
     UILabel *_countLabel;
     
     UILabel *_topLabel;
@@ -61,12 +64,12 @@
     _bottomLineView.backgroundColor = YOSColorLineGray;
     [self.contentView addSubview:_bottomLineView];
     
-    _headImageView = [UIImageView new];
-    _headImageView.image = [UIImage imageNamed:@"默认头像"];
-    _headImageView.layer.cornerRadius = 25;
-    _headImageView.layer.masksToBounds = YES;
-    _headImageView.clipsToBounds = NO;
-    [self.contentView addSubview:_headImageView];
+    _headImageButton = [UIButton new];
+    _headImageButton.layer.cornerRadius = 25;
+    _headImageButton.layer.masksToBounds = YES;
+    _headImageButton.clipsToBounds = NO;
+    [_headImageButton addTarget:self action:@selector(tappedAvatarButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_headImageButton];
 
     _countLabel = [UILabel new];
     _countLabel.text = @" 99+ ";
@@ -79,7 +82,7 @@
     _countLabel.layer.masksToBounds = YES;
     _countLabel.layer.borderColor = [UIColor whiteColor].CGColor;
     _countLabel.layer.borderWidth = 1;
-    [_headImageView addSubview:_countLabel];
+    [_headImageButton addSubview:_countLabel];
     
     _accessoryImageView = [UIImageView new];
     _accessoryImageView.image = [UIImage imageNamed:@"小箭头"];
@@ -120,7 +123,7 @@
         make.bottom.and.left.mas_equalTo(0);
     }];
     
-    [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_headImageButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(50, 50));
         make.left.and.top.mas_equalTo(10);
     }];
@@ -142,13 +145,13 @@
     }];
     
     [_topLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_headImageView).offset(3);
-        make.left.mas_equalTo(_headImageView.mas_right).offset(10).priorityHigh();
+        make.top.mas_equalTo(_headImageButton).offset(3);
+        make.left.mas_equalTo(_headImageButton.mas_right).offset(10).priorityHigh();
         make.right.mas_equalTo(_timeLabel.mas_left).offset(-10);
     }];
     
     [_bottomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(_headImageView).offset(-3);
+        make.bottom.mas_equalTo(_headImageButton).offset(-3);
         make.size.mas_equalTo(_topLabel);
         make.left.mas_equalTo(_topLabel);
     }];
@@ -181,7 +184,7 @@
     MASAttachKeys(_topLineView,
                 _bottomLineView,
                   
-                _headImageView,
+                _headImageButton,
                 _countLabel,
                   
                 _topLabel,
@@ -210,6 +213,17 @@
     
 }
 
+#pragma mark - event response 
+
+- (void)tappedAvatarButton {
+    NSLog(@"%s", __func__);
+    
+    YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
+    userVC.userInfoModel = self.userInfoModel;
+    
+    [self.yos_viewController.navigationController pushViewController:userVC animated:YES];
+}
+
 #pragma mark - getter & setter 
 
 - (void)setMessageModel:(YOSMessageModel *)messageModel {
@@ -218,7 +232,8 @@
     // 特殊处理 "想认识我的人"
     if ([messageModel.avatar isEqualToString:@"想认识我的人"]) {
         
-        _headImageView.image = [UIImage imageNamed:@"想认识我的人"];
+        [_headImageButton setImage:[UIImage imageNamed:@"想认识我的人"] forState:UIControlStateNormal];
+        _headImageButton.enabled = NO;
         self.showCountLabel = NO;
         self.showTimeLabel = NO;
         self.showStatusLabel = NO;
@@ -234,14 +249,16 @@
         _bottomLabel.text = messageModel.message;
         
         return;
+    }else {
+        _headImageButton.enabled = YES;
     }
     
     self.showAccessoryView = NO;
     
     if (messageModel.avatar) {
-        [_headImageView sd_setImageWithURL:[NSURL URLWithString:messageModel.avatar] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+        [_headImageButton sd_setImageWithURL:[NSURL URLWithString:messageModel.avatar] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"默认头像"]];
     } else {
-        _headImageView.image = [UIImage imageNamed:@"默认头像"];
+        [_headImageButton setImage:[UIImage imageNamed:@"默认头像"] forState:UIControlStateNormal];
     }
     
     _topLabel.text = messageModel.name;

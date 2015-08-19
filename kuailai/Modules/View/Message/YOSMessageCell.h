@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "UITableViewCell+YOSAdditions.h"
 
-@class YOSMessageModel;
+@class YOSMessageModel, YOSUserInfoModel;
 
 @interface YOSMessageCell : UITableViewCell
 
 @property (nonatomic, strong) YOSMessageModel *messageModel;
+@property (nonatomic, strong) YOSUserInfoModel *userInfoModel;
+
 @property (nonatomic, assign) BOOL showTopLine;
 @property (nonatomic, assign) BOOL showBottomLine;
 @property (nonatomic, assign) BOOL showAccessoryView;

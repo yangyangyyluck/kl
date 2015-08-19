@@ -92,9 +92,6 @@
     _auditLabel.text = @"已添加";
     [self.contentView addSubview:_auditLabel];
     
-//    _nameLabel.backgroundColor = YOSColorRandom;
-//    _jobTitleLabel.backgroundColor = YOSColorRandom;
-    
     [_rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(50, 30));
         make.centerY.mas_equalTo(self);
@@ -123,6 +120,8 @@
     BOOL status = [[YOSEaseMobManager sharedManager] addBuddy:self.userInfoModel.hx_user message:@"请求添加您为好友"];
     
     if (status) {
+        self.userInfoModel.isTappedAddButton = YES;
+        
         _rightButton.hidden = YES;
         _auditLabel.hidden = NO;
         _auditLabel.text = @"等待验证";
@@ -184,15 +183,23 @@
         make.center.mas_equalTo(_rightButton);
     }];
     
-
     _auditLabel.hidden = YES;
     
     if (userInfoModel.friendType == YOSFriendTypeBoth) {
         _auditLabel.hidden = NO;
+        _auditLabel.text = @"已添加";
+        _auditLabel.textColor = YOSColorGreen;
         _rightButton.hidden = YES;
     } else {
         _auditLabel.hidden = YES;
         _rightButton.hidden = NO;
+    }
+    
+    if (userInfoModel.isTappedAddButton) {
+        _rightButton.hidden = YES;
+        _auditLabel.hidden = NO;
+        _auditLabel.text = @"等待验证";
+        _auditLabel.textColor = YOSColorMainRed;
     }
 }
 

@@ -197,4 +197,26 @@
     return jsonStr;
 }
 
++ (NSString *)pinyinTransformWithChinese:(NSString *)chinese {
+    if (!chinese.length) {
+        return nil;
+    }
+    
+    NSMutableString *mChinese = [[NSMutableString alloc] initWithString:chinese];
+    
+    if (CFStringTransform((__bridge CFMutableStringRef)mChinese, 0, kCFStringTransformMandarinLatin, NO)) {
+        NSLog(@"pinyin111: %@", mChinese);
+    }
+    
+    if (CFStringTransform((__bridge CFMutableStringRef)mChinese, 0, kCFStringTransformStripDiacritics, NO)) {
+        
+        NSLog(@"pinyin222: %@", mChinese);
+        
+        return [mChinese copy];
+    } else {
+        return nil;
+    }
+
+}
+
 @end

@@ -7,18 +7,18 @@
 //
 
 #import "YOSUserInfoViewController.h"
+#import "YOSSendMessagesViewController.h"
 #import "YOSHeadDetailButton.h"
 #import "YOSAuditIndividualCell.h"
 
 #import "YOSUserInfoModel.h"
-
-#import "YOSUserAuditRegisterRequest.h"
 
 #import "YOSWidget.h"
 #import "EDColor.h"
 #import "Masonry.h"
 #import "UIImage+YOSAdditions.h"
 #import "SVProgressHUD+YOSAdditions.h"
+#import "YOSEaseMobManager.h"
 
 @interface YOSUserInfoViewController() <UITableViewDataSource, UITableViewDelegate>
 
@@ -52,259 +52,286 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self setupSubviews];
+    [self setupNavTitle:@"名片"];
+    
+    [self setupBackArrow];
+    
+    [self setupSubviews];
 }
 
-//- (void)setupSubviews {
-//    self.view.backgroundColor = [UIColor whiteColor];
-//    
-//    _scrollView = [UIScrollView new];
-//    [self.view addSubview:_scrollView];
-//    
-//    _contentView = [UIView new];
-//    [_scrollView addSubview:_contentView];
-//    
-//    _headDetailButton = [YOSHeadDetailButton new];
-//    _headDetailButton.showRightAccessory = NO;
-//    
-//    [_contentView addSubview:_headDetailButton];
-//    
-//    _demandTitleContentView = [UIView new];
-//    _demandTitleContentView.backgroundColor = YOSColorBackgroundGray;
-//    [_contentView addSubview:_demandTitleContentView];
-//    
-//    _demandTitleLabel = [UILabel new];
-//    _demandTitleLabel.text = @"述求";
-//    _demandTitleLabel.textColor = YOSColorFontGray;
-//    _demandTitleLabel.font = YOSFontNormal;
-//    [_demandTitleContentView addSubview:_demandTitleLabel];
-//    
-//    _demandLabel = [UILabel new];
-//    _demandLabel.text = self.userInfoModel.demand;
-//    _demandLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-//    [_contentView addSubview:_demandLabel];
-//    
-//    _titleContentView = [UIView new];
-//    _titleContentView.backgroundColor = YOSColorBackgroundGray;
-//    [_contentView addSubview:_titleContentView];
-//    
-//    _titleLabel = [UILabel new];
-//    _titleLabel.text = @"信息";
-//    _titleLabel.textColor = YOSColorFontGray;
-//    _titleLabel.font = YOSFontNormal;
-//    [_titleContentView addSubview:_titleLabel];
-//    
-//    _tableView = [UITableView new];
-//    _tableView.delegate = self;
-//    _tableView.dataSource = self;
-//    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    _tableView.allowsSelection = NO;
-//    _tableView.showsVerticalScrollIndicator = NO;
-//    _tableView.showsHorizontalScrollIndicator = NO;
-//    _tableView.tableFooterView = [UIView new];
-//    _tableView.bounces = NO;
-//    [_contentView addSubview:_tableView];
-//    
-//    _leftButton = [UIButton new];
-//    [_leftButton setTitle:@"拒绝" forState:UIControlStateNormal];
-//    [_leftButton setTitleColor:YOSColorFontBlack forState:UIControlStateNormal];
-//    _leftButton.titleLabel.font = YOSFontBig;
-//    [_leftButton setBackgroundImage:[UIImage yos_imageWithColor:YOSRGB(215, 211, 211) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-//    [_leftButton addTarget:self action:@selector(tappedLeftButton) forControlEvents:UIControlEventTouchUpInside];
-//    [self addSubview:_leftButton];
-//    
-//    _rightButton = [UIButton new];
-//    [_rightButton setTitle:@"审核通过" forState:UIControlStateNormal];
-//    [_rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    _rightButton.titleLabel.font = YOSFontBig;
-//    [_rightButton setBackgroundImage:[UIImage yos_imageWithColor:YOSColorGreen size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-//    [_rightButton addTarget:self action:@selector(tappedRightButton) forControlEvents:UIControlEventTouchUpInside];
-//    [self addSubview:_rightButton];
-//    
-//    [_headDetailButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.and.left.mas_equalTo(0);
-//        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 110));
-//    }];
-//    
-//    [_stampImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(85, 85));
-//        make.centerY.mas_equalTo(_headDetailButton);
-//        make.right.mas_equalTo(0);
-//    }];
-//    
-//    [_titleContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(_headDetailButton.mas_bottom);
-//        make.left.and.right.mas_equalTo(0);
-//        make.height.mas_equalTo(30);
-//    }];
-//    
-//    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(10);
-//        make.top.mas_equalTo(0);
-//        make.height.mas_equalTo(30);
-//    }];
-//    
-//    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
-//        make.width.mas_equalTo(YOSScreenWidth);
-//        make.top.mas_equalTo(_titleLabel.mas_bottom);
-//        make.bottom.mas_equalTo(-44);
-//    }];
-//    
-//    [_placeholderImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.center.mas_equalTo(_tableView);
-//    }];
-//    
-//    [_leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.and.bottom.mas_equalTo(0);
-//        make.size.mas_equalTo(_rightButton);
-//        make.right.mas_equalTo(_rightButton.mas_left);
-//        make.height.mas_equalTo(44);
-//    }];
-//    
-//    [_rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.and.bottom.mas_equalTo(0);
-//        make.size.mas_equalTo(_leftButton);
-//    }];
-//    
-//    _stampImageView.hidden = YES;
-//}
-//
-//#pragma mark - UITableViewDelegate & UITableViewDataSource
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSNumber *number = self.cellHeights[indexPath.row];
-//    return [number floatValue];
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return self.dataSource.count;
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    YOSAuditIndividualCell *cell = [YOSAuditIndividualCell cellWithTableView:tableView];
-//    
-//    cell.string = self.dataSource[indexPath.row];
-//    
-//    return cell;
-//}
-//
-//#pragma mark - event response
-//
-//- (void)tappedRightButton {
-//    NSLog(@"%s", __func__);
-//    
-//    [self sendNetworkRequestWithStatus:YOSUserAuditRegisterTypePass];
-//}
-//
-//- (void)tappedLeftButton {
-//    NSLog(@"%s", __func__);
-//    
-//    [self sendNetworkRequestWithStatus:YOSUserAuditRegisterTypeRefuse];
-//}
-//
-//#pragma mark - network
-//
-//- (void)sendNetworkRequestWithStatus:(YOSUserAuditRegisterType)status {
-//    YOSUserAuditRegisterRequest *request = [[YOSUserAuditRegisterRequest alloc] initWithID:self.userInfoModel.ID andStatus:status];
-//    
-//    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-//    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-//        if ([request yos_checkResponse]) {
-//            
-//            YOSUserInfoModel *model = [self.userInfoModel copy];
-//            model.status = [NSString stringWithFormat:@"%zi", status];
-//            // setter will reset UI
-//            self.userInfoModel = model;
-//            
-//            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateAuditInfo object:nil userInfo:@{@"uid" : self.userInfoModel.uid, @"status" : model.status}];
-//            
-//        }
-//    } failure:^(YTKBaseRequest *request) {
-//        [SVProgressHUD dismiss];
-//        [request yos_checkResponse];
-//    }];
-//}
-//
-//#pragma mark - getter & setter
-//
-//- (NSMutableArray *)dataSource {
-//    if (!_dataSource) {
-//        _dataSource = [NSMutableArray array];
-//        //        [_dataSource addObject:@"和额啊阿拉山口大家来。你叫啥啊?"];
-//        //        [_dataSource addObject:@"和额啊阿拉山口大家来。这是谁啊。哦，呀呀呀，来吗啊，的，的，你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?"];
-//        //        [_dataSource addObject:@"和额啊阿拉山口大家来。这是谁啊。哦，呀呀呀，来吗啊，的，的，你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?"];
-//        //        [_dataSource addObject:@"和额啊阿拉山口大家啥啊?你叫啥啊?你叫啥啊?"];
-//        //        [_dataSource addObject:@"和额啊阿拉山口大家来。这是谁啊。哦，呀呀呀，来吗啊，的，的，你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?"];
-//        //        [_dataSource addObject:@"和额啊阿"];
-//        //        [_dataSource addObject:@"和额啊阿拉山口大家来。这是谁啊。哦，呀呀呀，来吗啊，的，的，你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你"];
-//        //        [_dataSource addObject:@"和额啊阿拉山口大家来。这是谁啊。哦，呀呀呀，来吗啊，的，的，你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啊?你叫啥啊?你叫啥啊?你叫啥啊?你叫啥啊?"];
-//    }
-//    
-//    return _dataSource;
-//}
-//
-//- (NSMutableArray *)cellHeights {
-//    if (!_cellHeights) {
-//        _cellHeights = [NSMutableArray array];
-//    }
-//    
-//    return _cellHeights;
-//}
-//
-//- (void)setUserInfoModel:(YOSUserInfoModel *)userInfoModel {
-//    _userInfoModel = userInfoModel;
-//    
-//    [self.dataSource removeAllObjects];
-//    
-//    if (userInfoModel.username.length) {
-//        [self.dataSource addObject:[NSString stringWithFormat:@"手机号: %@", userInfoModel.username]];
-//    }
-//    
-//    if ([userInfoModel.work_experience integerValue]) {
-//        [self.dataSource addObject:[NSString stringWithFormat:@"工作年限: %@", yos_getJobYears(userInfoModel.work_experience)]];
-//    }
-//    
-//    if (userInfoModel.degree.length) {
-//        [self.dataSource addObject:[NSString stringWithFormat:@"学历: %@", yos_getEducation(userInfoModel.degree)]];
-//    }
-//    
-//    [self.dataSource enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
-//        CGSize size = [obj boundingRectWithSize:CGSizeMake(YOSScreenWidth - 20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : YOSFontNormal} context:nil].size;
-//        
-//        size = CGSizeMake(ceil(YOSScreenWidth - 20), ceil(size.height));
-//        [self.cellHeights addObject:@(size.height + 20)];
-//    }];
-//    
-//    [self.tableView reloadData];
-//    self.tableView.hidden = !self.dataSource.count;
-//    
-//    // 未审核
-//    if ([userInfoModel.status integerValue] == 0) {
-//        _stampImageView.hidden = YES;
-//        _leftButton.enabled = YES;
-//        _rightButton.enabled = YES;
-//    }
-//    
-//    // 通过审核
-//    if ([userInfoModel.status integerValue] == 1) {
-//        _stampImageView.image = [UIImage imageNamed:@"已通过印章"];
-//        _stampImageView.hidden = NO;
-//        _leftButton.enabled = NO;
-//        _rightButton.enabled = NO;
-//    }
-//    
-//    // 已拒绝
-//    if ([userInfoModel.status integerValue] == 2) {
-//        _stampImageView.image = [UIImage imageNamed:@"已拒绝印章"];
-//        _stampImageView.hidden = NO;
-//        _leftButton.enabled = NO;
-//        _rightButton.enabled = NO;
-//    }
-//    
-//    _headDetailButton.userInfoModel = userInfoModel;
-//    
-//}
+- (void)setupSubviews {
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    _scrollView = [UIScrollView new];
+    [self.view addSubview:_scrollView];
+    
+    _contentView = [UIView new];
+    [_scrollView addSubview:_contentView];
+    
+    _headDetailButton = [YOSHeadDetailButton new];
+    _headDetailButton.showRightAccessory = NO;
+    _headDetailButton.userInfoModel = self.userInfoModel;
+    
+    [_contentView addSubview:_headDetailButton];
+    
+    _demandTitleContentView = [UIView new];
+    _demandTitleContentView.backgroundColor = YOSColorBackgroundGray;
+    [_contentView addSubview:_demandTitleContentView];
+    
+    _demandTitleLabel = [UILabel new];
+    _demandTitleLabel.text = @"述求";
+    _demandTitleLabel.textColor = YOSColorFontGray;
+    _demandTitleLabel.font = YOSFontNormal;
+    [_demandTitleContentView addSubview:_demandTitleLabel];
+    
+    _demandLabel = [UILabel new];
+    _demandLabel.numberOfLines = 0;
+    _demandLabel.text = (self.userInfoModel.demand.length ? self.userInfoModel.demand : @"暂未填写");
+    _demandLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+    [_contentView addSubview:_demandLabel];
+    
+    _titleContentView = [UIView new];
+    _titleContentView.backgroundColor = YOSColorBackgroundGray;
+    [_contentView addSubview:_titleContentView];
+    
+    _titleLabel = [UILabel new];
+    _titleLabel.text = @"信息";
+    _titleLabel.textColor = YOSColorFontGray;
+    _titleLabel.font = YOSFontNormal;
+    [_titleContentView addSubview:_titleLabel];
+    
+    _tableView = [UITableView new];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.allowsSelection = NO;
+    _tableView.showsVerticalScrollIndicator = NO;
+    _tableView.showsHorizontalScrollIndicator = NO;
+    _tableView.tableFooterView = [UIView new];
+    _tableView.bounces = NO;
+    [_contentView addSubview:_tableView];
+    
+    _leftButton = [UIButton new];
+    [_leftButton setTitle:@"发起消息" forState:UIControlStateNormal];
+    [_leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _leftButton.titleLabel.font = YOSFontBig;
+    [_leftButton setBackgroundImage:[UIImage yos_imageWithColor:YOSColorGreen size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+    [_leftButton addTarget:self action:@selector(tappedLeftButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_leftButton];
+    
+    _rightButton = [UIButton new];
+    [_rightButton setTitle:@"想认识他" forState:UIControlStateNormal];
+    [_rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _rightButton.titleLabel.font = YOSFontBig;
+    [_rightButton setBackgroundImage:[UIImage yos_imageWithColor:YOSColorMainRed size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+    [_rightButton addTarget:self action:@selector(tappedRightButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_rightButton];
+    
+    [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+    }];
+    
+    [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.bottom.mas_equalTo(_tableView.mas_bottom);
+    }];
+    
+    [_headDetailButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.and.left.mas_equalTo(0);
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 110));
+    }];
+    
+    [_demandTitleContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_headDetailButton.mas_bottom);
+        make.left.and.right.mas_equalTo(0);
+        make.height.mas_equalTo(30);
+    }];
+    
+    [_demandTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(10);
+        make.top.mas_equalTo(0);
+        make.height.mas_equalTo(30);
+    }];
+    
+    NSString *demand = self.userInfoModel.demand;
+    
+    if (!demand.length) {
+        demand = @"暂无诉求";
+    }
+    
+    CGSize size = [demand boundingRectWithSize:CGSizeMake(YOSScreenWidth - 20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : _demandLabel.font} context:nil].size;
+    
+    size = CGSizeMake(ceil(size.width), ceil(size.height));
+    
+    [_demandLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_demandTitleContentView.mas_bottom).offset(10);
+        make.left.mas_equalTo(10);
+        make.size.mas_equalTo(size);
+    }];
+    
+    [_titleContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_demandLabel.mas_bottom).offset(10);
+        make.left.and.right.mas_equalTo(0);
+        make.height.mas_equalTo(30);
+    }];
+    
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(10);
+        make.top.mas_equalTo(0);
+        make.height.mas_equalTo(30);
+    }];
+    
+    __block CGFloat height = 0.0f;
+    [self.cellHeights enumerateObjectsUsingBlock:^(NSNumber *obj, NSUInteger idx, BOOL *stop) {
+        height += [obj floatValue];
+    }];
+    
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+        make.top.mas_equalTo(_titleLabel.mas_bottom);
+        make.height.mas_equalTo(height);
+    }];
+    
+    if (self.hideButtons) {
+        _leftButton.hidden = YES;
+        _rightButton.hidden = YES;
+        
+        return;
+    }
+    
+    BOOL isFriend = [[YOSEaseMobManager sharedManager] isFriendWithUser:self.userInfoModel.hx_user];
+    
+    NSUInteger isPublic = [self.userInfoModel.is_public integerValue];
+    
+    // 是朋友, 或者可以接受陌生人消息
+    if (isFriend) {
+        [_leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.and.bottom.mas_equalTo(0);
+            make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 44));
+        }];
+        
+        _rightButton.hidden = YES;
+    } else if (isPublic == 1) {
+        [_leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.and.bottom.mas_equalTo(0);
+            make.size.mas_equalTo(_rightButton);
+            make.right.mas_equalTo(_rightButton.mas_left);
+            make.height.mas_equalTo(44);
+        }];
+        
+        [_rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.and.bottom.mas_equalTo(0);
+            make.size.mas_equalTo(_leftButton);
+        }];
+    } else {
+        [_rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.and.bottom.mas_equalTo(0);
+            make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 44));
+        }];
+        
+        _leftButton.hidden = YES;
+    }
+    
+}
+
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSNumber *number = self.cellHeights[indexPath.row];
+    return [number floatValue];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    YOSAuditIndividualCell *cell = [YOSAuditIndividualCell cellWithTableView:tableView];
+    
+    cell.string = self.dataSource[indexPath.row];
+    
+    return cell;
+}
+
+#pragma mark - event response
+
+- (void)tappedRightButton {
+    NSLog(@"%s", __func__);
+    
+    BOOL status = [[YOSEaseMobManager sharedManager] addBuddy:self.userInfoModel.hx_user message:@"请求添加您为好友"];
+    
+    if (status) {
+        [_rightButton setTitle:@"等待验证" forState:UIControlStateNormal];
+    }
+}
+
+- (void)tappedLeftButton {
+    NSLog(@"%s", __func__);
+    
+    YOSSendMessagesViewController *sendVC = [YOSSendMessagesViewController new];
+    sendVC.otherUserInfoModel = self.userInfoModel;
+    
+    [self.navigationController pushViewController:sendVC animated:YES];
+}
+
+#pragma mark - getter & setter
+
+- (NSMutableArray *)dataSource {
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray array];
+    }
+    
+    return _dataSource;
+}
+
+- (NSMutableArray *)cellHeights {
+    if (!_cellHeights) {
+        _cellHeights = [NSMutableArray array];
+    }
+    
+    return _cellHeights;
+}
+
+- (void)setUserInfoModel:(YOSUserInfoModel *)userInfoModel {
+    _userInfoModel = userInfoModel;
+    
+    [self.dataSource removeAllObjects];
+    
+    BOOL isFriend = [[YOSEaseMobManager sharedManager] isFriendWithUser:self.userInfoModel.hx_user];
+    
+    YOSUserInfoModel *meUserInfoModel = [YOSWidget getCurrentUserInfoModel];
+    
+    BOOL status = [meUserInfoModel.hx_user isEqualToString:self.userInfoModel.hx_user];
+    
+    if (isFriend || status) {
+        BOOL status0 = userInfoModel.username.length;
+        [self.dataSource addObject:[NSString stringWithFormat:@"手机: %@", (status0 ? userInfoModel.username : @"暂未填写")]];
+        
+        BOOL status1 = userInfoModel.phone.length;
+        [self.dataSource addObject:[NSString stringWithFormat:@"座机: %@", (status1 ? userInfoModel.phone : @"暂未填写")]];
+        
+        BOOL status2 = userInfoModel.email.length;
+        [self.dataSource addObject:[NSString stringWithFormat:@"邮箱: %@", (status2 ? userInfoModel.email : @"暂未填写")]];
+        
+        BOOL status3 = userInfoModel.website.length;
+        [self.dataSource addObject:[NSString stringWithFormat:@"网址: %@", (status3 ? userInfoModel.website : @"暂未填写")]];
+    } else {
+        [self.dataSource addObject:@"手机: 加好友可见"];
+        [self.dataSource addObject:@"座机: 加好友可见"];
+        [self.dataSource addObject:@"邮箱: 加好友可见"];
+        [self.dataSource addObject:@"网址: 加好友可见"];
+    }
+    
+    [self.dataSource enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
+        CGSize size = [obj boundingRectWithSize:CGSizeMake(YOSScreenWidth - 20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : YOSFontNormal} context:nil].size;
+        
+        size = CGSizeMake(ceil(YOSScreenWidth - 20), ceil(size.height));
+        [self.cellHeights addObject:@(size.height + 20)];
+    }];
+    
+}
 
 
 @end

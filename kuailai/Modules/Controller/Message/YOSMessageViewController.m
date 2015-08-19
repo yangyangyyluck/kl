@@ -28,6 +28,7 @@
 #import "YOSEaseMobManager.h"
 #import "NSString+YOSAdditions.h"
 #import "SVProgressHUD+YOSAdditions.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface YOSMessageViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -107,7 +108,7 @@
     // 这里代码有时间再重构， 设置fatherVC 一定要在 设置model前
     cell.fatherVC = self.view;
     cell.messageModel = self.messageModels[indexPath.row];
-    
+    cell.userInfoModel = self.userInfoModels[indexPath.row];
     
     return cell;
 }
@@ -132,89 +133,30 @@
     
 }
 
-#pragma mark - UITableViewDataSource 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row != 0) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
-- (NSMutableArray *)messageModels {
-    if (!_messageModels) {
-        _messageModels = [NSMutableArray array];
-
-        YOSMessageModel *model = [YOSMessageModel new];
-        model.avatar = @"想认识我的人";
-        model.name = @"想认识我的人";
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        YOSUserInfoModel *userInfoModel = [YOSWidget getCurrentUserInfoModel];
+        NSUInteger idx = indexPath.row;
+        YOSUserInfoModel *deleteUserInfoModel = self.userInfoModels[idx];
         
-        NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:userInfoModel.username];
+        [self.messageModels removeObjectAtIndex:idx];
+        [self.userInfoModels removeObjectAtIndex:idx];
         
-        if (!buddyLists.count) {
-            model.message = @"[暂无好友申请]";
-        } else {
-            model.message = [NSString stringWithFormat:@"[%zi位想认识我的人]", buddyLists.count];
-        }
+        EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:deleteUserInfoModel.hx_user];
         
-        [_messageModels addObject:model];
+        [con removeAllMessages];
         
-        
-        /*
-        NSUInteger num = arc4random_uniform(20) + 5;
-        
-        NSUInteger i = 0;
-        while (i < num) {
-            ++i;
-            YOSMessageModel *m = [YOSMessageModel new];
-            
-            NSString *total = @"我啊红烧豆腐鲁昆吉里拉手看到就烦离开我就饿马桑德拉看就访问离开人间哦啥地方abcdefghijklmnopqrstuvwsyz哈噢这里立交桥0就啊啥的哦";
-            
-            NSMutableString *name = [NSMutableString new];
-            
-            for (int i = 0; i < (arc4random_uniform(10) + 1); ++i) {
-                NSString *randomName = [total substringWithRange:NSMakeRange(arc4random_uniform((int)total.length), 1)];
-                [name appendString:randomName];
-            }
-            
-            m.name = name;
-            
-            NSString *total2 = @"郭德纲的徒弟分八科，云鹤九霄，龙腾四海。黄鹤飞，一听就是郭德纲鹤字科的徒弟。2007年在郭德纲拍摄《相声演义》的时候，现场磕头拜师，起名黄鹤飞。黄鹤飞一门心思想搞电影，在遇到郭德纲之前在各大剧组里面摸爬滚打三四年，拜师之后，依然挂念摄影机，虽然作为北漂，混得很给北漂丢脸，但依然不改初衷，光影梦想不死。";
-            
-            NSMutableString *message = [NSMutableString new];
-            
-            for (int i = 0; i < (arc4random_uniform(40) + 5); ++i) {
-                NSString *randomMessage = [total2 substringWithRange:NSMakeRange(arc4random_uniform((int)total2.length), 1)];
-                [message appendString:randomMessage];
-            }
-            
-            m.message = message;
-            
-            if (arc4random_uniform(2)) {
-                m.date = @"15/02/07";
-            }
-            
-            if (arc4random_uniform(2)) {
-                m.status = @"未添加";
-            }
-            
-            NSUInteger random = arc4random_uniform(3);
-            if (random == 0) {
-                m.count = @" 99+ ";
-            }
-            
-            if (random == 1) {
-                m.count = @"25";
-            }
-            
-            if (random == 2) {
-                m.count = @"4";
-            }
-            
-            [_messageModels addObject:m];
-         
-        }
-         */
-        
+        [self.tableView reloadData];
         
     }
-    
-    return _messageModels;
 }
 
 #pragma mark - event response
@@ -286,6 +228,25 @@
 
 - (void)setupOriginMessagesWithUsernames:(NSArray *)usernames {
     
+    NSUInteger isPublic = [GVUserDefaults standardUserDefaults].isPublic;
+    
+    if (isPublic == 2) {
+        
+        NSMutableArray *mUsernames = [usernames mutableCopy];
+        
+        NSArray *buddyLists = [[YOSEaseMobManager sharedManager] getNewestBuddyList];
+        
+        NSArray *buddyArr = [buddyLists valueForKeyPath:@"username"];
+        
+        [usernames enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
+            if (![buddyArr containsObject:obj]) {
+                [mUsernames removeObject:obj];
+            }
+        }];
+        
+        usernames = [mUsernames copy];
+    }
+    
     [usernames enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
         
         NSString *jsonStr = [[YOSDBManager sharedManager] getUserInfoJsonWithUsername:obj];
@@ -294,7 +255,9 @@
         
         if (userInfoModel) {
             EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:obj];
-            EMMessage *message = [con latestMessage];
+            EMMessage *message = [[con loadNumbersOfMessages:1 before:[NSDate date].timeIntervalSince1970 * 1000] lastObject];
+            
+//            NSLog(@"setupOriginMessagesWithUsernames, con is %@, msg is %@",con, message);
             
             YOSMessageModel *model = [self messageModelWithUserInfoModel:userInfoModel message:message];
             
@@ -345,6 +308,25 @@
     EMMessage *message = noti.userInfo[@"message"];
     
     NSString *from = message.from;
+    
+    YOSUserInfoModel *currentUserInfoModel = [YOSWidget getCurrentUserInfoModel];
+    
+    if ([from isEqualToString:currentUserInfoModel.hx_user]) {
+        from = message.to;
+    }
+    
+    // 如果拒绝陌生人聊天，则不现实陌生人消息
+    NSUInteger isPublic = [GVUserDefaults standardUserDefaults].isPublic;
+    
+    if (isPublic == 2) {
+        
+        BOOL status = [[YOSEaseMobManager sharedManager] isFriendWithUser:from];
+        
+        if (!status) {
+            return;
+        }
+        
+    }
     
     YOSUserInfoModel *userInfoModel = self.hx_users[from];
     
@@ -447,11 +429,16 @@
     
     if (hasCell) {
         [self.messageModels replaceObjectAtIndex:index withObject:model];
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.messageModels exchangeObjectAtIndex:1 withObjectAtIndex:index];
+        [self.userInfoModels exchangeObjectAtIndex:1 withObjectAtIndex:index];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:0];
+        NSIndexPath *indexPath2 = [NSIndexPath indexPathForItem:index inSection:0];
+
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath, indexPath2] withRowAnimation:UITableViewRowAnimationFade];
     } else {
-        [self.messageModels addObject:model];
-        [self.userInfoModels addObject:userInfoModel];
+        [self.messageModels insertObject:model atIndex:1];
+        [self.userInfoModels insertObject:userInfoModel atIndex:1];
+        
         [self.tableView reloadData];
     }
 
@@ -461,6 +448,8 @@
     
     EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:message.from];
     
+//    NSLog(@"messageModelWithUserInfoModel, con is %@, msg is %@",con, message);
+    
     YOSMessageModel *model = [YOSMessageModel new];
     
     model.avatar = userInfoModel.avatar;
@@ -469,10 +458,10 @@
     model.message = [message yos_message];
     model.hx_user = userInfoModel.hx_user;
     
-    if (![YOSWidget isTodayWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp]]) {
-        model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp] Format:@"MM-dd"];
+    if (![YOSWidget isTodayWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp / 1000]]) {
+        model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp / 1000] Format:@"MM-dd"];
     } else {
-        model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp] Format:@"HH:mm:ss"];
+        model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp / 1000] Format:@"HH:mm:ss"];
     }
     
     BOOL status = [[YOSEaseMobManager sharedManager] isFriendWithUser:userInfoModel.hx_user];
@@ -491,6 +480,8 @@
     [self setupSubviews];
     
     _tableView.hidden = NO;
+    _userInfoModels = nil;
+    _messageModels = nil;
     
     [self loadNewestChat];
 }
@@ -538,5 +529,89 @@
     
     return _userInfoModels;
 }
+
+- (NSMutableArray *)messageModels {
+    if (!_messageModels) {
+        _messageModels = [NSMutableArray array];
+        
+        YOSMessageModel *model = [YOSMessageModel new];
+        model.avatar = @"想认识我的人";
+        model.name = @"想认识我的人";
+        
+        YOSUserInfoModel *userInfoModel = [YOSWidget getCurrentUserInfoModel];
+        
+        NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:userInfoModel.username];
+        
+        if (!buddyLists.count) {
+            model.message = @"[暂无好友申请]";
+        } else {
+            model.message = [NSString stringWithFormat:@"[%zi位想认识我的人]", buddyLists.count];
+        }
+        
+        [_messageModels addObject:model];
+        
+        
+        /*
+         NSUInteger num = arc4random_uniform(20) + 5;
+         
+         NSUInteger i = 0;
+         while (i < num) {
+         ++i;
+         YOSMessageModel *m = [YOSMessageModel new];
+         
+         NSString *total = @"我啊红烧豆腐鲁昆吉里拉手看到就烦离开我就饿马桑德拉看就访问离开人间哦啥地方abcdefghijklmnopqrstuvwsyz哈噢这里立交桥0就啊啥的哦";
+         
+         NSMutableString *name = [NSMutableString new];
+         
+         for (int i = 0; i < (arc4random_uniform(10) + 1); ++i) {
+         NSString *randomName = [total substringWithRange:NSMakeRange(arc4random_uniform((int)total.length), 1)];
+         [name appendString:randomName];
+         }
+         
+         m.name = name;
+         
+         NSString *total2 = @"郭德纲的徒弟分八科，云鹤九霄，龙腾四海。黄鹤飞，一听就是郭德纲鹤字科的徒弟。2007年在郭德纲拍摄《相声演义》的时候，现场磕头拜师，起名黄鹤飞。黄鹤飞一门心思想搞电影，在遇到郭德纲之前在各大剧组里面摸爬滚打三四年，拜师之后，依然挂念摄影机，虽然作为北漂，混得很给北漂丢脸，但依然不改初衷，光影梦想不死。";
+         
+         NSMutableString *message = [NSMutableString new];
+         
+         for (int i = 0; i < (arc4random_uniform(40) + 5); ++i) {
+         NSString *randomMessage = [total2 substringWithRange:NSMakeRange(arc4random_uniform((int)total2.length), 1)];
+         [message appendString:randomMessage];
+         }
+         
+         m.message = message;
+         
+         if (arc4random_uniform(2)) {
+         m.date = @"15/02/07";
+         }
+         
+         if (arc4random_uniform(2)) {
+         m.status = @"未添加";
+         }
+         
+         NSUInteger random = arc4random_uniform(3);
+         if (random == 0) {
+         m.count = @" 99+ ";
+         }
+         
+         if (random == 1) {
+         m.count = @"25";
+         }
+         
+         if (random == 2) {
+         m.count = @"4";
+         }
+         
+         [_messageModels addObject:m];
+         
+         }
+         */
+        
+        
+    }
+    
+    return _messageModels;
+}
+
 
 @end

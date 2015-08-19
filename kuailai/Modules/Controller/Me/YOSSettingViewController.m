@@ -11,6 +11,8 @@
 #import "YOSFeedbackViewController.h"
 #import "YOSSettingCell.h"
 
+#import "YOSUserUpPublicRequest.h"
+
 #import "UIView+YOSAdditions.h"
 #import "UIImage+YOSAdditions.h"
 #import "Masonry.h"
@@ -125,11 +127,22 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     }
     
     if (rightType == kRightAccessoryTypeSwitch) {
+        YOSWSelf(weakSelf);
         [cell showSwitchWithSelectedBlock:^{
             YOSLog(@"selected");
+            [weakSelf sendNetworkRequestWithIsPublic:1];
         } unSelectedBlock:^{
             YOSLog(@"unselected");
+            [weakSelf sendNetworkRequestWithIsPublic:2];
         }];
+        
+        NSUInteger isPublic = [GVUserDefaults standardUserDefaults].isPublic;
+        
+        if (isPublic == 1) {
+            [cell setSwitchOn:YES];
+        } else {
+            [cell setSwitchOn:NO];
+        }
         
         cell.showRightAccessoryArrow = NO;
     }
@@ -167,6 +180,32 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
         [self.navigationController pushViewController:testVC animated:YES];
     }
     
+}
+
+#pragma mark - network
+
+- (void)sendNetworkRequestWithIsPublic:(NSUInteger)isPublic {
+    NSString *uid = [GVUserDefaults standardUserDefaults].currentLoginID;
+    YOSUserUpPublicRequest *request = [[YOSUserUpPublicRequest alloc] initWithUid:uid isPublic:YOSInt2String(isPublic)];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            
+            [GVUserDefaults standardUserDefaults].isPublic = isPublic;
+            
+            NSDictionary *dict = [GVUserDefaults standardUserDefaults].currentUserInfoDictionary;
+            
+            NSMutableDictionary *mDict = [dict mutableCopy];
+            
+            mDict[@"is_public"] = YOSInt2String(isPublic);
+            [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mDict;
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 #pragma mark - event response

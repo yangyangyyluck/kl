@@ -123,6 +123,7 @@
 }
 
 - (void)setupUserInfo {
+    self.clipsToBounds = YES;
     
     _headBackgroundImageView.image = [UIImage imageNamed:@"首页默认图"];
     _headBackgroundImageView.contentMode = UIViewContentModeScaleAspectFill;

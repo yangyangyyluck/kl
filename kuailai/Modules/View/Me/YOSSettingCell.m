@@ -110,6 +110,10 @@
     _rightAccessoryImageView.hidden = YES;
 }
 
+- (void)setSwitchOn:(BOOL)on {
+    _switch.on = on;
+}
+
 #pragma mark - private methods
 
 - (void)valueChanged {

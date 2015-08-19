@@ -44,6 +44,7 @@
 		DD24E9CA1B7ED797008CAE12 /* YOSInterestActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9C91B7ED797008CAE12 /* YOSInterestActivityCell.m */; };
 		DD24E9CD1B7EE592008CAE12 /* YOSInterestCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9CC1B7EE592008CAE12 /* YOSInterestCategoryViewController.m */; };
 		DD24E9D01B7F4449008CAE12 /* YOSUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9CF1B7F4449008CAE12 /* YOSUserInfoViewController.m */; };
+		DD24E9D31B81D2A9008CAE12 /* YOSUserUpPublicRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9D21B81D2A9008CAE12 /* YOSUserUpPublicRequest.m */; };
 		DD2503B41B787E87008D4ACE /* EMMessage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */; };
 		DD311F121B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */; };
 		DD311F151B5756170094A91C /* YOSMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F141B5756170094A91C /* YOSMessageViewController.m */; };
@@ -128,7 +129,6 @@
 		DDB6CF931B2AB19400C5B9B1 /* YOSCollectionImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB6CF921B2AB19400C5B9B1 /* YOSCollectionImageCell.m */; };
 		DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E6B1B01B6D500B37323 /* YOSEditViewController.m */; };
 		DDC51E6F1B01E01300B37323 /* YOSPresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E6E1B01E01300B37323 /* YOSPresentViewController.m */; };
-		DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */; };
 		DDC9DE651B1DE2E900629C84 /* YOSUploadActivityImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC9DE641B1DE2E900629C84 /* YOSUploadActivityImageRequest.m */; };
 		DDC9DE701B1DED0200629C84 /* YOSGetActiveListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC9DE6F1B1DED0200629C84 /* YOSGetActiveListRequest.m */; };
 		DDC9DE731B1DF0F300629C84 /* YOSActivityListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC9DE721B1DF0F300629C84 /* YOSActivityListModel.m */; };
@@ -259,6 +259,8 @@
 		DD24E9CC1B7EE592008CAE12 /* YOSInterestCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSInterestCategoryViewController.m; sourceTree = "<group>"; };
 		DD24E9CE1B7F4449008CAE12 /* YOSUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserInfoViewController.h; sourceTree = "<group>"; };
 		DD24E9CF1B7F4449008CAE12 /* YOSUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserInfoViewController.m; sourceTree = "<group>"; };
+		DD24E9D11B81D2A9008CAE12 /* YOSUserUpPublicRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserUpPublicRequest.h; sourceTree = "<group>"; };
+		DD24E9D21B81D2A9008CAE12 /* YOSUserUpPublicRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserUpPublicRequest.m; sourceTree = "<group>"; };
 		DD2503B21B787E87008D4ACE /* EMMessage+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMMessage+YOSAdditions.h"; sourceTree = "<group>"; };
 		DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMMessage+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD311F101B55F79A0094A91C /* YOSUserConfirmRegisterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserConfirmRegisterRequest.h; sourceTree = "<group>"; };
@@ -429,8 +431,6 @@
 		DDC51E6B1B01B6D500B37323 /* YOSEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSEditViewController.m; sourceTree = "<group>"; };
 		DDC51E6D1B01E01300B37323 /* YOSPresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSPresentViewController.h; sourceTree = "<group>"; };
 		DDC51E6E1B01E01300B37323 /* YOSPresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSPresentViewController.m; sourceTree = "<group>"; };
-		DDC51E731B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YOSAdditionForIQKeyboardManager.h"; sourceTree = "<group>"; };
-		DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YOSAdditionForIQKeyboardManager.m"; sourceTree = "<group>"; };
 		DDC9DE631B1DE2E900629C84 /* YOSUploadActivityImageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUploadActivityImageRequest.h; sourceTree = "<group>"; };
 		DDC9DE641B1DE2E900629C84 /* YOSUploadActivityImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUploadActivityImageRequest.m; sourceTree = "<group>"; };
 		DDC9DE6E1B1DED0200629C84 /* YOSGetActiveListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSGetActiveListRequest.h; sourceTree = "<group>"; };
@@ -1124,8 +1124,6 @@
 				DD00EDE11ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m */,
 				DDA4266A1AEE80620043FB6B /* UIButton+YOSAdditions.h */,
 				DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */,
-				DDC51E731B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.h */,
-				DDC51E741B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m */,
 				DD3EED211B208CCC002C0AB0 /* NSString+YOSAdditions.h */,
 				DD3EED221B208CCC002C0AB0 /* NSString+YOSAdditions.m */,
 				DD177AFD1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.h */,
@@ -1276,6 +1274,8 @@
 				DD5EBD1B1B690DB600BB1033 /* YOSUserGetUserByHxRequest.m */,
 				DD24E9B81B7DD7A7008CAE12 /* YOSUserFeedbackRequest.h */,
 				DD24E9B91B7DD7A7008CAE12 /* YOSUserFeedbackRequest.m */,
+				DD24E9D11B81D2A9008CAE12 /* YOSUserUpPublicRequest.h */,
+				DD24E9D21B81D2A9008CAE12 /* YOSUserUpPublicRequest.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1444,7 +1444,6 @@
 				DDC9DE651B1DE2E900629C84 /* YOSUploadActivityImageRequest.m in Sources */,
 				DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */,
 				DDE28F661B37EE6B005BD036 /* YOSAttentionUserViewController.m in Sources */,
-				DDC51E751B02030A00B37323 /* UIView+YOSAdditionForIQKeyboardManager.m in Sources */,
 				DD8DC8141ACE777D00918ADD /* AppDelegate.m in Sources */,
 				DD163BF81B147DAF0068A771 /* YOSImageView.m in Sources */,
 				DDCF01041B116FAD00ED205F /* YOSLRLabel.m in Sources */,
@@ -1579,6 +1578,7 @@
 				DD00EDD71ADB6C3A00E811A2 /* YOSBaseNavigationViewController.m in Sources */,
 				DDFC6B491B4F6F97008DB181 /* YOSTagModel.m in Sources */,
 				DD64122C1B525DEB00C5BFFB /* qrspec.mm in Sources */,
+				DD24E9D31B81D2A9008CAE12 /* YOSUserUpPublicRequest.m in Sources */,
 				DD89D6A11B43DDF900D542BB /* YOSActivityAuditViewController.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,

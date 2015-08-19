@@ -24,8 +24,12 @@
 
 @dynamic currentTagDictionary;
 
+@dynamic isPublic;
+
 - (NSDictionary *)setupDefaults {
-    return nil;
+    return @{
+             @"isPublic" : @1,
+             };
 }
 
 - (void)logout {
@@ -33,6 +37,7 @@
     self.currentLoginMobileNumber = nil;
     self.currentTagDictionary = nil;
     self.currentUserInfoDictionary = nil;
+    self.isPublic = 1;
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }

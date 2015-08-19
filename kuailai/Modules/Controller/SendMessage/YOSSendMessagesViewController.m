@@ -17,6 +17,7 @@
 //
 
 #import "YOSSendMessagesViewController.h"
+#import "YOSUserInfoViewController.h"
 
 #import "YOSUserInfoModel.h"
 
@@ -27,6 +28,7 @@
 #import "IQKeyboardManager.h"
 #import "YOSWidget.h"
 #import "EMMessage+YOSAdditions.h"
+#import "YOSDBManager.h"
 
 const static NSUInteger kCountOfLoadMessages = 20;
 
@@ -165,7 +167,7 @@ const static NSUInteger kCountOfLoadMessages = 20;
     self.inputToolbar.contentView.textView.returnKeyType = UIReturnKeySend;
     self.inputToolbar.contentView.textView.enablesReturnKeyAutomatically = YES;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessage:) name:YOSNotificationReceiveMessage object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessage:) name:YOSNotificationReceiveMessage object:[YOSEaseMobManager class]];
     
     /**
      *  Customize your toolbar buttons
@@ -406,7 +408,12 @@ const static NSUInteger kCountOfLoadMessages = 20;
      *  3. Call `finishSendingMessage`
      */
     
-    [[YOSEaseMobManager sharedManager] sendMessageToUser:self.otherUserInfoModel.hx_user message:text];
+    EMMessage *msg = [[YOSEaseMobManager sharedManager] sendMessageToUser:self.otherUserInfoModel.hx_user message:text];
+    
+    NSString *update_time = [NSString stringWithFormat:@"%lli", msg.timestamp / 1000];
+    [[YOSDBManager sharedManager] updateNewestChatWithUsername:msg.to update_time:update_time];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:nil userInfo:@{@"message" : msg}];
     
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
@@ -762,17 +769,35 @@ const static NSUInteger kCountOfLoadMessages = 20;
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
     
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
-    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:newMessageCount inSection:0];
-//        
-//        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
-//    });
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView atIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Tapped avatar!");
+    NSString *senderId = collectionView.dataSource.senderId;
+    
+    // 点击我
+    if ([senderId isEqualToString:self.meUserInfoModel.hx_user]) {
+        YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
+        userVC.hideButtons = YES;
+        
+        userVC.userInfoModel = self.meUserInfoModel;
+        
+        [self.navigationController pushViewController:userVC animated:YES];
+        
+        return;
+    }
+    
+    if ([senderId isEqualToString:self.otherUserInfoModel.hx_user]) {
+        YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
+        userVC.hideButtons = YES;
+        
+        userVC.userInfoModel = self.otherUserInfoModel;
+        
+        [self.navigationController pushViewController:userVC animated:YES];
+        
+        return;
+    }
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath

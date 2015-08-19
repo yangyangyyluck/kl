@@ -75,7 +75,6 @@
     self.isNoMoreData = NO;
     
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

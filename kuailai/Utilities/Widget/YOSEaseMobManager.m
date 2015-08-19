@@ -424,7 +424,7 @@
     
     EMConversation *conversation = self.conversations[username];
     
-    if (![conversation isKindOfClass:[EMConversation class]]) {
+    if (!conversation) {
         conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:username conversationType:eConversationTypeChat];
     }
     
@@ -461,8 +461,8 @@
 
 #pragma mark - 发送消息
 
-- (void)sendMessageToUser:(NSString *)username message:(NSString *)message {
-    [ChatSendHelper sendTextMessageWithString:message toUsername:username isChatGroup:NO requireEncryption:NO ext:nil];
+- (EMMessage *)sendMessageToUser:(NSString *)username message:(NSString *)message {
+    return [ChatSendHelper sendTextMessageWithString:message toUsername:username isChatGroup:NO requireEncryption:NO ext:nil];
 }
 
 #pragma mark - getter & setter
@@ -613,9 +613,9 @@
     YOSLog(@"\r\n\r\n\r\nreceive message : %@\r\n\r\n\r\n", message);
     
     NSString *update_time = [NSString stringWithFormat:@"%lli", message.timestamp / 1000];
-    [[YOSDBManager sharedManager] updateNewestRequestWithUsername:message.from update_time:update_time];
+    [[YOSDBManager sharedManager] updateNewestChatWithUsername:message.from update_time:update_time];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:nil userInfo:@{@"message":message}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:[YOSEaseMobManager class] userInfo:@{@"message":message}];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
 }
@@ -663,7 +663,7 @@
         
         NSString *update_time = [NSString stringWithFormat:@"%llx", lastMessage.timestamp / 1000];
         
-        [[YOSDBManager sharedManager] updateNewestRequestWithUsername:lastMessage.from update_time:update_time];
+        [[YOSDBManager sharedManager] updateNewestChatWithUsername:lastMessage.from update_time:update_time];
         
     }];
     

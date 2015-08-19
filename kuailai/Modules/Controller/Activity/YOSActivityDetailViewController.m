@@ -8,6 +8,7 @@
 
 #import "YOSActivityDetailViewController.h"
 #import "YOSAttentionUserViewController.h"
+#import "YOSUserInfoViewController.h"
 #import "YOSLoginViewController.h"
 #import "YOSBaseNavigationViewController.h"
 #import "YOSUpdateUserInfoViewController.h"
@@ -613,6 +614,11 @@ static const NSUInteger numbersOfSections = 100;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
+    
+    YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
+    userVC.userInfoModel = self.userInfoModels[indexPath.row];
+    
+    [self.navigationController pushViewController:userVC animated:YES];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -631,6 +637,11 @@ static const NSUInteger numbersOfSections = 100;
 
 - (void)tappedOriginatorButton {
     NSLog(@"%s", __func__);
+    
+    YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
+    userVC.userInfoModel = self.activityDetailModel.user;
+    
+    [self.navigationController pushViewController:userVC animated:YES];
 }
 
 - (void)tappedMoreUserButton {

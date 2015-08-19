@@ -273,6 +273,11 @@
             
             YOSUserInfoModel *model = [[YOSUserInfoModel alloc] initWithDictionary:request.yos_data error:nil];
             
+            NSUInteger isPublic = [model.is_public integerValue];
+            if (isPublic) {
+                [GVUserDefaults standardUserDefaults].isPublic = isPublic;
+            }
+            
             if (model.ID) {
                 [GVUserDefaults standardUserDefaults].currentLoginID = model.ID;
                 YOSLog(@"\r\n\r\n had set LoginID");

@@ -54,7 +54,7 @@ typedef NS_ENUM(NSUInteger, YOSDBTableCargoKeyType){
 /** -----------deal with table : yos_userinfo------------ */
 
 /** -----------deal with table : yos_newestchat------------ */
-- (void)updateNewestRequestWithUsername:(NSString *)username update_time:(NSString *)update_time;
+- (void)updateNewestChatWithUsername:(NSString *)username update_time:(NSString *)update_time;
 
 - (NSArray *)getNewestChatUsernames;
 /** -----------deal with table : yos_newestchat------------ */
