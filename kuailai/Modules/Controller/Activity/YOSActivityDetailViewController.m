@@ -118,9 +118,46 @@ static const NSUInteger numbersOfSections = 100;
     
     [self setupBackArrow];
     
+    [self setupNavigationRightButtons];
+    
     self.view.backgroundColor = YOSColorBackgroundGray;
     
     [self sendNetworkRequest];
+}
+
+- (void)setupNavigationRightButtons {
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 90, 25)];
+    
+    toolbar.barStyle = UIBarStyleDefault;
+    
+    //定义两个flexibleSpace的button，放在toolBar上，这样完成按钮就会在最右边
+    UIBarButtonItem * flexibleItem0 =[[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
+    flexibleItem0.width = 28;
+    
+    UIButton *btn0 = [UIButton new];
+    btn0.frame = CGRectMake(0, 0, 25, 25);
+    [btn0 setImage:[UIImage imageNamed:@"时间"] forState:UIControlStateNormal];
+    [btn0 addTarget:self action:@selector(tappedFavoriteButton) forControlEvents:UIControlEventTouchUpInside];
+    btn0.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    UIButton *btn1 = [UIButton new];
+    btn1.frame = CGRectMake(0, 0, 25, 25);
+    [btn1 setImage:[UIImage imageNamed:@"兴趣-1"] forState:UIControlStateNormal];
+    [btn1 addTarget:self action:@selector(tappedShareButton) forControlEvents:UIControlEventTouchUpInside];
+    btn1.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    UIBarButtonItem *item0 = [[UIBarButtonItem alloc] initWithCustomView:btn0];
+    
+    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithCustomView:btn1];
+    
+    toolbar.items = @[item0, item1];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
+    
+    self.navigationItem.rightBarButtonItem = item;
+    
+    
 }
 
 - (void)setupSubviews {
@@ -666,6 +703,14 @@ static const NSUInteger numbersOfSections = 100;
     }
     
     [self sendNetworkRequestForSignUp];
+}
+
+- (void)tappedFavoriteButton {
+    NSLog(@"%s", __func__);
+}
+
+- (void)tappedShareButton {
+    NSLog(@"%s", __func__);
 }
 
 #pragma mark - network

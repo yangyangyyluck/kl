@@ -233,7 +233,7 @@
     if ([messageModel.avatar isEqualToString:@"想认识我的人"]) {
         
         [_headImageButton setImage:[UIImage imageNamed:@"想认识我的人"] forState:UIControlStateNormal];
-        _headImageButton.enabled = NO;
+        _headImageButton.userInteractionEnabled = NO;
         self.showCountLabel = NO;
         self.showTimeLabel = NO;
         self.showStatusLabel = NO;
@@ -250,7 +250,7 @@
         
         return;
     }else {
-        _headImageButton.enabled = YES;
+        _headImageButton.userInteractionEnabled = YES;
     }
     
     self.showAccessoryView = NO;

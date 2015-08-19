@@ -14,6 +14,7 @@
 #import "YOSTextField.h"
 #import "YOSHomeCell.h"
 #import "YOSTextView.h"
+#import "YOSHomeSwitchView.h"
 
 #import "YOSUserSendCodeRequest.h"
 #import "YOSGetActiveListRequest.h"
@@ -36,7 +37,7 @@
 #import "UIView+YOSAdditions.h"
 #import "YOSLocalNotificationManager.h"
 
-@interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate, YOSHomeSwitchViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *activityListModels;
 
@@ -54,10 +55,17 @@
 // UI
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, assign) NSUInteger selectedTime;
+
+@property (nonatomic, assign) NSUInteger selectedType;
+
+@property (nonatomic, assign) NSUInteger selectedPosition;
+
 @end
 
 @implementation YOSHomeViewController {
     YOSTextView *_textView;
+    YOSHomeSwitchView *_switchView;
 }
 
 #pragma mark - life cycle
@@ -77,7 +85,13 @@
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    _switchView.hidden = YES;
+    [super viewWillDisappear:animated];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
+    _switchView.hidden = NO;
     [super viewWillAppear:animated];
 }
 
@@ -115,16 +129,30 @@
 
 - (void)setupNavigationRightButtons {
     
+    _switchView = [YOSHomeSwitchView new];
+    
+    [self.navigationController.navigationBar addSubview:_switchView];
+    
+    _switchView.frame = CGRectMake(YOSScreenWidth - 120 - 20, 0, 120, 44);
+    _switchView.delegate = self;
+    
+}
+
+- (void)setupNavigationRightButtons2 {
+    
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 120, 25)];
     
     toolbar.barStyle = UIBarStyleDefault;
 
     //定义两个flexibleSpace的button，放在toolBar上，这样完成按钮就会在最右边
     UIBarButtonItem * flexibleItem0 =[[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
-    flexibleItem0.width =23;
+    flexibleItem0.width =8;
     
     UIBarButtonItem * flexibleItem1 = [[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
-    flexibleItem1.width =23;
+    flexibleItem1.width =8;
+    
+    UIBarButtonItem * flexibleItem2 = [[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
+    flexibleItem2.width =8;
 
     
     UIButton *btn0 = [UIButton new];
@@ -154,7 +182,7 @@
     
     UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithCustomView:btn2];
     
-    toolbar.items = @[item0, flexibleItem1, item1, flexibleItem0, item2];
+    toolbar.items = @[item0, flexibleItem1, item1, flexibleItem0, item2, flexibleItem2];
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
     
@@ -177,7 +205,7 @@
     }
     
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-    YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:YOSCityTypeBJ page:requestPage start_time:0 type:0];
+    YOSGetActiveListRequest *request = [[YOSGetActiveListRequest alloc] initWithCity:self.selectedPosition page:requestPage start_time:self.selectedTime type:self.selectedType];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         
@@ -276,6 +304,30 @@
     YOSActivityDetailViewController *activityDetailVC = [[YOSActivityDetailViewController alloc] initWithActivityId:model.ID];
     
     [self.navigationController pushViewController:activityDetailVC animated:YES];
+}
+
+#pragma mark - YOSHomeSwitchViewDelegate
+
+- (void)homeSwitchView:(YOSHomeSwitchView *)homeSwitchView selectedIndex:(NSUInteger)selectedIndex selectedSubIndex:(NSUInteger)selectedSubIndex {
+    if (selectedIndex == 0) {
+        self.selectedTime = selectedSubIndex;
+    }
+    
+    if (selectedIndex == 1) {
+        self.selectedType = selectedSubIndex;
+    }
+    
+    if (selectedIndex == 2) {
+        self.selectedPosition = selectedSubIndex;
+    }
+    
+    _switchView.selectedPosition = self.selectedPosition;
+    _switchView.selectedTime = self.selectedTime;
+    _switchView.selectedType = self.selectedType;
+    
+    NSLog(@"time : %zi type : %zi position : %zi", self.selectedTime, self.selectedType, self.selectedPosition);
+    
+    [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
 }
 
 

@@ -45,6 +45,8 @@
 		DD24E9CD1B7EE592008CAE12 /* YOSInterestCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9CC1B7EE592008CAE12 /* YOSInterestCategoryViewController.m */; };
 		DD24E9D01B7F4449008CAE12 /* YOSUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9CF1B7F4449008CAE12 /* YOSUserInfoViewController.m */; };
 		DD24E9D31B81D2A9008CAE12 /* YOSUserUpPublicRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9D21B81D2A9008CAE12 /* YOSUserUpPublicRequest.m */; };
+		DD24E9F11B846A5D008CAE12 /* YOSHomeSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9F01B846A5D008CAE12 /* YOSHomeSwitchView.m */; };
+		DD24E9F41B846DC4008CAE12 /* YOSHomeSwitchDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9F31B846DC4008CAE12 /* YOSHomeSwitchDetailView.m */; };
 		DD2503B41B787E87008D4ACE /* EMMessage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */; };
 		DD311F121B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F111B55F79A0094A91C /* YOSUserConfirmRegisterRequest.m */; };
 		DD311F151B5756170094A91C /* YOSMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F141B5756170094A91C /* YOSMessageViewController.m */; };
@@ -261,6 +263,10 @@
 		DD24E9CF1B7F4449008CAE12 /* YOSUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserInfoViewController.m; sourceTree = "<group>"; };
 		DD24E9D11B81D2A9008CAE12 /* YOSUserUpPublicRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserUpPublicRequest.h; sourceTree = "<group>"; };
 		DD24E9D21B81D2A9008CAE12 /* YOSUserUpPublicRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserUpPublicRequest.m; sourceTree = "<group>"; };
+		DD24E9EF1B846A5D008CAE12 /* YOSHomeSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHomeSwitchView.h; sourceTree = "<group>"; };
+		DD24E9F01B846A5D008CAE12 /* YOSHomeSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHomeSwitchView.m; sourceTree = "<group>"; };
+		DD24E9F21B846DC4008CAE12 /* YOSHomeSwitchDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHomeSwitchDetailView.h; sourceTree = "<group>"; };
+		DD24E9F31B846DC4008CAE12 /* YOSHomeSwitchDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHomeSwitchDetailView.m; sourceTree = "<group>"; };
 		DD2503B21B787E87008D4ACE /* EMMessage+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMMessage+YOSAdditions.h"; sourceTree = "<group>"; };
 		DD2503B31B787E87008D4ACE /* EMMessage+YOSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMMessage+YOSAdditions.m"; sourceTree = "<group>"; };
 		DD311F101B55F79A0094A91C /* YOSUserConfirmRegisterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserConfirmRegisterRequest.h; sourceTree = "<group>"; };
@@ -780,6 +786,10 @@
 				DD1690471B2599500060B3EB /* YOSHomeCell.xib */,
 				DD16904A1B25D4BD0060B3EB /* YOSHeadButton.h */,
 				DD16904B1B25D4BD0060B3EB /* YOSHeadButton.m */,
+				DD24E9EF1B846A5D008CAE12 /* YOSHomeSwitchView.h */,
+				DD24E9F01B846A5D008CAE12 /* YOSHomeSwitchView.m */,
+				DD24E9F21B846DC4008CAE12 /* YOSHomeSwitchDetailView.h */,
+				DD24E9F31B846DC4008CAE12 /* YOSHomeSwitchDetailView.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1498,6 +1508,7 @@
 				DDF599371B33025E00BF2C42 /* YOSFriendCell.m in Sources */,
 				DDF840B11AD61A15006939DF /* YOSUserSendCodeRequest.m in Sources */,
 				DD00EDD61ADB6C3A00E811A2 /* YOSRegStepTwoViewController.m in Sources */,
+				DD24E9F41B846DC4008CAE12 /* YOSHomeSwitchDetailView.m in Sources */,
 				DD6412291B525DEB00C5BFFB /* mask.mm in Sources */,
 				DD00EDDB1ADB6C3A00E811A2 /* YOSTabBarItem.m in Sources */,
 				DDFC6B401B4E5A88008DB181 /* YOSTapEditView.m in Sources */,
@@ -1578,6 +1589,7 @@
 				DD00EDD71ADB6C3A00E811A2 /* YOSBaseNavigationViewController.m in Sources */,
 				DDFC6B491B4F6F97008DB181 /* YOSTagModel.m in Sources */,
 				DD64122C1B525DEB00C5BFFB /* qrspec.mm in Sources */,
+				DD24E9F11B846A5D008CAE12 /* YOSHomeSwitchView.m in Sources */,
 				DD24E9D31B81D2A9008CAE12 /* YOSUserUpPublicRequest.m in Sources */,
 				DD89D6A11B43DDF900D542BB /* YOSActivityAuditViewController.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
