@@ -10,6 +10,7 @@
 #import "YOSHeadButton.h"
 #import "YOSCreateActivityViewController.h"
 #import "YOSMyFriendsViewController.h"
+#import "YOSMyFavoriteViewController.h"
 
 #import "Masonry.h"
 #import "UIView+YOSAdditions.h"
@@ -99,6 +100,10 @@
 }
 - (IBAction)tappedButton1:(id)sender {
     NSLog(@"%s", __func__);
+    
+    YOSMyFavoriteViewController *vc = [YOSMyFavoriteViewController new];
+    
+    [self.yos_viewController.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)tappedButton2:(id)sender {
     NSLog(@"%s", __func__);

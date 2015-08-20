@@ -180,6 +180,21 @@
     self.navigationItem.leftBarButtonItem = item;
 }
 
+- (void)setupRightButtonWithImage:(NSString *)image {
+    UIButton *btn = [UIButton new];
+    [btn setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+    btn.frame = CGRectMake(0, 0, 25, 25);
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10);
+    btn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [btn addTarget:self action:@selector(clickRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+
+
 - (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock isShowHUD:(BOOL)status {
     
     self.tappedBlock = vBlock;

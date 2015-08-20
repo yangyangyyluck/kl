@@ -66,10 +66,6 @@
     
     [self setupNavTitle:@"个人"];
     
-    [self setupLeftButtonWithTitle:@"登录"];
-    
-    [self setupRightButtonWithTitle:@"设置"];
-    
     if ([YOSWidget isLogin] && [YOSEaseMobManager sharedManager].isHxLogin) {
        
         [self sendNetworkRequest];
@@ -94,6 +90,8 @@
 
 - (void)setupSubviews {
     
+    [self setupRightButtonWithImage:@"设置"];
+    
     _scrollView = [UIScrollView new];
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.showsHorizontalScrollIndicator = NO;
@@ -103,7 +101,6 @@
     _contentView = [UIView new];
     _contentView.backgroundColor = YOSColorBackgroundGray;
     [_scrollView addSubview:_contentView];
-    
 
     _headDetailButton = [[YOSHeadDetailButton alloc] initWithUserInfoModel:self.userInfoModel];
     [_headDetailButton addTarget:self action:@selector(tappedHeadDetailButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -362,6 +359,7 @@
 
 - (void)login {
     _contentView.hidden = NO;
+    [self setupRightButtonWithImage:@"设置"];
 
     [self hideDefaultMessage];
     [self sendNetworkRequest];
@@ -380,6 +378,8 @@
 
 - (void)logout {
     _contentView.hidden = YES;
+    
+    self.navigationController.navigationItem.rightBarButtonItem = nil;
     
     YOSWSelf(weakSelf);
     [self showDefaultMessage:@"还未登录,点击登录" tappedBlock:^{

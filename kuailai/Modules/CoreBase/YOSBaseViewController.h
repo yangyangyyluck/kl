@@ -22,6 +22,8 @@
 // custom methods for kuai lai
 - (void)setupKuaiLai;
 
+- (void)setupRightButtonWithImage:(NSString *)image;
+
 - (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock isShowHUD:(BOOL)status;
 - (void)hideDefaultMessage;
 

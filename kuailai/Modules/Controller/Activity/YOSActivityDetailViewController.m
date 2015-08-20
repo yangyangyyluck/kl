@@ -18,10 +18,12 @@
 #import "YLLabel.h"
 #import "YOSNeedView.h"
 #import "YOSAddBuddyCell.h"
+#import "YOSToolbar.h"
 
 #import "YOSActiveGetActiveRequest.h"
 #import "YOSActiveSignUpRequest.h"
 #import "YOSActiveIsSignUpRequest.h"
+#import "YOSActiveCollectRequest.h"
 
 #import "YOSActivityDetailModel.h"
 #import "YOSUserInfoModel.h"
@@ -127,13 +129,16 @@ static const NSUInteger numbersOfSections = 100;
 
 - (void)setupNavigationRightButtons {
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 90, 25)];
+    YOSToolbar *toolbar = [[YOSToolbar alloc] initWithFrame:CGRectMake(0, 0, 90, 25)];
     
-    toolbar.barStyle = UIBarStyleDefault;
+    toolbar.backgroundColor = [UIColor clearColor];
     
     //定义两个flexibleSpace的button，放在toolBar上，这样完成按钮就会在最右边
     UIBarButtonItem * flexibleItem0 =[[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
-    flexibleItem0.width = 28;
+    flexibleItem0.width = 1;
+    
+    UIBarButtonItem * flexibleItem1 =[[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
+    flexibleItem1.width = 10;
     
     UIButton *btn0 = [UIButton new];
     btn0.frame = CGRectMake(0, 0, 25, 25);
@@ -151,7 +156,7 @@ static const NSUInteger numbersOfSections = 100;
     
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithCustomView:btn1];
     
-    toolbar.items = @[item0, item1];
+    toolbar.items = @[flexibleItem0, item0, flexibleItem1, item1];
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
     
@@ -707,6 +712,28 @@ static const NSUInteger numbersOfSections = 100;
 
 - (void)tappedFavoriteButton {
     NSLog(@"%s", __func__);
+    
+    // login
+    if (![GVUserDefaults standardUserDefaults].currentLoginID.length) {
+        YOSLoginViewController *loginVC = [YOSLoginViewController new];
+        YOSBaseNavigationViewController *navVC = [[YOSBaseNavigationViewController alloc] initWithRootViewController:loginVC];
+        
+        [self presentViewController:navVC animated:YES completion:nil];
+        
+        return;
+    }
+    
+    YOSActiveCollectRequest *request = [[YOSActiveCollectRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andAid:self.activityId];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        
+        if ([request yos_checkResponse]) {
+            [SVProgressHUD showSuccessWithStatus:@"收藏成功~" maskType:SVProgressHUDMaskTypeClear];
+        }
+        
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 - (void)tappedShareButton {
