@@ -53,8 +53,6 @@
     
     [self setupNavTitle:@"消息"];
     
-    [self setupRightButtonWithTitle:@"添加好友"];
-    
     if ([YOSWidget isLogin] && [YOSEaseMobManager sharedManager].isHxLogin) {
         
         [self login];
@@ -84,6 +82,9 @@
 }
 
 - (void)setupSubviews {
+    
+    [self setupRightButtonWithImage:@"添加好友"];
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -163,13 +164,9 @@
 
 - (void)clickRightItem:(UIButton *)item {
     
-    self.messageModels = nil;
-    
     YOSAddBuddyViewController *addVC = [YOSAddBuddyViewController new];
     
-    [self.navigationController pushViewController:addVC animated:NO];
-    
-    [self.tableView reloadData];
+    [self.navigationController pushViewController:addVC animated:YES];
 }
 
 #pragma mark - network
@@ -499,6 +496,8 @@
 
 - (void)logout {
     _tableView.hidden = YES;
+    
+    [self cancelRightButton];
     
     YOSWSelf(weakSelf);
     [self showDefaultMessage:@"还未登录,点击登录" tappedBlock:^{

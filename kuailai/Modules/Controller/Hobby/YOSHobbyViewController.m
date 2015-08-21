@@ -21,6 +21,7 @@
 #import "MJRefresh.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "GVUserDefaults+YOSProperties.h"
+#import "UIImage+YOSAdditions.h"
 
 @interface YOSHobbyViewController() <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -90,6 +91,8 @@
     _searchBar.delegate = self;
     _searchBar.barTintColor = YOSColorLineGray;
     [self.view addSubview:_searchBar];
+    
+    _searchBar.backgroundImage = [UIImage yos_imageWithColor:YOSColorGray size:CGSizeMake(1, 1)];
 
     [_searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.top.mas_equalTo(0);
@@ -144,7 +147,7 @@
             }];
             
             if (num == 0) {
-                obj.showTopLine = YES;
+                obj.showTopLine = NO;
                 obj.showLeftLine = NO;
                 obj.showBottomLine = YES;
                 obj.showRightLine = YES;

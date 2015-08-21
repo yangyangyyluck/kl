@@ -15,6 +15,7 @@
 #import "EaseMob.h"
 #import "YOSWidget.h"
 #import "YOSEaseMobManager.h"
+#import "MobClick.h"
 
 @interface AppDelegate () <EMChatManagerDelegate>
 
@@ -96,6 +97,11 @@
     // 环信
     {
         [[YOSEaseMobManager sharedManager] registerWithApplication:application launchOptions:launchOptions];
+    }
+    
+    // UMeng
+    {
+        [MobClick startWithAppkey:YOSUMengAppKey reportPolicy:BATCH   channelId:@"Web"];
     }
 }
 

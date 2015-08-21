@@ -14,6 +14,7 @@
 #import "SVProgressHUD+YOSAdditions.h"
 #import "EDColor.h"
 #import "Masonry.h"
+#import "UIImage+YOSAdditions.h"
 
 @interface YOSBaseViewController ()
 
@@ -183,11 +184,25 @@
 - (void)setupRightButtonWithImage:(NSString *)image {
     UIButton *btn = [UIButton new];
     [btn setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
-    btn.frame = CGRectMake(0, 0, 25, 25);
     btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10);
     btn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [btn addTarget:self action:@selector(clickRightItem:) forControlEvents:UIControlEventTouchUpInside];
     
+    [btn sizeToFit];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+- (void)cancelRightButton {
+    UIButton *btn = [UIButton new];
+    UIImage *image = [UIImage yos_imageWithColor:[UIColor clearColor] size:CGSizeMake(1, 1)];
+    [btn setImage:image forState:UIControlStateNormal];
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10);
+    btn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    btn.enabled = NO;
+    
+    [btn sizeToFit];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
     
     self.navigationItem.rightBarButtonItem = item;

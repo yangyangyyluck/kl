@@ -24,6 +24,7 @@
 #import "YOSWidget.h"
 #import "YOSUserInfoModel.h"
 #import "EDColor.h"
+#import "UIImage+YOSAdditions.h"
 
 @interface YOSAddBuddyViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -73,6 +74,8 @@
     _searchBar.frame = CGRectMake(0, 0, YOSScreenWidth, 44);
     _searchBar.placeholder = @"搜索你感兴趣的人/职位/公司";
     _searchBar.barTintColor = YOSColorLineGray;
+    
+    _searchBar.backgroundImage = [UIImage yos_imageWithColor:YOSColorGray size:CGSizeMake(1, 1)];
     
     _searchBar.returnKeyType = UIReturnKeySearch;
     _searchBar.delegate = self;

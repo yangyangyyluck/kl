@@ -23,6 +23,7 @@
 - (void)setupKuaiLai;
 
 - (void)setupRightButtonWithImage:(NSString *)image;
+- (void)cancelRightButton;
 
 - (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock isShowHUD:(BOOL)status;
 - (void)hideDefaultMessage;

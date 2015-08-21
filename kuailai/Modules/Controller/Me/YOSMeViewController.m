@@ -379,7 +379,7 @@
 - (void)logout {
     _contentView.hidden = YES;
     
-    self.navigationController.navigationItem.rightBarButtonItem = nil;
+    [self cancelRightButton];
     
     YOSWSelf(weakSelf);
     [self showDefaultMessage:@"还未登录,点击登录" tappedBlock:^{

@@ -107,6 +107,8 @@ extern NSString * const YOSEaseMobAppKey;
 
 extern NSString * const YOSEaseMobCertName;
 
+extern NSString * const YOSUMengAppKey;
+
 /**
  *  API权限验证用的签名
  *

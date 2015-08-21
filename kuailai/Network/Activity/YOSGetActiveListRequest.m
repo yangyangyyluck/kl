@@ -11,6 +11,8 @@
 @implementation YOSGetActiveListRequest {
     YOSCityType _city;
     NSUInteger _page;
+    NSUInteger _time;
+    NSUInteger _type;
 }
 
 - (instancetype)initWithCity:(YOSCityType)city page:(NSUInteger)page start_time:(NSUInteger)time type:(NSUInteger)type {
@@ -21,6 +23,8 @@
     
     _city = city;
     _page = page;
+    _time = time;
+    _type = type;
     
     return self;
 }
@@ -33,6 +37,8 @@
     return [self encodeWithDictionary:@{
                                         @"city" : @(_city),
                                         @"page" : @(_page),
+                                        @"start_time" : @(_time),
+                                        @"type" : @(_type),
                                         }];
 }
 

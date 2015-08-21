@@ -142,13 +142,13 @@ static const NSUInteger numbersOfSections = 100;
     
     UIButton *btn0 = [UIButton new];
     btn0.frame = CGRectMake(0, 0, 25, 25);
-    [btn0 setImage:[UIImage imageNamed:@"时间"] forState:UIControlStateNormal];
+    [btn0 setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
     [btn0 addTarget:self action:@selector(tappedFavoriteButton) forControlEvents:UIControlEventTouchUpInside];
     btn0.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     UIButton *btn1 = [UIButton new];
     btn1.frame = CGRectMake(0, 0, 25, 25);
-    [btn1 setImage:[UIImage imageNamed:@"兴趣-1"] forState:UIControlStateNormal];
+    [btn1 setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(tappedShareButton) forControlEvents:UIControlEventTouchUpInside];
     btn1.imageView.contentMode = UIViewContentModeScaleAspectFit;
     

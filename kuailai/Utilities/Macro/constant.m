@@ -25,6 +25,8 @@ NSString * const YOSEaseMobCertName = @"dev";
 NSString * const YOSEaseMobCertName = @"pro";
 #endif
 
+NSString * const YOSUMengAppKey = @"55d72cebe0f55a7a86002fd7";
+
 
 NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
 
@@ -49,20 +51,6 @@ NSString * const YOSNotificationReceiveMessage = @"YOSNotificationReceiveMessage
 NSString * const YOSNotificationResetUnReadMessage = @"YOSNotificationResetUnReadMessage";
 
 NSString * const YOSNotificationShowRedDot = @"YOSNotificationShowRedDot";
-
-/**
- *  UserDefault keys
- */
-
-//NSString * const YOSUserDefaultKeyCurrentRegisterMobileNumber = @"YOSUserDefaultKeyCurrentRegisterMobileNumber";
-//
-//NSString * const YOSUserDefaultKeyCurrentRegisterID = @"YOSUserDefaultKeyCurrentRegisterID";
-//
-//NSString * const YOSUserDefaultKeyCurrentLoginMobileNumber = @"YOSUserDefaultKeyCurrentLoginMobileNumber";
-//
-//NSString * const YOSUserDefaultKeyCurrentLoginID = @"YOSUserDefaultKeyCurrentLoginID";
-//
-//NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary = @"YOSUserDefaultKeyCurrentUserInfoDictionary";
 
 /**
  *  给出加密参数sign
