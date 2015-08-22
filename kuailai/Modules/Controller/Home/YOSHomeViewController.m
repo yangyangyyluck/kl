@@ -19,6 +19,7 @@
 #import "YOSUserSendCodeRequest.h"
 #import "YOSGetActiveListRequest.h"
 #import "YOSUserLoginRequest.h"
+#import "YOSUserGetVersionRequest.h"
 
 #import "YOSUserInfoModel.h"
 #import "YOSActivityListModel.h"
@@ -37,7 +38,7 @@
 #import "UIView+YOSAdditions.h"
 #import "YOSLocalNotificationManager.h"
 
-@interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate, YOSHomeSwitchViewDelegate>
+@interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate, YOSHomeSwitchViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *activityListModels;
 
@@ -61,6 +62,8 @@
 
 @property (nonatomic, assign) NSUInteger selectedPosition;
 
+@property (nonatomic, copy) NSString *updateUrl;
+
 @end
 
 @implementation YOSHomeViewController {
@@ -83,6 +86,8 @@
     self.isNoMoreData = NO;
     
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
+    
+    [self sendNetworkWithWhetherUpdateApp];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -258,6 +263,41 @@
     }];
 }
 
+- (void)sendNetworkWithWhetherUpdateApp {
+    YOSUserGetVersionRequest *request = [[YOSUserGetVersionRequest alloc] initWithIOS];
+    
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+       
+        [request yos_checkResponse:NO];
+        
+        NSDictionary *dict = request.yos_data;
+        
+        NSString *version = dict[@"version"];
+        NSString *url = dict[@"url"];
+        self.updateUrl = url;
+        
+        NSString *currentVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
+        NSComparisonResult result = [YOSWidget compareAppVersion1:currentVersion andAppVersion2:version];
+        
+        // current < version
+        if (result == NSOrderedAscending) {
+            
+            BOOL status = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:self.updateUrl]];
+            
+            if (!status) {
+                return;
+            }
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"有新版本哦,赶紧去跟新吧~" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            
+            [alertView show];
+        }
+        
+    } failure:^(YTKBaseRequest *request) {
+        
+    }];
+}
+
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
@@ -328,6 +368,16 @@
     NSLog(@"time : %zi type : %zi position : %zi", self.selectedTime, self.selectedType, self.selectedPosition);
     
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateUrl]];
+        
+    }
 }
 
 

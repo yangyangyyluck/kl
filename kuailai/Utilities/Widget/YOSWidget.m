@@ -219,4 +219,57 @@
 
 }
 
++ (NSComparisonResult)compareAppVersion1:(NSString *)version1 andAppVersion2:(NSString *)version2 {
+    
+    if (!version1 || [version1 isEqualToString:@""]) {
+        version1 = @"0";
+    }
+    
+    if (!version2 || [version2 isEqualToString:@""]) {
+        version2 = @"0";
+    }
+    
+    NSArray *arr1 = [version1 componentsSeparatedByString:@"."];
+    NSArray *arr2 = [version2 componentsSeparatedByString:@"."];
+    
+    // 10.2.4.6.6 vs 7.2.3.4.1
+    // 10 * 10[6次幂] + 2 * 10[4次幂] + 4 * 10[2次幂] + 6 * 10[0次幂] + 6 * 10[-2次幂]
+    // 比较
+    // 7 * 10[6次幂] + 2 * 10[4次幂] + 3 * 10[2次幂] + 4 * 10[0次幂] + 1 * 10[-2次幂]
+    
+    __block double v1 = 0.0f;
+    __block CGFloat multiplier1 = 1000000;
+    [arr1 enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
+        
+        v1 += [obj integerValue] * multiplier1;
+        
+        multiplier1 *= 0.01;
+        
+    }];
+    
+    __block double v2 = 0.0f;
+    __block CGFloat multiplier2 = 1000000;
+    [arr2 enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
+        
+        v2 += [obj integerValue] * multiplier2;
+        
+        multiplier2 *= 0.01;
+        
+    }];
+    
+    NSLog(@"v1 : %f, v2 : %f", v1 , v2);
+    
+    if (v1 == v2) {
+        NSLog(@"v1 == v2");
+        return NSOrderedSame;
+    } else if (v1 > v2) {
+        NSLog(@"v1 > v2");
+        return NSOrderedDescending;
+    } else {
+        NSLog(@"v1 < v2");
+        return NSOrderedAscending;
+    }
+    
+}
+
 @end

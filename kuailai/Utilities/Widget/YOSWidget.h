@@ -122,4 +122,14 @@
  */
 + (NSString *)pinyinTransformWithChinese:(NSString *)chinese;
 
+/**
+ *  比较app版本
+ *
+ *  @param version1 v1
+ *  @param version2 v2
+ *
+ *  @return result
+ */
++ (NSComparisonResult)compareAppVersion1:(NSString *)version1 andAppVersion2:(NSString *)version2;
+
 @end

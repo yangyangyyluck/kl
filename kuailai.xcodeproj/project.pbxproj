@@ -136,6 +136,8 @@
 		DD90B0461B876C220078CD66 /* UMSShareListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD90B03A1B876C220078CD66 /* UMSShareListController.xib */; };
 		DD90B0471B876C220078CD66 /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DD90B03B1B876C220078CD66 /* UMSocialSDKResourcesNew.bundle */; };
 		DD90B0491B876C7D0078CD66 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD90B0481B876C7D0078CD66 /* SystemConfiguration.framework */; };
+		DD90B04C1B886E4E0078CD66 /* YOSUserGetVersionRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD90B04B1B886E4E0078CD66 /* YOSUserGetVersionRequest.m */; };
+		DD90B04F1B889ED50078CD66 /* YOSFindPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD90B04E1B889ED50078CD66 /* YOSFindPassViewController.m */; };
 		DD97C9E51B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD97C9E41B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m */; };
 		DD97C9E81B1B1B95003D6C10 /* YOSSubmitInsetActiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD97C9E71B1B1B95003D6C10 /* YOSSubmitInsetActiveModel.m */; };
 		DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA4266B1AEE80620043FB6B /* UIButton+YOSAdditions.m */; };
@@ -463,6 +465,10 @@
 		DD90B03B1B876C220078CD66 /* UMSocialSDKResourcesNew.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResourcesNew.bundle; sourceTree = "<group>"; };
 		DD90B03C1B876C220078CD66 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UMSocialLocalizable.strings"; sourceTree = "<group>"; };
 		DD90B0481B876C7D0078CD66 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DD90B04A1B886E4E0078CD66 /* YOSUserGetVersionRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserGetVersionRequest.h; sourceTree = "<group>"; };
+		DD90B04B1B886E4E0078CD66 /* YOSUserGetVersionRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserGetVersionRequest.m; sourceTree = "<group>"; };
+		DD90B04D1B889ED50078CD66 /* YOSFindPassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSFindPassViewController.h; sourceTree = "<group>"; };
+		DD90B04E1B889ED50078CD66 /* YOSFindPassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSFindPassViewController.m; sourceTree = "<group>"; };
 		DD97C9E31B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveInsertActiveRequest.h; sourceTree = "<group>"; };
 		DD97C9E41B1B1B25003D6C10 /* YOSActiveInsertActiveRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveInsertActiveRequest.m; sourceTree = "<group>"; };
 		DD97C9E61B1B1B95003D6C10 /* YOSSubmitInsetActiveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSSubmitInsetActiveModel.h; sourceTree = "<group>"; };
@@ -728,6 +734,8 @@
 				DD00EDB71ADB6C3A00E811A2 /* YOSRegisterViewController.m */,
 				DD00EDB81ADB6C3A00E811A2 /* YOSRegStepTwoViewController.h */,
 				DD00EDB91ADB6C3A00E811A2 /* YOSRegStepTwoViewController.m */,
+				DD90B04D1B889ED50078CD66 /* YOSFindPassViewController.h */,
+				DD90B04E1B889ED50078CD66 /* YOSFindPassViewController.m */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -1391,6 +1399,8 @@
 				DD24E9D21B81D2A9008CAE12 /* YOSUserUpPublicRequest.m */,
 				DD42BC401B84BFBC003C886E /* YOSUserGetMyCollectListRequest.h */,
 				DD42BC411B84BFBC003C886E /* YOSUserGetMyCollectListRequest.m */,
+				DD90B04A1B886E4E0078CD66 /* YOSUserGetVersionRequest.h */,
+				DD90B04B1B886E4E0078CD66 /* YOSUserGetVersionRequest.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1624,6 +1634,7 @@
 				DD6412451B5267C500C5BFFB /* YOSGTMBase64.m in Sources */,
 				DDF599371B33025E00BF2C42 /* YOSFriendCell.m in Sources */,
 				DDF840B11AD61A15006939DF /* YOSUserSendCodeRequest.m in Sources */,
+				DD90B04F1B889ED50078CD66 /* YOSFindPassViewController.m in Sources */,
 				DD00EDD61ADB6C3A00E811A2 /* YOSRegStepTwoViewController.m in Sources */,
 				DD24E9F41B846DC4008CAE12 /* YOSHomeSwitchDetailView.m in Sources */,
 				DD6412291B525DEB00C5BFFB /* mask.mm in Sources */,
@@ -1663,6 +1674,7 @@
 				DDCCF58B1B74853600EF1ECD /* NSUserDefaults+DemoSettings.m in Sources */,
 				DD24E9C71B7ED4DA008CAE12 /* YOSMyInterestActivityViewController.m in Sources */,
 				DD89D6B61B452E3600D542BB /* YOSAuditCollectionViewCell.m in Sources */,
+				DD90B04C1B886E4E0078CD66 /* YOSUserGetVersionRequest.m in Sources */,
 				DDF5993C1B330FA900BF2C42 /* YOSAuditModel.m in Sources */,
 				DD89D6871B4235CF00D542BB /* YOSActiveSignUpRequest.m in Sources */,
 				DDCCF58E1B749A9000EF1ECD /* ChatSendHelper.m in Sources */,
