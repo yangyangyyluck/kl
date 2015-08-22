@@ -60,6 +60,8 @@
 
 - (void)tappedHeadImageButton {
     NSLog(@"%s", __func__);
+    
+    [self editPortrait];
 }
 
 - (void)tappedBgButton {

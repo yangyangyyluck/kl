@@ -149,7 +149,7 @@
     BOOL status = [[YOSEaseMobManager sharedManager] rejuctBuddy:self.messageModel.hx_user reason:@""];
     
     if (status) {
-        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].username buddy:self.messageModel.hx_user];
+        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].hx_user buddy:self.messageModel.hx_user];
         
         [SVProgressHUD showInfoWithStatus:@"已拒绝~" maskType:SVProgressHUDMaskTypeClear];
         
@@ -163,7 +163,7 @@
     BOOL status = [[YOSEaseMobManager sharedManager] acceptBuddy:self.messageModel.hx_user];
     
     if (status) {
-        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].username buddy:self.messageModel.hx_user];
+        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].hx_user buddy:self.messageModel.hx_user];
         
         [SVProgressHUD showInfoWithStatus:@"已同意~" maskType:SVProgressHUDMaskTypeClear];
         

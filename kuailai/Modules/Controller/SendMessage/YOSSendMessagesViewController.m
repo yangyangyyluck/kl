@@ -29,6 +29,8 @@
 #import "YOSWidget.h"
 #import "EMMessage+YOSAdditions.h"
 #import "YOSDBManager.h"
+#import "SVProgressHUD+YOSAdditions.h"
+#import "UIImage+YOSAdditions.h"
 
 const static NSUInteger kCountOfLoadMessages = 20;
 
@@ -58,6 +60,18 @@ const static NSUInteger kCountOfLoadMessages = 20;
 
 #pragma mark - View lifecycle
 
+- (instancetype)init {
+    self = [super init];
+    
+    if (!self) {
+        return nil;
+    }
+    
+    self.hidesBottomBarWhenPushed = YES;
+    
+    return self;
+}
+
 /**
  *  Override point for customization.
  *
@@ -78,7 +92,8 @@ const static NSUInteger kCountOfLoadMessages = 20;
     
     // 创建一个会话
     
-    self.title = self.otherUserInfoModel.nickname;
+    [self setupNavTitle:self.otherUserInfoModel.nickname];
+    [self setupBackArrow];
     
     self.conversation = [[YOSEaseMobManager sharedManager] conversationForChatter:self.otherUserInfoModel.hx_user];
     
@@ -127,16 +142,20 @@ const static NSUInteger kCountOfLoadMessages = 20;
     
     self.showLoadEarlierMessagesHeader = YES;
     
+    /*
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage jsq_defaultTypingIndicatorImage]
                                                                               style:UIBarButtonItemStyleBordered
                                                                              target:self
                                                                              action:@selector(receiveMessagePressed:)];
+     */
 
     /**
      *  Register custom menu actions for cells.
      */
+    /*
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(customAction:)];
     [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"Custom Action" action:@selector(customAction:)] ];
+     */
 
     // setup left right buttons
     self.emojiBtn = [UIButton new];
@@ -144,11 +163,18 @@ const static NSUInteger kCountOfLoadMessages = 20;
     [self.emojiBtn sizeToFit];
     self.inputToolbar.contentView.rightBarButtonItem = self.emojiBtn;
     
+    // 暂时隐藏左边按钮
+    /*
     self.moreBtn = [UIButton new];
     [self.moreBtn setImage:[UIImage imageNamed:@"chatBar_more"] forState:UIControlStateNormal];
     [self.emojiBtn sizeToFit];
     self.inputToolbar.contentView.leftBarButtonItem = self.moreBtn;
     self.inputToolbar.maximumHeight = 150;
+     */
+    
+    // additions by yangyangyyluck
+    // 左边按钮不显示
+    self.inputToolbar.contentView.leftBarButtonItemWidth = 0;
     
     // setup emoji keyboard
     self.emojiTextView = [UITextView new];
@@ -214,6 +240,62 @@ const static NSUInteger kCountOfLoadMessages = 20;
 //    self.collectionView.collectionViewLayout.springinessEnabled = [NSUserDefaults springinessSetting];
     
 //    self.collectionView.collectionViewLayout.springinessEnabled = YES;
+}
+
+#pragma mark - addtions by yangyangyyluck
+
+- (void)setupNavTitle:(NSString *)title
+{
+    UILabel *label = [UILabel new];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    dict[NSForegroundColorAttributeName] = [UIColor whiteColor];
+    dict[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18.0f];
+    
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:title attributes:dict];
+    
+    label.attributedText = attributedString;
+    [label sizeToFit];
+    
+    self.navigationItem.titleView = label;
+}
+
+- (void)setupBackArrow {
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [button setImage:[UIImage imageNamed:@"返回按钮"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(clickLeftItem:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    }else{
+        [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    }
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+    item.tintColor = [UIColor whiteColor];
+    
+    self.navigationItem.leftBarButtonItem = item;
+}
+
+- (void)clickLeftItem:(UIButton *)sender {
+    [SVProgressHUD dismiss];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)cancelRightButton {
+    UIButton *btn = [UIButton new];
+    UIImage *image = [UIImage yos_imageWithColor:[UIColor clearColor] size:CGSizeMake(1, 1)];
+    [btn setImage:image forState:UIControlStateNormal];
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10);
+    btn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    btn.enabled = NO;
+    
+    [btn sizeToFit];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    self.navigationItem.rightBarButtonItem = item;
 }
 
 
@@ -411,7 +493,8 @@ const static NSUInteger kCountOfLoadMessages = 20;
     EMMessage *msg = [[YOSEaseMobManager sharedManager] sendMessageToUser:self.otherUserInfoModel.hx_user message:text];
     
     NSString *update_time = [NSString stringWithFormat:@"%lli", msg.timestamp / 1000];
-    [[YOSDBManager sharedManager] updateNewestChatWithUsername:msg.to update_time:update_time];
+    
+    [[YOSDBManager sharedManager] updateNewestChatWithCurrentUser:self.meUserInfoModel.hx_user buddy:msg.to update_time:update_time];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:nil userInfo:@{@"message" : msg}];
     
@@ -746,6 +829,8 @@ const static NSUInteger kCountOfLoadMessages = 20;
     NSArray *moreMessages = [self.conversation loadNumbersOfMessages:kCountOfLoadMessages withMessageId:self.lastMessageId];
     
     if (!moreMessages || !moreMessages.count) {
+        [SVProgressHUD showInfoWithStatus:@"没有更多信息了哦~" maskType:SVProgressHUDMaskTypeClear];
+        self.showLoadEarlierMessagesHeader = NO;
         return;
     }
     

@@ -8,12 +8,12 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "chatBar_face@2x.png"
+      "filename" : "浅色@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "chatBar_face@2x-1.png"
+      "filename" : "@3x浅色.png"
     }
   ],
   "info" : {

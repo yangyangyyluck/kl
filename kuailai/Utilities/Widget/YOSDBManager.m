@@ -24,7 +24,7 @@ static const NSString *kSQLCreateTableBuddyRequest = @"CREATE TABLE IF NOT EXIST
 
 static const NSString *kSQLCreateTableUserInfo = @"CREATE TABLE IF NOT EXISTS yos_userinfo (id integer PRIMARY KEY AUTOINCREMENT, username text NOT NULL, json text NOT NULL, update_time text NOT NULL)";
 
-static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS yos_newestchat (id integer PRIMARY KEY AUTOINCREMENT, username text NOT NULL, update_time text NOT NULL)";
+static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS yos_newestchat (id integer PRIMARY KEY AUTOINCREMENT, current_username text NOT NULL, buddy_username text NOT NULL, update_time text NOT NULL)";
 
 #pragma mark - single
 
@@ -393,22 +393,22 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
 
 #pragma mark - NewestChat
 
-- (void)updateNewestChatWithUsername:(NSString *)username update_time:(NSString *)update_time {
+- (void)updateNewestChatWithCurrentUser:(NSString *)current buddy:(NSString *)buddy update_time:(NSString *)update_time {
     if (!_isDBInitSuccess) {
         return;
     }
     
-    if (!username.length) {
+    if (!current.length || !buddy.length) {
         return;
     }
     
-    NSString *getCountSql = [NSString stringWithFormat:@"SELECT COUNT(*) AS count FROM %@ WHERE username = ?", [kYOSTableNewestChat copy]];
+    NSString *getCountSql = [NSString stringWithFormat:@"SELECT COUNT(*) AS count FROM %@ WHERE current_username = ? AND buddy_username = ?", [kYOSTableNewestChat copy]];
     
-    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (username, update_time)VALUES(?, ?)", [kYOSTableNewestChat copy]];
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (current_username, buddy_username, update_time)VALUES(?, ?, ?)", [kYOSTableNewestChat copy]];
     
-    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET  update_time = ? WHERE username = ?", [kYOSTableNewestChat copy]];
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET  update_time = ? WHERE current_username = ? AND buddy_username = ?", [kYOSTableNewestChat copy]];
     
-    FMResultSet *set = [_db executeQuery:getCountSql, username];
+    FMResultSet *set = [_db executeQuery:getCountSql, current, buddy];
     
     if ([set next]) {
         NSUInteger count = [set intForColumn:@"count"];
@@ -416,34 +416,54 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
         BOOL status = NO;
         
         if (count) {
-            status = [_db executeUpdate:updateSql, update_time, username];
+            status = [_db executeUpdate:updateSql, update_time, current, buddy];
         } else {
-            status = [_db executeUpdate:insertSql, username, update_time];
+            status = [_db executeUpdate:insertSql, current, buddy, update_time];
         }
         
         if (!status) {
             YOSLog(@"\r\n\r\n error : %@", [_db lastErrorMessage]);
         } else {
-            YOSLog(@"\r\n\r\n success : update %@ --- %@", username, update_time);
+            YOSLog(@"\r\n\r\n success : update %@ --- %@", current, buddy);
         }
     }
     
     [set close];
 }
 
-- (NSArray *)getNewestChatUsernames {
+- (void)deleteNewestChatWithCurrentUser:(NSString *)current Buddy:(NSString *)buddy {
+    if (!_isDBInitSuccess) {
+        return;
+    }
+    
+    if (!current.length || !buddy.length) {
+        return;
+    }
+    
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE current_username = ? AND buddy_username", [kYOSTableNewestChat copy]];
+    
+    BOOL status = [_db executeQuery:deleteSql, current, buddy];
+    
+    if (status) {
+        NSLog(@"delete UserInfo with %@ --- %@ success", current, buddy);
+    } else {
+        NSLog(@"delete UserInfo with %@ --- %@ failure", current, buddy);
+    }
+}
+
+- (NSArray *)getNewestChatUsernamesWithCurrnetUser:(NSString *)current {
     if (!_isDBInitSuccess) {
         return nil;
     }
     
-    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ ORDER BY update_time DESC LIMIT %zi", [kYOSTableNewestChat copy], kNewestChatMaxCounts];
+    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE current_username = %@ ORDER BY update_time DESC LIMIT %zi", [kYOSTableNewestChat copy], current, kNewestChatMaxCounts];
     
     FMResultSet *set = [_db executeQuery:selectSql];
     
     NSMutableArray *result = [NSMutableArray array];
     
     while ([set next]) {
-        NSString *username = [set stringForColumn:@"username"];
+        NSString *username = [set stringForColumn:@"buddy_username"];
         
         [result addObject:username];
     }

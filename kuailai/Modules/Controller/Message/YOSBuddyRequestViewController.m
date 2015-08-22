@@ -179,7 +179,7 @@
 
 - (void)sendNetworkRequest {
 
-    self.buddyMessages = [[YOSDBManager sharedManager] getBuddyListWithUsername:[YOSWidget getCurrentUserInfoModel].username];
+    self.buddyMessages = [[YOSDBManager sharedManager] getBuddyListWithUsername:[YOSWidget getCurrentUserInfoModel].hx_user];
     
     [self.messageModels removeAllObjects];
     

@@ -24,6 +24,9 @@ extern NSString * const YOSNotificationUpdateAuditInfo;
 /** 拒绝或者同意添加好友 */
 extern NSString * const YOSNotificationUpdateBuddyRequest;
 
+/** 删除好友 */
+extern NSString * const YOSNotificationDeleteBuddy;
+
 extern NSString * const YOSNotificationLogin;
 
 extern NSString * const YOSNotificationLogout;
@@ -108,6 +111,10 @@ extern NSString * const YOSEaseMobAppKey;
 extern NSString * const YOSEaseMobCertName;
 
 extern NSString * const YOSUMengAppKey;
+
+extern NSString * const YOSWeiboAppKey;
+
+extern NSString * const YOSWeiboAppSecret;
 
 /**
  *  API权限验证用的签名

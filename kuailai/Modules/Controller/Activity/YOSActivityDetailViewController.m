@@ -38,6 +38,7 @@
 #import "YOSLocalNotificationManager.h"
 #import "YOSEaseMobManager.h"
 #import "EaseMob.h"
+#import "UMSocial.h"
 
 static const NSUInteger numbersOfSections = 100;
 
@@ -738,6 +739,16 @@ static const NSUInteger numbersOfSections = 100;
 
 - (void)tappedShareButton {
     NSLog(@"%s", __func__);
+    
+    NSArray *arr = @[UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToSina];
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:YOSUMengAppKey
+                                      shareText:@"教你如何帅过吴彦祖"
+                                     shareImage:[UIImage imageNamed:@"技术交流"]
+                                shareToSnsNames:arr
+                                       delegate:self];
+    
+    return;
 }
 
 #pragma mark - network

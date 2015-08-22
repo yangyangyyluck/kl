@@ -20,6 +20,7 @@
 #import "EMBuddy.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "YOSWidget.h"
+#import "YOSDBManager.h"
 
 @interface YOSMyFriendsViewController() <UITableViewDataSource, UITableViewDelegate>
 
@@ -126,6 +127,42 @@
     [tableView scrollToRowAtIndexPath:selectIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     
     return index;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        YOSUserInfoModel *deleteUserInfoModel = self.dataSource[indexPath.section][indexPath.row];
+        
+        BOOL status = [[YOSEaseMobManager sharedManager] removeBuddy:deleteUserInfoModel.hx_user];
+        
+        if (status) {
+            EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:deleteUserInfoModel.hx_user];
+            
+            [con removeAllMessages];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationDeleteBuddy object:nil userInfo:@{@"hx_user" : deleteUserInfoModel.hx_user}];
+            
+            NSString *current_username = [YOSWidget getCurrentUserInfoModel].hx_user;
+            
+            [[YOSDBManager sharedManager] deleteNewestChatWithCurrentUser:current_username Buddy:deleteUserInfoModel.hx_user];
+            
+            [self.userInfoModels removeObject:deleteUserInfoModel];
+            
+            self.sectionsArray = nil;
+            self.dataSource = nil;
+            self.userInfoModels = self.userInfoModels;
+            
+            [self.tableView reloadData];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"删除失败, 请稍后再试~" maskType:SVProgressHUDMaskTypeClear];
+        }
+        
+    }
 }
 
 #pragma mark - network

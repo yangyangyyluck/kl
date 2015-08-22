@@ -268,7 +268,21 @@
         YOSLog(@"获取好友出错 : %@", error);
     }
     
-    self.buddyList = buddyList;
+    // 删除相互发送好友请求而添加为好友的行为 对应yos_buddyrequest
+    // 对应的数据[因为没有事件触发, 所以在这里操作]
+    
+    static NSInteger times = 2;
+    
+    if (times--) {
+        NSString *current_username = self.userInfoModel.hx_user;
+        
+        [buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj, NSUInteger idx, BOOL *stop) {
+            
+            [[YOSDBManager sharedManager] deleteNewestChatWithCurrentUser:current_username Buddy:obj.username];
+            
+        }];
+        
+    }
     
     return buddyList;
 }
@@ -526,7 +540,7 @@
 - (void)didReceiveBuddyRequest:(NSString *)username
                        message:(NSString *)message {
     
-    [[YOSDBManager sharedManager] updateBuddyRequestWithCurrentUser:self.userInfoModel.username buddy:username message:message];
+    [[YOSDBManager sharedManager] updateBuddyRequestWithCurrentUser:self.userInfoModel.hx_user buddy:username message:message];
     
     YOSPostNotification(YOSNotificationUpdateBuddyRequest);
 }
@@ -562,7 +576,7 @@
 - (void)didAcceptedByBuddy:(NSString *)username {
     [self getBuddyListAsync];
     
-    [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:self.userInfoModel.username buddy:username];
+    [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:self.userInfoModel.hx_user buddy:username];
     
     [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@已添加您为好友~", username] maskType:SVProgressHUDMaskTypeClear];
 }
@@ -613,7 +627,8 @@
     YOSLog(@"\r\n\r\n\r\nreceive message : %@\r\n\r\n\r\n", message);
     
     NSString *update_time = [NSString stringWithFormat:@"%lli", message.timestamp / 1000];
-    [[YOSDBManager sharedManager] updateNewestChatWithUsername:message.from update_time:update_time];
+    
+    [[YOSDBManager sharedManager] updateNewestChatWithCurrentUser:message.to buddy:message.from update_time:update_time];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:[YOSEaseMobManager class] userInfo:@{@"message":message}];
     
@@ -663,7 +678,7 @@
         
         NSString *update_time = [NSString stringWithFormat:@"%llx", lastMessage.timestamp / 1000];
         
-        [[YOSDBManager sharedManager] updateNewestChatWithUsername:lastMessage.from update_time:update_time];
+        [[YOSDBManager sharedManager] updateNewestChatWithCurrentUser:lastMessage.to buddy:lastMessage.from update_time:update_time];
         
     }];
     

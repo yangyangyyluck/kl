@@ -16,6 +16,7 @@
 #import "YOSWidget.h"
 #import "YOSEaseMobManager.h"
 #import "MobClick.h"
+#import "UMSocial.h"
 
 @interface AppDelegate () <EMChatManagerDelegate>
 
@@ -102,6 +103,7 @@
     // UMeng
     {
         [MobClick startWithAppkey:YOSUMengAppKey reportPolicy:BATCH   channelId:@"Web"];
+        [UMSocialData setAppKey:YOSUMengAppKey];
     }
 }
 

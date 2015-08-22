@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, YOSDBTableCargoKeyType){
 /** -----------deal with table : yos_cagro------------ */
 
 /**
- *  user是自己服务器usernam字段, buddy是[环信注册账号]
+ *  current, buddy都是[环信注册账号]
  */
 /** -----------deal with table : yos_buddyrequest------------ */
 - (void)updateBuddyRequestWithCurrentUser:(NSString *)current buddy:(NSString *)buddy message:(NSString *)message;
@@ -54,9 +54,11 @@ typedef NS_ENUM(NSUInteger, YOSDBTableCargoKeyType){
 /** -----------deal with table : yos_userinfo------------ */
 
 /** -----------deal with table : yos_newestchat------------ */
-- (void)updateNewestChatWithUsername:(NSString *)username update_time:(NSString *)update_time;
+- (void)updateNewestChatWithCurrentUser:(NSString *)current buddy:(NSString *)buddy update_time:(NSString *)update_time;
 
-- (NSArray *)getNewestChatUsernames;
+- (void)deleteNewestChatWithCurrentUser:(NSString *)current Buddy:(NSString *)buddy;
+
+- (NSArray *)getNewestChatUsernamesWithCurrnetUser:(NSString *)current;
 /** -----------deal with table : yos_newestchat------------ */
 
 

@@ -58,6 +58,8 @@
 /** 获取当前最新的好友列表 */
 - (NSArray *)getNewestBuddyList;
 
+- (BOOL)removeBuddy:(NSString *)username;
+
 /*------------ 好友关系 ------------*/
 
 

@@ -27,6 +27,10 @@ NSString * const YOSEaseMobCertName = @"pro";
 
 NSString * const YOSUMengAppKey = @"55d72cebe0f55a7a86002fd7";
 
+NSString * const YOSWeiboAppKey = @"2923223513";
+
+NSString * const YOSWeiboAppSecret = @"67266bd6d5fc2084a507076224fbfb1c";
+
 
 NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
 
@@ -37,6 +41,8 @@ NSString * const YOSNotificationUpdateTagInfo = @"YOSNotificationUpdateTagInfo";
 NSString * const YOSNotificationUpdateAuditInfo = @"YOSNotificationUpdateAuditInfo";
 
 NSString * const YOSNotificationUpdateBuddyRequest = @"YOSNotificationUpdateBuddyRequest";
+
+NSString * const YOSNotificationDeleteBuddy = @"YOSNotificationDeleteBuddy";
 
 NSString * const YOSNotificationLogin = @"YOSNotificationLogin";
 

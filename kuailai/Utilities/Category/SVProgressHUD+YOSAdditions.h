@@ -10,8 +10,4 @@
 
 @interface SVProgressHUD (YOSAdditions)
 
-//+ (void)yos_showProgressWithView:(UIView *)view;
-//+ (void)yos_dismissProgressWithView:(UIView *)view;
-//+ (void)yos_showErrorWithStatus:(NSString *)string view:(UIView *)view;
-
 @end

@@ -35,25 +35,11 @@
     if (error2) {
         NSLog(@"\r\n\r\n SVProgressHUD swizzle is wrong 222.");
     }
+    
 }
 
 - (NSTimeInterval)yos_displayDurationForString:(NSString*)string {
     return MIN((float)string.length*0.13 + 0.5, 5.0);
-}
-
-+ (void)yos_showProgressWithView:(UIView *)view {
-    view.userInteractionEnabled = NO;
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeNone];
-}
-
-+ (void)yos_dismissProgressWithView:(UIView *)view {
-    view.userInteractionEnabled = YES;
-    [SVProgressHUD dismiss];
-}
-
-+ (void)yos_showErrorWithStatus:(NSString *)string view:(UIView *)view {
-    view.userInteractionEnabled = YES;
-    [SVProgressHUD showErrorWithStatus:string];
 }
 
 @end

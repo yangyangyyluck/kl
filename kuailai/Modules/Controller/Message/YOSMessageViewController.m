@@ -74,6 +74,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:YOSNotificationLogin object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:YOSNotificationLogout object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteBuddy:) name:YOSNotificationDeleteBuddy object:nil];
 
 }
 
@@ -173,7 +175,8 @@
 
 - (void)loadNewestChat {
     
-    NSArray *usernames = [[YOSDBManager sharedManager] getNewestChatUsernames];
+    NSString *current_username = [YOSWidget getCurrentUserInfoModel].hx_user;
+    NSArray *usernames = [[YOSDBManager sharedManager] getNewestChatUsernamesWithCurrnetUser:current_username];
     
     if (!usernames.count) {
         return;
@@ -287,7 +290,7 @@
     
     YOSUserInfoModel *userInfoModel = [YOSWidget getCurrentUserInfoModel];
     
-    NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:userInfoModel.username];
+    NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:userInfoModel.hx_user];
     
     if (!buddyLists.count) {
         model.message = @"[暂无好友申请]";
@@ -398,6 +401,14 @@
     }
 }
 
+- (void)deleteBuddy:(NSNotification *)noti {
+    NSString *hx_user = noti.userInfo[@"hx_user"];
+    
+    NSLog(@"delete %@", hx_user);
+    
+    [self login];
+}
+
 #pragma mark - private methods
 
 
@@ -430,8 +441,16 @@
         [self.userInfoModels exchangeObjectAtIndex:1 withObjectAtIndex:index];
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:0];
         NSIndexPath *indexPath2 = [NSIndexPath indexPathForItem:index inSection:0];
+        
+        // 解决只有1个好友聊天时候的bug
+        NSArray *temp = nil;
+        if ([indexPath2 isEqual:indexPath]) {
+            temp = @[indexPath];
+        } else {
+            temp = @[indexPath, indexPath2];
+        }
 
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath, indexPath2] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView reloadRowsAtIndexPaths:temp withRowAnimation:UITableViewRowAnimationFade];
     } else {
         [self.messageModels insertObject:model atIndex:1];
         [self.userInfoModels insertObject:userInfoModel atIndex:1];
@@ -539,7 +558,7 @@
         
         YOSUserInfoModel *userInfoModel = [YOSWidget getCurrentUserInfoModel];
         
-        NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:userInfoModel.username];
+        NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:userInfoModel.hx_user];
         
         if (!buddyLists.count) {
             model.message = @"[暂无好友申请]";
