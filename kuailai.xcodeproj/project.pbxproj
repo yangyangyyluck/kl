@@ -1904,7 +1904,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
+				PROVISIONING_PROFILE = "4e01d819-508c-40cd-abf3-2c2d24866163";
 			};
 			name = Debug;
 		};
@@ -1924,7 +1924,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
+				PROVISIONING_PROFILE = "4e01d819-508c-40cd-abf3-2c2d24866163";
 			};
 			name = Release;
 		};
