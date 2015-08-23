@@ -135,9 +135,9 @@ const static NSUInteger kCountOfLoadMessages = 20;
      *  You can set custom avatar sizes
      */
 
-    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeMake(30, 30);
+    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeMake(38, 38);
 
-    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeMake(30, 30);
+    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeMake(38, 38);
     
     
     self.showLoadEarlierMessagesHeader = YES;

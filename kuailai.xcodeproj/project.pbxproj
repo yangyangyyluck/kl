@@ -92,6 +92,7 @@
 		DD735BE21B53C3E9002F0B0F /* YOSChangeTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE11B53C3E9002F0B0F /* YOSChangeTouchButton.m */; };
 		DD735BE51B53C4FD002F0B0F /* YOSHideTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE41B53C4FD002F0B0F /* YOSHideTextField.m */; };
 		DD735BE81B54B6FB002F0B0F /* YOSLocalNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE71B54B6FB002F0B0F /* YOSLocalNotificationManager.m */; };
+		DD75619E1B8A04510031FAEA /* YOSAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD75619D1B8A04510031FAEA /* YOSAboutUsViewController.m */; };
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
@@ -381,6 +382,8 @@
 		DD735BE41B53C4FD002F0B0F /* YOSHideTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSHideTextField.m; sourceTree = "<group>"; };
 		DD735BE61B54B6FB002F0B0F /* YOSLocalNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSLocalNotificationManager.h; sourceTree = "<group>"; };
 		DD735BE71B54B6FB002F0B0F /* YOSLocalNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSLocalNotificationManager.m; sourceTree = "<group>"; };
+		DD75619C1B8A04510031FAEA /* YOSAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSAboutUsViewController.h; sourceTree = "<group>"; };
+		DD75619D1B8A04510031FAEA /* YOSAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSAboutUsViewController.m; sourceTree = "<group>"; };
 		DD77078A1AD3BA3300795561 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DD77078B1AD3BAD300795561 /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		DD7707921AD3C05F00795561 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
@@ -706,6 +709,8 @@
 				DD24E9CF1B7F4449008CAE12 /* YOSUserInfoViewController.m */,
 				DD42BC431B84C21B003C886E /* YOSMyFavoriteViewController.h */,
 				DD42BC441B84C21B003C886E /* YOSMyFavoriteViewController.m */,
+				DD75619C1B8A04510031FAEA /* YOSAboutUsViewController.h */,
+				DD75619D1B8A04510031FAEA /* YOSAboutUsViewController.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -1637,6 +1642,7 @@
 				DD00EDDC1ADB6C3A00E811A2 /* YOSAccessoryView.m in Sources */,
 				DD64122A1B525DEB00C5BFFB /* qrencode.mm in Sources */,
 				DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */,
+				DD75619E1B8A04510031FAEA /* YOSAboutUsViewController.m in Sources */,
 				DD64123B1B52623600C5BFFB /* YOSQRScanViewController.m in Sources */,
 				DD89D6931B4293D700D542BB /* YOSMyActivityView.m in Sources */,
 				DD00F21F1B04E32E009AFD66 /* YOSDBManager.m in Sources */,
@@ -1898,7 +1904,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "74e4ffb2-c696-4ec2-9b55-eef7c1224acb";
+				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
 			};
 			name = Debug;
 		};
@@ -1918,7 +1924,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "74e4ffb2-c696-4ec2-9b55-eef7c1224acb";
+				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
 			};
 			name = Release;
 		};

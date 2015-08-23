@@ -13,6 +13,9 @@
 #import "SVProgressHUD+YOSAdditions.h"
 #import "ChatSendHelper.h"
 #import "GVUserDefaults+YOSProperties.h"
+#import "YOSLocalNotificationManager.h"
+#import "NSString+YOSAdditions.h"
+#import "EMMessage+YOSAdditions.h"
 
 @interface YOSEaseMobManager () <EMChatManagerDelegate>
 
@@ -121,6 +124,8 @@
             [self getBuddyListAsync];
             
             [self whetherShowRedDot];
+            
+            [self setupAPNs];
         } else {
             YOSLog(@"login failure");
         }
@@ -149,6 +154,8 @@
         [self getBuddyListAsync];
         
         [self whetherShowRedDot];
+        
+        [self setupAPNs];
         
         return YES;
     } else {
@@ -533,6 +540,8 @@
         YOSPostNotification(YOSNotificationLogin);
         
         [self whetherShowRedDot];
+        
+        [self setupAPNs];
     }
 
 }
@@ -638,6 +647,28 @@
     NSLog(@"%s", __func__);
     YOSLog(@"\r\n\r\n\r\nreceive message : %@\r\n\r\n\r\n", message);
     
+    // 发送本地通知
+    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+        
+        NSString *json = [[YOSDBManager sharedManager] getUserInfoJsonWithUsername:message.from];
+        
+        NSDictionary *dict = [json yos_toJSONObject];
+        
+        YOSUserInfoModel *userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:dict error:nil];
+        
+        NSString *nickname = userInfoModel.nickname;
+        
+        if (!nickname.length) {
+            nickname = @"新消息";
+        }
+        
+        NSDate *date = [[NSDate new] dateByAddingTimeInterval:1.5];
+        
+        NSString *msg = [NSString stringWithFormat:@"%@: %@", nickname, message.yos_message];
+        
+        [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:date message:msg];
+    }
+    
     NSString *update_time = [NSString stringWithFormat:@"%lli", message.timestamp / 1000];
     
     [[YOSDBManager sharedManager] updateNewestChatWithCurrentUser:message.to buddy:message.from update_time:update_time];
@@ -732,6 +763,25 @@
     if (buddyLists.count) {
         [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
     }
+}
+
+- (void)setupAPNs {
+    NSString *nickname = self.userInfoModel.nickname;
+    
+    if (!nickname.length) {
+        return;
+    }
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        EMPushNotificationOptions *options = [[EaseMob sharedInstance].chatManager pushNotificationOptions];
+        
+        options.displayStyle = ePushNotificationDisplayStyle_messageSummary;
+
+        [self.easeMob.chatManager updatePushOptions:options error:nil];
+        
+        [self.easeMob.chatManager setApnsNickname:nickname];
+    });
+    
 }
 
 @end

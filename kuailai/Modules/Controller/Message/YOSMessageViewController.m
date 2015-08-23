@@ -230,6 +230,7 @@
     
     NSUInteger isPublic = [GVUserDefaults standardUserDefaults].isPublic;
     
+    // 禁止陌生人聊天
     if (isPublic == 2) {
         
         NSMutableArray *mUsernames = [usernames mutableCopy];

@@ -10,6 +10,7 @@
 #import "YOSTestViewController.h"
 #import "YOSFeedbackViewController.h"
 #import "YOSChangePassViewController.h"
+#import "YOSAboutUsViewController.h"
 #import "YOSSettingCell.h"
 
 #import "YOSUserUpPublicRequest.h"
@@ -184,8 +185,10 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     }
     
     if (indexPath.row == 2) {
-        YOSTestViewController *testVC = [YOSTestViewController new];
-        [self.navigationController pushViewController:testVC animated:YES];
+//        YOSTestViewController *testVC = [YOSTestViewController new];
+//        [self.navigationController pushViewController:testVC animated:YES];
+        YOSAboutUsViewController *aboutVC = [YOSAboutUsViewController new];
+        [self.navigationController pushViewController:aboutVC animated:YES];
     }
     
     if (indexPath.row == 4) {
@@ -270,7 +273,7 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
                                  }];
         
         [_dataSource addObject:@{
-                                 @"title" : @"关于快来",
+                                 @"title" : @"关于快来吧",
                                  @"message" : @"",
                                  @"rightType" : @(kRightAccessoryTypeArrow)
                                  }];

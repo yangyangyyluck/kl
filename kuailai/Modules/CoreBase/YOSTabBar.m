@@ -27,6 +27,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showRedDot:) name:YOSNotificationShowRedDot object:nil];
     
+    self.barTintColor = YOSRGB(61, 57, 56);
+    
 }
 
 - (void)dealloc {

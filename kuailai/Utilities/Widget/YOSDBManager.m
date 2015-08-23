@@ -16,7 +16,7 @@ static const NSString *kYOSTableUserInfo = @"yos_userinfo";
 static const NSString *kYOSTableNewestChat = @"yos_newestchat";
 
 static const NSUInteger kUserInfoExpireDays = 3;
-static const NSUInteger kNewestChatMaxCounts = 3;
+static const NSUInteger kNewestChatMaxCounts = 20;
 
 static const NSString *kSQLCreateTableCagro = @"CREATE TABLE IF NOT EXISTS yos_cargo (id integer PRIMARY KEY AUTOINCREMENT, cargo_data blob NOT NULL);";
 
@@ -461,9 +461,9 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
         return nil;
     }
     
-    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE current_username = %@ ORDER BY update_time DESC LIMIT %zi", [kYOSTableNewestChat copy], current, kNewestChatMaxCounts];
+    NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE current_username = ? ORDER BY update_time DESC LIMIT ? ", [kYOSTableNewestChat copy]];
     
-    FMResultSet *set = [_db executeQuery:selectSql];
+    FMResultSet *set = [_db executeQuery:selectSql,  current, YOSInt2String(kNewestChatMaxCounts)];
     
     NSMutableArray *result = [NSMutableArray array];
     

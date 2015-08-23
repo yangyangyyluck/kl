@@ -14,6 +14,8 @@
 
 + (instancetype)sharedManager;
 
+- (void)addNotificationWithDate:(NSDate *)date message:(NSString *)msg;
+
 - (void)addNotificationWithDate:(NSDate *)date UserInfo:(NSDictionary *)userInfo;
 
 - (void)dealWithCurrentNotification;

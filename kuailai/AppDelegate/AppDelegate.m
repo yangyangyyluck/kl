@@ -40,6 +40,8 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     
+    application.applicationIconBadgeNumber = 0;
+    
     return YES;
 }
 
@@ -59,6 +61,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
+    application.applicationIconBadgeNumber = 0;
     [[EaseMob sharedInstance] applicationWillEnterForeground:application];
 }
 
@@ -84,6 +87,23 @@
     
 }
 
+#pragma mark - remote notification
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+
+}
+
+// 将得到的deviceToken传给SDK
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+// 注册deviceToken失败
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    [[EaseMob sharedInstance] application:application didFailToRegisterForRemoteNotificationsWithError:error];
+    NSLog(@"\r\n\r\n\r\nremote notification error ------ %@\r\n\r\n\r\n",error);
+}
+
 #pragma mark - private methods 
 
 - (void)configrueThiredLibrariesWith:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
@@ -104,6 +124,25 @@
     {
         [MobClick startWithAppkey:YOSUMengAppKey reportPolicy:BATCH   channelId:@"Web"];
         [UMSocialData setAppKey:YOSUMengAppKey];
+    }
+    
+    // APNs推送
+    {
+        //iOS8 注册APNS
+        if ([application respondsToSelector:@selector(registerForRemoteNotifications)]) {
+            [application registerForRemoteNotifications];
+            UIUserNotificationType notificationTypes = UIUserNotificationTypeBadge |
+            UIUserNotificationTypeSound |
+            UIUserNotificationTypeAlert;
+            UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
+            [application registerUserNotificationSettings:settings];
+        }
+        else{
+            UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeBadge |
+            UIRemoteNotificationTypeSound |
+            UIRemoteNotificationTypeAlert;
+            [[UIApplication sharedApplication] registerForRemoteNotificationTypes:notificationTypes];
+        }
     }
 }
 

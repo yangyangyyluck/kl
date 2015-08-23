@@ -31,6 +31,29 @@
     return mgr;
 }
 
+- (void)addNotificationWithDate:(NSDate *)date message:(NSString *)msg {
+    
+    UILocalNotification *notification=[[UILocalNotification alloc] init];
+    
+    notification.fireDate = date;
+    notification.repeatInterval = 0;
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    notification.applicationIconBadgeNumber = 1;
+    notification.soundName= UILocalNotificationDefaultSoundName;
+    
+    //去掉下面2行就不会弹出提示框
+    //提示信息 弹出提示框
+    notification.alertBody= msg;
+    //提示框按钮
+    //    notification.alertAction = @"打开";
+    //是否显示额外的按钮，为no时alertAction消失
+    //notification.hasAction = NO;
+    
+    notification.userInfo = nil;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+}
+
 - (void)addNotificationWithDate:(NSDate *)date UserInfo:(NSDictionary *)userInfo {
     
     NSString *title = userInfo[@"title"];
