@@ -519,6 +519,11 @@
                                     <constraint firstAttribute="height" constant="1" id="CwJ-TB-rzR"/>
                                     <constraint firstAttribute="width" constant="540" id="pzz-bX-fIf"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="pzz-bX-fIf"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入旧密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aMu-y6-3A3">
                                 <rect key="frame" x="36" y="50" width="518" height="30"/>
@@ -526,7 +531,8 @@
                                     <constraint firstAttribute="width" constant="82" id="220-ch-pnQ"/>
                                     <constraint firstAttribute="height" constant="30" id="Q82-qf-e3S"/>
                                     <constraint firstAttribute="width" constant="82" id="SSH-xZ-GYW"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="jxY-Wx-dd4"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="ifN-4Z-SBg"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="750" constant="30" id="jxY-Wx-dd4"/>
                                     <constraint firstAttribute="width" constant="460" id="teh-Jk-SRc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -535,6 +541,7 @@
                                     <mask key="constraints">
                                         <exclude reference="220-ch-pnQ"/>
                                         <exclude reference="SSH-xZ-GYW"/>
+                                        <exclude reference="jxY-Wx-dd4"/>
                                         <exclude reference="teh-Jk-SRc"/>
                                     </mask>
                                 </variation>
@@ -596,16 +603,18 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="再次确认登陆密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="vqe-j1-f9h">
-                                <rect key="frame" x="36" y="171" width="518" height="30"/>
+                                <rect key="frame" x="446" y="171" width="108" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="460" id="5sM-NK-sgx"/>
-                                    <constraint firstAttribute="width" constant="518" id="HLj-zQ-44d"/>
+                                    <constraint firstAttribute="width" priority="250" constant="518" id="HLj-zQ-44d"/>
+                                    <constraint firstAttribute="height" constant="30" id="XUW-Go-uH0"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="5sM-NK-sgx"/>
+                                        <exclude reference="HLj-zQ-44d"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -616,10 +625,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="amd-In-wKs" firstAttribute="trailing" secondItem="MOo-Vv-gar" secondAttribute="trailing" id="2in-1F-edN"/>
+                            <constraint firstItem="aMu-y6-3A3" firstAttribute="leading" secondItem="G50-j2-jXl" secondAttribute="leadingMargin" constant="20" id="5Aj-YY-bzI"/>
                             <constraint firstAttribute="trailing" secondItem="iQZ-Rx-DM3" secondAttribute="trailing" constant="36" id="66m-tc-bnX"/>
                             <constraint firstItem="D6t-k1-w8z" firstAttribute="leading" secondItem="vqe-j1-f9h" secondAttribute="leading" id="6Md-QH-rCs"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aMu-y6-3A3" secondAttribute="trailing" constant="30" id="6wx-Ps-Avd"/>
                             <constraint firstItem="amd-In-wKs" firstAttribute="top" secondItem="aMu-y6-3A3" secondAttribute="bottom" id="7tg-P8-kOG"/>
                             <constraint firstItem="JSw-hz-WvH" firstAttribute="top" secondItem="OHg-Sj-Ch9" secondAttribute="bottom" constant="5" id="8JS-i3-btt"/>
+                            <constraint firstItem="vqe-j1-f9h" firstAttribute="trailing" secondItem="aMu-y6-3A3" secondAttribute="trailing" id="9Nr-Ci-Ghh"/>
                             <constraint firstItem="JSw-hz-WvH" firstAttribute="top" secondItem="vqe-j1-f9h" secondAttribute="bottom" id="A42-Bz-rpe"/>
                             <constraint firstItem="PFe-8w-Omb" firstAttribute="top" secondItem="JSw-hz-WvH" secondAttribute="bottom" constant="15" id="DH3-ti-9v4"/>
                             <constraint firstItem="vqe-j1-f9h" firstAttribute="trailing" secondItem="aMu-y6-3A3" secondAttribute="trailing" id="Eqa-Iq-Qc5"/>
@@ -637,7 +649,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="D6t-k1-w8z" secondAttribute="trailing" constant="30" id="aZ2-2A-pZe"/>
                             <constraint firstItem="MOo-Vv-gar" firstAttribute="leading" secondItem="G50-j2-jXl" secondAttribute="leading" constant="30" id="btg-bf-MOF"/>
                             <constraint firstItem="MOo-Vv-gar" firstAttribute="top" secondItem="OHg-Sj-Ch9" secondAttribute="bottom" constant="5" id="bvs-3s-WSf"/>
-                            <constraint firstItem="aMu-y6-3A3" firstAttribute="leading" secondItem="G50-j2-jXl" secondAttribute="leading" constant="36" id="dQ2-0I-wXM"/>
+                            <constraint firstItem="aMu-y6-3A3" firstAttribute="leading" secondItem="G50-j2-jXl" secondAttribute="leading" priority="750" constant="36" id="dQ2-0I-wXM"/>
                             <constraint firstItem="amd-In-wKs" firstAttribute="top" secondItem="gdf-tv-sjK" secondAttribute="bottom" constant="60" id="e3Z-Vy-ECY"/>
                             <constraint firstItem="D6t-k1-w8z" firstAttribute="leading" secondItem="G50-j2-jXl" secondAttribute="leading" constant="36" id="hGr-EU-kvf"/>
                             <constraint firstAttribute="trailing" secondItem="MOo-Vv-gar" secondAttribute="trailing" constant="30" id="iRV-OM-E5t"/>
@@ -650,8 +662,13 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="dQ2-0I-wXM"/>
+                                <exclude reference="6Md-QH-rCs"/>
+                                <exclude reference="KVc-Ur-8bL"/>
                                 <exclude reference="aZ2-2A-pZe"/>
                                 <exclude reference="nYU-eR-HMy"/>
+                                <exclude reference="Eqa-Iq-Qc5"/>
+                                <exclude reference="ZdY-mW-EXT"/>
                                 <exclude reference="8JS-i3-btt"/>
                                 <exclude reference="Fs2-pX-Mns"/>
                                 <exclude reference="Zna-ws-oMR"/>

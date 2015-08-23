@@ -132,4 +132,6 @@
  */
 + (NSComparisonResult)compareAppVersion1:(NSString *)version1 andAppVersion2:(NSString *)version2;
 
++ (NSString *)currentAppVersion;
+
 @end

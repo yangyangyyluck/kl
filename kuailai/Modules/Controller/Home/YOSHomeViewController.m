@@ -88,6 +88,7 @@
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
     
     [self sendNetworkWithWhetherUpdateApp];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -276,7 +277,7 @@
         NSString *url = dict[@"url"];
         self.updateUrl = url;
         
-        NSString *currentVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
+        NSString *currentVersion = [YOSWidget currentAppVersion];
         NSComparisonResult result = [YOSWidget compareAppVersion1:currentVersion andAppVersion2:version];
         
         // current < version

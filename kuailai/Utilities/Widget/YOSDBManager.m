@@ -176,6 +176,10 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
 
 - (id)getCargoDataWithKey:(YOSDBTableCargoKeyType)key {
     
+    // 暂时不使用缓存
+    return nil;
+    
+    /*
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE id = ?;", [kYOSTableCagro copy]];
     
     if (!_isDBInitSuccess) {
@@ -193,6 +197,7 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
     }
     
     return result;
+     */
 }
 
 - (void)setCargoKey:(YOSDBTableCargoKeyType)key cargoValue:(id)value {

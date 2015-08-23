@@ -119,6 +119,8 @@
             // 设置自动登录
             [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
             [self getBuddyListAsync];
+            
+            [self whetherShowRedDot];
         } else {
             YOSLog(@"login failure");
         }
@@ -143,7 +145,10 @@
         YOSLog(@"login success");
         // 设置自动登录
         [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
+        
         [self getBuddyListAsync];
+        
+        [self whetherShowRedDot];
         
         return YES;
     } else {
@@ -526,7 +531,10 @@
         [self getBuddyListAsync];
         
         YOSPostNotification(YOSNotificationLogin);
+        
+        [self whetherShowRedDot];
     }
+
 }
 
 - (void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error {
@@ -534,6 +542,8 @@
     YOSLog(@"登陆成功。");
     if (!error) {
         [self getBuddyListAsync];
+        
+        [self whetherShowRedDot];
     }
 }
 
@@ -543,6 +553,8 @@
     [[YOSDBManager sharedManager] updateBuddyRequestWithCurrentUser:self.userInfoModel.hx_user buddy:username message:message];
     
     YOSPostNotification(YOSNotificationUpdateBuddyRequest);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
 }
 
 /*!
@@ -712,6 +724,14 @@
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
     [[EaseMob sharedInstance] registerSDKWithAppKey:YOSEaseMobAppKey apnsCertName:YOSEaseMobCertName];
     [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (void)whetherShowRedDot {
+    NSArray *buddyLists = [[YOSDBManager sharedManager] getBuddyListWithUsername:self.userInfoModel.hx_user];
+    
+    if (buddyLists.count) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
+    }
 }
 
 @end

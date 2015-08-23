@@ -272,4 +272,8 @@
     
 }
 
++ (NSString *)currentAppVersion {
+    return [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
+}
+
 @end

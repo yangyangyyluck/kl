@@ -20,6 +20,8 @@
 #import "GVUserDefaults+YOSProperties.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "YOSEaseMobManager.h"
+#import "YOSWidget.h"
+#import "SDImageCache.h"
 
 typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     kRightAccessoryTypeNone,
@@ -186,7 +188,24 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
         [self.navigationController pushViewController:testVC animated:YES];
     }
     
-    
+    if (indexPath.row == 4) {
+        
+        SDImageCache *cache = [SDImageCache sharedImageCache];
+        
+        NSUInteger cacheSize = [cache getSize];
+        
+        CGFloat mb = cacheSize / (1024.0 * 1024.0);
+
+        NSLog(@"清楚缓存 %zi, %f", cacheSize, mb);
+
+        YOSWSelf(weakSelf);
+        [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+            weakSelf.dataSource = nil;
+            [weakSelf.tableView reloadData];
+            [SVProgressHUD showInfoWithStatus:@"已清除所有缓存~" maskType:SVProgressHUDMaskTypeClear];
+        }];
+        
+    }
     
 }
 
@@ -258,13 +277,21 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
         
         [_dataSource addObject:@{
                                  @"title" : @"版本更新",
-                                 @"message" : @"V1.0",
+                                 @"message" : [NSString stringWithFormat:@"V%@", [YOSWidget currentAppVersion]],
                                  @"rightType" : @(kRightAccessoryTypeNone)
                                  }];
         
+        SDImageCache *cache = [SDImageCache sharedImageCache];
+        
+        NSUInteger cacheSize = [cache getSize];
+        
+        CGFloat mb = cacheSize / (1024.0 * 1024.0);
+        
+        NSLog(@"清楚缓存 %zi, %f", cacheSize, mb);
+        
         [_dataSource addObject:@{
                                  @"title" : @"清除缓存",
-                                 @"message" : @"1.0MB",
+                                 @"message" : [NSString stringWithFormat:@"%.1fMB", mb],
                                  @"rightType" : @(kRightAccessoryTypeArrow)
                                  }];
         
