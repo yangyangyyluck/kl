@@ -1,26 +1,24 @@
 //
-//  YOSRegStepTwoViewController.m
+//  YOSChangePassViewController.m
 //  kuailai
 //
-//  Created by yangyang on 15/4/13.
+//  Created by yangyang on 15/8/23.
 //  Copyright (c) 2015年 kuailai.inc. All rights reserved.
 //
 
-#import "YOSRegStepTwoViewController.h"
+#import "YOSChangePassViewController.h"
 
-#import "YOSAccessoryView.h"
-
-#import "YOSUserRegisterRequest.h"
+#import "YOSUserUppwdRequest.h"
 
 #import "YOSWidget.h"
 #import "SVProgressHUD.h"
 #import "GVUserDefaults+YOSProperties.h"
 
-@interface YOSRegStepTwoViewController ()<UITextFieldDelegate>
+@interface YOSChangePassViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView2HeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView1HeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineView0HeightConstraint;
-@property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *oldPwdTextField;
 @property (weak, nonatomic) IBOutlet UITextField *pwd1TextField;
 @property (weak, nonatomic) IBOutlet UITextField *pwd2TextField;
 @property (weak, nonatomic) IBOutlet UIButton *showPwdButton;
@@ -28,10 +26,8 @@
 
 @end
 
-@implementation YOSRegStepTwoViewController {
-    YOSAccessoryView *_accessoryView0;
-    YOSAccessoryView *_accessoryView1;
-    YOSAccessoryView *_accessoryView2;
+@implementation YOSChangePassViewController {
+
 }
 
 - (void)viewDidLoad {
@@ -39,13 +35,15 @@
     
     [self setupSubviews];
     
+    self.navigationController.navigationBarHidden = NO;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)setupSubviews {
     [self setupBackArrow];
     
-    [self setupNavTitle:@"注册"];
+    [self setupNavTitle:@"修改密码"];
     
     self.lineView0HeightConstraint.constant = 0.5;
     self.lineView1HeightConstraint.constant = 0.5;
@@ -59,26 +57,7 @@
     
 }
 
-#pragma mark - touch event
-- (void)nextStep0 {
-    NSLog(@"%s", __func__);
-    [_pwd1TextField becomeFirstResponder];
-}
-
-- (void)nextStep1 {
-    NSLog(@"%s", __func__);
-    [_pwd2TextField becomeFirstResponder];
-}
-
-- (void)previousStep1 {
-    NSLog(@"%s", __func__);
-    [_nickNameTextField becomeFirstResponder];
-}
-
-- (void)previousStep2 {
-    NSLog(@"%s", __func__);
-    [_pwd1TextField becomeFirstResponder];
-}
+#pragma mark - event response
 
 - (IBAction)clickShowButton:(UIButton *)sender {
     NSLog(@"%s", __func__);
@@ -96,8 +75,8 @@
 - (IBAction)clickSureButton:(UIButton *)sender {
     NSLog(@"%s", __func__);
     
-    if (_nickNameTextField.text.length < 2) {
-        [SVProgressHUD showErrorWithStatus:@"昵称最少2位哦~"];
+    if (!_oldPwdTextField.text.length) {
+        [SVProgressHUD showErrorWithStatus:@"请输入旧密码哦~"];
         return;
     }
     
@@ -118,19 +97,13 @@
     
     [self.view endEditing:YES];
     
-    NSString *username = _nickNameTextField.text;
+    NSString *ID = [GVUserDefaults standardUserDefaults].currentLoginID;
     
-    NSString *ID = [GVUserDefaults standardUserDefaults].currentRegisterID;
-    
-    YOSUserRegisterRequest *request = [[YOSUserRegisterRequest alloc] initWithUserName:username ID:ID password1:_pwd1TextField.text password2:_pwd2TextField.text];
+    YOSUserUppwdRequest *request = [[YOSUserUppwdRequest alloc] initWithUid:ID pwd:_oldPwdTextField.text pwd1:_pwd1TextField.text pwd2:_pwd2TextField.text];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        if (![request yos_checkResponse]) {
-            [SVProgressHUD dismiss];
-            return;
-        } else {
-            [self.view endEditing:YES];
-            [SVProgressHUD showSuccessWithStatus:@"注册成功"];
+        if ([request yos_checkResponse]) {
+            [SVProgressHUD showSuccessWithStatus:@"修改密码成功~"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
             });
@@ -159,13 +132,7 @@
         return YES;
     }
     
-    // tag = 0是nickname，最多输入15位字符
-    if (textField.tag == 0 && textField.text.length >= 15) {
-        return NO;
-    }
-    
-    // tag = 1、2为输入密码 输入最多20位
-    if (textField.tag != 0 && textField.text.length >= 20) {
+    if (textField.text.length >= 20) {
         return NO;
     }
     
@@ -200,13 +167,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
+

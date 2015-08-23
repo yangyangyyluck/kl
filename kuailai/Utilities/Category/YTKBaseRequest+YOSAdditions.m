@@ -95,7 +95,8 @@
                 [SVProgressHUD showErrorWithStatus:YOSNetworkErrorFailure maskType:SVProgressHUDMaskTypeClear];
             }
             
-            return NO;
+        } else {
+            [SVProgressHUD showErrorWithStatus:YOSNetworkResponseError maskType:SVProgressHUDMaskTypeClear];
         }
         
         return NO;

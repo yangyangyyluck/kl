@@ -8,6 +8,7 @@
 
 #import "YOSLoginViewController.h"
 #import "YOSRegisterViewController.h"
+#import "YOSFindPassViewController.h"
 
 #import "YOSUserLoginRequest.h"
 
@@ -240,6 +241,10 @@
 
 - (void)tappedForgetButton {
     NSLog(@"%s", __func__);
+    
+    YOSFindPassViewController *findVC = [YOSFindPassViewController viewControllerFromStoryboardWithSBName:@"Register"];
+    
+    [self.navigationController pushViewController:findVC animated:YES];
 }
 
 - (void)tappedCloseButton {

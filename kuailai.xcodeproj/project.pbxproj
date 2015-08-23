@@ -100,6 +100,10 @@
 		DD7B0CC31B71EB2600A5496D /* YOSSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B0CC21B71EB2600A5496D /* YOSSettingCell.m */; };
 		DD7B0CC61B72453800A5496D /* YOSMyFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B0CC51B72453800A5496D /* YOSMyFriendsViewController.m */; };
 		DD7B0CC91B73217F00A5496D /* YOSAuditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B0CC81B73217F00A5496D /* YOSAuditCell.m */; };
+		DD7B744D1B89909F00200CF0 /* YOSUserForgetPassRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B744C1B89909F00200CF0 /* YOSUserForgetPassRequest.m */; };
+		DD7B74501B89912A00200CF0 /* YOSUserUppwdByUnameRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B744F1B89912A00200CF0 /* YOSUserUppwdByUnameRequest.m */; };
+		DD7B74531B89A08300200CF0 /* YOSChangePassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B74521B89A08300200CF0 /* YOSChangePassViewController.m */; };
+		DD7B74561B89A3AC00200CF0 /* YOSUserUppwdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B74551B89A3AC00200CF0 /* YOSUserUppwdRequest.m */; };
 		DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */; };
 		DD8360B91B07955300DEAF86 /* YOSRegionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360B81B07955300DEAF86 /* YOSRegionModel.m */; };
 		DD8360BC1B07956F00DEAF86 /* YOSCityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8360BB1B07956F00DEAF86 /* YOSCityModel.m */; };
@@ -394,6 +398,14 @@
 		DD7B0CC51B72453800A5496D /* YOSMyFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyFriendsViewController.m; sourceTree = "<group>"; };
 		DD7B0CC71B73217F00A5496D /* YOSAuditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSAuditCell.h; sourceTree = "<group>"; };
 		DD7B0CC81B73217F00A5496D /* YOSAuditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSAuditCell.m; sourceTree = "<group>"; };
+		DD7B744B1B89909F00200CF0 /* YOSUserForgetPassRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserForgetPassRequest.h; sourceTree = "<group>"; };
+		DD7B744C1B89909F00200CF0 /* YOSUserForgetPassRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserForgetPassRequest.m; sourceTree = "<group>"; };
+		DD7B744E1B89912A00200CF0 /* YOSUserUppwdByUnameRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserUppwdByUnameRequest.h; sourceTree = "<group>"; };
+		DD7B744F1B89912A00200CF0 /* YOSUserUppwdByUnameRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserUppwdByUnameRequest.m; sourceTree = "<group>"; };
+		DD7B74511B89A08300200CF0 /* YOSChangePassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSChangePassViewController.h; sourceTree = "<group>"; };
+		DD7B74521B89A08300200CF0 /* YOSChangePassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSChangePassViewController.m; sourceTree = "<group>"; };
+		DD7B74541B89A3AC00200CF0 /* YOSUserUppwdRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserUppwdRequest.h; sourceTree = "<group>"; };
+		DD7B74551B89A3AC00200CF0 /* YOSUserUppwdRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserUppwdRequest.m; sourceTree = "<group>"; };
 		DD8360B31B075C8A00DEAF86 /* YOSActiveGetCityRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveGetCityRequest.h; sourceTree = "<group>"; };
 		DD8360B41B075C8A00DEAF86 /* YOSActiveGetCityRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveGetCityRequest.m; sourceTree = "<group>"; };
 		DD8360B71B07955300DEAF86 /* YOSRegionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSRegionModel.h; sourceTree = "<group>"; };
@@ -736,6 +748,8 @@
 				DD00EDB91ADB6C3A00E811A2 /* YOSRegStepTwoViewController.m */,
 				DD90B04D1B889ED50078CD66 /* YOSFindPassViewController.h */,
 				DD90B04E1B889ED50078CD66 /* YOSFindPassViewController.m */,
+				DD7B74511B89A08300200CF0 /* YOSChangePassViewController.h */,
+				DD7B74521B89A08300200CF0 /* YOSChangePassViewController.m */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -1401,6 +1415,12 @@
 				DD42BC411B84BFBC003C886E /* YOSUserGetMyCollectListRequest.m */,
 				DD90B04A1B886E4E0078CD66 /* YOSUserGetVersionRequest.h */,
 				DD90B04B1B886E4E0078CD66 /* YOSUserGetVersionRequest.m */,
+				DD7B744B1B89909F00200CF0 /* YOSUserForgetPassRequest.h */,
+				DD7B744C1B89909F00200CF0 /* YOSUserForgetPassRequest.m */,
+				DD7B744E1B89912A00200CF0 /* YOSUserUppwdByUnameRequest.h */,
+				DD7B744F1B89912A00200CF0 /* YOSUserUppwdByUnameRequest.m */,
+				DD7B74541B89A3AC00200CF0 /* YOSUserUppwdRequest.h */,
+				DD7B74551B89A3AC00200CF0 /* YOSUserUppwdRequest.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1625,6 +1645,7 @@
 				DDCF01061B116FAD00ED205F /* YOSTextView.m in Sources */,
 				DD89D69B1B42D0EB00D542BB /* YOSMyReleaseCell.m in Sources */,
 				DD6412151B522CCB00C5BFFB /* YOSUserAllAuditRegisterRequest.m in Sources */,
+				DD7B74561B89A3AC00200CF0 /* YOSUserUppwdRequest.m in Sources */,
 				DD97C9E81B1B1B95003D6C10 /* YOSSubmitInsetActiveModel.m in Sources */,
 				DD16903C1B254A200060B3EB /* YOSUserInfoModel.m in Sources */,
 				DD5367B81B79E6F000793282 /* UITabBarController+YOSAdditions.m in Sources */,
@@ -1663,6 +1684,7 @@
 				DD64122E1B525DEB00C5BFFB /* split.mm in Sources */,
 				DDF840951AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m in Sources */,
 				DD5EBD1C1B690DB600BB1033 /* YOSUserGetUserByHxRequest.m in Sources */,
+				DD7B744D1B89909F00200CF0 /* YOSUserForgetPassRequest.m in Sources */,
 				DDE28F791B3853C3005BD036 /* YOSLoginViewController.m in Sources */,
 				DDB6566E1B195EFE00531C71 /* YOSButton.m in Sources */,
 				DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */,
@@ -1686,6 +1708,7 @@
 				DD89D6AD1B44E7A700D542BB /* YOSActivityAuditIndividualView.m in Sources */,
 				DDC51E6C1B01B6D500B37323 /* YOSEditViewController.m in Sources */,
 				DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */,
+				DD7B74531B89A08300200CF0 /* YOSChangePassViewController.m in Sources */,
 				DD24E9C01B7DE009008CAE12 /* YOSHobbyButton.m in Sources */,
 				DDCF01051B116FAD00ED205F /* YOSTextField.m in Sources */,
 				DDCCF5891B74853600EF1ECD /* YOSSendMessagesViewController.m in Sources */,
@@ -1724,6 +1747,7 @@
 				DD24E9F11B846A5D008CAE12 /* YOSHomeSwitchView.m in Sources */,
 				DD24E9D31B81D2A9008CAE12 /* YOSUserUpPublicRequest.m in Sources */,
 				DD89D6A11B43DDF900D542BB /* YOSActivityAuditViewController.m in Sources */,
+				DD7B74501B89912A00200CF0 /* YOSUserUppwdByUnameRequest.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,
 				DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */,
@@ -1874,7 +1898,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5bcffa09-ee6f-4c98-9a55-84ff0d3a26ff";
+				PROVISIONING_PROFILE = "74e4ffb2-c696-4ec2-9b55-eef7c1224acb";
 			};
 			name = Debug;
 		};
@@ -1894,7 +1918,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5bcffa09-ee6f-4c98-9a55-84ff0d3a26ff";
+				PROVISIONING_PROFILE = "74e4ffb2-c696-4ec2-9b55-eef7c1224acb";
 			};
 			name = Release;
 		};

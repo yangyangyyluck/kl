@@ -9,6 +9,7 @@
 #import "YOSSettingViewController.h"
 #import "YOSTestViewController.h"
 #import "YOSFeedbackViewController.h"
+#import "YOSChangePassViewController.h"
 #import "YOSSettingCell.h"
 
 #import "YOSUserUpPublicRequest.h"
@@ -170,6 +171,11 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     
     NSLog(@"%s", __func__);
     
+    if (indexPath.row == 0) {
+        YOSChangePassViewController *changeVC = [YOSChangePassViewController viewControllerFromStoryboardWithSBName:@"Register"];
+        [self.navigationController pushViewController:changeVC animated:YES];
+    }
+    
     if (indexPath.row == 1) {
         YOSFeedbackViewController *feedbackVC = [YOSFeedbackViewController new];
         [self.navigationController pushViewController:feedbackVC animated:YES];
@@ -179,6 +185,8 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
         YOSTestViewController *testVC = [YOSTestViewController new];
         [self.navigationController pushViewController:testVC animated:YES];
     }
+    
+    
     
 }
 

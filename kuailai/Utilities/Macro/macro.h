@@ -69,6 +69,7 @@
 #define YOSNetworkErrorBadRequest       @"服务器返回异常,请重试~"
 #define YOSNetworkErrorNoAuthorization  @"请先登录哦~"
 #define YOSNetworkErrorFailure          @"网络开小差啦,请重试~"
+#define YOSNetworkResponseError         @"服务器返回数据异常,请重试~"
 #define YOSNetworkErrorDefault          @"网络开小差啦,请重试~"
 
 #define YOSInt2String(num) [NSString stringWithFormat:@"%zi", (num)]
