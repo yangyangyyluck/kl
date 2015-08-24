@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 kuailai.inc. All rights reserved.
 //
 
-#import "YOSUserInfoViewController.h"
+#import "YOSAddRequestViewController.h"
 #import "YOSSendMessagesViewController.h"
 #import "YOSHeadDetailButton.h"
 #import "YOSAuditIndividualCell.h"
@@ -19,8 +19,9 @@
 #import "UIImage+YOSAdditions.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "YOSEaseMobManager.h"
+#import "YOSDBManager.h"
 
-@interface YOSUserInfoViewController() <UITableViewDataSource, UITableViewDelegate>
+@interface YOSAddRequestViewController() <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -30,7 +31,7 @@
 
 @end
 
-@implementation YOSUserInfoViewController {
+@implementation YOSAddRequestViewController {
     UIScrollView *_scrollView;
     UIView *_contentView;
     
@@ -57,6 +58,10 @@
     [self setupBackArrow];
     
     [self setupSubviews];
+}
+
+- (void)clickLeftItem:(UIButton *)item {
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)setupSubviews {
@@ -112,7 +117,7 @@
     [_contentView addSubview:_tableView];
     
     _leftButton = [UIButton new];
-    [_leftButton setTitle:@"发起消息" forState:UIControlStateNormal];
+    [_leftButton setTitle:@"同意" forState:UIControlStateNormal];
     [_leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _leftButton.titleLabel.font = YOSFontBig;
     [_leftButton setBackgroundImage:[UIImage yos_imageWithColor:YOSColorGreen size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
@@ -120,7 +125,7 @@
     [self.view addSubview:_leftButton];
     
     _rightButton = [UIButton new];
-    [_rightButton setTitle:@"想认识他" forState:UIControlStateNormal];
+    [_rightButton setTitle:@"拒绝" forState:UIControlStateNormal];
     [_rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _rightButton.titleLabel.font = YOSFontBig;
     [_rightButton setBackgroundImage:[UIImage yos_imageWithColor:YOSColorMainRed size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
@@ -257,25 +262,43 @@
 
 #pragma mark - event response
 
-- (void)tappedRightButton {
-    NSLog(@"%s", __func__);
-    
-    BOOL status = [[YOSEaseMobManager sharedManager] addBuddy:self.userInfoModel.hx_user message:@"请求添加您为好友"];
-    
-    if (status) {
-        [SVProgressHUD showInfoWithStatus:@"请求已发送~" maskType:SVProgressHUDMaskTypeClear];
-        [_rightButton setTitle:@"等待验证" forState:UIControlStateNormal];
-        _rightButton.enabled = NO;
-    }
-}
-
 - (void)tappedLeftButton {
     NSLog(@"%s", __func__);
     
-    YOSSendMessagesViewController *sendVC = [YOSSendMessagesViewController new];
-    sendVC.otherUserInfoModel = self.userInfoModel;
+    BOOL status = [[YOSEaseMobManager sharedManager] acceptBuddy:self.userInfoModel.hx_user];
     
-    [self.navigationController pushViewController:sendVC animated:YES];
+    if (status) {
+        [[YOSEaseMobManager sharedManager] getBuddyListSync];
+        
+        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].hx_user buddy:self.userInfoModel.hx_user];
+        
+        [SVProgressHUD showInfoWithStatus:@"已同意~" maskType:SVProgressHUDMaskTypeClear];
+        
+        YOSPostNotification(YOSNotificationUpdateBuddyRequest);
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        });
+    }
+}
+
+- (void)tappedRightButton {
+    NSLog(@"%s", __func__);
+    
+    BOOL status = [[YOSEaseMobManager sharedManager] rejuctBuddy:self.userInfoModel.hx_user reason:@""];
+    
+    if (status) {
+        
+        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].hx_user buddy:self.userInfoModel.hx_user];
+        
+        [SVProgressHUD showInfoWithStatus:@"已拒绝~" maskType:SVProgressHUDMaskTypeClear];
+        
+        YOSPostNotification(YOSNotificationUpdateBuddyRequest);
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        });
+    }
 }
 
 #pragma mark - getter & setter

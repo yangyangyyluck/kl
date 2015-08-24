@@ -99,7 +99,7 @@ const static NSUInteger kCountOfLoadMessages = 20;
     
     BOOL st = [self.conversation markAllMessagesAsRead:YES];
     
-    NSLog(@"sttt is %zi",st);
+    NSLog(@"\r\n\r\n\r\nsttt is %zi con is %@\r\n\r\n\r\n",st, self.conversation);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationResetUnReadMessage object:nil userInfo:@{@"userInfoModel":self.otherUserInfoModel}];
     
@@ -1006,7 +1006,7 @@ const static NSUInteger kCountOfLoadMessages = 20;
         
         BOOL st = [self.conversation markAllMessagesAsRead:YES];
         
-        NSLog(@"sttt is %zi",st);
+        NSLog(@"\r\n\r\n\r\nsttt is %zi con is %@\r\n\r\n\r\n",st, self.conversation);
         
         JSQMessage *message = [receiveMessage transferToJSQMessageWithUserInfo:self.otherUserInfoModel];
         

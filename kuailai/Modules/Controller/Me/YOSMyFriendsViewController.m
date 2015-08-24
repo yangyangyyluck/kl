@@ -64,6 +64,7 @@
     if ([_tableView respondsToSelector:@selector(setSectionIndexColor:)]) {
         _tableView.sectionIndexBackgroundColor = [UIColor clearColor];
         _tableView.sectionIndexTrackingBackgroundColor = [UIColor clearColor];
+        _tableView.sectionIndexColor = YOSColorGreen;
     }
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -138,18 +139,22 @@
         
         YOSUserInfoModel *deleteUserInfoModel = self.dataSource[indexPath.section][indexPath.row];
         
+        EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:deleteUserInfoModel.hx_user];
+        
+        [con removeAllMessages];
+        
         BOOL status = [[YOSEaseMobManager sharedManager] removeBuddy:deleteUserInfoModel.hx_user];
         
         if (status) {
-            EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:deleteUserInfoModel.hx_user];
             
-            [con removeAllMessages];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationDeleteBuddy object:nil userInfo:@{@"hx_user" : deleteUserInfoModel.hx_user}];
+            // 获取最新好友 不获取会发生应用崩溃
+            [[YOSEaseMobManager sharedManager] getBuddyListSync];
             
             NSString *current_username = [YOSWidget getCurrentUserInfoModel].hx_user;
             
             [[YOSDBManager sharedManager] deleteNewestChatWithCurrentUser:current_username Buddy:deleteUserInfoModel.hx_user];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationDeleteBuddy object:nil userInfo:@{@"hx_user" : deleteUserInfoModel.hx_user}];
             
             [self.userInfoModels removeObject:deleteUserInfoModel];
             

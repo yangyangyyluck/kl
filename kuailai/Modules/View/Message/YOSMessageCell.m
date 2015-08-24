@@ -20,6 +20,7 @@
 #import "KYCuteView.h"
 #import "YOSEaseMobManager.h"
 #import "EaseMob.h"
+#import "YOSWidget.h"
 
 @implementation YOSMessageCell {
     
@@ -67,7 +68,6 @@
     _headImageButton = [UIButton new];
     _headImageButton.layer.cornerRadius = 25;
     _headImageButton.layer.masksToBounds = YES;
-    _headImageButton.clipsToBounds = NO;
     [_headImageButton addTarget:self action:@selector(tappedAvatarButton) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_headImageButton];
 
@@ -283,6 +283,11 @@
         [self setupCuteView];
     }
     
+    // 预读一次回话
+    [[YOSEaseMobManager sharedManager] conversationForChatter:self.messageModel.hx_user];
+    
+    _cuteView.hx_user = self.messageModel.hx_user;
+    
     if (count) {
         NSString *str = nil;
         if (count >= 99) {
@@ -290,16 +295,6 @@
         } else {
             str = messageModel.count;
         }
-        
-        EMConversation *con = [[YOSEaseMobManager sharedManager] conversationForChatter:self.messageModel.hx_user];
-        
-        YOSWObject(con, weakCon);
-        
-        _cuteView.vBlock = ^{
-            BOOL st = [weakCon markAllMessagesAsRead:YES];
-            
-            NSLog(@"sttt is %zi",st);
-        };
         
         _cuteView.bubbleLabel.text = str;
         [_cuteView resetBubble];

@@ -17,7 +17,7 @@
 #import "SVProgressHUD.h"
 #import "GVUserDefaults+YOSProperties.h"
 
-static const NSUInteger kTimeMaxCount = 16;
+static const NSUInteger kTimeMaxCount = 60;
 
 @interface YOSFindPassViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *registerCodeButton;
@@ -128,7 +128,7 @@ static const NSUInteger kTimeMaxCount = 16;
             _uid = request.yos_data[@"uid"];
 
             // 真机调试时候alert, 模拟器不alert
-            if (TARGET_OS_IPHONE && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
+            if (YOSDEBUG && [request.yos_data[@"code"] isKindOfClass:[NSString class]]) {
                 [SVProgressHUD showInfoWithStatus:request.yos_data[@"code"]];
             } else {
                 [SVProgressHUD showInfoWithStatus:@"验证码已发送，请查收~"];

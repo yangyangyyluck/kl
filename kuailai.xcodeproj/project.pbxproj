@@ -93,6 +93,7 @@
 		DD735BE51B53C4FD002F0B0F /* YOSHideTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE41B53C4FD002F0B0F /* YOSHideTextField.m */; };
 		DD735BE81B54B6FB002F0B0F /* YOSLocalNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD735BE71B54B6FB002F0B0F /* YOSLocalNotificationManager.m */; };
 		DD75619E1B8A04510031FAEA /* YOSAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD75619D1B8A04510031FAEA /* YOSAboutUsViewController.m */; };
+		DD7561A11B8B14ED0031FAEA /* YOSAddRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7561A01B8B14ED0031FAEA /* YOSAddRequestViewController.m */; };
 		DD7707971AD3C05F00795561 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707921AD3C05F00795561 /* Foundation+Log.m */; };
 		DD7707981AD3C05F00795561 /* UIImage+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707941AD3C05F00795561 /* UIImage+YOSAdditions.m */; };
 		DD7707991AD3C05F00795561 /* UIView+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7707961AD3C05F00795561 /* UIView+YOSAdditions.m */; };
@@ -384,6 +385,8 @@
 		DD735BE71B54B6FB002F0B0F /* YOSLocalNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSLocalNotificationManager.m; sourceTree = "<group>"; };
 		DD75619C1B8A04510031FAEA /* YOSAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSAboutUsViewController.h; sourceTree = "<group>"; };
 		DD75619D1B8A04510031FAEA /* YOSAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSAboutUsViewController.m; sourceTree = "<group>"; };
+		DD75619F1B8B14ED0031FAEA /* YOSAddRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSAddRequestViewController.h; sourceTree = "<group>"; };
+		DD7561A01B8B14ED0031FAEA /* YOSAddRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSAddRequestViewController.m; sourceTree = "<group>"; };
 		DD77078A1AD3BA3300795561 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DD77078B1AD3BAD300795561 /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		DD7707921AD3C05F00795561 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
@@ -718,6 +721,8 @@
 		DD00EDB21ADB6C3A00E811A2 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				DD75619F1B8B14ED0031FAEA /* YOSAddRequestViewController.h */,
+				DD7561A01B8B14ED0031FAEA /* YOSAddRequestViewController.m */,
 				DD311F131B5756170094A91C /* YOSMessageViewController.h */,
 				DD311F141B5756170094A91C /* YOSMessageViewController.m */,
 				DDE16B971B65DD9500989BE8 /* YOSAddBuddyViewController.h */,
@@ -1591,6 +1596,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD7561A11B8B14ED0031FAEA /* YOSAddRequestViewController.m in Sources */,
 				DDCCF58A1B74853600EF1ECD /* YOSModelData.m in Sources */,
 				DDFC6B461B4E6CDD008DB181 /* YOSTagEditViewController.m in Sources */,
 				DDA4266C1AEE80620043FB6B /* UIButton+YOSAdditions.m in Sources */,
@@ -1904,7 +1910,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4e01d819-508c-40cd-abf3-2c2d24866163";
+				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
 			};
 			name = Debug;
 		};
@@ -1924,7 +1930,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4e01d819-508c-40cd-abf3-2c2d24866163";
+				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
 			};
 			name = Release;
 		};

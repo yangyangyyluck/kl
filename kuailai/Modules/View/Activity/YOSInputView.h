@@ -107,6 +107,13 @@ typedef NS_ENUM(NSUInteger, YOSInputViewPickerType) {
 - (NSString *)text;
 
 /**
+ *  当前控件内文本[出去空白字符]
+ *
+ *  @return text
+ */
+- (NSString *)textWithoutWhitespace;
+
+/**
  *  当前view的高度
  *
  *  @return height

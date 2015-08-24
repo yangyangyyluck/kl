@@ -243,8 +243,8 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
 - (void)tappedLogoutButton {
     NSLog(@"%s", __func__);
     
-    YOSPostNotification(YOSNotificationLogout);
     [[GVUserDefaults standardUserDefaults] logout];
+    YOSPostNotification(YOSNotificationLogout);
     
     [[YOSEaseMobManager sharedManager] logoffWithUnbindDeviceToken:YES];
     

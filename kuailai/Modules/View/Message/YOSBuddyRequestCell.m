@@ -63,7 +63,6 @@
     _headImageView.image = [UIImage imageNamed:@"默认头像"];
     _headImageView.layer.cornerRadius = 25;
     _headImageView.layer.masksToBounds = YES;
-    _headImageView.clipsToBounds = NO;
     [self.contentView addSubview:_headImageView];
     
     _topLabel = [UILabel new];
@@ -149,6 +148,7 @@
     BOOL status = [[YOSEaseMobManager sharedManager] rejuctBuddy:self.messageModel.hx_user reason:@""];
     
     if (status) {
+        
         [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].hx_user buddy:self.messageModel.hx_user];
         
         [SVProgressHUD showInfoWithStatus:@"已拒绝~" maskType:SVProgressHUDMaskTypeClear];
@@ -163,6 +163,8 @@
     BOOL status = [[YOSEaseMobManager sharedManager] acceptBuddy:self.messageModel.hx_user];
     
     if (status) {
+        [[YOSEaseMobManager sharedManager] getBuddyListSync];
+        
         [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:[YOSWidget getCurrentUserInfoModel].hx_user buddy:self.messageModel.hx_user];
         
         [SVProgressHUD showInfoWithStatus:@"已同意~" maskType:SVProgressHUDMaskTypeClear];

@@ -30,4 +30,17 @@
     }
 }
 
+- (instancetype)initWithDictionary:(NSDictionary *)dict error:(NSError *__autoreleasing *)err {
+    NSMutableDictionary *mDict = [dict mutableCopy];
+    
+    NSString *avatar = mDict[@"avatar"];
+    
+    if (avatar.length && ![avatar hasPrefix:@"http://"]) {
+        avatar = [NSString stringWithFormat:@"%@%@", YOSImageBaseUrl, avatar];
+        mDict[@"avatar"] = avatar;
+    }
+    
+    return [super initWithDictionary:mDict error:err];
+}
+
 @end

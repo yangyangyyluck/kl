@@ -13,8 +13,10 @@
 #else
     #define YOSLog(...)
     #define NSLog(...)
-    #define YOSImageBaseUrl @"http://img.comebar.cn"
+    #define YOSImageBaseUrl @"http://img.comebar.cn/"
 #endif
+
+#define YOSDEBUG 1
 
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)

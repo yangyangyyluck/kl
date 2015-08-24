@@ -279,7 +279,7 @@ static CGFloat kOneLineHeight = 44.0f;
             textField.text = [textField.text substringWithRange:NSMakeRange(0, _maxCharacters)];
         }
         
-        self.selected = (BOOL)textField.text.length;
+        self.selected = [self canSelectedWithString:textField.text];
         
     }
    
@@ -369,6 +369,33 @@ static CGFloat kOneLineHeight = 44.0f;
         return self.textViewString;
     }
 
+}
+
+- (NSString *)textWithoutWhitespace {
+    // 如果是当前是显示时间，返回时间戳
+    if (self.pickerType == YOSInputViewPickerTypeAge || self.pickerType == YOSInputViewPickerTypeActivity) {
+        return self.dateString;
+    }
+    
+    if (_single) {
+        
+        NSString *string = _textField.text;
+        
+        NSMutableString *mString = [string mutableCopy];
+        
+        [mString replaceOccurrencesOfString:@" " withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, mString.length)];
+        
+        return [mString copy];
+    } else {
+        
+        NSString *string = self.textViewString;
+        
+        NSMutableString *mString = [string mutableCopy];
+        
+        [mString replaceOccurrencesOfString:@" " withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, mString.length)];
+        
+        return [mString copy];
+    }
 }
 
 - (CGFloat)height {
@@ -572,7 +599,8 @@ static CGFloat kOneLineHeight = 44.0f;
     editVC.vBlock = ^(id data){
         weakSelf.textViewString = [(NSString *)data copy];
         weakSelf.textField.text = [(NSString *)data copy];
-        weakSelf.selected = (BOOL)weakSelf.textField.text.length;
+        
+        weakSelf.selected = [self canSelectedWithString:weakSelf.textField.text];
     };
     
     [self.yos_viewController presentViewController:editVC animated:YES completion:nil];
@@ -644,7 +672,16 @@ static CGFloat kOneLineHeight = 44.0f;
     return maxWidth;
 }
 
-#pragma mark - getter & setter 
+- (BOOL)canSelectedWithString:(NSString *)string {
+    
+    NSMutableString *mString = [string mutableCopy];
+    
+    [mString replaceOccurrencesOfString:@" " withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, mString.length)];
+    
+    return (BOOL)mString.length;
+}
+
+#pragma mark - getter & setter
 
 - (NSArray *)sexDataSource {
 //    1. 男

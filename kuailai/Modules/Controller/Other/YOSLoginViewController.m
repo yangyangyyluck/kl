@@ -306,8 +306,6 @@
                 return;
             }
             
-            [SVProgressHUD dismiss];
-            
             // login
             YOSPostNotification(YOSNotificationLogin);
             // update
@@ -320,7 +318,6 @@
             [SVProgressHUD showErrorWithStatus:request.yos_baseResponseModel.msg maskType:SVProgressHUDMaskTypeClear];
         }
     } failure:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
         [request yos_checkResponse];
     }];
 }

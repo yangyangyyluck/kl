@@ -8,8 +8,6 @@
 
 #import "YOSRegStepTwoViewController.h"
 
-#import "YOSAccessoryView.h"
-
 #import "YOSUserRegisterRequest.h"
 
 #import "YOSWidget.h"
@@ -29,9 +27,7 @@
 @end
 
 @implementation YOSRegStepTwoViewController {
-    YOSAccessoryView *_accessoryView0;
-    YOSAccessoryView *_accessoryView1;
-    YOSAccessoryView *_accessoryView2;
+
 }
 
 - (void)viewDidLoad {
@@ -57,27 +53,6 @@
     self.sureButton.layer.cornerRadius = 20.5;
     self.sureButton.layer.masksToBounds = YES;
     
-}
-
-#pragma mark - touch event
-- (void)nextStep0 {
-    NSLog(@"%s", __func__);
-    [_pwd1TextField becomeFirstResponder];
-}
-
-- (void)nextStep1 {
-    NSLog(@"%s", __func__);
-    [_pwd2TextField becomeFirstResponder];
-}
-
-- (void)previousStep1 {
-    NSLog(@"%s", __func__);
-    [_nickNameTextField becomeFirstResponder];
-}
-
-- (void)previousStep2 {
-    NSLog(@"%s", __func__);
-    [_pwd1TextField becomeFirstResponder];
 }
 
 - (IBAction)clickShowButton:(UIButton *)sender {

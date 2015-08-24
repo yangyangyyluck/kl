@@ -494,11 +494,11 @@
 
 - (void)login {
     
-    [self setupSubviews];
-    
     _tableView.hidden = NO;
     _userInfoModels = nil;
     _messageModels = nil;
+    
+    [self setupSubviews];
     
     [self loadNewestChat];
 }

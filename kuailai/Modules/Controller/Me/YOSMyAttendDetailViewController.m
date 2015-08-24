@@ -20,6 +20,7 @@
 #import "UIImage+MDQRCode.h"
 #import "YOSLocalNotificationManager.h"
 #import "AES128.h"
+#import "IQUIView+IQKeyboardToolbar.h"
 
 @implementation YOSMyAttendDetailViewController {
     UIScrollView *_scrollView;
@@ -34,6 +35,7 @@
     YOSTimeView *_timeView;
     // 黑魔法, 用 addButton 触发 textField
     YOSHideTextField *_hideTextField;
+    UIDatePicker *_picker;
     
     UIView *_grayContentView1;
     UILabel *_leftLabel1;
@@ -97,10 +99,11 @@
     _hideTextField.agencyView = _addButton;
     _hideTextField.hideCursor = YES;
     _hideTextField.borderStyle = UITextBorderStyleNone;
+    [_hideTextField addDoneOnKeyboardWithTarget:self action:@selector(doneAction)];
     UIDatePicker *picker = [UIDatePicker new];
+    _picker = picker;
     picker.datePickerMode = UIDatePickerModeDateAndTime;
     picker.minimumDate = [NSDate date];
-    [picker addTarget:self action:@selector(dateChange:)forControlEvents:UIControlEventValueChanged];
     _hideTextField.inputView = picker;
     [_contentView addSubview:_hideTextField];
     
@@ -127,7 +130,11 @@
     _timeView.idBlock = ^(UISwitch *swh) {
         
         if (swh.on) {
-            [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:weakObject.alertDate UserInfo:userInfo];
+            
+            if (weakObject.alertDate) {
+                [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:weakObject.alertDate UserInfo:userInfo];
+            }
+            
         } else {
             [[YOSLocalNotificationManager sharedManager] deleteNotificationWithUserInfo:userInfo];
         }
@@ -284,12 +291,14 @@
     [self.view addSubview:picker];
 }
 
-- (void)dateChange:(UIDatePicker *)picker {
-    NSLog(@"%s", __func__);
+- (void)doneAction {
+    _timeView.alertDate = _picker.date;
     
-    _timeView.alertDate = picker.date;
+    if (_timeView.swh.on) {
+        [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:_picker.date UserInfo:@{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title, @"start_time" : self.activityListModel.start_time}];
+    }
     
-    [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:picker.date UserInfo:@{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title, @"start_time" : self.activityListModel.start_time}];
+    [_hideTextField resignFirstResponder];
 }
 
 @end

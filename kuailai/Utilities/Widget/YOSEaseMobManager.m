@@ -290,7 +290,7 @@
         
         [buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj, NSUInteger idx, BOOL *stop) {
             
-            [[YOSDBManager sharedManager] deleteNewestChatWithCurrentUser:current_username Buddy:obj.username];
+            [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:current_username buddy:obj.username];
             
         }];
         
@@ -595,11 +595,27 @@
  @param username 之前发出的好友请求被用户username接受了
  */
 - (void)didAcceptedByBuddy:(NSString *)username {
-    [self getBuddyListAsync];
     
-    [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:self.userInfoModel.hx_user buddy:username];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
     
-    [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"%@已添加您为好友~", username] maskType:SVProgressHUDMaskTypeClear];
+        [self getBuddyListSync];
+        
+        [[YOSDBManager sharedManager] deleteBuddyRequestWithCurrentUser:self.userInfoModel.hx_user buddy:username];
+        
+        EMMessage *msg = [[YOSEaseMobManager sharedManager] sendMessageToUser:username message:@"已添加您为好友~"];
+        
+        NSString *update_time = [NSString stringWithFormat:@"%lli", msg.timestamp / 1000];
+        
+        [[YOSDBManager sharedManager] updateNewestChatWithCurrentUser:msg.from buddy:msg.to update_time:update_time];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:[YOSEaseMobManager class] userInfo:@{@"message":msg}];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
+        });
+        
+    });
+    
 }
 
 /*!
@@ -742,8 +758,8 @@
     [self logoffWithUnbindDeviceToken:YES];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        YOSPostNotification(YOSNotificationLogout);
         [[GVUserDefaults standardUserDefaults] logout];
+        YOSPostNotification(YOSNotificationLogout);
     });
     
 }

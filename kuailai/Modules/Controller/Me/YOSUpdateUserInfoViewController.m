@@ -207,7 +207,7 @@
 
 - (void)clickRightItem:(UIButton *)item {
     
-    if (!_inputView0.selected) {
+    if (!_inputView0.selected || _inputView0.textWithoutWhitespace.length < 2) {
         [SVProgressHUD showErrorWithStatus:@"姓名必须填写哦~" maskType:SVProgressHUDMaskTypeClear];
         return;
     }
@@ -226,7 +226,7 @@
     YOSUpdateUserInfoModel *updateModel = [YOSUpdateUserInfoModel new];
     
     updateModel.ID = [GVUserDefaults standardUserDefaults].currentLoginID;
-    updateModel.nickname = YOSFliterNil2String(_inputView0.text);
+    updateModel.nickname = YOSFliterNil2String(_inputView0.textWithoutWhitespace);
     updateModel.email = YOSFliterNil2String(_inputView2.text);
     updateModel.sex = YOSFliterNil2String(_inputView3.sexId);
     updateModel.company = YOSFliterNil2String(_inputView4.text);

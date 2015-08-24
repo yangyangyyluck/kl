@@ -169,7 +169,6 @@
         make.bottom.mas_equalTo(_tapView.mas_bottom);
     }];
     
-    _headDetailButton.backgroundColor = YOSColorRandom;
     [_headDetailButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.top.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 110));
@@ -366,7 +365,7 @@
 }
 
 - (void)waitHXLogin {
-    _contentView.hidden = YES;
+    _scrollView.hidden = YES;
     
     [self showDefaultMessage:@"正在登录中.." tappedBlock:nil isShowHUD:YES];
     
@@ -377,7 +376,7 @@
 }
 
 - (void)logout {
-    _contentView.hidden = YES;
+    _scrollView.hidden = YES;
     
     [self cancelRightButton];
     

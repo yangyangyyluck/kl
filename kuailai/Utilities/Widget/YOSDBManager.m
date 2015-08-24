@@ -387,7 +387,7 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
     
     NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE username = ?", [kYOSTableUserInfo copy]];
     
-    BOOL status = [_db executeQuery:deleteSql, username];
+    BOOL status = [_db executeUpdate:deleteSql, username];
     
     if (status) {
         NSLog(@"delete UserInfo with %@ --- success", username);
@@ -445,9 +445,9 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
         return;
     }
     
-    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE current_username = ? AND buddy_username", [kYOSTableNewestChat copy]];
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE current_username = ? AND buddy_username = ?", [kYOSTableNewestChat copy]];
     
-    BOOL status = [_db executeQuery:deleteSql, current, buddy];
+    BOOL status = [_db executeUpdate:deleteSql, current, buddy];
     
     if (status) {
         NSLog(@"delete UserInfo with %@ --- %@ success", current, buddy);
