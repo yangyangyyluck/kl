@@ -32,6 +32,8 @@
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
+
 @end
 
 @implementation YOSMyFriendsViewController
@@ -46,6 +48,14 @@
     [self setupSubviews];
     
     [self sendNetworkRequest];
+}
+
+- (void)clickLeftItem:(UIButton *)item {
+    
+    // 删除按钮出现的时候，不reloadData 一定崩溃
+    [self.tableView reloadData];
+    
+    [super clickLeftItem:item];
 }
 
 - (void)setupSubviews {
@@ -135,6 +145,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         YOSUserInfoModel *deleteUserInfoModel = self.dataSource[indexPath.section][indexPath.row];
@@ -163,6 +174,7 @@
             self.userInfoModels = self.userInfoModels;
             
             [self.tableView reloadData];
+            
         } else {
             [SVProgressHUD showErrorWithStatus:@"删除失败, 请稍后再试~" maskType:SVProgressHUDMaskTypeClear];
         }
