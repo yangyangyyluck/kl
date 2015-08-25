@@ -128,7 +128,7 @@
     _headBackgroundImageView.image = [UIImage imageNamed:@"首页默认图"];
     _headBackgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     
-    if (_userInfoModel.avatar && ![_userInfoModel.avatar isEqualToString:@""]) {
+    if (_userInfoModel.avatar.length) {
         NSURL *url = [NSURL URLWithString:_userInfoModel.avatar];
         
         [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"默认头像"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {

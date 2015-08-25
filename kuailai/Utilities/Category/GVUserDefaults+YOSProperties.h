@@ -46,7 +46,7 @@ extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
 /** 退出时清空 */
 @property (nonatomic, weak) NSDictionary *currentTagDictionary;
 
-/** 退出时清空 */    // 默认为1 允许陌生人聊天
+/** 退出时清空 */    // 默认为1 允许陌生人聊天 2 不允许
 @property (nonatomic, assign) NSUInteger isPublic;
 
 - (void)logout;

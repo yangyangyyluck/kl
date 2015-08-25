@@ -9,6 +9,7 @@
 #import "YOSHomeCell.h"
 #import "YOSHeadButton.h"
 #import "YOSActivityListModel.h"
+#import "YOSUserInfoViewController.h"
 
 #import "EDColor.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
@@ -17,6 +18,7 @@
 #import "UIImage-Helpers.h"
 #import "Masonry.h"
 #import "YOSWidget.h"
+#import "UIView+YOSAdditions.h"
 
 NSString static * const kHomeCellDefaultImage = @"首页默认图";
 
@@ -83,6 +85,7 @@ NSString static * const kHomeCellDefaultImage = @"首页默认图";
     
     self.headButton.imageView.layer.cornerRadius = 20.0f;
     self.headButton.imageView.layer.masksToBounds = YES;
+    [self.headButton addTarget:self action:@selector(tappedHeadButton) forControlEvents:UIControlEventTouchUpInside];
     
     self.containerView.layer.cornerRadius = 5.0f;
     self.containerView.layer.masksToBounds = YES;
@@ -95,6 +98,19 @@ NSString static * const kHomeCellDefaultImage = @"首页默认图";
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+#pragma mark - event response
+
+- (void)tappedHeadButton {
+    NSLog(@"%s", __func__);
+    
+    YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
+    
+//    userVC.hx_user = self.model.hx_user;
+    userVC.hx_user = @"186009507831438757629";
+    
+    [self.yos_viewController.navigationController pushViewController:userVC animated:YES];
 }
 
 #pragma mark - getter & setter
@@ -123,7 +139,7 @@ NSString static * const kHomeCellDefaultImage = @"首页默认图";
         self.topImageView.image = [UIImage imageNamed:kHomeCellDefaultImage];
     }
     
-    [self.headButton setTitle:_model.username forState:UIControlStateNormal];
+    [self.headButton setTitle:(_model.nickname.length ? _model.nickname : @"没返回名字") forState:UIControlStateNormal];
     
     if (_model.avatar && ![_model.avatar isEqualToString:@""]) {
         NSURL *url = [NSURL URLWithString:_model.avatar];

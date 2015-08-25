@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) YOSUserInfoModel *userInfoModel;
 
+@property (nonatomic, copy) NSString *hx_user;
+
 @property (nonatomic, assign) BOOL hideButtons;
 
 @end

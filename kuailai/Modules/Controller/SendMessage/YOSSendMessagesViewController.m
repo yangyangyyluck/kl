@@ -858,9 +858,12 @@ const static NSUInteger kCountOfLoadMessages = 20;
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView atIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Tapped avatar!");
-    NSString *senderId = collectionView.dataSource.senderId;
+    JSQMessage *jsqMessage = self.demoData.messages[indexPath.row];
+    NSString *senderDisplayName = jsqMessage.senderDisplayName;
+    NSString *senderId = jsqMessage.senderId;
     
+    NSLog(@"Tapped avatar! --- indexPath : %@ - senderDisplayName : %@", indexPath, senderDisplayName);
+
     // 点击我
     if ([senderId isEqualToString:self.meUserInfoModel.hx_user]) {
         YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];

@@ -478,7 +478,7 @@
     if (![YOSWidget isTodayWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp / 1000]]) {
         model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp / 1000] Format:@"MM-dd"];
     } else {
-        model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp / 1000] Format:@"HH:mm:ss"];
+        model.date = [YOSWidget dateStringWithTimeStamp:[NSString stringWithFormat:@"%lli", message.timestamp / 1000] Format:@"HH:mm"];
     }
     
     BOOL status = [[YOSEaseMobManager sharedManager] isFriendWithUser:userInfoModel.hx_user];

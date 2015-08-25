@@ -13,6 +13,8 @@
 
 #import "YOSUserInfoModel.h"
 
+#import "YOSUserGetUserByHxRequest.h"
+
 #import "YOSWidget.h"
 #import "EDColor.h"
 #import "Masonry.h"
@@ -56,7 +58,14 @@
     
     [self setupBackArrow];
     
-    [self setupSubviews];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    if (self.userInfoModel) {
+        [self setupSubviews];
+    } else {
+        [self sendNetworkRequest];
+    }
+    
 }
 
 - (void)setupSubviews {
@@ -234,6 +243,26 @@
         _leftButton.hidden = YES;
     }
     
+}
+
+#pragma mark - network 
+
+- (void)sendNetworkRequest {
+    YOSUserGetUserByHxRequest *request = [[YOSUserGetUserByHxRequest alloc] initWithHXUsers:@[self.hx_user]];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+        if ([request yos_checkResponse]) {
+            NSLog(@"%s", __func__);
+            
+            NSArray *arr = request.yos_data;
+            self.userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:arr[0] error:nil];
+            
+            [self setupSubviews];
+        }
+    } failure:^(YTKBaseRequest *request) {
+        [request yos_checkResponse];
+    }];
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource

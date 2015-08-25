@@ -134,4 +134,6 @@
 
 + (NSString *)currentAppVersion;
 
++ (YOSUserInfoModel *)getUserInfoModelWithHxUser:(NSString *)hxUser;
+
 @end

@@ -143,6 +143,7 @@
         make.right.mas_equalTo(3);
         make.size.mas_equalTo(size);
     }];
+    _countLabel.hidden = YES;
     
     [_topLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_headImageButton).offset(3);
@@ -277,7 +278,6 @@
     }
     
     NSUInteger count = [messageModel.count integerValue];
-    _countLabel.hidden = YES;
     
     if (!_cuteView) {
         [self setupCuteView];

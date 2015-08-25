@@ -143,9 +143,9 @@
                 // 系统统一处理网络异常
                 
                 if (self.yos_baseResponseModel.msg) {
-                    [SVProgressHUD showErrorWithStatus:self.yos_baseResponseModel.msg maskType:SVProgressHUDMaskTypeClear];
+                    [SVProgressHUD showInfoWithStatus:self.yos_baseResponseModel.msg maskType:SVProgressHUDMaskTypeClear];
                 } else {
-                    [SVProgressHUD showErrorWithStatus:YOSNetworkErrorBadRequest maskType:SVProgressHUDMaskTypeClear];
+                    [SVProgressHUD showInfoWithStatus:YOSNetworkErrorBadRequest maskType:SVProgressHUDMaskTypeClear];
                 }
                 
             }

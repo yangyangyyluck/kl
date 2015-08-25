@@ -60,10 +60,6 @@
     [self setupSubviews];
 }
 
-- (void)clickLeftItem:(UIButton *)item {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 - (void)setupSubviews {
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -277,7 +273,7 @@
         YOSPostNotification(YOSNotificationUpdateBuddyRequest);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         });
     }
 }
@@ -296,7 +292,7 @@
         YOSPostNotification(YOSNotificationUpdateBuddyRequest);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         });
     }
 }

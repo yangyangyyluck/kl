@@ -7,6 +7,7 @@
 //
 
 #import "YOSAttentionUserViewController.h"
+#import "YOSUserInfoViewController.h"
 #import "YOSAddBuddyCell.h"
 
 #import "YOSUserInfoModel.h"
@@ -204,6 +205,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%s", __func__);
+    YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
+    userVC.userInfoModel = self.userInfoModels[indexPath.row];
+    
+    [self.navigationController pushViewController:userVC animated:YES];
 }
 
 

@@ -356,7 +356,7 @@ static const NSUInteger numbersOfSections = 100;
     
     _originatorNameLabel = [_originatorLabel yos_copySelf];
     _originatorNameLabel.textColor = YOSColorFontGray;
-    _originatorNameLabel.text = self.activityDetailModel.user.username;
+    _originatorNameLabel.text = self.activityDetailModel.user.nickname;
     [_originatorView addSubview:_originatorNameLabel];
     
     _rightArrowImageView = [UIImageView new];
@@ -387,7 +387,7 @@ static const NSUInteger numbersOfSections = 100;
     [_signButton addTarget:self action:@selector(tappedSignButton) forControlEvents:UIControlEventTouchUpInside];
     [_signButton setBackgroundImage:[UIImage yos_imageWithColor:YOSRGB(249, 125, 77) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     
-    [_contentView addSubview:_signButton];
+    [self.view addSubview:_signButton];
     
     [self sendNetworkRequestForIsSignUp];
     [self setupConstraints];
@@ -398,13 +398,7 @@ static const NSUInteger numbersOfSections = 100;
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
-    }];
-    
-    [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
-        make.width.mas_equalTo(YOSScreenWidth);
-        make.top.mas_equalTo(0);
-        make.bottom.mas_equalTo(_signButton);
+        make.bottom.mas_equalTo(-38);
     }];
     
     [_collectionContainterView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -527,16 +521,23 @@ static const NSUInteger numbersOfSections = 100;
     if (moreHeight == 0) {
         _moreUserButton.hidden = YES;
     }
+    
     [_moreUserButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_tableView.mas_bottom);
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, moreHeight));
         make.left.mas_equalTo(0);
     }];
     
+    [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.width.mas_equalTo(YOSScreenWidth);
+        make.top.mas_equalTo(0);
+        make.bottom.mas_equalTo(_moreUserButton);
+    }];
+    
     [_signButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, 38));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(_moreUserButton.mas_bottom);
+        make.left.and.bottom.mas_equalTo(0);
     }];
 }
 
@@ -823,7 +824,17 @@ static const NSUInteger numbersOfSections = 100;
         
         // 未报名
         if ([request.yos_baseResponseModel.code integerValue] == 400) {
-            [self validSignButton];
+            
+            NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityDetailModel.start_time integerValue]];
+            
+            NSDate *nowDate = [NSDate date];
+            
+            if ([startDate compare:nowDate] == NSOrderedAscending) {
+                [self expireSignButton];
+            } else {
+                [self validSignButton];
+            }
+            
         }
         
     } failure:^(YTKBaseRequest *request) {
@@ -837,7 +848,11 @@ static const NSUInteger numbersOfSections = 100;
     
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
+        
+        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
+            [SVProgressHUD showSuccessWithStatus:@"报名成功~" maskType:SVProgressHUDMaskTypeClear];
+        }];
+        
         [request yos_checkResponse:NO];
         
         // 报名成功
@@ -846,6 +861,13 @@ static const NSUInteger numbersOfSections = 100;
             
             // 注册本地通知
             NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityDetailModel.start_time integerValue] - 2 * 3600];
+            
+            NSDate *nowDate = [NSDate date];
+            
+            // 已过期的活动
+            if ([startDate compare:nowDate] != NSOrderedDescending) {
+                return;
+            }
             
             [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:startDate UserInfo:@{@"activityId" : self.activityDetailModel.ID, @"title" : self.activityDetailModel.title, @"start_time" : self.activityDetailModel.start_time}];
         }
@@ -869,7 +891,6 @@ static const NSUInteger numbersOfSections = 100;
         }
         
     } failure:^(YTKBaseRequest *request) {
-        [SVProgressHUD dismiss];
         [request yos_checkResponse];
     }];
 }
@@ -888,6 +909,11 @@ static const NSUInteger numbersOfSections = 100;
 
 - (void)fullSignButton {
     [_signButton setTitle:@"已满员" forState:UIControlStateNormal];
+    _signButton.enabled = NO;
+}
+
+- (void)expireSignButton {
+    [_signButton setTitle:@"活动已过期" forState:UIControlStateNormal];
     _signButton.enabled = NO;
 }
 

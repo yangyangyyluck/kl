@@ -28,6 +28,9 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [SVProgressHUD dismiss];
+    
+    NSLog(@"\r\n\r\n\r\n now push vc is : %@ animated : %zi\r\n\r\n\r\n", NSStringFromClass([viewController class]), animated);
+    
     [super pushViewController:viewController animated:animated];
 }
 

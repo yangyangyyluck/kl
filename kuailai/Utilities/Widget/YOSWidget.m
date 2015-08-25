@@ -11,6 +11,9 @@
 #import "YOSUserInfoModel.h"
 #import "GVUserDefaults+YOSProperties.h"
 
+#import "YOSDBManager.h"
+#import "NSString+YOSAdditions.h"
+
 @implementation YOSWidget
 
 + (void)alertMessage:(NSString *)message title:(NSString *)title {
@@ -274,6 +277,18 @@
 
 + (NSString *)currentAppVersion {
     return [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
+}
+
++ (YOSUserInfoModel *)getUserInfoModelWithHxUser:(NSString *)hxUser {
+    NSString *json = [[YOSDBManager sharedManager] getUserInfoJsonWithUsername:hxUser];
+    
+    YOSUserInfoModel *userInfoModel = nil;
+    if (json.length) {
+        NSDictionary *dict = [json yos_toJSONObject];
+        userInfoModel = [[YOSUserInfoModel alloc] initWithDictionary:dict error:nil];
+    }
+    
+    return userInfoModel;
 }
 
 @end

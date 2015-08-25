@@ -371,14 +371,10 @@
 }
 
 - (NSArray *)getNewestBuddyList {
-    NSArray *buddyList = self.buddyList;
+    NSArray *buddyList = [self getBuddyListSync];
     
     if (!buddyList) {
-        buddyList = [self getBuddyListSync];
-    }
-    
-    if (!buddyList) {
-        buddyList = [NSMutableArray array];
+        buddyList = [NSArray array];
     }
     
     return buddyList;
@@ -691,7 +687,11 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:[YOSEaseMobManager class] userInfo:@{@"message":message}];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
+    // 允许接受陌生人消息
+    if ([GVUserDefaults standardUserDefaults].isPublic == 1) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];
+    }
+    
 }
 
 /*!

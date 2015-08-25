@@ -82,7 +82,17 @@
     
     NSUInteger index = btn.tag;
     
-    btn.selected = !btn.selected;
+    if (_btn0 != btn) {
+        _btn0.selected = NO;
+    }
+    
+    if (_btn1 != btn) {
+        _btn1.selected = NO;
+    }
+    
+    if (_btn2 != btn) {
+        _btn2.selected = NO;
+    }
     
     NSArray *arr = nil;
     NSUInteger count = 0;
@@ -113,24 +123,21 @@
     
     [_detailView hideDetailView];
     _detailView = nil;
-    
-    if (btn.selected) {
-        self.selectedIndex = btn.tag;
-        YOSWSelf(weakSelf);
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _detailView = [[YOSHomeSwitchDetailView alloc] initWithTitles:arr btnCountsPerRow:count superView:self.yos_viewController.view];
-            _detailView.selectedIndex = selectedIndex;
-            _detailView.delegate = self;
-            _detailView.hudBlock = ^{
-                weakSelf.btn0.selected = NO;
-                weakSelf.btn1.selected = NO;
-                weakSelf.btn2.selected = NO;
-            };
-            
-            [_detailView showDetailView];
-        });
+
+    self.selectedIndex = btn.tag;
+    YOSWSelf(weakSelf);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _detailView = [[YOSHomeSwitchDetailView alloc] initWithTitles:arr btnCountsPerRow:count superView:self.yos_viewController.view];
+        _detailView.selectedIndex = selectedIndex;
+        _detailView.delegate = self;
+        _detailView.hudBlock = ^{
+            weakSelf.btn0.selected = NO;
+            weakSelf.btn1.selected = NO;
+            weakSelf.btn2.selected = NO;
+        };
         
-    }
+        [_detailView showDetailView];
+    });
     
 }
 
