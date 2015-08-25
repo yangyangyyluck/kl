@@ -17,6 +17,8 @@
 #import "YOSEaseMobManager.h"
 #import "MobClick.h"
 #import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialSinaSSOHandler.h"
 
 @interface AppDelegate () <EMChatManagerDelegate>
 
@@ -105,6 +107,18 @@
     NSLog(@"\r\n\r\n\r\nremote notification error ------ %@\r\n\r\n\r\n",error);
 }
 
+#pragma mark - open url
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+
 #pragma mark - private methods 
 
 - (void)configrueThiredLibrariesWith:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
@@ -123,8 +137,16 @@
     
     // UMeng
     {
+        [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline]];
+        
         [MobClick startWithAppkey:YOSUMengAppKey reportPolicy:BATCH   channelId:@"Web"];
         [UMSocialData setAppKey:YOSUMengAppKey];
+        
+        // 微信
+        [UMSocialWechatHandler setWXAppId:YOSWeixinAppKey appSecret:YOSWeixinAppSecret url:@"http://www.umeng.com/social"];
+        
+        // 微博
+        [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
     }
     
     // APNs推送

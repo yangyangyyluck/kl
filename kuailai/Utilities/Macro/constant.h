@@ -116,6 +116,10 @@ extern NSString * const YOSWeiboAppKey;
 
 extern NSString * const YOSWeiboAppSecret;
 
+extern NSString * const YOSWeixinAppKey;
+
+extern NSString * const YOSWeixinAppSecret;
+
 /**
  *  API权限验证用的签名
  *

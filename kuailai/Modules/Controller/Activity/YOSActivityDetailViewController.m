@@ -741,13 +741,20 @@ static const NSUInteger numbersOfSections = 100;
 - (void)tappedShareButton {
     NSLog(@"%s", __func__);
     
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://baidu.com";
+    
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://baidu.com";
+    
+    [UMSocialData defaultData].extConfig.wechatTimelineData.title = @"教你如何帅过吴彦祖";
+    
     NSArray *arr = @[UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToSina];
+    
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:YOSUMengAppKey
                                       shareText:@"教你如何帅过吴彦祖"
-                                     shareImage:[UIImage imageNamed:@"技术交流"]
+                                     shareImage:[UIImage imageNamed:@"icon"]
                                 shareToSnsNames:arr
-                                       delegate:self];
+                                       delegate:nil];
     
     return;
 }
