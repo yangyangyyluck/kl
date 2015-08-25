@@ -739,6 +739,8 @@
         
         [[YOSDBManager sharedManager] updateNewestChatWithCurrentUser:lastMessage.to buddy:lastMessage.from update_time:update_time];
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:[YOSEaseMobManager class] userInfo:@{@"message":lastMessage}];
+        
     }];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationShowRedDot object:nil userInfo:@{@"index": @1}];

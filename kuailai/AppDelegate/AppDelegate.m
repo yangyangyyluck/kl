@@ -41,6 +41,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     application.applicationIconBadgeNumber = 0;
+    application.statusBarStyle = UIStatusBarStyleLightContent;
     
     return YES;
 }

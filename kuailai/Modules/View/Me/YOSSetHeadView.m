@@ -92,7 +92,7 @@
             // update avatar
             NSDictionary *userInfo = [GVUserDefaults standardUserDefaults].currentUserInfoDictionary;
             NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
-            mUserInfo[@"avatar"] = [NSString stringWithFormat:@"%@%@", YOSImageBaseUrl, request.yos_data];
+            mUserInfo[@"avatar"] = request.yos_data;
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
             [[NSUserDefaults standardUserDefaults] synchronize];
             

@@ -437,6 +437,12 @@
     }];
     
     if (hasCell) {
+        
+        // 新添加好友时, debug 以前是好友 却被删除 第一次加上 出现 [未添加]
+        if ([model.message isEqualToString:@"已添加您为好友~"]) {
+            model.status = @"";
+        }
+        
         [self.messageModels replaceObjectAtIndex:index withObject:model];
         [self.messageModels exchangeObjectAtIndex:1 withObjectAtIndex:index];
         [self.userInfoModels exchangeObjectAtIndex:1 withObjectAtIndex:index];

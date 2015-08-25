@@ -463,7 +463,7 @@ static const NSString *kSQLCreateTableNewestChat = @"CREATE TABLE IF NOT EXISTS 
     
     NSString *selectSql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE current_username = ? ORDER BY update_time DESC LIMIT ? ", [kYOSTableNewestChat copy]];
     
-    FMResultSet *set = [_db executeQuery:selectSql,  current, YOSInt2String(kNewestChatMaxCounts)];
+    FMResultSet *set = [_db executeQuery:selectSql, current, YOSInt2String(kNewestChatMaxCounts)];
     
     NSMutableArray *result = [NSMutableArray array];
     
