@@ -22,6 +22,7 @@
 #import "SVProgressHUD+YOSAdditions.h"
 #import "GVUserDefaults+YOSProperties.h"
 #import "UIImage+YOSAdditions.h"
+#import "UIView+YOSAdditions.h"
 
 @interface YOSHobbyViewController() <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -226,8 +227,7 @@
     [self.view bringSubviewToFront:_tableView];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(44);
-        self.heightConstraint = make.height.mas_equalTo(YOSScreenHeight - 64 - 44 - 216);
+        make.top.mas_equalTo(_searchBar.mas_bottom);
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
     }];
     
@@ -321,6 +321,10 @@
     [self.navigationController pushViewController:activityDetailVC animated:YES];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_searchBar endEditing:YES];
+}
+
 
 #pragma mark - getter & setter
 
@@ -340,6 +344,14 @@
     self.hudView.hidden = NO;
     
     [searchBar setShowsCancelButton:YES animated:YES];
+    
+    for(id view in [searchBar.subviews[0] subviews]) {
+        if([view isKindOfClass:[UIButton class]]) {
+            UIButton *sbtn = (UIButton *)view;
+            [sbtn setTitleColor:YOSColorGreen forState:UIControlStateNormal];
+            [sbtn setTitleColor:YOSColorGreen forState:UIControlStateDisabled];
+        }
+    }
     
 }
 

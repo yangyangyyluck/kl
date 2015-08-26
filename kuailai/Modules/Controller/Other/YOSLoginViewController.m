@@ -268,10 +268,6 @@
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
         
-        [request yos_performCustomResponseErrorWithStatus:BusinessRequestStatusSuccess errorBlock:^{
-            NSLog(@"do nothing.");
-        }];
-        
         if ([request yos_checkResponse]) {
             
             [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = request.yos_data;

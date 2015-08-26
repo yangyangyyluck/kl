@@ -298,6 +298,13 @@
     
     [searchBar setShowsCancelButton:YES animated:YES];
     
+    for(id view in [searchBar.subviews[0] subviews]) {
+        if([view isKindOfClass:[UIButton class]]) {
+            UIButton *sbtn = (UIButton *)view;
+            [sbtn setTitleColor:YOSColorGreen forState:UIControlStateNormal];
+            [sbtn setTitleColor:YOSColorGreen forState:UIControlStateDisabled];
+        }
+    }
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {

@@ -31,6 +31,7 @@
 #import "YOSDBManager.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "UIImage+YOSAdditions.h"
+#import "UIView+YOSAdditions.h"
 
 const static NSUInteger kCountOfLoadMessages = 20;
 
@@ -179,7 +180,6 @@ const static NSUInteger kCountOfLoadMessages = 20;
     // setup emoji keyboard
     self.emojiTextView = [UITextView new];
     [self.view addSubview:self.emojiTextView];
-    self.emojiTextView.inputView = self.inputToolbar;
     
     AGEmojiKeyboardView *emojiKeyboardView = [[AGEmojiKeyboardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 216) dataSource:self];
     emojiKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -471,9 +471,6 @@ const static NSUInteger kCountOfLoadMessages = 20;
     [self.delegateModal didDismissYOSSendMessagesViewController:self];
 }
 
-
-
-
 #pragma mark - JSQMessagesViewController method overrides
 #pragma mark - ###### 发送消息 ######
 - (void)didPressSendButton:(UIButton *)button
@@ -531,6 +528,7 @@ const static NSUInteger kCountOfLoadMessages = 20;
             [self.emojiTextView becomeFirstResponder];
         }
         
+
     }
     
 //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
