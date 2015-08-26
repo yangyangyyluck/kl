@@ -162,4 +162,19 @@
     
 }
 
+- (void)expireTime {
+    self.swh.enabled = NO;
+    
+    _rightLabel.hidden = YES;
+    _bottomLabel.hidden = YES;
+    _leftLabel.text = @"活动已过期";
+    
+    [_leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.removeExisting = YES;
+        
+        make.centerY.mas_equalTo(self);
+        make.left.mas_equalTo(10);
+    }];
+}
+
 @end

@@ -16,4 +16,6 @@
 
 @property (nonatomic, copy) voidBlock_id idBlock;
 
+- (void)expireTime;
+
 @end

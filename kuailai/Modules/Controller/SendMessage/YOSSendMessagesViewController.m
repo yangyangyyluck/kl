@@ -923,6 +923,42 @@ const static NSUInteger kCountOfLoadMessages = 20;
     return AGEmojiKeyboardViewCategoryImageFace;
 }
 
+- (void)emojiKeyboardViewDidTappedSendButton {
+    
+    UITextView *textView = self.inputToolbar.contentView.textView;
+    NSString *text = textView.text;
+    textView.text = nil;
+    
+    if (!text.length) {
+        return;
+    }
+    
+    self.currentTextViewSelectedRange = NSMakeRange(0, 0);
+    
+    EMMessage *msg = [[YOSEaseMobManager sharedManager] sendMessageToUser:self.otherUserInfoModel.hx_user message:text];
+    
+    NSString *update_time = [NSString stringWithFormat:@"%lli", msg.timestamp / 1000];
+    
+    [[YOSDBManager sharedManager] updateNewestChatWithCurrentUser:self.meUserInfoModel.hx_user buddy:msg.to update_time:update_time];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationReceiveMessage object:nil userInfo:@{@"message" : msg}];
+    
+    [JSQSystemSoundPlayer jsq_playMessageSentSound];
+    
+    NSString *senderId = self.meUserInfoModel.hx_user;
+    NSString *senderDisplayName = self.meUserInfoModel.nickname;
+    NSDate *date = [NSDate date];
+    
+    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:senderId
+                                             senderDisplayName:senderDisplayName
+                                                          date:date
+                                                          text:text];
+    
+    [self.demoData.messages addObject:message];
+    
+    [self finishSendingMessageAnimated:YES];
+}
+
 #pragma mark - AGEmojiKeyboardViewDelegate
 
 - (void)emojiKeyBoardView:(AGEmojiKeyboardView *)emojiKeyBoardView didUseEmoji:(NSString *)emoji {

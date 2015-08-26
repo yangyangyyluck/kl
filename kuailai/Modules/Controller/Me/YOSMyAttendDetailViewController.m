@@ -92,7 +92,6 @@
     
     _addButton = [YOSChangeTouchButton new];
     [_addButton setImage:[UIImage imageNamed:@"活动加号"] forState:UIControlStateNormal];
-    [_addButton addTarget:self action:@selector(tappedAddButton) forControlEvents:UIControlEventTouchUpInside];
     [_grayContentView0 addSubview:_addButton];
     
     _hideTextField = [YOSHideTextField new];
@@ -114,17 +113,8 @@
     NSDate *startDate = nil;
     if (noti) {
         startDate = noti.fireDate;
-    } else {
-        startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityListModel.start_time integerValue] - 2 * 3600];
-        
-        NSTimeInterval interval0 = [startDate timeIntervalSince1970];
-        NSTimeInterval interval1 = [[NSDate date] timeIntervalSince1970];
-        
-        // 过期了
-        if (interval0 < interval1) {
-            startDate = nil;
-        }
     }
+    
     _timeView.alertDate = startDate;
     _timeView.swh.on = [[YOSLocalNotificationManager sharedManager] isExistNotificationWithUserInfo:userInfo];
     _timeView.idBlock = ^(UISwitch *swh) {
@@ -140,6 +130,19 @@
         }
         
     };
+    
+    startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityListModel.start_time integerValue] - 2 * 3600];
+    
+    NSTimeInterval interval0 = [startDate timeIntervalSince1970];
+    NSTimeInterval interval1 = [[NSDate date] timeIntervalSince1970];
+    
+    // 过期了
+    if (interval0 < interval1) {
+        [_timeView expireTime];
+        _addButton.userInteractionEnabled = NO;
+        _hideTextField.userInteractionEnabled = NO;
+    }
+    
     [_contentView addSubview:_timeView];
     
     _grayContentView1 = [UIView new];
@@ -281,15 +284,7 @@
     }];
 }
 
-#pragma mark - event response 
-
-- (void)tappedAddButton {
-    NSLog(@"%s", __func__);
-    
-    UIDatePicker *picker = [UIDatePicker new];
-    
-    [self.view addSubview:picker];
-}
+#pragma mark - event response
 
 - (void)doneAction {
     _timeView.alertDate = _picker.date;

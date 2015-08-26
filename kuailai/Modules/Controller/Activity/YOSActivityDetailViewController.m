@@ -19,11 +19,13 @@
 #import "YOSNeedView.h"
 #import "YOSAddBuddyCell.h"
 #import "YOSToolbar.h"
+#import "YOSButton.h"
 
 #import "YOSActiveGetActiveRequest.h"
 #import "YOSActiveSignUpRequest.h"
 #import "YOSActiveIsSignUpRequest.h"
 #import "YOSActiveCollectRequest.h"
+#import "YOSActiveCancelCollectRequest.h"
 
 #import "YOSActivityDetailModel.h"
 #import "YOSUserInfoModel.h"
@@ -50,10 +52,15 @@ static const NSUInteger numbersOfSections = 100;
 
 @property (nonatomic, strong) NSMutableArray *images;
 
-//@property (nonatomic, strong) NSArray *friends;
 @property (nonatomic, strong) NSMutableArray *userInfoModels;
 
 @property (nonatomic, strong) NSArray *signConditions;
+
+// 是否报名 0 没 1 已报名 2 满员
+@property (nonatomic, assign) NSUInteger isSignUp;
+
+// 是否收藏 0 没 1 已收藏
+@property (nonatomic, assign) NSUInteger isCollect;
 
 @end
 
@@ -99,6 +106,8 @@ static const NSUInteger numbersOfSections = 100;
     UITableView *_tableView;
     UIButton *_moreUserButton;
     UIButton *_signButton;
+    
+    YOSButton *_collectButton;
 }
 
 - (instancetype)initWithActivityId:(NSString *)activityId {
@@ -126,6 +135,21 @@ static const NSUInteger numbersOfSections = 100;
     self.view.backgroundColor = YOSColorBackgroundGray;
     
     [self sendNetworkRequest];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:YOSNotificationLogin object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)clickLeftItem:(UIButton *)item {
+    
+    if (self.vBlock && !self.isCollect) {
+        self.vBlock();
+    }
+    
+    [super clickLeftItem:item];
 }
 
 - (void)setupNavigationRightButtons {
@@ -141,13 +165,15 @@ static const NSUInteger numbersOfSections = 100;
     UIBarButtonItem * flexibleItem1 =[[UIBarButtonItem  alloc]initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFixedSpace target:self action:nil];
     flexibleItem1.width = 10;
     
-    UIButton *btn0 = [UIButton new];
+    YOSButton *btn0 = [YOSButton new];
     btn0.frame = CGRectMake(0, 0, 25, 25);
     [btn0 setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+    [btn0 setImage:[UIImage imageNamed:@"收藏-点击"] forState:UIControlStateSelected];
     [btn0 addTarget:self action:@selector(tappedFavoriteButton) forControlEvents:UIControlEventTouchUpInside];
     btn0.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    _collectButton = btn0;
     
-    UIButton *btn1 = [UIButton new];
+    YOSButton *btn1 = [YOSButton new];
     btn1.frame = CGRectMake(0, 0, 25, 25);
     [btn1 setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(tappedShareButton) forControlEvents:UIControlEventTouchUpInside];
@@ -725,17 +751,37 @@ static const NSUInteger numbersOfSections = 100;
         return;
     }
     
-    YOSActiveCollectRequest *request = [[YOSActiveCollectRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andAid:self.activityId];
+    if (self.isCollect) {
+        YOSActiveCancelCollectRequest *request = [[YOSActiveCancelCollectRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID aid:self.activityId];
+        
+        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            
+            if ([request yos_checkResponse]) {
+                [SVProgressHUD showSuccessWithStatus:@"已取消收藏~" maskType:SVProgressHUDMaskTypeClear];
+                _collectButton.selected = NO;
+                self.isCollect = 0;
+            }
+            
+        } failure:^(YTKBaseRequest *request) {
+            [request yos_checkResponse];
+        }];
+        
+    } else {
+        YOSActiveCollectRequest *request = [[YOSActiveCollectRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andAid:self.activityId];
+        
+        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            
+            if ([request yos_checkResponse]) {
+                [SVProgressHUD showSuccessWithStatus:@"收藏成功~" maskType:SVProgressHUDMaskTypeClear];
+                _collectButton.selected = YES;
+                self.isCollect = 1;
+            }
+            
+        } failure:^(YTKBaseRequest *request) {
+            [request yos_checkResponse];
+        }];
+    }
     
-    [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        
-        if ([request yos_checkResponse]) {
-            [SVProgressHUD showSuccessWithStatus:@"收藏成功~" maskType:SVProgressHUDMaskTypeClear];
-        }
-        
-    } failure:^(YTKBaseRequest *request) {
-        [request yos_checkResponse];
-    }];
 }
 
 - (void)tappedShareButton {
@@ -817,31 +863,43 @@ static const NSUInteger numbersOfSections = 100;
     YOSActiveIsSignUpRequest *request = [[YOSActiveIsSignUpRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID andAid:self.activityId];
     
     [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
-        [request yos_checkResponse:NO];
         
-        // 已报名
-        if ([request.yos_baseResponseModel.code integerValue] == 200) {
-            [self invalidSignButton];
-        }
-        
-        // 已满员
-        if ([request.yos_baseResponseModel.code integerValue] == 201) {
-            [self fullSignButton];
-        }
-        
-        // 未报名
-        if ([request.yos_baseResponseModel.code integerValue] == 400) {
+        if ([request yos_checkResponse]) {
+            self.isSignUp = [request.yos_data[@"is_signup"] integerValue];
             
-            NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityDetailModel.start_time integerValue]];
+            self.isCollect = [request.yos_data[@"is_collect"] integerValue];
             
-            NSDate *nowDate = [NSDate date];
-            
-            if ([startDate compare:nowDate] == NSOrderedAscending) {
-                [self expireSignButton];
-            } else {
-                [self validSignButton];
+            switch (self.isSignUp) {
+                case 0: {
+                    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:[self.activityDetailModel.start_time integerValue]];
+                    
+                    NSDate *nowDate = [NSDate date];
+                    
+                    if ([startDate compare:nowDate] == NSOrderedAscending) {
+                        [self expireSignButton];
+                    } else {
+                        [self validSignButton];
+                    }
+                }
+                    break;
+                case 1: {
+                    [self invalidSignButton];
+                }
+                    break;
+                case 2: {
+                    [self fullSignButton];
+                }
+                    break;
+                    
+                default:
+                    break;
             }
             
+            if (self.isCollect) {
+                _collectButton.selected = YES;
+            } else {
+                _collectButton.selected = NO;
+            }
         }
         
     } failure:^(YTKBaseRequest *request) {
@@ -900,6 +958,12 @@ static const NSUInteger numbersOfSections = 100;
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse];
     }];
+}
+
+#pragma mark - deal notification
+
+- (void)login {
+    [self sendNetworkRequestForIsSignUp];
 }
 
 #pragma mark - private methods

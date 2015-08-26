@@ -53,6 +53,7 @@
 		DD311F181B5759330094A91C /* YOSMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F171B5759330094A91C /* YOSMessageCell.m */; };
 		DD311F1B1B5766620094A91C /* YOSMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F1A1B5766620094A91C /* YOSMessageModel.m */; };
 		DD311F1E1B57A2D20094A91C /* YOSEaseMobManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD311F1D1B57A2D20094A91C /* YOSEaseMobManager.m */; };
+		DD3420B71B8D697300452786 /* YOSActiveCancelCollectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3420B61B8D697300452786 /* YOSActiveCancelCollectRequest.m */; };
 		DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */; };
 		DD3B1C141AD7C16A00A91838 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C131AD7C16A00A91838 /* JRSwizzle.m */; };
 		DD3B1C171AD7CD9700A91838 /* YOSUserRegStepRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3B1C161AD7CD9700A91838 /* YOSUserRegStepRequest.m */; };
@@ -309,6 +310,8 @@
 		DD311F1A1B5766620094A91C /* YOSMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMessageModel.m; sourceTree = "<group>"; };
 		DD311F1C1B57A2D20094A91C /* YOSEaseMobManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSEaseMobManager.h; sourceTree = "<group>"; };
 		DD311F1D1B57A2D20094A91C /* YOSEaseMobManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSEaseMobManager.m; sourceTree = "<group>"; };
+		DD3420B51B8D697300452786 /* YOSActiveCancelCollectRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveCancelCollectRequest.h; sourceTree = "<group>"; };
+		DD3420B61B8D697300452786 /* YOSActiveCancelCollectRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveCancelCollectRequest.m; sourceTree = "<group>"; };
 		DD3B1C061AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.h"; sourceTree = "<group>"; };
 		DD3B1C071AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFJSONResponseSerializer+YOSAdditionsForPHP.m"; sourceTree = "<group>"; };
 		DD3B1C121AD7C16A00A91838 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
@@ -1175,6 +1178,8 @@
 				DD89D6A61B43E95A00D542BB /* YOSActiveGetSignUpRequest.m */,
 				DD42BC3D1B84BC6C003C886E /* YOSActiveCollectRequest.h */,
 				DD42BC3E1B84BC6C003C886E /* YOSActiveCollectRequest.m */,
+				DD3420B51B8D697300452786 /* YOSActiveCancelCollectRequest.h */,
+				DD3420B61B8D697300452786 /* YOSActiveCancelCollectRequest.m */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -1826,6 +1831,7 @@
 				DD24E9D31B81D2A9008CAE12 /* YOSUserUpPublicRequest.m in Sources */,
 				DD89D6A11B43DDF900D542BB /* YOSActivityAuditViewController.m in Sources */,
 				DD7B74501B89912A00200CF0 /* YOSUserUppwdByUnameRequest.m in Sources */,
+				DD3420B71B8D697300452786 /* YOSActiveCancelCollectRequest.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,
 				DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */,

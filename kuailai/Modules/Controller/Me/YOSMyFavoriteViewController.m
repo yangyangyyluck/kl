@@ -12,7 +12,8 @@
 
 #import "YOSActivityListModel.h"
 
-#include "YOSUserGetMyCollectListRequest.h"
+#import "YOSUserGetMyCollectListRequest.h"
+#import "YOSActiveCancelCollectRequest.h"
 
 #import "Masonry.h"
 #import "MJRefresh.h"
@@ -83,6 +84,13 @@
         make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
         make.width.mas_equalTo(YOSScreenWidth);
     }];
+}
+
+- (void)clickLeftItem:(UIButton *)item {
+    // 有删除样式的时候 回退必然崩溃 这样可以解决
+    [self.tableView reloadData];
+    
+    [super clickLeftItem:item];
 }
 
 #pragma mark - network
@@ -171,11 +179,43 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    YOSActivityListModel *model = self.activityListModels[indexPath.section];
+    YOSActivityListModel *model = self.activityListModels[indexPath.row];
     
     YOSActivityDetailViewController *activityDetailVC = [[YOSActivityDetailViewController alloc] initWithActivityId:model.ID];
     
+    YOSWSelf(weakSelf);
+    activityDetailVC.vBlock = ^{
+        [weakSelf.activityListModels removeObjectAtIndex:indexPath.row];
+        [weakSelf.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    };
+    
     [self.navigationController pushViewController:activityDetailVC animated:YES];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        YOSActivityListModel *activiteListModel = self.activityListModels[indexPath.row];
+        
+        YOSActiveCancelCollectRequest *request = [[YOSActiveCancelCollectRequest alloc] initWithUid:[GVUserDefaults standardUserDefaults].currentLoginID aid:activiteListModel.ID];
+        
+        [request startWithCompletionBlockWithSuccess:^(YTKBaseRequest *request) {
+            
+            if ([request yos_checkResponse]) {
+                [SVProgressHUD showSuccessWithStatus:@"已取消收藏~" maskType:SVProgressHUDMaskTypeClear];
+                [self.activityListModels removeObjectAtIndex:indexPath.row];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+            
+        } failure:^(YTKBaseRequest *request) {
+            [request yos_checkResponse];
+        }];
+        
+    }
 }
 
 

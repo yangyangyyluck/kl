@@ -12,4 +12,6 @@
 
 - (instancetype)initWithActivityId:(NSString *)activityId;
 
+@property (nonatomic, copy) voidBlock vBlock;
+
 @end
