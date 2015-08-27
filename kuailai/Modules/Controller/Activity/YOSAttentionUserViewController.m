@@ -137,6 +137,23 @@
             
             if (type == YOSRefreshTypeHeader) {
                 self.userInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                
+                NSArray *buddyList = [[YOSEaseMobManager sharedManager] getNewestBuddyList];
+                
+                [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj1, NSUInteger idx, BOOL *stop) {
+                    [buddyList enumerateObjectsUsingBlock:^(EMBuddy *obj2, NSUInteger idx, BOOL *stop) {
+                        if ([obj2.username isEqualToString:obj1.hx_user]) {
+                            
+                            if (obj2.followState == eEMBuddyFollowState_FollowedBoth) {
+                                YOSLog(@"eEMBuddyFollowState_FollowedBoth");
+                                obj1.friendType = YOSFriendTypeBoth;
+                            }
+                            
+                        }
+                    }];
+                    
+                }];
+                
             } else {
                 NSArray *array = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
                 

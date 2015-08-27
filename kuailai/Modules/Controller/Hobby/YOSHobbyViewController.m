@@ -314,7 +314,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    YOSActivityListModel *model = self.activityListModels[indexPath.section];
+    YOSActivityListModel *model = self.activityListModels[indexPath.row];
     
     YOSActivityDetailViewController *activityDetailVC = [[YOSActivityDetailViewController alloc] initWithActivityId:model.ID];
     
