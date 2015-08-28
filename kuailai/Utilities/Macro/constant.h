@@ -120,6 +120,10 @@ extern NSString * const YOSWeixinAppKey;
 
 extern NSString * const YOSWeixinAppSecret;
 
+extern NSString * const YOSQQAppID;
+
+extern NSString * const YOSQQAppKey;
+
 /**
  *  API权限验证用的签名
  *

@@ -793,7 +793,7 @@ static const NSUInteger numbersOfSections = 100;
     
     [UMSocialData defaultData].extConfig.wechatTimelineData.title = @"教你如何帅过吴彦祖";
     
-    NSArray *arr = @[UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToSina];
+    NSArray *arr = @[UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, UMShareToSina];
     
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:YOSUMengAppKey

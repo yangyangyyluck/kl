@@ -19,6 +19,8 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocialSinaSSOHandler.h"
+#import "UMSocialSinaHandler.h"
+#import "UMSocialQQHandler.h"
 
 @interface AppDelegate () <EMChatManagerDelegate>
 
@@ -147,6 +149,10 @@
         
         // 微博
         [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+        [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+        
+        // qq
+        [UMSocialQQHandler setQQWithAppId:YOSQQAppID appKey:YOSQQAppKey url:@"http://www.umeng.com/social"];
     }
     
     // APNs推送

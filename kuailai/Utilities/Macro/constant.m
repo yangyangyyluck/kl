@@ -35,6 +35,9 @@ NSString * const YOSWeixinAppKey = @"wxe56c794b911ad1b4";
 
 NSString * const YOSWeixinAppSecret = @"23d4012811f219c1f329622cc9abb396";
 
+NSString * const YOSQQAppID = @"1104833626";
+
+NSString * const YOSQQAppKey = @"V6Fv7zI63zQdHLnr";
 
 NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
 
