@@ -11,6 +11,8 @@
 
 extern NSString * const YOSURLBase;
 
+extern NSString * const YOSURLRoot;
+
 // notification
 /** 更新用户信息 */
 extern NSString * const YOSNotificationUpdateUserInfo;

@@ -41,6 +41,8 @@ NSString * const YOSQQAppKey = @"V6Fv7zI63zQdHLnr";
 
 NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
 
+NSString * const YOSURLRoot = @"http://kuailai.zhangdd.cn/";
+
 NSString * const YOSNotificationUpdateUserInfo = @"YOSNotificationUpdateUserInfo";
 
 NSString * const YOSNotificationUpdateTagInfo = @"YOSNotificationUpdateTagInfo";
