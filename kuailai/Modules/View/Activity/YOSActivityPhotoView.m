@@ -120,7 +120,7 @@
     CGFloat spaceX = (YOSScreenWidth - 4 * btnWidth - marginX * 2) / 3;
     YOSWSelf(weakSelf);
     [self.photosView enumerateObjectsUsingBlock:^(YOSImageView *obj, NSUInteger idx, BOOL *stop) {
-        obj.backgroundColor = YOSColorRandom;
+//        obj.backgroundColor = YOSColorRandom;
         [obj setDeleteBlock:^{
             [weakSelf.photos removeObject:weakSelf.photos[idx]];
             [weakSelf updatePhotos];

@@ -188,13 +188,26 @@
             }
             
             if (type == YOSRefreshTypeHeader) {
+                YOSUserInfoModel *currentLoginUserInfoModel = [YOSWidget getCurrentUserInfoModel];
+                
                 self.userInfoModels = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
+                
+                [self.userInfoModels enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj, NSUInteger idx, BOOL *stop) {
+                    
+                    if ([currentLoginUserInfoModel isEqual:obj]) {
+                        [self.userInfoModels removeObject:obj];
+                    }
+                    
+                }];
+                
             } else {
                 NSArray *array = [YOSUserInfoModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
                 
+                YOSUserInfoModel *currentLoginUserInfoModel = [YOSWidget getCurrentUserInfoModel];
+                
                 [array enumerateObjectsUsingBlock:^(YOSUserInfoModel *obj, NSUInteger idx, BOOL *stop) {
                     
-                    if (![self.userInfoModels containsObject:obj]) {
+                    if (![self.userInfoModels containsObject:obj] && ![currentLoginUserInfoModel isEqual:obj]) {
                         [self.userInfoModels addObject:obj];
                     }
                     
@@ -330,6 +343,16 @@
     }
     
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader isSearch:YES];
+}
+
+#pragma mark - getter & setter
+
+- (NSMutableArray *)userInfoModels {
+    if (!_userInfoModels) {
+        _userInfoModels = [NSMutableArray array];
+    }
+    
+    return _userInfoModels;
 }
 
 

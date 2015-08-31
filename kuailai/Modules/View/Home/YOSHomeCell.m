@@ -107,8 +107,11 @@ NSString static * const kHomeCellDefaultImage = @"首页默认图";
     
     YOSUserInfoViewController *userVC = [YOSUserInfoViewController new];
     
-//    userVC.hx_user = self.model.hx_user;
-    userVC.hx_user = @"186009507831438757629";
+    userVC.hx_user = self.model.hx_user;
+    
+    if (!self.model.hx_user.length) {
+        return;
+    }
     
     [self.yos_viewController.navigationController pushViewController:userVC animated:YES];
 }

@@ -134,8 +134,8 @@
         return YES;
     }
     
-    // tag = 0是nickname，最多输入15位字符
-    if (textField.tag == 0 && textField.text.length >= 15) {
+    // tag = 0是nickname，最多输入10位字符
+    if (textField.tag == 0 && textField.text.length >= 10) {
         return NO;
     }
     
@@ -144,7 +144,7 @@
         return NO;
     }
     
-    return [YOSWidget validatePasswordWithTextField:textField shouldChangeCharactersInRange:range replacementString:string];
+    return YES;
 }
 
 - (void)keyboardDidChangeFrame:(NSNotification *)noti {

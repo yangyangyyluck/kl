@@ -142,7 +142,6 @@
     _inputView7 = [[YOSInputView alloc] initWithTitle:@"人均费用" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
     _inputView7.placeholder = @"例：0元(免费)、100元等";
     _inputView7.keyboardType = UIKeyboardTypeDecimalPad;
-//    [_inputView7.textField addPreviousNextDoneOnKeyboardWithTarget:self previousAction:@selector(inputView7Previous) nextAction:@selector(inputView7Next) doneAction:@selector(inputView7Done)];
     [_inputView7.textField setCustomNextTarget:self action:@selector(inputView7Next:)];
     
     _inputView8 = [[YOSInputView alloc] initWithTitle:@"活动详情" selectedStatus:NO maxCharacters:0 isSingleLine:NO];

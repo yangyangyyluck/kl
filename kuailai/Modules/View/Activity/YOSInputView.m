@@ -593,7 +593,7 @@ static CGFloat kOneLineHeight = 44.0f;
 - (void)clickTextViewButton {
     NSLog(@"%s", __func__);
     YOSEditViewController *editVC = [[YOSEditViewController alloc] initWithTitle:_title placeholder:_placeholder maxCharacters:_maxCharacters];
-    editVC.text = self.text;
+    editVC.text = self.textField.text;
     
     YOSWSelf(weakSelf);
     editVC.vBlock = ^(id data){

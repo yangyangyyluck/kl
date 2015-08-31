@@ -82,7 +82,7 @@
     _iqContentView = [YOSIQContentView new];
     [_contentView addSubview:_iqContentView];
     
-    _inputView0 = [[YOSInputView alloc] initWithTitle:@"真实姓名" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView0 = [[YOSInputView alloc] initWithTitle:@"真实姓名" selectedStatus:NO maxCharacters:10 isSingleLine:YES];
     _inputView0.placeholder = @"请输入真实姓名";
     _inputView0.textField.text = self.userInfoModel.nickname;
     _inputView0.selected = (BOOL)self.userInfoModel.nickname.length;
@@ -121,6 +121,7 @@
     _inputView6.placeholder = @"请输入公司电话";
     _inputView6.textField.text = self.userInfoModel.tel;
     _inputView6.selected = (BOOL)self.userInfoModel.tel.length;
+    _inputView6.keyboardType = UIKeyboardTypePhonePad;
     
     _inputView7 = [[YOSInputView alloc] initWithTitle:@"公司网址" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
     _inputView7.placeholder = @"请输入公司网址";
@@ -141,7 +142,7 @@
     _inputView9.jobYearsId = ([self.userInfoModel.work_experience integerValue] ? self.userInfoModel.work_experience : nil);
     _inputView9.selected = (BOOL)[self.userInfoModel.work_experience integerValue];
     
-    _inputView10 = [[YOSInputView alloc] initWithTitle:@"诉求" selectedStatus:NO maxCharacters:0 isSingleLine:YES];
+    _inputView10 = [[YOSInputView alloc] initWithTitle:@"诉求" selectedStatus:NO maxCharacters:500 isSingleLine:NO];
     _inputView10.placeholder = @"请输入您的诉求";
     _inputView10.textField.text = self.userInfoModel.demand;
     _inputView10.selected = (BOOL)self.userInfoModel.demand.length;

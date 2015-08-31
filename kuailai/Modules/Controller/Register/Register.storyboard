@@ -59,7 +59,7 @@
                             <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入验证码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="pyB-EX-6cE">
                                 <rect key="frame" x="36" y="111" width="540" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                 <connections>
                                     <outlet property="delegate" destination="lkt-jy-Ypm" id="fHt-yG-3nh"/>
                                 </connections>
@@ -668,9 +668,9 @@
                                 <exclude reference="KVc-Ur-8bL"/>
                                 <exclude reference="aZ2-2A-pZe"/>
                                 <exclude reference="nYU-eR-HMy"/>
-                                <exclude reference="8JS-i3-btt"/>
                                 <exclude reference="Eqa-Iq-Qc5"/>
                                 <exclude reference="ZdY-mW-EXT"/>
+                                <exclude reference="8JS-i3-btt"/>
                                 <exclude reference="Fs2-pX-Mns"/>
                                 <exclude reference="Zna-ws-oMR"/>
                             </mask>

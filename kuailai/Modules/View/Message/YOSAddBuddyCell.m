@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
 #import "YOSEaseMobManager.h"
+#import "YOSWidget.h"
 
 
 @implementation YOSAddBuddyCell {
@@ -200,6 +201,14 @@
         _auditLabel.hidden = NO;
         _auditLabel.text = @"等待验证";
         _auditLabel.textColor = YOSColorMainRed;
+    }
+    
+    YOSUserInfoModel *currentLoginUserInfoModel = [YOSWidget getCurrentUserInfoModel];
+    if ([currentLoginUserInfoModel isEqual:userInfoModel]) {
+        _rightButton.hidden = YES;
+        _auditLabel.hidden = NO;
+        _auditLabel.text = @"自己";
+        _auditLabel.textColor = YOSColorGreen;
     }
 }
 

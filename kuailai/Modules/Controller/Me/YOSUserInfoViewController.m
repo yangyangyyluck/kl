@@ -362,6 +362,11 @@
         [self.cellHeights addObject:@(size.height + 20)];
     }];
     
+    YOSUserInfoModel *currentLoginUserInfoModel = [YOSWidget getCurrentUserInfoModel];
+    if ([currentLoginUserInfoModel isEqual:userInfoModel]) {
+        self.hideButtons = YES;
+    }
+    
 }
 
 
