@@ -87,6 +87,8 @@
     
     [self setupRightButtonWithImage:@"添加好友"];
     
+    [_tableView removeFromSuperview];
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
