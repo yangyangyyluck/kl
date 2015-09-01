@@ -49,6 +49,9 @@ extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
 /** 退出时清空 */    // 默认为1 允许陌生人聊天 2 不允许
 @property (nonatomic, assign) NSUInteger isPublic;
 
+/** 上次版本 */
+@property (nonatomic, copy) NSString *lastVersion;
+
 - (void)logout;
 
 @end

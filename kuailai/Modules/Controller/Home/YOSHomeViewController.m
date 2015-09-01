@@ -10,6 +10,7 @@
 #import "YOSRegisterViewController.h"
 #import "YOSEditViewController.h"
 #import "YOSActivityDetailViewController.h"
+#import "YOSGuideViewController.h"
 #import "YOSInputView.h"
 #import "YOSTextField.h"
 #import "YOSHomeCell.h"
@@ -31,12 +32,14 @@
 #import "XXNibConvention.h"
 #import "MJRefresh.h"
 
+#import "GVUserDefaults+YOSProperties.h"
 #import "IQUIView+IQKeyboardToolbar.h"
 #import "UIImage+YOSAdditions.h"
 #import "UIImage-Helpers.h"
 #import "SVProgressHUD+YOSAdditions.h"
 #import "UIView+YOSAdditions.h"
 #import "YOSLocalNotificationManager.h"
+#import "YOSWidget.h"
 
 @interface YOSHomeViewController () <UITableViewDataSource, UITableViewDelegate, YOSHomeSwitchViewDelegate, UIAlertViewDelegate>
 
@@ -76,19 +79,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupSubviews];
-    
-    [self setupKuaiLai];
-    
-    [self setupNavigationRightButtons];
-    
-    self.currentPage = 0;
-    self.isNoMoreData = NO;
-    
-    [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
-    
-    [self sendNetworkWithWhetherUpdateApp];
-    
+    [self setupGuide];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -105,6 +96,40 @@
     [super viewDidAppear:animated];
     
     [[YOSLocalNotificationManager sharedManager] dealWithCurrentNotification];
+}
+
+- (void)setupHomeView {
+    [self setupSubviews];
+    
+    [self setupKuaiLai];
+    
+    [self setupNavigationRightButtons];
+    
+    self.currentPage = 0;
+    self.isNoMoreData = NO;
+    
+    [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
+    
+    [self sendNetworkWithWhetherUpdateApp];
+}
+
+- (void)setupGuide {
+
+    NSString *currentVersion = [YOSWidget currentAppVersion];
+    NSString *lastVersion = [GVUserDefaults standardUserDefaults].lastVersion;
+    
+    if ([YOSWidget compareAppVersion1:currentVersion andAppVersion2:lastVersion] == NSOrderedDescending) {
+        YOSGuideViewController *guideVC = [YOSGuideViewController new];
+        
+        YOSWSelf(weakSelf);
+        guideVC.vBlock = ^{
+            [weakSelf setupHomeView];
+        };
+        
+        [self presentViewController:guideVC animated:NO completion:nil];
+    } else {
+        [self setupHomeView];
+    }
 }
 
 - (void)setupSubviews {

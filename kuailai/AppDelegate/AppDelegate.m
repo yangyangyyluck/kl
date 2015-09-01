@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "YOSIQContentView.h"
+#import "YOSGuideViewController.h"
 
 #import "YTKNetworkConfig.h"
 #import "IQKeyboardManager.h"
@@ -21,6 +22,7 @@
 #import "UMSocialSinaSSOHandler.h"
 #import "UMSocialSinaHandler.h"
 #import "UMSocialQQHandler.h"
+#import "GVUserDefaults+YOSProperties.h"
 
 @interface AppDelegate () <EMChatManagerDelegate>
 

@@ -210,6 +210,8 @@
 		DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840AD1AD619A7006939DF /* YOSUserLoginRequest.m */; };
 		DDF840B11AD61A15006939DF /* YOSUserSendCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840B01AD61A15006939DF /* YOSUserSendCodeRequest.m */; };
 		DDF840B41AD6273C006939DF /* YOSWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840B31AD6273C006939DF /* YOSWidget.m */; };
+		DDFBFAE31B954FD800E9249E /* YOSGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFBFAE21B954FD800E9249E /* YOSGuideViewController.m */; };
+		DDFBFB1E1B95899400E9249E /* Resourses.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DDFBFB1D1B95899400E9249E /* Resourses.bundle */; };
 		DDFC6B341B4E0F94008DB181 /* YOSUserAuditRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B331B4E0F94008DB181 /* YOSUserAuditRegisterRequest.m */; };
 		DDFC6B371B4E1A3F008DB181 /* YOSUserAddTagRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B361B4E1A3F008DB181 /* YOSUserAddTagRequest.m */; };
 		DDFC6B3A1B4E1FA4008DB181 /* YOSTapView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC6B391B4E1FA4008DB181 /* YOSTapView.m */; };
@@ -632,6 +634,9 @@
 		DDF840B01AD61A15006939DF /* YOSUserSendCodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserSendCodeRequest.m; sourceTree = "<group>"; };
 		DDF840B21AD6273C006939DF /* YOSWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSWidget.h; sourceTree = "<group>"; };
 		DDF840B31AD6273C006939DF /* YOSWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSWidget.m; sourceTree = "<group>"; };
+		DDFBFAE11B954FD800E9249E /* YOSGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSGuideViewController.h; sourceTree = "<group>"; };
+		DDFBFAE21B954FD800E9249E /* YOSGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSGuideViewController.m; sourceTree = "<group>"; };
+		DDFBFB1D1B95899400E9249E /* Resourses.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Resourses.bundle; sourceTree = "<group>"; };
 		DDFC6B321B4E0F94008DB181 /* YOSUserAuditRegisterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserAuditRegisterRequest.h; sourceTree = "<group>"; };
 		DDFC6B331B4E0F94008DB181 /* YOSUserAuditRegisterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserAuditRegisterRequest.m; sourceTree = "<group>"; };
 		DDFC6B351B4E1A3F008DB181 /* YOSUserAddTagRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserAddTagRequest.h; sourceTree = "<group>"; };
@@ -817,6 +822,8 @@
 				DD6412311B525E1300C5BFFB /* YOSTestViewController.m */,
 				DD6412391B52623600C5BFFB /* YOSQRScanViewController.h */,
 				DD64123A1B52623600C5BFFB /* YOSQRScanViewController.m */,
+				DDFBFAE11B954FD800E9249E /* YOSGuideViewController.h */,
+				DDFBFAE21B954FD800E9249E /* YOSGuideViewController.m */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -1395,6 +1402,7 @@
 		DD8DC8251ACE7F4B00918ADD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DDFBFB1D1B95899400E9249E /* Resourses.bundle */,
 				DD8DC8261ACE7F8800918ADD /* Info.plist */,
 				DD8DC8271ACE7F8800918ADD /* main.m */,
 				DD8DC7F01ACE76A700918ADD /* Main.storyboard */,
@@ -1659,6 +1667,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDFBFB1E1B95899400E9249E /* Resourses.bundle in Resources */,
 				DD90B0411B876C220078CD66 /* UMSCommentInputControlleriPad.xib in Resources */,
 				DD7561BA1B8C48C20031FAEA /* WeiboSDK.bundle in Resources */,
 				DD90B0451B876C220078CD66 /* UMSnsAccountViewController.xib in Resources */,
@@ -1896,6 +1905,7 @@
 				DD3420B71B8D697300452786 /* YOSActiveCancelCollectRequest.m in Sources */,
 				DD00EDD51ADB6C3A00E811A2 /* YOSRegisterViewController.m in Sources */,
 				DDF8408F1AD4D991006939DF /* constant.m in Sources */,
+				DDFBFAE31B954FD800E9249E /* YOSGuideViewController.m in Sources */,
 				DD3B1C081AD786E400A91838 /* AFJSONResponseSerializer+YOSAdditionsForPHP.m in Sources */,
 				DD735BE21B53C3E9002F0B0F /* YOSChangeTouchButton.m in Sources */,
 				DD89D68D1B42407500D542BB /* YOSActiveIsSignUpRequest.m in Sources */,
@@ -2052,7 +2062,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3/Sina",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4e01d819-508c-40cd-abf3-2c2d24866163";
+				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
 			};
 			name = Debug;
 		};
@@ -2080,7 +2090,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3/Sina",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4e01d819-508c-40cd-abf3-2c2d24866163";
+				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
 			};
 			name = Release;
 		};

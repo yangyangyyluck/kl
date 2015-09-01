@@ -26,9 +26,12 @@
 
 @dynamic isPublic;
 
+@dynamic lastVersion;
+
 - (NSDictionary *)setupDefaults {
     return @{
              @"isPublic" : @1,
+             @"lastVersion" : @"0.9",
              };
 }
 
