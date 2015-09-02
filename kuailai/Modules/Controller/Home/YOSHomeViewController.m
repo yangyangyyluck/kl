@@ -78,8 +78,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self setupGuide];
+ 
+    [self setupHomeView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -111,25 +111,6 @@
     [self sendNetworkRequestWithType:YOSRefreshTypeHeader];
     
     [self sendNetworkWithWhetherUpdateApp];
-}
-
-- (void)setupGuide {
-
-    NSString *currentVersion = [YOSWidget currentAppVersion];
-    NSString *lastVersion = [GVUserDefaults standardUserDefaults].lastVersion;
-    
-    if ([YOSWidget compareAppVersion1:currentVersion andAppVersion2:lastVersion] == NSOrderedDescending) {
-        YOSGuideViewController *guideVC = [YOSGuideViewController new];
-        
-        YOSWSelf(weakSelf);
-        guideVC.vBlock = ^{
-            [weakSelf setupHomeView];
-        };
-        
-        [self presentViewController:guideVC animated:NO completion:nil];
-    } else {
-        [self setupHomeView];
-    }
 }
 
 - (void)setupSubviews {

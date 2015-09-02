@@ -415,6 +415,8 @@ static const NSUInteger numbersOfSections = 100;
     
     [self.view addSubview:_signButton];
     
+    [self addTimer];
+    
     [self sendNetworkRequestForIsSignUp];
     [self setupConstraints];
 }

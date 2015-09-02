@@ -10,6 +10,4 @@
 
 @interface YOSGuideViewController : YOSPresentViewController
 
-@property (nonatomic, copy) voidBlock vBlock;
-
 @end

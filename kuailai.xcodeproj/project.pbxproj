@@ -2062,7 +2062,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3/Sina",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
+				PROVISIONING_PROFILE = "64a697f9-2e7e-461e-9ad7-12617287fd11";
 			};
 			name = Debug;
 		};
@@ -2090,7 +2090,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3/Sina",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
+				PROVISIONING_PROFILE = "64a697f9-2e7e-461e-9ad7-12617287fd11";
 			};
 			name = Release;
 		};

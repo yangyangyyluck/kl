@@ -16,6 +16,10 @@
 
 @property (nonatomic, assign) NSUInteger currentPage;
 
+@property (nonatomic, strong) UIImageView *transitionImageView;
+
+@property (nonatomic, strong) UIImageView *backgroundView;
+
 @end
 
 @implementation YOSGuideViewController {
@@ -24,16 +28,35 @@
     
     NSMutableArray *_pictureViews;
     NSMutableArray *_wordViews;
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupSubviews];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    _backgroundView = [UIImageView new];
+    UIImage *image = [self launchImage];
+    _backgroundView.image = image;
+    _backgroundView.userInteractionEnabled = YES;
+    
+    [self.view addSubview:_backgroundView];
+    
+    [_backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, YOSScreenHeight));
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    [self setupGuide];
     
     [self animationWordWithIndex:0];
 }
@@ -114,18 +137,19 @@
     
 }
 
+#pragma mark - event response
+
 - (void)tappedButton {
     NSLog(@"%s", __func__);
-    
-    if (self.vBlock) {
-        self.vBlock();
-    }
     
     [GVUserDefaults standardUserDefaults].lastVersion = [YOSWidget currentAppVersion];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self showTabBarVC];
+
 }
+
+
 
 #pragma mark - UIScrollViewDelegate
 
@@ -140,6 +164,57 @@
 }
 
 #pragma mark - private methods
+
+- (void)showTransitionAnimation {
+    _transitionImageView = [UIImageView new];
+    UIImage *image = [self launchImage];
+    _transitionImageView.image = image;
+    
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    
+    [keyWindow addSubview:_transitionImageView];
+    
+    [_transitionImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero).priorityLow();
+        make.size.mas_equalTo(CGSizeMake(YOSScreenWidth, YOSScreenHeight));
+    }];
+}
+
+- (void)hideTransitionAnimation {
+    YOSWSelf(weakSelf);
+    [UIView animateWithDuration:1.0f animations:^{
+        weakSelf.transitionImageView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [weakSelf.transitionImageView removeFromSuperview];
+    }];
+}
+
+- (void)setupGuide {
+    
+    NSString *currentVersion = [YOSWidget currentAppVersion];
+    NSString *lastVersion = [GVUserDefaults standardUserDefaults].lastVersion;
+    
+    // show guide
+    if ([YOSWidget compareAppVersion1:currentVersion andAppVersion2:lastVersion] == NSOrderedDescending) {
+        [self setupSubviews];
+    } else {
+        [self showTransitionAnimation];
+        [self showTabBarVC];
+    }
+    
+}
+
+- (void)showTabBarVC {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UITabBarController *tabBarVC = [sb instantiateViewControllerWithIdentifier:NSStringFromClass([UITabBarController class])];
+    
+    YOSWSelf(weakSelf);
+    [self presentViewController:tabBarVC animated:NO completion:^{
+        [weakSelf hideTransitionAnimation];
+    }];
+
+}
 
 - (void)animationWordWithIndex:(NSUInteger)index {
 
@@ -205,6 +280,34 @@
     }
     
     NSString *name = [NSString stringWithFormat:@"0%zi字-%zi.png", num, screenHeight];
+    
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Resourses" ofType:@"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    NSString *path = [bundle pathForResource:name ofType:nil];
+    UIImage *image = [UIImage imageWithContentsOfFile:path];
+    
+    return image;
+}
+
+- (UIImage *)launchImage {
+    NSUInteger screenHeight = 960;
+    if (YOSIsIphone4) {
+        screenHeight = 960;
+    }
+    
+    if (YOSIsIphone5) {
+        screenHeight = 1136;
+    }
+    
+    if (YOSIsIphone6) {
+        screenHeight = 1334;
+    }
+    
+    if (YOSIsIphone6P) {
+        screenHeight = 2208;
+    }
+    
+    NSString *name = [NSString stringWithFormat:@"启动页-%zi.png", screenHeight];
     
     NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Resourses" ofType:@"bundle"];
     NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
