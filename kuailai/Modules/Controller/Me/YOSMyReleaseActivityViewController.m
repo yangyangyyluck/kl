@@ -157,12 +157,6 @@
                 [self.tableView.footer noticeNoMoreData];
             }
             
-            if (!array.count) {
-                self.isNoMoreData = YES;
-                [self.tableView.footer noticeNoMoreData];
-                return;
-            }
-            
             if (type == YOSRefreshTypeHeader) {
                 self.activityListModels = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
             } else {
@@ -178,6 +172,12 @@
             }
             
             [_tableView reloadData];
+            
+            if (!array.count) {
+                self.isNoMoreData = YES;
+                [self.tableView.footer noticeNoMoreData];
+            }
+            
         }
     } failure:^(YTKBaseRequest *request) {
         [SVProgressHUD dismiss];
