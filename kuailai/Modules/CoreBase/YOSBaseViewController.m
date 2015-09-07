@@ -208,8 +208,6 @@
     self.navigationItem.rightBarButtonItem = item;
 }
 
-
-
 - (void)showDefaultMessage:(NSString *)message tappedBlock:(voidBlock)vBlock isShowHUD:(BOOL)status {
     
     self.tappedBlock = vBlock;

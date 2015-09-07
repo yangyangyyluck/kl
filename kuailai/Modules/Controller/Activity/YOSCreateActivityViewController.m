@@ -135,13 +135,13 @@
     _inputView5 = [[YOSInputView alloc] initWithTitle:@"活动地点" selectedStatus:NO maxCharacters:200 isSingleLine:YES];
     _inputView5.placeholder = @"例：北京市海淀区中关村";
     
-    _inputView6 = [[YOSInputView alloc] initWithTitle:@"活动人数" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    _inputView6 = [[YOSInputView alloc] initWithTitle:@"活动人数" selectedStatus:NO maxCharacters:6 isSingleLine:YES];
     _inputView6.placeholder = @"例：80人";
     _inputView6.keyboardType = UIKeyboardTypeNumberPad;
     
-    _inputView7 = [[YOSInputView alloc] initWithTitle:@"人均费用" selectedStatus:NO maxCharacters:25 isSingleLine:YES];
+    _inputView7 = [[YOSInputView alloc] initWithTitle:@"人均费用" selectedStatus:NO maxCharacters:6 isSingleLine:YES];
     _inputView7.placeholder = @"例：0元(免费)、100元等";
-    _inputView7.keyboardType = UIKeyboardTypeDecimalPad;
+    _inputView7.keyboardType = UIKeyboardTypeNumberPad;
     [_inputView7.textField setCustomNextTarget:self action:@selector(inputView7Next:)];
     
     _inputView8 = [[YOSInputView alloc] initWithTitle:@"活动详情" selectedStatus:NO maxCharacters:0 isSingleLine:NO];
