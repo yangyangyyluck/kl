@@ -123,16 +123,8 @@
             
             self.count = ((NSString *)request.yos_data[@"count"]).integerValue;
             
-            NSArray *array = request.yos_data[@"data"];
-            
             if (self.totalPage == self.currentPage) {
                 [self.tableView.footer noticeNoMoreData];
-            }
-            
-            if (!array.count) {
-                self.isNoMoreData = YES;
-                [self.tableView.footer noticeNoMoreData];
-                return;
             }
             
             if (type == YOSRefreshTypeHeader) {
@@ -147,6 +139,14 @@
                     }
                     
                 }];
+            }
+            
+            if (!self.activityListModels.count) {
+                self.isNoMoreData = YES;
+                [self.tableView.footer noticeNoMoreData];
+                [self showDefaultMessage:@"还没收藏的活动哦~" tappedBlock:nil isShowHUD:NO];
+            } else {
+                [self hideDefaultMessage];
             }
             
             [_tableView reloadData];

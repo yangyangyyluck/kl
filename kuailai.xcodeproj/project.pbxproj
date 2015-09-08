@@ -130,7 +130,6 @@
 		DD89D6871B4235CF00D542BB /* YOSActiveSignUpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6861B4235CF00D542BB /* YOSActiveSignUpRequest.m */; };
 		DD89D68A1B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6891B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m */; };
 		DD89D68D1B42407500D542BB /* YOSActiveIsSignUpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D68C1B42407500D542BB /* YOSActiveIsSignUpRequest.m */; };
-		DD89D6901B427A0800D542BB /* YOSMyReleaseActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */; };
 		DD89D6931B4293D700D542BB /* YOSMyActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6921B4293D700D542BB /* YOSMyActivityView.m */; };
 		DD89D6981B42CCED00D542BB /* YOSUserGetMyActiveListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D6971B42CCED00D542BB /* YOSUserGetMyActiveListRequest.m */; };
 		DD89D69B1B42D0EB00D542BB /* YOSMyReleaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD89D69A1B42D0EB00D542BB /* YOSMyReleaseCell.m */; };
@@ -205,6 +204,7 @@
 		DDF48D6B1B293D0500F5D6CA /* YOSActivityDetailItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF48D6A1B293D0500F5D6CA /* YOSActivityDetailItemView.m */; };
 		DDF599371B33025E00BF2C42 /* YOSFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF599361B33025E00BF2C42 /* YOSFriendCell.m */; };
 		DDF5993C1B330FA900BF2C42 /* YOSAuditModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF5993B1B330FA900BF2C42 /* YOSAuditModel.m */; };
+		DDF67CC11B9E72C600BD5813 /* YOSMyReleaseActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF67CC01B9E72C600BD5813 /* YOSMyReleaseActivityViewController.m */; };
 		DDF8408F1AD4D991006939DF /* constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF8408E1AD4D991006939DF /* constant.m */; };
 		DDF840951AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840941AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.m */; };
 		DDF840AE1AD619A7006939DF /* YOSUserLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF840AD1AD619A7006939DF /* YOSUserLoginRequest.m */; };
@@ -477,8 +477,6 @@
 		DD89D6891B423B1E00D542BB /* YOSUserGetMySignUpListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserGetMySignUpListRequest.m; sourceTree = "<group>"; };
 		DD89D68B1B42407500D542BB /* YOSActiveIsSignUpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSActiveIsSignUpRequest.h; sourceTree = "<group>"; };
 		DD89D68C1B42407500D542BB /* YOSActiveIsSignUpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSActiveIsSignUpRequest.m; sourceTree = "<group>"; };
-		DD89D68E1B427A0800D542BB /* YOSMyReleaseActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyReleaseActivityViewController.h; sourceTree = "<group>"; };
-		DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyReleaseActivityViewController.m; sourceTree = "<group>"; };
 		DD89D6911B4293D700D542BB /* YOSMyActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyActivityView.h; sourceTree = "<group>"; };
 		DD89D6921B4293D700D542BB /* YOSMyActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyActivityView.m; sourceTree = "<group>"; };
 		DD89D6961B42CCED00D542BB /* YOSUserGetMyActiveListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserGetMyActiveListRequest.h; sourceTree = "<group>"; };
@@ -624,6 +622,8 @@
 		DDF599361B33025E00BF2C42 /* YOSFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSFriendCell.m; sourceTree = "<group>"; };
 		DDF5993A1B330FA900BF2C42 /* YOSAuditModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSAuditModel.h; sourceTree = "<group>"; };
 		DDF5993B1B330FA900BF2C42 /* YOSAuditModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSAuditModel.m; sourceTree = "<group>"; };
+		DDF67CBF1B9E72C600BD5813 /* YOSMyReleaseActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSMyReleaseActivityViewController.h; sourceTree = "<group>"; };
+		DDF67CC01B9E72C600BD5813 /* YOSMyReleaseActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSMyReleaseActivityViewController.m; sourceTree = "<group>"; };
 		DDF8408D1AD4D991006939DF /* constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant.h; sourceTree = "<group>"; };
 		DDF8408E1AD4D991006939DF /* constant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = constant.m; sourceTree = "<group>"; };
 		DDF840931AD4E2B4006939DF /* YTKBaseRequest+YOSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YTKBaseRequest+YOSAdditions.h"; sourceTree = "<group>"; };
@@ -762,14 +762,14 @@
 		DD00EDB11ADB6C3A00E811A2 /* Me */ = {
 			isa = PBXGroup;
 			children = (
+				DDF67CBF1B9E72C600BD5813 /* YOSMyReleaseActivityViewController.h */,
+				DDF67CC01B9E72C600BD5813 /* YOSMyReleaseActivityViewController.m */,
 				DD7B0CBE1B71EB0F00A5496D /* YOSSettingViewController.h */,
 				DD7B0CBF1B71EB0F00A5496D /* YOSSettingViewController.m */,
 				DD00EDF41ADD1BE100E811A2 /* YOSMeViewController.h */,
 				DD00EDF51ADD1BE100E811A2 /* YOSMeViewController.m */,
 				DD4A173D1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.h */,
 				DD4A173E1B3AB20600B10D4F /* YOSUpdateUserInfoViewController.m */,
-				DD89D68E1B427A0800D542BB /* YOSMyReleaseActivityViewController.h */,
-				DD89D68F1B427A0800D542BB /* YOSMyReleaseActivityViewController.m */,
 				DD89D69F1B43DDF900D542BB /* YOSActivityAuditViewController.h */,
 				DD89D6A01B43DDF900D542BB /* YOSActivityAuditViewController.m */,
 				DD89D6A81B44E76D00D542BB /* YOSActivityAuditIndividualViewController.h */,
@@ -1751,6 +1751,7 @@
 				DD3EED231B208CCC002C0AB0 /* NSString+YOSAdditions.m in Sources */,
 				DD3EE78E1B4F9F3A0087A475 /* YOSUserDelTagRequest.m in Sources */,
 				DD42BC421B84BFBC003C886E /* YOSUserGetMyCollectListRequest.m in Sources */,
+				DDF67CC11B9E72C600BD5813 /* YOSMyReleaseActivityViewController.m in Sources */,
 				DDC9DE651B1DE2E900629C84 /* YOSUploadActivityImageRequest.m in Sources */,
 				DD8360B51B075C8A00DEAF86 /* YOSActiveGetCityRequest.m in Sources */,
 				DDE28F661B37EE6B005BD036 /* YOSAttentionUserViewController.m in Sources */,
@@ -1817,7 +1818,6 @@
 				DDFC6B401B4E5A88008DB181 /* YOSTapEditView.m in Sources */,
 				DD8DC8291ACE7F8800918ADD /* main.m in Sources */,
 				DD735BE51B53C4FD002F0B0F /* YOSHideTextField.m in Sources */,
-				DD89D6901B427A0800D542BB /* YOSMyReleaseActivityViewController.m in Sources */,
 				DDFC6B3D1B4E4D65008DB181 /* YOSUserGetTagListRequest.m in Sources */,
 				DD64122D1B525DEB00C5BFFB /* rscode.mm in Sources */,
 				DD00EDE21ADCCA3400E811A2 /* SVProgressHUD+YOSAdditions.m in Sources */,

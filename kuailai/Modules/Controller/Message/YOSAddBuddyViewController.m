@@ -175,16 +175,8 @@
             
             self.count = ((NSString *)request.yos_data[@"count"]).integerValue;
             
-            NSArray *array = request.yos_data[@"data"];
-            
             if (self.totalPage == self.currentPage) {
                 [self.tableView.footer noticeNoMoreData];
-            }
-            
-            if (!array.count) {
-                self.isNoMoreData = YES;
-                [self.tableView.footer noticeNoMoreData];
-                return;
             }
             
             if (type == YOSRefreshTypeHeader) {
@@ -233,6 +225,14 @@
                 }];
                 
             }];
+            
+            if (!self.userInfoModels.count) {
+                self.isNoMoreData = YES;
+                [self.tableView.footer noticeNoMoreData];
+                [self showDefaultMessage:@"没有相关用户哦~" tappedBlock:nil isShowHUD:NO];
+            } else {
+                [self hideDefaultMessage];
+            }
             
             [_tableView reloadData];
         }

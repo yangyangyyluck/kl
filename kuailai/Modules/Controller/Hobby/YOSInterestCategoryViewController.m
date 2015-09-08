@@ -134,12 +134,6 @@
                 [self.tableView.footer noticeNoMoreData];
             }
             
-            if (!array.count) {
-                self.isNoMoreData = YES;
-                [self.tableView.footer noticeNoMoreData];
-                return;
-            }
-            
             if (type == YOSRefreshTypeHeader) {
                 self.activityListModels = [YOSActivityListModel arrayOfModelsFromDictionaries:request.yos_data[@"data"]];
             } else {
@@ -152,6 +146,14 @@
                     }
                     
                 }];
+            }
+            
+            if (!self.activityListModels.count) {
+                self.isNoMoreData = YES;
+                [self.tableView.footer noticeNoMoreData];
+                [self showDefaultMessage:@"暂无相关活动哦~" tappedBlock:nil isShowHUD:NO];
+            } else {
+                [self hideDefaultMessage];
             }
             
             [_tableView reloadData];
