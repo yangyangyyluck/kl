@@ -132,7 +132,7 @@
             if (!self.activityListModels.count) {
                 self.isNoMoreData = YES;
                 [self.tableView.footer noticeNoMoreData];
-                [self showDefaultMessage:@"该类别暂无活动哦~" tappedBlock:nil isShowHUD:NO];
+                [self showDefaultMessage:@"还没有参加的活动哦~" tappedBlock:nil isShowHUD:NO];
             } else {
                 [self hideDefaultMessage];
             }

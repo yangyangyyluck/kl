@@ -92,11 +92,18 @@
             // update avatar
             NSDictionary *userInfo = [GVUserDefaults standardUserDefaults].currentUserInfoDictionary;
             NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
-            mUserInfo[@"avatar"] = request.yos_data;
-            [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
-            [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateUserInfo object:nil];
+            NSString *avatar = request.yos_data;
+            mUserInfo[@"avatar"] = avatar;
+            
+            // 排除接口返回错误
+            if ([avatar isKindOfClass:[NSString class]] && avatar.length) {
+                [GVUserDefaults standardUserDefaults].currentUserInfoDictionary = mUserInfo;
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:YOSNotificationUpdateUserInfo object:nil];
+            }
+            
         }
     } failure:^(YTKBaseRequest *request) {
         [request yos_checkResponse:NO];
