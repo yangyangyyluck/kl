@@ -52,6 +52,8 @@ extern NSString * const YOSUserDefaultKeyCurrentUserInfoDictionary;
 /** 上次版本 */
 @property (nonatomic, copy) NSString *lastVersion;
 
+@property (nonatomic, assign) NSUInteger alertUpdateMessageCount;
+
 - (void)logout;
 
 @end

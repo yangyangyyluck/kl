@@ -126,6 +126,8 @@ extern NSString * const YOSQQAppID;
 
 extern NSString * const YOSQQAppKey;
 
+extern NSString * const YOSFirBugHDKey;
+
 /**
  *  API权限验证用的签名
  *

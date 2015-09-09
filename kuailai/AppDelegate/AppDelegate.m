@@ -23,6 +23,7 @@
 #import "UMSocialSinaHandler.h"
 #import "UMSocialQQHandler.h"
 #import "GVUserDefaults+YOSProperties.h"
+#import <FIR/FIR.h>
 
 @interface AppDelegate () <EMChatManagerDelegate>
 
@@ -174,6 +175,11 @@
             UIRemoteNotificationTypeAlert;
             [[UIApplication sharedApplication] registerForRemoteNotificationTypes:notificationTypes];
         }
+    }
+    
+    // fir.im bughd
+    {
+        [FIR handleCrashWithKey:YOSFirBugHDKey];
     }
 }
 

@@ -143,6 +143,7 @@
     NSLog(@"%s", __func__);
     
     [GVUserDefaults standardUserDefaults].lastVersion = [YOSWidget currentAppVersion];
+    [GVUserDefaults standardUserDefaults].alertUpdateMessageCount = 0;
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self showTabBarVC];

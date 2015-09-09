@@ -295,9 +295,19 @@
                 return;
             }
             
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"有新版本哦,赶紧去跟新吧~" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            NSUInteger alertUpdateMessageCount = [GVUserDefaults standardUserDefaults].alertUpdateMessageCount;
             
-            [alertView show];
+            if (alertUpdateMessageCount == 0 || alertUpdateMessageCount == 3 || alertUpdateMessageCount == 5 || alertUpdateMessageCount == 7 || alertUpdateMessageCount % 10 == 0) {
+                
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"有新版本哦,赶紧去跟新吧~" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去更新", nil];
+                
+                [alertView show];
+                
+            }
+            
+            [GVUserDefaults standardUserDefaults].alertUpdateMessageCount = alertUpdateMessageCount + 1;
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
         }
         
     } failure:^(YTKBaseRequest *request) {
