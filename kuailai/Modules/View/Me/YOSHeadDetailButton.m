@@ -147,8 +147,8 @@
     }
     
     _nameLabel.text = _userInfoModel.nickname;
-    _jobTitleLabel.text = YOSIsEmpty(_userInfoModel.position) ? @"还未填写职位信息" : _userInfoModel.position;
-    _companyLabel.text = YOSIsEmpty(_userInfoModel.company) ? @"还未填写公司信息" : _userInfoModel.company;
+    _jobTitleLabel.text = YOSIsEmpty(_userInfoModel.position) ? @"暂无职位信息" : _userInfoModel.position;
+    _companyLabel.text = YOSIsEmpty(_userInfoModel.company) ? @"暂无公司信息" : _userInfoModel.company;
     
     _rightAccessaryImageView.image = [UIImage imageNamed:@"小箭头"];
     

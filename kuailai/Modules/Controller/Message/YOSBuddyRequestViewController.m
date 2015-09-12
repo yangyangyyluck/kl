@@ -107,6 +107,11 @@
     NSLog(@"%s", __func__);
     
     YOSAddRequestViewController *addVC = [YOSAddRequestViewController new];
+    
+    if (self.userInfoModels.count <= indexPath.row) {
+        return;
+    }
+    
     addVC.userInfoModel = self.userInfoModels[indexPath.row];
     
     [self.navigationController pushViewController:addVC animated:YES];
