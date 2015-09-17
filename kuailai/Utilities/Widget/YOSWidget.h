@@ -12,6 +12,8 @@
 
 @interface YOSWidget : NSObject
 
++ (instancetype)sharedInstance;
+
 /**
  *  alert
  *
@@ -135,5 +137,7 @@
 + (NSString *)currentAppVersion;
 
 + (YOSUserInfoModel *)getUserInfoModelWithHxUser:(NSString *)hxUser;
+
++ (BOOL)isAcceptNotificationWithPrompt:(BOOL)isAccept;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "YOSLocalNotificationManager.h"
 #import "YOSActivityDetailViewController.h"
+#import "AppDelegate.h"
 
 #import "YOSWidget.h"
 
@@ -33,6 +34,10 @@
 
 - (void)addNotificationWithDate:(NSDate *)date message:(NSString *)msg {
     
+    if (![YOSWidget isAcceptNotificationWithPrompt:NO]) {
+        return;
+    }
+    
     UILocalNotification *notification=[[UILocalNotification alloc] init];
     
     notification.fireDate = date;
@@ -55,6 +60,10 @@
 }
 
 - (void)addNotificationWithDate:(NSDate *)date UserInfo:(NSDictionary *)userInfo {
+    
+    if (![YOSWidget isAcceptNotificationWithPrompt:NO]) {
+        return;
+    }
     
     NSString *title = userInfo[@"title"];
     NSString *start_time = userInfo[@"start_time"];
@@ -90,9 +99,15 @@
         return;
     }
     
+    if (![YOSWidget isAcceptNotificationWithPrompt:NO]) {
+        return;
+    }
+    
     NSString *activityId = self.currentNotification.userInfo[@"activityId"];
     
-    UITabBarController *tabBarVC = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    
+    UITabBarController *tabBarVC = appDelegate.tabBarController;
     
     id navVC = tabBarVC.selectedViewController;
     
@@ -110,6 +125,10 @@
 }
 
 - (void)deleteNotificationWithUserInfo:(NSDictionary *)userInfo {
+    
+    if (![YOSWidget isAcceptNotificationWithPrompt:NO]) {
+        return;
+    }
 
     UIApplication *app = [UIApplication sharedApplication];
 

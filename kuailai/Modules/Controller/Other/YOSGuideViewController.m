@@ -7,6 +7,7 @@
 //
 
 #import "YOSGuideViewController.h"
+#import "AppDelegate.h"
 
 #import "Masonry.h"
 #import "GVUserDefaults+YOSProperties.h"
@@ -209,6 +210,10 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     UITabBarController *tabBarVC = [sb instantiateViewControllerWithIdentifier:NSStringFromClass([UITabBarController class])];
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    
+    appDelegate.tabBarController = tabBarVC;
     
     YOSWSelf(weakSelf);
     [self presentViewController:tabBarVC animated:NO completion:^{

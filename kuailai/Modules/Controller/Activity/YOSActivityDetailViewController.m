@@ -939,7 +939,10 @@ static const NSUInteger numbersOfSections = 100;
                 return;
             }
             
-            [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:startDate UserInfo:@{@"activityId" : self.activityDetailModel.ID, @"title" : self.activityDetailModel.title, @"start_time" : self.activityDetailModel.start_time}];
+            if ([YOSWidget isAcceptNotificationWithPrompt:NO]) {
+                [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:startDate UserInfo:@{@"activityId" : self.activityDetailModel.ID, @"title" : self.activityDetailModel.title, @"start_time" : self.activityDetailModel.start_time}];
+            }
+            
         }
         
         // 已满员

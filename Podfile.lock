@@ -48,7 +48,7 @@ PODS:
   - UIActivityIndicator-for-SDWebImage (1.2):
     - SDWebImage (~> 3.7)
   - UIImage-Helpers (0.0.3)
-  - UMengAnalytics-NO-IDFA (3.5.11)
+  - UMengAnalytics-NO-IDFA (3.5.15)
   - XXNibBridge (2.2.1)
   - YTKNetwork (0.5.0):
     - AFDownloadRequestOperation (~> 2.0)
@@ -97,8 +97,8 @@ SPEC CHECKSUMS:
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
   UIImage-Helpers: 06b04a42bdd222844035602e87e936765c80f620
-  UMengAnalytics-NO-IDFA: e41024644de702e450093ef043af20b5fbe06cbc
+  UMengAnalytics-NO-IDFA: 239efe4e0a0dafc96ac391f2d65c50b158c52a3a
   XXNibBridge: adf045b28e25c769fb893bffbcd9d1517eac1d4f
   YTKNetwork: 3f163c181ce5f03d52cf88f39d6757f46894280c
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.38.2

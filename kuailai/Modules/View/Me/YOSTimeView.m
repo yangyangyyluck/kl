@@ -118,6 +118,11 @@
 - (void)tappedSwitch:(UISwitch *)swh {
     NSLog(@"%s", __func__);
     
+    if (![YOSWidget isAcceptNotificationWithPrompt:YES]) {
+        swh.on = NO;
+        return;
+    }
+    
     if (self.idBlock) {
         self.idBlock(swh);
     }

@@ -14,7 +14,42 @@
 #import "YOSDBManager.h"
 #import "NSString+YOSAdditions.h"
 
+@interface YOSWidget () <UIAlertViewDelegate>
+
+@property (nonatomic, copy) voidBlock vBlock;
+
+@end
+
 @implementation YOSWidget
+
++ (instancetype)sharedInstance {
+    static YOSWidget *widget;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        widget = [YOSWidget new];
+    });
+    
+    return widget;
+}
+
+- (void)alertMessage:(NSString *)message title:(NSString *)title confirmBtnMsg:(NSString *)cfmBtnMsg doBlock:(voidBlock)vBlock {
+    
+    self.vBlock = vBlock;
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:cfmBtnMsg, nil];
+    
+    [alert show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != 0) {
+        if (self.vBlock) {
+            self.vBlock();
+        }
+    }
+}
 
 + (void)alertMessage:(NSString *)message title:(NSString *)title {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -289,6 +324,52 @@
     }
     
     return userInfoModel;
+}
+
++ (BOOL)isAcceptNotificationWithPrompt:(BOOL)isAccept {
+    
+    BOOL status = NO;
+
+    if(SYSTEM_VERSION_GREATER_THAN(@"8.0")) {
+        UIUserNotificationSettings *setting = [[UIApplication sharedApplication] currentUserNotificationSettings];
+            
+        if(UIUserNotificationTypeNone != setting.types) {
+            status = YES;
+        } else {
+            status = NO;
+            
+            if (isAccept) {
+                NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                    
+                    [[YOSWidget sharedInstance] alertMessage:@"需要开启 \"允许通知\" 选项才能体验完整功能哦" title:@"温馨提示" confirmBtnMsg:@"去开启" doBlock:^{
+                        [[UIApplication sharedApplication] openURL:url];
+                    }];
+                    
+                } else {
+                    [YOSWidget alertMessage:@"为了使用相应功能, 请您打开iOS系统设置 -> 通知 -> 快来吧 ->允许通知 相关选项" title:@"温馨提示"];
+                }
+            }
+            
+        }
+        
+        
+    } else {
+        UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+        
+        if(UIRemoteNotificationTypeNone != type) {
+            status = YES;
+        } else {
+            status = NO;
+            
+            if (isAccept) {
+                [YOSWidget alertMessage:@"为了使用相应功能, 请您打开iOS系统设置 -> 通知 -> 快来吧 ->允许通知 相关选项" title:@"温馨提示"];
+            }
+        }
+        
+    }
+    
+    return status;
 }
 
 @end

@@ -56,7 +56,7 @@
     
     __block NSUInteger currentSelectedIndex = 0;
     
-    [self.items enumerateObjectsUsingBlock:^(UIBarButtonItem *obj, NSUInteger idx, BOOL *stop) {
+    [self.items enumerateObjectsUsingBlock:^(UITabBarItem *obj, NSUInteger idx, BOOL *stop) {
         if ([self.selectedItem isEqual:obj]) {
             currentSelectedIndex = idx;
         }
@@ -80,7 +80,7 @@
     
     __block NSUInteger currentSelectedIndex = 0;
     
-    [self.items enumerateObjectsUsingBlock:^(UIBarButtonItem *obj, NSUInteger idx, BOOL *stop) {
+    [self.items enumerateObjectsUsingBlock:^(UITabBarItem *obj, NSUInteger idx, BOOL *stop) {
         if ([self.selectedItem isEqual:obj]) {
             currentSelectedIndex = idx;
         }

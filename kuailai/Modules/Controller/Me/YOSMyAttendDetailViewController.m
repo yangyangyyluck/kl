@@ -21,6 +21,7 @@
 #import "YOSLocalNotificationManager.h"
 #import "AES128.h"
 #import "IQUIView+IQKeyboardToolbar.h"
+#import "YOSWidget.h"
 
 @implementation YOSMyAttendDetailViewController {
     UIScrollView *_scrollView;
@@ -287,13 +288,19 @@
 #pragma mark - event response
 
 - (void)doneAction {
+    
+    [_hideTextField resignFirstResponder];
+    
+    if (![YOSWidget isAcceptNotificationWithPrompt:YES]) {
+        return;
+    }
+    
     _timeView.alertDate = _picker.date;
     
     if (_timeView.swh.on) {
         [[YOSLocalNotificationManager sharedManager] addNotificationWithDate:_picker.date UserInfo:@{@"activityId" : self.activityListModel.ID, @"title" : self.activityListModel.title, @"start_time" : self.activityListModel.start_time}];
     }
     
-    [_hideTextField resignFirstResponder];
 }
 
 @end

@@ -10,6 +10,7 @@
 #import "EDColor.h"
 #import "Masonry.h"
 #import "UIImage+YOSAdditions.h"
+#import "YOSWidget.h"
 
 @interface YOSActivityCheckView ()
 
@@ -127,6 +128,7 @@
 #pragma mark - event response
 
 - (void)tappedSwitch:(UISwitch *)swh {
+    
     if (swh.on) {
         _titleLabel.textColor = YOSColorFontBlack;
         
