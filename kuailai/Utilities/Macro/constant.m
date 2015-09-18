@@ -42,13 +42,13 @@ NSString * const YOSQQAppKey = @"V6Fv7zI63zQdHLnr";
 NSString * const YOSFirBugHDKey = @"92f49871d253ec675494ed2a6d8a037f";
 
 //#ifdef DEBUG
-NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
-
-NSString * const YOSURLRoot = @"http://kuailai.zhangdd.cn/";
-//#else
-//NSString * const YOSURLBase = @"http://www.comebar.cn/app/";
+//NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";
 //
-//NSString * const YOSURLRoot = @"http://www.comebar.cn/";
+//NSString * const YOSURLRoot = @"http://kuailai.zhangdd.cn/";
+//#else
+NSString * const YOSURLBase = @"http://www.comebar.cn/app/";
+
+NSString * const YOSURLRoot = @"http://www.comebar.cn/";
 //#endif
 
 NSString * const YOSNotificationUpdateUserInfo = @"YOSNotificationUpdateUserInfo";

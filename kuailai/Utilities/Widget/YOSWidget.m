@@ -311,7 +311,7 @@
 }
 
 + (NSString *)currentAppVersion {
-    return [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
+    return [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
 }
 
 + (YOSUserInfoModel *)getUserInfoModelWithHxUser:(NSString *)hxUser {
