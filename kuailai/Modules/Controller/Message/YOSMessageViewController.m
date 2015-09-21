@@ -159,6 +159,10 @@
         
         [con removeAllMessages];
         
+        YOSUserInfoModel *currentUserInfoModel = [YOSWidget getCurrentUserInfoModel];
+        
+        [[YOSDBManager sharedManager] deleteNewestChatWithCurrentUser:currentUserInfoModel.hx_user Buddy:deleteUserInfoModel.hx_user];
+        
         [self.tableView reloadData];
         
     }

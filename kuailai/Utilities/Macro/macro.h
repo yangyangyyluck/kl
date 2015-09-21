@@ -16,7 +16,7 @@
 //    #define YOSImageBaseUrl @"http://img.comebar.cn/"
 #endif
 
-#define YOSDEBUG 0
+#define YOSDEBUG 1
 #define YOSImageBaseUrl @"http://kuailaipic.b0.upaiyun.com/"
 
 

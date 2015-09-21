@@ -254,6 +254,7 @@
         [_defaultButton addTarget:self action:@selector(tappedDefaultButton) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_defaultButton];
         [_defaultButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(self.view);
             make.center.mas_equalTo(self.view);
         }];
     }
