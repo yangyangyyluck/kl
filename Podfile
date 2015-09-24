@@ -9,7 +9,6 @@ pod 'EDColor'	#设计师颜色
 pod 'XXNibBridge', '~> 2.1'
 pod 'IQKeyboardManager', '3.2.2'
 pod 'QBImagePickerController', '2.5.0'
-#pod 'GPUImage', '0.1.6'
 pod 'UIImage-Helpers'
 pod 'UIActivityIndicator-for-SDWebImage'
 pod 'MJRefresh', '1.4.7'
@@ -19,6 +18,7 @@ pod 'JSQMessagesViewController', '7.1.0'
 pod "AGEmojiKeyboard", "0.2.0"
 pod 'KYCuteView', '1.3.0'
 pod 'UMengAnalytics-NO-IDFA'
-pod 'FIR.im', '~> 1.3.1'
 
+#pod 'FIR.im', '~> 1.3.1'
+#pod 'GPUImage', '0.1.6'
 #pod 'MWPhotoBrowser', '1.4.1'

@@ -36,6 +36,7 @@
 		DD16904C1B25D4BD0060B3EB /* YOSHeadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DD16904B1B25D4BD0060B3EB /* YOSHeadButton.m */; };
 		DD177AFF1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = DD177AFE1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m */; };
 		DD177B131B3C48AD00E86F24 /* VPImageCropperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD177B121B3C48AD00E86F24 /* VPImageCropperViewController.m */; };
+		DD1A30291BB40D7B00BEC3D6 /* TestinAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1A30281BB40D7B00BEC3D6 /* TestinAgent.framework */; settings = {ASSET_TAGS = (); }; };
 		DD24E9BA1B7DD7A7008CAE12 /* YOSUserFeedbackRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9B91B7DD7A7008CAE12 /* YOSUserFeedbackRequest.m */; };
 		DD24E9BD1B7DDCB6008CAE12 /* YOSHobbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9BC1B7DDCB6008CAE12 /* YOSHobbyViewController.m */; };
 		DD24E9C01B7DE009008CAE12 /* YOSHobbyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24E9BF1B7DE009008CAE12 /* YOSHobbyButton.m */; };
@@ -289,6 +290,7 @@
 		DD177AFE1B3AFB9C00E86F24 /* GVUserDefaults+YOSProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GVUserDefaults+YOSProperties.m"; sourceTree = "<group>"; };
 		DD177B111B3C48AD00E86F24 /* VPImageCropperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPImageCropperViewController.h; sourceTree = "<group>"; };
 		DD177B121B3C48AD00E86F24 /* VPImageCropperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPImageCropperViewController.m; sourceTree = "<group>"; };
+		DD1A30281BB40D7B00BEC3D6 /* TestinAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TestinAgent.framework; sourceTree = "<group>"; };
 		DD24E9B81B7DD7A7008CAE12 /* YOSUserFeedbackRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSUserFeedbackRequest.h; sourceTree = "<group>"; };
 		DD24E9B91B7DD7A7008CAE12 /* YOSUserFeedbackRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YOSUserFeedbackRequest.m; sourceTree = "<group>"; };
 		DD24E9BB1B7DDCB6008CAE12 /* YOSHobbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YOSHobbyViewController.h; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 				DD66E7AA1B900C5B0016F2DA /* libz.dylib in Frameworks */,
 				DD66E7A81B900C550016F2DA /* libstdc++.dylib in Frameworks */,
 				DD66E7A61B900C4D0016F2DA /* CoreTelephony.framework in Frameworks */,
+				DD1A30291BB40D7B00BEC3D6 /* TestinAgent.framework in Frameworks */,
 				DD66E7A41B900C470016F2DA /* libsqlite3.dylib in Frameworks */,
 				DD66E7A21B900C3E0016F2DA /* CoreGraphics.framework in Frameworks */,
 				DD66E7A11B900C2F0016F2DA /* libiconv.dylib in Frameworks */,
@@ -1092,6 +1095,14 @@
 			path = VPImageCropper;
 			sourceTree = "<group>";
 		};
+		DD1A30271BB40D7B00BEC3D6 /* TestinAgent_iOS_SDK_v2.0.5 */ = {
+			isa = PBXGroup;
+			children = (
+				DD1A30281BB40D7B00BEC3D6 /* TestinAgent.framework */,
+			);
+			path = TestinAgent_iOS_SDK_v2.0.5;
+			sourceTree = "<group>";
+		};
 		DD24E9C11B7ED407008CAE12 /* Hobby */ = {
 			isa = PBXGroup;
 			children = (
@@ -1104,6 +1115,7 @@
 		DD3B1C101AD7C16A00A91838 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				DD1A30271BB40D7B00BEC3D6 /* TestinAgent_iOS_SDK_v2.0.5 */,
 				DD90B0221B876C220078CD66 /* UMSocial_Sdk_4.2.3 */,
 				DDCCF58F1B74A0FE00EF1ECD /* ZWEmoji */,
 				DD64123E1B5267C500C5BFFB /* AES128 */,
@@ -2049,6 +2061,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3/TencentOpenAPI",
+					"$(PROJECT_DIR)/kuailai/Utilities/Library/TestinAgent_iOS_SDK_v2.0.5",
 				);
 				GCC_PREFIX_HEADER = kuailai/PrefixHeader.pch;
 				INFOPLIST_FILE = kuailai/Info.plist;
@@ -2064,7 +2077,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3/Sina",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
+				PROVISIONING_PROFILE = "47646e58-83cc-414f-af97-d99985b421dd";
 			};
 			name = Debug;
 		};
@@ -2077,6 +2090,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3/TencentOpenAPI",
+					"$(PROJECT_DIR)/kuailai/Utilities/Library/TestinAgent_iOS_SDK_v2.0.5",
 				);
 				GCC_PREFIX_HEADER = kuailai/PrefixHeader.pch;
 				INFOPLIST_FILE = kuailai/Info.plist;
@@ -2092,7 +2106,7 @@
 					"$(PROJECT_DIR)/kuailai/Utilities/Library/UMSocial_Sdk_4.2.3/Sina",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78b7845e-6981-48a9-9850-53baf6ffb471";
+				PROVISIONING_PROFILE = "47646e58-83cc-414f-af97-d99985b421dd";
 			};
 			name = Release;
 		};

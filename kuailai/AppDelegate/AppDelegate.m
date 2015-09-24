@@ -23,7 +23,7 @@
 #import "UMSocialSinaHandler.h"
 #import "UMSocialQQHandler.h"
 #import "GVUserDefaults+YOSProperties.h"
-#import <FIR/FIR.h>
+#import <TestinAgent/TestinAgent.h>
 
 @interface AppDelegate () <EMChatManagerDelegate>
 
@@ -177,10 +177,11 @@
         }
     }
     
-    // fir.im bughd
+    // TestIn Crash
     {
-        [FIR handleCrashWithKey:YOSFirBugHDKey];
+        [TestinAgent init:YOSTestInAppKey channel:YOSTestInEnvironment config:[TestinConfig defaultConfig]];
     }
+    
 }
 
 @end
