@@ -42,10 +42,12 @@ NSString * const YOSQQAppKey = @"V6Fv7zI63zQdHLnr";
 NSString * const YOSTestInAppKey = @"0cf190ce386957f568933d98310545e5";
 
 #ifdef TARGET_IPHONE_SIMULATOR
-NSString * const YOSTestInEnvironment = @"iOS Simulator";
+NSString * const YOSEnvironment = @"iOS Simulator";
 #else
-NSString * const YOSTestInEnvironment = @"app store";
+NSString * const YOSEnvironment = @"app store";
 #endif
+
+NSString * const YOSBugHDAppKey = @"92f49871d253ec675494ed2a6d8a037f";
 
 //#ifdef DEBUG
 //NSString * const YOSURLBase = @"http://kuailai.zhangdd.cn/app/";

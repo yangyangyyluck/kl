@@ -24,6 +24,7 @@
 #import "UMSocialQQHandler.h"
 #import "GVUserDefaults+YOSProperties.h"
 #import <TestinAgent/TestinAgent.h>
+#import <FIR/FIR.h>
 
 @interface AppDelegate () <EMChatManagerDelegate>
 
@@ -179,7 +180,12 @@
     
     // TestIn Crash
     {
-        [TestinAgent init:YOSTestInAppKey channel:YOSTestInEnvironment config:[TestinConfig defaultConfig]];
+        [TestinAgent init:YOSTestInAppKey channel:YOSEnvironment config:[TestinConfig defaultConfig]];
+    }
+    
+    // hughd
+    {
+//        [FIR handleCrashWithKey:YOSBugHDAppKey];
     }
     
 }

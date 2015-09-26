@@ -574,6 +574,11 @@ static const NSUInteger numbersOfSections = 100;
 - (void)addTimer
 {
     [self removeTimer];
+    
+    if (self.images.count <= 1) {
+        return;
+    }
+    
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(nextPage) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     _timer = timer;
@@ -824,7 +829,7 @@ static const NSUInteger numbersOfSections = 100;
             
             [self.images addObject:self.activityDetailModel.thumb];
             
-            if (self.activityDetailModel.picList) {
+            if (self.activityDetailModel.picList.length) {
                 NSArray *array = [self.activityDetailModel.picList componentsSeparatedByString:@","];
                 
                 if (array.count) {

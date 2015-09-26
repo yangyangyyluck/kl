@@ -25,6 +25,7 @@ PODS:
   - AGEmojiKeyboard (0.2.0)
   - EaseMobSDK (2.1.9)
   - EDColor (1.0.0)
+  - FIR.im (99.99)
   - FMDB (2.5):
     - FMDB/standard (= 2.5)
   - FMDB/common (2.5)
@@ -58,6 +59,7 @@ DEPENDENCIES:
   - AGEmojiKeyboard (= 0.2.0)
   - EaseMobSDK
   - EDColor
+  - FIR.im
   - FMDB
   - GVUserDefaults
   - IQKeyboardManager (= 3.2.2)
@@ -80,6 +82,7 @@ SPEC CHECKSUMS:
   AGEmojiKeyboard: 8b0ad1a1a3c473c9d5464cf661a7bdddda59feed
   EaseMobSDK: cc8415cb99a65debf4711fa2c9c349fd5c843299
   EDColor: c83f9a61f9f9b3c23d541f1feb561558e29cb088
+  FIR.im: ea9b08c8692f9399e5bddc1e36c0563fffaeebe4
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GVUserDefaults: acb40729f70984008d0650e49d7e422f1bbfa597
   IQKeyboardManager: 99df8006864663a4126a77b9a2f7ea70077eff31

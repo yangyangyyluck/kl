@@ -55,6 +55,33 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     [self setupNavTitle:@"设置"];
     
     [self setupSubviews];
+    
+    [self setupCrash];
+}
+
+- (void)setupCrash {
+    UIView *view = [UIView new];
+    view.frame = CGRectMake(0, 0, 50, 50);
+    
+    UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(crash)];
+    press.minimumPressDuration = 5.0;
+    
+    [view addGestureRecognizer:press];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:view];
+    
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+- (void)crash {
+    
+    NSString *str = @"this is a stirng.";
+    
+    id crash = str;
+    
+    NSMutableString *mStr = crash;
+    
+    [mStr appendString:@"must be crash here."];
 }
 
 - (void)setupSubviews {
@@ -185,8 +212,6 @@ typedef NS_ENUM(NSUInteger, kRightAccessoryType) {
     }
     
     if (indexPath.row == 2) {
-//        YOSTestViewController *testVC = [YOSTestViewController new];
-//        [self.navigationController pushViewController:testVC animated:YES];
         YOSAboutUsViewController *aboutVC = [YOSAboutUsViewController new];
         [self.navigationController pushViewController:aboutVC animated:YES];
     }

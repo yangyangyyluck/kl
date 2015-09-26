@@ -128,7 +128,9 @@ extern NSString * const YOSQQAppKey;
 
 extern NSString * const YOSTestInAppKey;
 
-extern NSString * const YOSTestInEnvironment;
+extern NSString * const YOSEnvironment;
+
+extern NSString * const YOSBugHDAppKey;
 
 /**
  *  API权限验证用的签名
