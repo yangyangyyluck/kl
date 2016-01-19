@@ -305,6 +305,7 @@ CGRect YOSScreenBounds() {
 }
 
 - (UIViewController *)yos_viewController {
+    /*
     UIView *view = self;
     while (view) {
         UIResponder *responder = view.nextResponder;
@@ -313,6 +314,17 @@ CGRect YOSScreenBounds() {
         } else {
             view = view.superview;
         }
+    }
+    
+    return nil;
+     */
+    UIResponder *responder = [self nextResponder];
+    
+    while (responder) {
+        if ([responder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController*)responder;
+        }
+        responder = [responder nextResponder];
     }
     
     return nil;
